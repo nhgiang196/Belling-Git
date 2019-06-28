@@ -27,27 +27,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     $scope.listfile = [];
                     $scope.dt={};
                     // upload file của anh
-                    $scope.uploadFile = function ($files, colName) {
-                        
-                        $upload.upload({
-                            url: '/Waste/files/Upload',
-                            method: "POST",
-                            file: $files
-                        }).progress(function (evt) {
-
-                        }).then(function (res) {
-                            
-                            res.data.forEach(x =>{
-                                $scope.dt.name = x;
-                                $scope.dt.col = colName;
-                                $scope.listfile.push($scope.dt);
-                                $scope.dt={};
-                            })
-                            
-
-                        })
-                    }
-
+                   
                     // xóa file khỏi QCFiles 
                     $scope.removeFile = function (index) {
                         var namefile = {
@@ -76,10 +56,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 });
                             })
                     }
-
-
-                    
-
                     // GetBasic ------------ USE FOR BOTH REPORT
                     var subdepartment = {TableName:"Department", Lang:lang};
                     var centerdepartment = {TableName:"CenterDepartment", Lang:lang};
@@ -87,9 +63,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     CReportService.GetBasic(centerdepartment,function (data) {
                         $scope.center_dpm = data;
                     }, function (error) {
-
                     })
-                        
                     //--SubDepartment------ USE FOR BOTH REPORT
                     CReportService.GetBasic(subdepartment,function (data) {
                         $scope.sub_dpm = data;
@@ -100,7 +74,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     /**
                      * Init Data to save
                      */
-                    $scope.f = {}; // thông tin cụ thể của 1 file
 
                     function saveInitDataIC() {
                         var note = {};
@@ -183,7 +156,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             })
                     }
 
-                    $scope.saveSubmitIC = function () {
+                    $scope.SaveICReport = function () {
                         var note = saveInitDataIC();
                         var status = $scope.status;
                         switch (status) {
@@ -206,13 +179,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.listfile = [];
                         $scope.lsFile = []; 
                         $scope.Search();
-                    }
-
-                    $scope.viewFile=function(filename){
-
-                        var href = 'http://localhost:843/' + filename;
-                        window.open(href);
-                        
                     }
 
                 },

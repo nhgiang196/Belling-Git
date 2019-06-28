@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label ctr-lb"></label>
                         <div class="col-sm-4">
-                            <input type="file" ng-file-select="uploadFile($files, 'Rp_Location')" id="file_location_ac"
+                            <input type="file" ng-file-select="UploadFileHSE($files,'AC', 'Rp_Location')" id="file_location_ac"
                                 style="display:none !important" multiple>
                             <button id="btn_file_location_ac" class="btn btn-info" style="display:inline-block;"
                                 type="button" ng-disabled="btnFile_AC" ng-model='btnFile_AC'
@@ -142,7 +142,7 @@
 
                             <table ng-show="listfile_loc_ac" class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:10px;">
                                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Location'">
-                                    <td><a ng-click="viewFile(step.name)">{{step.name}}</a></td>
+                                    <td><a  href="/{{step.name}}"  target="_blank">{{step.name}}</a></td>
                                     <td><a ng-click="removeFile($index)">
                                             <span class="glyphicon glyphicon-remove" style="color: red; margin-top:66%;"></span>
                                         </a>
@@ -229,7 +229,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label ctr-lb"> </label>
                         <div class="col-sm-4">
-                            <input type="file" ng-file-select="uploadFile_AC($files, 'Injury_Description')"  id="file_process_ac" style="display:none !important" multiple>
+                            <input type="file" ng-file-select="UploadFileHSE($files,'AC', 'Injury_Description')"  id="file_process_ac" style="display:none !important" multiple>
                             <button id="btn_file_process_ac" class="btn btn-info" style="display:inline-block;"
                                 type="button" ng-click="btnfile('file_process_ac','file_name_process_ac')">
                                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
@@ -238,7 +238,7 @@
 
                             <table ng-show="listfile_process_ac" class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:10px;"> 
                                 <tr ng-repeat="step in listfileAC">
-                                    <td><a ng-click="viewFile(step.name)">{{step.name}}</a></td>
+                                    <td><a  href="/{{step.name}}"  target="_blank">{{step.name}}</a></td>
                                     <td><a ng-click="removeFileInjury($index)">
                                             <span class="glyphicon glyphicon-remove" style="color: red;margin-top:66%;"></span>
                                         </a>

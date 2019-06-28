@@ -11,22 +11,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
 
-                    $scope.uploadFile_AC = function ($files, colName) {
-                        $upload.upload({
-                            url: '/Waste/files/Upload',
-                            method: "POST",
-                            file: $files
-                        }).progress(function (evt) {
-
-                        }).then(function (res) {
-                            res.data.forEach(x => {
-                                $scope.dt.name = x;
-                                $scope.dt.col = colName;
-                                $scope.listfileAC.push($scope.dt);
-                                $scope.dt = {};
-                            })
-                        })
-                    }
 
                     // xóa file tình hình bị thương khỏi QCFiles 
                     $scope.removeFileInjury = function (index) {

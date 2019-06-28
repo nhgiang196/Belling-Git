@@ -1,5 +1,8 @@
 define(['app', 'angular'], function (app, angular) {
-    app.service('CReportService', ['$resource', '$q', 'Auth', '$location', '$translate', function ($resource, $q, Auth, $location, $translate) {
+    app.service('CReportService', [
+        
+        '$resource', '$q', 'Auth', '$location', '$translate', 'EngineApi', 'Forms', 
+        function ($resource, $q, Auth, $location, $translate, EngineApi, Forms) {
         function CReportService() {
 
             this.FileManagement = $resource('/Waste/files/:operation', {}, {
@@ -205,7 +208,7 @@ define(['app', 'angular'], function (app, angular) {
             var variablesMap = Forms.variablesToMap(formVariables);
             var historyVariableMap = Forms.variablesToMap(historyVariable);
             EngineApi.getKeyId().getkey({
-                'key': CReportHSE
+                'key': 'CReportHSE'
             }, function (res) {
                 var definitionID = res.id;
                 var datafrom = {
