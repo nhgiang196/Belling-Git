@@ -721,7 +721,111 @@ Notifications.addError({
                 })
                 $scope.listEmployee = [];
             };
-        }//function
+
+            /**Save Submit */
+            $scope.SaveSubmit = function (isCreated) {
+                var formVariables = [];
+                var historyVariable = [];
+                /**Check if user have permission to submit */
+                EngineApi.getTcodeLink().get({
+                    userid: Auth.username,
+                    tcode: $scope.flowkey
+                }, function (linkres) {
+                    if (linkres.IsSuccess) {
+                        formVariables.push({
+                            name: 'Leader_Checklist',
+                            value: $scope.checkList
+                        }); //initiator -> Leader_Checklist
+                        historyVariable.push({
+                            name: 'workflowkey',
+                            value: $scope.flowkey
+                        });
+                        //Voucher has not created yet, then create.
+                        /**Save and Submit Button */
+                        if (confirm('Would you like save and submit this Voucher?')) {
+                            // if (isCreated) {
+                            //     /** Save  */
+                            //     var note = saveInitNote();
+                            //     LIMSService.ISOQualify.CreateVoucher(note).$promise.then(function (res) {
+                            //         if (res.Success.length > 0) {
+                            //             var newVoucherID = res.Success[0].VoucherID;
+                            //             formVariables.push({
+                            //                 name: 'OverID',
+                            //                 value: newVoucherID
+                            //             });
+                            //             /**Submit */
+                            //             SubmitAndChangeStatus(newVoucherID);
+                            //         } else {
+                            //             Notifications.addError({
+                            //                 'status': 'error',
+                            //                 'message': 'Voucher doesn\'t exist data. It wont be create and submit.'
+                            //             });
+                            //         }
+                            //     })
+                            // } else {
+                                /**Submit Button */
+                                formVariables.push({
+                                    name: 'Rp_ID',
+                                    value: $scope.Rp_ID//chosen
+                                });
+                                LIMSService.ISOQualify.GetNewRYVoucher({
+                                    voucherid: $scope.recod.VoucherID
+                                }, function (res) {
+                                    if (res.Success) {
+                                        SubmitAndChangeStatus($scope.Rp_ID);
+                                    } else
+                                        alert('This voucher has been submit befored!');
+                                })
+                            // }
+                        }
+
+
+                    } else alert("You don't have permission!")
+                });
+
+                function SubmitAndChangeStatus(voucherid) {
+                    /**Submit to BPMN */
+                    debugger;
+                    LIMSService.SubmitBPM(formVariables, historyVariable, '', function (res, message) {
+                        if (message) {
+                            alert('Can not Submit this voucher because : ' + message);
+                        } else {
+                            /**Save to Server and change status */
+                            LIMSService.UpdateRYStatusVoucher({
+                                voucherID: voucherid,
+                                status: 'P',
+                                userid: username
+                            }, function (res) {
+                                if (res.Success) {
+                                    Notifications.addMessage({
+                                        'status': 'info',
+                                        'message': 'Your voucher ' + voucherid + ' is submited!'
+                                    });
+                                    $timeout(() => {
+                                        $scope.Search();
+                                    }, 2000);
+                                }
+                            }, function (err) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': 'Save Error' + err
+                                });
+                            })
+                        }
+                    })
+                    /** Change Status to P */
+
+                }
+
+
+            }
+
+
+
+
+
+
+        } //function
     ]) // myapp.controller
 
 }) //define

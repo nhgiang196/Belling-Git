@@ -140,43 +140,43 @@ define(['app', 'angular'], function (app, angular) {
             })
         }
 
-        CReportService.prototype.FindByID= function(query,callback){
+        CReportService.prototype.FindByID = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.getById(query).$promise.then(function(data){
+            this.GetInfoBasic.getById(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
 
-        CReportService.prototype.Delete= function(query,callback){
+        CReportService.prototype.Delete = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.delete(query).$promise.then(function(data){
+            this.GetInfoBasic.delete(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
 
-        CReportService.prototype.GetBasic= function(query,callback){
+        CReportService.prototype.GetBasic = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.GetBasic(query).$promise.then(function(data){
+            this.GetInfoBasic.GetBasic(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
 
-        CReportService.prototype.FindIC= function(query,callback){
+        CReportService.prototype.FindIC = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.FindIC(query).$promise.then(function(data){
+            this.GetInfoBasic.FindIC(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
 
@@ -199,6 +199,43 @@ define(['app', 'angular'], function (app, angular) {
                 callback(null, ex);
             })
         }
+
+
+        CReportService.prototype.SubmitBPM = function (formVariables, historyVariable, businessKey, callback) {
+            var variablesMap = Forms.variablesToMap(formVariables);
+            var historyVariableMap = Forms.variablesToMap(historyVariable);
+            EngineApi.getKeyId().getkey({
+                'key': CReportHSE
+            }, function (res) {
+                var definitionID = res.id;
+                var datafrom = {
+                    formdata: variablesMap,
+                    businessKey: businessKey,
+                    historydata: historyVariableMap
+                };
+                EngineApi.doStart().start({
+                    'id': definitionID
+                }, datafrom).$promise.then(function (res) {
+                    console.log(res);
+                    if (res.result && !res.message) {
+                        callback(res.result, '');
+                    }
+                    else {
+                        callback('', res.message)
+
+                    }
+                }, function (errResponse) {
+                    callback('', errResponse)
+
+                });
+
+            });
+
+
+        }
+
+
+
 
 
 
