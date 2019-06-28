@@ -1,0 +1,359 @@
+<style>
+    .container {
+        padding-top: 0px !important;
+    }
+
+    .table tr {
+        text-align: center;
+        padding: 4px;
+        line-height: 14px;
+        /* font-size:10px; */
+    }
+
+    .PropertySpec {
+        background-color: #cfccff;
+    }
+
+    footer {
+        display: none;
+    }
+
+    table {
+        /* width: 1200px; */
+        width: 100%;
+        margin-left: 0px;
+        margin: auto;
+        margin-top: 30px !;
+    }
+
+    thead {
+        background-color: rgb(230, 230, 230);
+    }
+
+    .table-hover tbody tr:hover td,
+    .table-hover tbody tr:hover th {
+        background-color: rgb(223, 246, 253);
+    }
+
+
+    footer {
+        display: none;
+    }
+
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    #page-contain {
+
+        font-size: 9.5pt;
+        /* padding-left: 8pt;
+        padding-right: 5pt; */
+        font-family: 'Times New Roman', Times, serif;
+        margin: 15px;
+    }
+
+    @page {
+        size: A4;
+        /* margin: 0; */
+        /* size: auto; */
+        margin-top: 4mm;
+        margin-left: 9mm;
+        margin-right: 9mm;
+        margin-bottom: 4mm;
+    }
+
+
+    /* Print styling */
+
+    @media print {
+        table {
+            page-break-inside: auto
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+
+        }
+
+        thead {
+            /* color:gainsboro; */
+            background: gainsboro !important;
+            /* background-color: gainsboro !important; */
+        }
+
+        html,
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+        }
+
+        [class*="col-sm-"] {
+            float: left;
+        }
+
+        [class*="col-xs-"] {
+            float: left;
+        }
+
+        .col-sm-12,
+        .col-xs-12 {
+            width: 100% !important;
+        }
+
+        .col-sm-11,
+        .col-xs-11 {
+            width: 91.66666667% !important;
+        }
+
+        .col-sm-10,
+        .col-xs-10 {
+            width: 83.33333333% !important;
+        }
+
+        .col-sm-9,
+        .col-xs-9 {
+            width: 75% !important;
+        }
+
+        .col-sm-8,
+        .col-xs-8 {
+            width: 66.66666667% !important;
+        }
+
+        .col-sm-7,
+        .col-xs-7 {
+            width: 58.33333333% !important;
+        }
+
+        .col-sm-6,
+        .col-xs-6 {
+            width: 50% !important;
+        }
+
+        .col-sm-5,
+        .col-xs-5 {
+            width: 41.66666667% !important;
+        }
+
+        .col-sm-4,
+        .col-xs-4 {
+            width: 33.33333333% !important;
+        }
+
+        .col-sm-3,
+        .col-xs-3 {
+            width: 25% !important;
+        }
+
+        .col-sm-2,
+        .col-xs-2 {
+            width: 16.66666667% !important;
+        }
+
+        .col-sm-1,
+        .col-xs-1 {
+            width: 8.33333333% !important;
+        }
+
+        .col-sm-1,
+        .col-sm-2,
+        .col-sm-3,
+        .col-sm-4,
+        .col-sm-5,
+        .col-sm-6,
+        .col-sm-7,
+        .col-sm-8,
+        .col-sm-9,
+        .col-sm-10,
+        .col-sm-11,
+        .col-sm-12,
+        .col-xs-1,
+        .col-xs-2,
+        .col-xs-3,
+        .col-xs-4,
+        .col-xs-5,
+        .col-xs-6,
+        .col-xs-7,
+        .col-xs-8,
+        .col-xs-9,
+        .col-xs-10,
+        .col-xs-11,
+        .col-xs-12 {
+            float: left !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0 !important;
+            min-width: 768px;
+        }
+
+        .container {
+            margin-top: 10px;
+            width: auto;
+            min-width: 750px;
+        }
+
+        body {
+            /* font-size: 10px; */
+        }
+
+        a[href]:after {
+            content: none;
+        }
+
+        .noprint,
+        div.alert,
+        header,
+        .group-media,
+        .btn,
+        .footer,
+        form,
+        #comments,
+        .nav,
+        ul.links.list-inline,
+        ul.action-links,
+        .clear,
+        .modal {
+            display: none !important;
+            padding: 0px !important;
+        }
+
+        .footer-page {
+            position: fixed;
+        }
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .border {
+        border-collapse: black;
+        border-style: solid;
+        border-width: 0.5px;
+
+    }
+
+    hr {
+        border: 0.5px solid black;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #bottom-footer {
+        display: none;
+    }
+
+    /* div {
+        margin-top: 15px;
+    } */
+</style>
+<div class="container">
+    <div id="page-contain">
+        <div style="text-align:center;">
+            <p style="text-align:center; font-size:12pt;">產品不合格矯正措施彙總表 </br> <span style="font-size:11pt;">THỰC
+                    BẢNG TỔNG HỢP BIỆN PHÁP KHẮC PHỤC SẢN PHẨM KHÔNG PHÙ HỢP
+
+                    <div class="col-sm-6">
+                        廠（處）室<br>VP xưởng/bộ phận 
+                    </div>
+
+                    <div class="col-sm-6">
+                        {{today}}
+
+                    </div>
+            </p>
+            <table class="table-hover" border="1" width="635" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <td width="71">
+                            <p>生產單位</p>
+                            <p>Đ.vị SX</p>
+                        </td>
+                        <td width="71">
+                            <p>開單日期</p>
+                            <p>Ngày lập</p>
+                        </td>
+                        <td width="71">
+                            <p>超限單</p>
+                            <p>編  號</p>
+                            <p>Mã đơn vượt quá GHCL</p>
+                        </td>
+                        <td width="71">
+                            <p>產    品</p>
+                            <p>類型批號</p>
+                            <p>Mã loại hình SP</p>
+                        </td>
+                        <td width="71">
+                            <p>異常項目</p>
+                            <p>Hạng mục bất thường</p>
+                        </td>
+                        <td width="71">
+                            <p>檢驗值</p>
+                            <p>Giá trị kiểm nghiệm</p>
+                        </td>
+                        <td width="71">
+                            <p>規格值</p>
+                            <p>Thông số kỹ thuật</p>
+                        </td>
+                        <td width="71">
+                            <p>結案日期</p>
+                            <p>Ngày đóng án</p>
+                        </td>
+                        <td width="71">
+                            <p>備註</p>
+                            <p>Ghi chú</p>
+                            <p>全</p>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in monthUQ">
+
+                        <td width="71">
+                            {{row.SampleName}} - {{row.LINE}}
+                        </td>
+                        <td width="71">
+                            {{row.BeginDate}}
+                        </td>
+                        <td width="71">
+                            {{row.VoucherID}}
+                        </td>
+                        <td width="71">
+                            {{row.LOT_NO}}
+                        </td>
+                        <td width="71">
+                            {{row.PropertyNameList}}
+                        </td>
+                        <td width="71">
+
+                        </td>
+                        <td width="71">
+                            {{row.ValueSpecList}}
+                        </td>
+                        <td width="71">
+                            {{row.Stamp}}
+                        </td>
+                        <td width="71">
+                            {{getStatus(row.Remark)}}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <p>註 :含本月結案與所有未結案，並以開單日期排序</p>
+            <p>Ghi chú: bao gồm những hạng mục đã đóng án và chưa đóng án, và sắp xếp theo thứ tự ngày
+                mở đơn  </p>
+            <p>     </p>
+            <p>主管 Chủ quản :                                                                        製表 Người lập:
+                {{user}}</p>
+        </div>
+    </div>
+</div>

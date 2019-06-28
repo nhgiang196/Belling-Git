@@ -1,0 +1,101 @@
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+                <div>
+                    <form class="form-horizontal model-form " name="form">
+                        <div class=" form-group ">
+
+                            <label class="col-sm-2 control-label">*{{'VehicleNO'|translate}}</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="VehicleNO"
+                                       ng-model="note.VehicleNO"
+                                       required>
+                                <span style="font-size: 12px;color:#000000">{{'RemakeVNo'| translate}}</span>
+                            </div>
+                            <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="VoucherID"
+                                       ng-model="note.VoucherID"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'Company'|translate}}</label>
+
+                            <div class="col-sm-4"><input type="text" class="form-control" name="Manufacturer"
+                                                         ng-model="note.Manufacturer"
+                                                         required></div>
+                            <label class="col-sm-2 control-label">{{'OrderNO'|translate}}</label>
+
+                            <div class="col-sm-4"><input type="text" class="form-control" name="OrderNO"
+                                                         ng-model="note.OrderNO"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'Material'|translate}}</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" name="PtaEg" ng-model="note.PtaEg"
+                                        ng-options=" c.Spec for c in material track by c.Spec"
+                                        required></select>
+
+                            </div>
+                            <label class="col-sm-2 control-label">*{{'ExpectedIn'|translate}}</label>
+
+                            <div class="col-sm-4"><input class="form-control" type="text" name="ExpectIn"
+                                                         ng-model="note.ExpectIn" date-picker min="0"
+                                                         required/></div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-sm-2 control-label">*{{'LinkMan'|translate}}</label>
+
+                            <div class="col-sm-4"><input class="form-control" name="LinkMan" ng-model="note.LinkMan"
+                                                         required></div>
+                            <label class="col-sm-2 control-label">*{{'ValidTo'|translate}}</label>
+
+                            <div class="col-sm-4"><input class="form-control" type="text" name="ValidatePeriod"
+                                                         ng-model="note.ValidatePeriod" min="0" max={{maxDate}}
+                                                         date-picker
+                                                         required/></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'LinkPhone'|translate}}</label>
+
+                            <div class="col-sm-4"><input type="text" class="form-control" name="LinkPhone"
+                                                         ng-model="note.LinkPhone"
+                                                         required></div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{'Remark'|translate}}</label>
+
+                            <div class="col-sm-6"><textarea class="form-control" name="Remark"
+                                                            ng-model="note.Remark"></textarea></div>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="reset()">{{'Close'|translate}}</button>
+                <!--    <button type="button" class="btn btn-default"   ng-click="reset()">重置</button>-->
+
+                <button type="button" class="btn btn-primary" ng-click="savesubmit()"
+                        ng-disabled="form.$invalid||note.VoucherID">
+                    {{'saveSubmit'|translate}}
+                </button>
+                <button type="button" class="btn btn-info" ng-click="addGuest()" ng-disabled="!note.VoucherID">
+                    {{'AddGuest'|translate}}
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

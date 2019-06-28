@@ -1,0 +1,60 @@
+<style>
+    .panel {
+        margin-bottom: 5px !important;
+    }
+
+    .list {
+        cursor: pointer;
+    }
+</style>
+
+<div>
+    <div id="accordion">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        {{'Setting'|translate}}
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <a ng-click="btCheckAuth('Admin','/taskForm/DictionaryManage')" class="list">
+                        <div class="list-content">
+                            <span>字典管理 DictionaryManage </span>
+                        </div>
+                    </a>
+                    <a ng-click="btCheckAuth('Admin','/taskForm/RepositoryManage')" class="list">
+                        <div class="list-content">
+                            <span>流程部署 RepositoryManage</span>
+                        </div>
+                    </a>
+                    <a ng-click="btCheckAuth('Admin','/taskForm/TaskManage')" class="list">
+                        <div class="list-content">
+                            <span>流程任务的管理 TaskManage</span>
+                        </div>
+                    </a>
+                    <a ng-click="btCheckAuth('Admin','/taskForm/ProxyUser')" class="list">
+                        <div class="list-content">
+                            <span>代理人设置 ProxyUser</span>
+                        </div>
+                    </a>
+                    <a ng-click="btCheckAuth('Admin','/taskForm/BPMTask')" class="list">
+                        <div class="list-content">
+                            <span>任务查询和管理 BPMTask</span>
+                        </div>
+                    </a>
+                    <a ng-click="btGetUser('Admin')" class="list">
+                        <div class="list-content">
+                            <span>用户获取 Admin List</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<!--<style>-->
+    <!--b {-->
+        <!--width: 100px;-->
+        <!--height: 100px;-->
+
+        <!--position: relative;-->
+        <!---webkit-animation-name: example; /* Safari 4.0 - 8.0 */-->
+        <!---webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */-->
+        <!---webkit-animation-iteration-count: 1; /* Safari 4.0 - 8.0 */-->
+        <!--animation-name: example;-->
+        <!--animation-duration: 4s;-->
+        <!--animation-iteration-count: 1;-->
+    <!--}-->
+
+    <!--/* Safari 4.0 - 8.0 */-->
+    <!--@-webkit-keyframes example {-->
+        <!--0%   {background-color:orange; left:0px; top:0px;}-->
+        <!--25%  {background-color:orange; left:200px; top:0px;}-->
+        <!--100% {background-color:orange; left:0px; top:0px;}-->
+    <!--}-->
+
+    <!--/* Standard syntax */-->
+    <!--@keyframes example {-->
+        <!--0%   {background-color:orange; left:0px; top:0px;}-->
+        <!--25%  {background-color:orange; left:200px; top:0px;}-->
+        <!--100% {background-color:orange; left:0px; top:0px;}-->
+    <!--}-->
+<!--</style>-->
+
+<div class="modal fade" id="nextModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+                <h3>{{'NextStep'|translate}}</h3>
+
+                <div>
+                    <div ng-repeat="nt in nexttasks">
+                        <p ng-if="nt.assignee!=null">{{'assignee'|translate}}：<code style="font-size: 120%;">{{nt.assignee}}
+                            -- <span show-user="{{nt.assignee}}"></span></code></p>
+
+                        <div ng-if="nt.assignee==null"><span show-candidate="{{nt}}"></span></div>
+
+                        <p ng-if="nt.name!=null">{{'TaskName'|translate}}：{{nt.name}} </p>
+
+                        <p ng-if="nt.description!=null">{{'Remark'|translate}}：{{nt.description}} </p>
+
+                        <p ng-if="nt.due!=null">{{'datedue'|translate}}：{{nt.due}} </p>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="reset()">{{'close'|translate}}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="nextModalGateGuest" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+                <h3>{{'NextStep'|translate}}</h3>
+
+
+                    <div ng-repeat="nt in nexttasks">
+                        <p ng-if="nt.assignee!=null">{{'assignee'|translate}}：<code style="font-size: 120%;">{{nt.assignee}}
+                            -- <span show-user="{{nt.assignee}}"></span></code></p>
+
+                        <div ng-if="nt.assignee==null"><span show-candidate="{{nt}}"></span></div>
+
+                        <p ng-if="nt.name!=null">{{'TaskName'|translate}}：{{nt.name}} </p>
+
+                        <p ng-if="nt.description!=null">{{'Remark'|translate}}：{{nt.description}} </p>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary" ng-click="modalSubmit()">{{'OK'|translate}}</button>
+                    <button type="button" class="btn btn-default" ng-click="modalCancel()">{{'Cancel'|translate}}</button>
+
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!--dialog message -->
+<div class="modal fade" id="messageModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+
+                <div>
+                    <div ng-if="showMessageModal!=''">
+                        <h3><img src="/css/image/warn.png" style="width: 25px;height: 25px; padding-bottom: 5px">{{'Warning'|translate}}</h3>
+                    <p><mark>{{'messageGateGuest'|translate}} </mark></p>
+                    </div>
+                    <div style="border-top: 1px solid #e5e5e5"></div>
+                    <h3>{{'NextStep'|translate}}</h3>
+
+                        <div ng-repeat="nt in listleadercheck">
+                            <div>{{'Candidate'| translate}} : <code style="font-size: 120%;"> {{nt}}</code></div>
+                        <!--<p ng-if="nt.assignee!=null">{{'assignee'|translate}}：<code style="font-size: 120%;">{{nt.assignee}}-->
+                            <!---- <span show-user="{{nt.assignee}}"></span></code></p>-->
+                        <!--<span ng-if="nt.assignee==null" show-candidate="{{nt}}"></span>-->
+                        <!--<p ng-if="nt.name!=null">{{'TaskName'|translate}}：{{nt.name}} </p>-->
+                        <!--<p ng-if="nt.description!=null">{{'Remark'|translate}}：{{nt.description}} </p>-->
+                        <!--<p ng-if="nt.due!=null">{{'datedue'|translate}}：{{nt.due}} </p>-->
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="modalSubmit()">{{'OK'|translate}}</button>
+                <button type="button" class="btn btn-default" ng-click="modalCancel()">{{'Cancel'|translate}}</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+</div>

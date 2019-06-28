@@ -1,0 +1,90 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<div>
+    <div id="newVoucher">
+        <legend><h3>协同车辆修改</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <form class="form-horizontal" role="form" name="form" novalidate>
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th>单据号</th>
+                        <td><input type="text" class="form-control" name="VoucherID"
+                                   ng-model="note.VoucherID"
+                                   readonly></td>
+                        <th>车型</th>
+                        <td><select  id="VehicleShape" class="form-control" name="VehicleShape" ng-model="note.VehicleShape"
+                                     ng-options="c.VehicleShape as c.VehicleShape for c in Shape" required></select>
+                        <th>车行</th>
+                        <td><select id="TransferCompany" class="form-control" name="TransferCompany" ng-model="note.TransferCompany"
+                                    ng-options="c.TruckCompany as c.TruckCompany for c in transfer" required></select>
+                        </td>
+                        <th>车号</th>
+                        <td><input id="VehicleNO" type="text" class="form-control" name="VehicleNO"
+                                   ng-model="note.VehicleNO"
+                                   required></td>
+                    </tr>
+                    <tr>
+                        <th>司机</th>
+                        <td><input id="Driver" type="text" class="form-control" name="Driver"
+                                   ng-model="note.Driver"
+                                   required></td>
+                        <th>司机电话</th>
+                        <td><input id="DriverPhone" type="text" class="form-control" name="DriverPhone"
+                                   ng-model="note.DriverPhone"
+                                   required></td>
+                        <th>期望进厂日期</th>
+                        <td><input class="form-control" type="text" name="ExpectIn"
+                                   ng-model="note.ExpectIn"  readonly/></td>
+                        <th>有效期到</th>
+                        <td><input class="form-control" type="text" name="ValidatePeriod"
+                                   ng-model="note.ValidatePeriod" date-picker  min="0" required/></td>
+                    </tr>
+                    <tr>
+                        <th>物料类型</th>
+                        <td><select class="form-control" name="MaterielType" ng-model="note.MaterielType"
+                                    ng-options="c.MaterialType as c.MaterialType for c in material" required></select>
+                        <th>备注</th>
+                        <td colspan="3"><input type="text" class="form-control" name="Remark"
+                                               ng-model="note.Remark"
+                                               required></td>
+                        <th>实际到厂日期</th>
+                        <td><input class="form-control" type="text" name="ComeTime"
+                                   ng-model="note.ComeTime" date-picker min="0" required/></td>
+                    </tr>
+                </table>
+            </form>
+            <form class="form-horizontal" role="form" name="order" novalidate>
+                <div class="col-sm-12"><span class="label label-primary">发货单信息</span>
+                </div>
+                <div class="form-table">
+                    <label class="col-sm-1 control-label">发货单号</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="ShippingOrder" ng-model="ShippingOrder" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" ng-click="addOrder()"
+                            ng-disabled="order.$invalid">添加
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="delOrder()">删除
+                    </button>
+                </div>
+                <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                     ui-grid-resize-columns ui-grid-core ui-grid-exporter></div>
+            </form>
+        </div>
+
+    </div>
+    <button type="button" class="btn btn-primary" style="float: right;margin-right: 150px"
+            ng-click="savesubmit()"
+            ng-disabled="form.$invalid">
+        保存并提交
+    </button>
+</div>

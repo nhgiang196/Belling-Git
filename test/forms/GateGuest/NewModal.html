@@ -1,0 +1,176 @@
+<div class="modal fade" id="myGuestModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static" data-keyboard="false">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-body" style="padding-bottom:3px">
+                <form class="form-horizontal" role="form" name="formGuest" novalidate>
+                    <H4 style="background-color: #ececec; padding:3px">{{'GuestPlan'|translate}}</H4>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="start_voucherid" readonly ng-model="recod.start_voucherid" />
+                        </div>
+                        <label class="col-sm-2 control-label">*{{'GuestType'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <select class="form-control" type="text" name="start_kind"  history-field="GuestType" ng-model="recod.start_kind" max="0" required disabled
+                                    ng-init="recod.start_kind=kind[1].ID"
+                                    form-field
+                                    ng-options="t.ID as t.GuestType for t in kind">
+                       </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*{{'Respondent'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input id="EmployeeID" class="form-control" type="text" name="start_code" history-field="Respondent" ng-model="recod.start_code" required/>
+                        </div>
+
+                        <label class="col-sm-2 control-label">*{{'ExpectIn'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="start_date"  history-field="ExpectIn"  ng-model="recod.start_date" id="startDate" date-picker form-field required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*{{'Name'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input id="EmployeeName" class="form-control" type="text" history-field="Name" name="start_name" ng-model="recod.start_name" required readonly auto-complete autocomplete="off" />
+                                <!-- <select id="EmployeeName" style="width: 100%" ui-select2 ng-model="recod.start_name" name="start_name" required readonly auto-complete >
+                                  <option ng-repeat="value in employeeInfo" value="{{value.Name}}">
+                                      {{value.Name}}
+                                  </option>
+                              </select>-->
+                                <span class="input-group-btn">
+                                  <button class="btn btn-primary btn-sm" ng-click="searchEmployeeInfo()"><span
+                                          class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <label class="col-sm-2 control-label">*{{'Enterprise'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" history-field="Enterprise" name="start_company" ng-model="recod.start_company" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'DepartmentSpc'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" history-field="DepartmentSpc" name="DepartmentSpc" readonly ng-model="recod.DepartmentSpc" max="0" required/>
+                        </div>
+
+
+                        <label class="col-sm-2 control-label">*{{'Region'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <select class="form-control" type="text" name="start_area" ng-model="recod.start_area" max="0" required ng-change="confirm();"
+                                    history-field="Region" disabled
+                                    ng-init="recod.start_area=regions[0].ID"
+                                    ng-options="t.ID as t.Region for t in regions"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*{{'ExtNO'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" history-field="ExtNO" type="text" name="start_phone" ng-model="recod.start_phone" max="0" required/>
+                        </div>
+                        <label class="col-sm-2 control-label">{{'GoodsExpectOut'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" history-field="GoodsExpectOut" name="ExpectOutTime" id="endDate" ng-change="checkErr()" ng-model="recod.ExpectOutTime" date-picker time="Y-m-d H:i" form-field>
+
+                        </div>
+
+
+                        <!-- <div id="number" ng-show="recod.start_kind=='3'">
+                        <label class="col-sm-2 control-label">*{{'GuestNumber'|translate}}</label>
+
+                        <div class="col-sm-2">
+                            <input class="form-control" type="number" name="GuestNumber"
+                                   ng-model="GuestNumber"
+                                   history-field="GuestNumber" form-field/>
+                        </div>
+                        <button type="button" class="btn btn-primary" ng-click="produce()">
+                            {{'produce'|translate}}
+                        </button>
+                    </div>-->
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'VehicleNO'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" history-field="VehicleNO" name="VehicleNo" ng-model="recod.VehicleNo" form-field>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*{{'Content'|translate}}</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control" type="text" history-field="Content" name="start_reason"  ng-model="recod.start_reason" max="0" form-field required>{{'FEPVUnJointTruck'| translate}}+{{kind[1].ID}}</textarea>
+                        </div>
+                    </div>
+                </form>
+                <H4 style="background-color: #ececec; padding:3px">{{'GuestDetails'|translate}}</H4>
+
+                <form class="form-horizontal" role="form" name="formdetail" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">*{{'GuestName'|translate}}</label>
+
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="newName" ng-model="gd.GuestName" required/>
+                        </div>
+
+                        <label ng-show="recod.start_kind=='3'" class="col-sm-2 control-label">{{'GuestIDCard'|translate}}</label>
+                        <label ng-hide="recod.start_kind =='3'" class="col-sm-2 control-label">*{{'GuestIDCard'|translate}}</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="newidCard" ng-model="gd.IdCard" max="0" />
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-primary" ng-click="addGuestItemG()" ng-disabled="formdetail.$invalid">{{'Add'}}
+                       </button>
+                        </div>
+                    </div>
+                </form>
+                <table id="temptable" ng-table="tableParams" class="table table-bordered">
+                    <tr ng-repeat="guestItem in guestItems">
+                        <td title="'GuestName'" width="350px">
+                            {{guestItem.GuestName}}
+                        </td>
+                        <td title="'GuestName'" width="350px">
+                            {{guestItem.IdCard}}
+                        </td>
+                        <td>
+                            <a ng-click="deleteGuestItemG($index)" class="btn-xs btn btn-danger">{{'Delete'|translate}}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <label style="color: #FF0000;float: left">{{'GuestConfirm'|translate}}</label>
+                <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}}</button>
+                <button type="button" id="btnSaveDraft" class="btn btn-warning" ng-click="saveGuestDraft()" ng-disabled="formGuest.$invalid ||guestItems.length<1">
+               {{'saveDraft'|translate}}
+           </button>
+                <button type="button" id="btnSubmit" class="btn btn-primary" ng-click="saveGuestsubmit()" ng-disabled="formGuest.$invalid ||guestItems.length<1">
+               {{'saveSubmit'|translate}}
+           </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

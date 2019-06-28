@@ -1,0 +1,140 @@
+<style>
+    .border {
+        border-collapse: black;
+        border-style: solid;
+        border-width: 0.5px;
+
+    }
+
+    hr {
+        border: 0.5px solid black;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .table tr {
+        text-align: center;
+        padding: 4px;
+
+        line-height: 14px;
+        /* font-size:10px; */
+    }
+
+    .PropertySpec {
+        background-color: #cfccff;
+    }
+
+
+    table {
+        /* width: 1200px; */
+        width: 100%;
+        margin-left: 0px;
+        margin: auto;
+        margin-top: 30px !;
+        font-size: 16px;
+    }
+
+    .paddingtable td {
+        padding: 2px 6px;
+    }
+
+    .table-bordered tbody tr:nth-child(odd) td {
+        background-color: #F2FAFE;
+    }
+
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    
+</style>
+
+    <h3 style="text-align:center; padding-bottom: 15pt">Far Eastern Polytex Vietnam Analysis Report</h3>
+    <table>
+        <tbody>
+            <tr>
+                <td>Report No.: {{recod.VoucherID}} </td>
+                <td style="width:40%;">Purchase order No.: {{recod.PO_NO}}</td>
+            </tr>
+            <tr>
+                <td>Sample name: {{recod.SampleDescription}}</td>
+                <td>Receive Num.: {{recod.ReceiveNum}} </td>
+            </tr>
+            <tr>
+                <td>Supplier: {{recod.Vendor}}</td>
+                <td>Quantity: {{recod.Quantity}} </td>
+            </tr>
+            <tr>
+                <td>Date of sampling: {{recod.DateOfSample}}</td>
+                <td>Amount of sampling: {{ recod.SampleQuantity}} {{recod.Unit}} </td>
+            </tr>
+            <tr>
+                <td>Date of analysis report: {{recod.ProdDate}} </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Specification:</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div>
+        <table style="border:black;" class="table-bordered paddingtable">
+            <thead>
+                <tr style="text-align:center;">
+                    <td>No.</td>
+                    <td>Test item</td>
+                    <td>Specification</td>
+                    <td>Result</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="m in listofMaterial">
+                    <td style="text-align: center;">
+                        <p style='margin:0cm;margin-bottom:3.0pt;text-align:center;'>
+                            {{ $index + 1 }}
+                    </td>
+                    <td style="text-align: center;">
+                        <p style='margin:0cm;margin-bottom:3.0pt;text-align:left'>
+                            {{ m.PropertyName }}
+                    </td>
+                    <td style="text-align: center;">
+                        <p style='margin:0cm;margin-bottom:3.0pt;text-align:center;'>
+                            {{ m.ValueSpec==''? 'visual': m.ValueSpec }}
+                    </td>
+                    <td style="text-align: center;">
+                        <p style='margin:0cm;margin-bottom:3.0pt;text-align:center;'>
+                            {{ m.Result }}
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div name="myForm" style="margin:20px;">
+
+        <label><input ng-disabled="recod.QualifedString || false" ng-checked="recod.QualifedString=='True'" ng-model="qual"
+                ng-value=1 type="radio"> Qualified</label>
+        <label><input ng-disabled="recod.QualifedString || false" ng-checked="recod.QualifedString=='False'" ng-model="qual"
+                ng-value=0 type="radio"> Unqualified</label>
+
+    </div>
+
+
+
+
+    
+
+
+
+
+
+
+

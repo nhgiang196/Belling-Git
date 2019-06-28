@@ -1,0 +1,88 @@
+<!-- Container modal -->
+<div class="modal fade" id="myModalContainer" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+    data-keyboard="false" style="width: 100%">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-customs">
+            <div>
+                <div style="padding-left: 15px; padding-right: 15px">
+                    <H4 class="h4title">{{'Conditional Query'|translate}}</H4>
+                </div>
+                <form class="form-horizontal model-form " name="form" style="padding-left: 15px;padding-right: 15px">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'B/L NO'|translate}}</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="OrderNO" ng-model="query.OrderNO" />
+                        </div>
+                        <label class="col-sm-2 control-label">{{'Last Modify Date'|translate}}</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="EstimatedDate" ng-model="query.EstimatedDate"
+                                date-picker required />
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary" ng-click="queryContainer()">
+                                {{'Search'|translate}}
+                            </button>
+
+                        </div>
+                    </div>
+                    <H4 class="h4title">{{'Container Information'|translate}}</H4>
+
+                    <div style="width: 100%;">
+                        <div id="VehicleGrid" ui-grid="vouchergridOptions" class="grid" style="height: 255px;"
+                            ui-grid-selection ui-grid-pagination ui-grid-resize-columns ui-grid-core ui-grid-exporter></div>
+                    </div>
+                </form>
+                <H4 class="h4title">{{'Basic Information'|translate}}</H4>
+                <form class="form-horizontal model-form " name="formContainer">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{'Contractor'|translate}}</label>
+
+                            <div class="col-sm-8">
+                                <input class="form-control" name="Contractor" ng-model="cc.LinkMan" readonly required />
+                            </div>
+                        </div>
+                        <!-- B/L No -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">*{{'LinkPhone'|translate}}</label>
+
+                            <div class="col-sm-8"><input type="text" class="form-control" name="LinkPhone" ng-model="cc.LinkPhone"
+                                    required></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{'PO_NO'|translate}}</label>
+
+                            <div class="col-sm-8"><input type="text" class="form-control" name="PO" ng-model="cc.PO"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{'Remark'|translate}}</label>
+                            <div class="col-sm-8">
+                                <textarea type="text" class="form-control" name="Remark" ng-model="cc.Remark"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer" style="margin-top: 0px;">
+
+                <button class="btn btn-default" ng-click="close()">{{'Close'|translate}}</button>
+                <button class="btn btn-primary" ng-disabled="formContainer.$invalid" ng-click="createVoucherandSumbit()">{{'saveSubmit'|translate}}
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<style>
+    .h4title {
+        background-color: #ececec;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+</style>

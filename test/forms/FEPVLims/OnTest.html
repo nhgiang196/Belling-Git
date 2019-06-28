@@ -1,0 +1,169 @@
+<style>
+    .search-table {
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    
+    .modal-lg {
+        width: 60%;
+        height: 100%;
+    }
+    
+    .form-group {
+        margin-bottom: 5px
+    }
+</style>
+<div>
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend>
+            <h3>{{'Create Tightened Analysis Requisition'|translate}}</h3>
+        </legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table" style="margin-left:20px">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'dateFrom'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" id="date_timepicker_start" name="DateFrom" ng-model="note.DateFrom" date-picker>
+
+                    </div>
+                    <label class="col-sm-2 control-label">{{'To'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" id="date_timepicker_end" name="DateTo" ng-model="note.DateTo" date-picker>
+
+                    </div>
+
+                    <label class="col-sm-1 control-label">{{'TypeName'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="TypeID" ng-model="note.TypeID" ng-options=" c.TypeID as c.TypeName for c in CategoryList" required>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="nameSample" ng-model="note.SampleName" ng-options=" c.SampleName as c.Description_{{lang}} for c in SampleList" required>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select ng-change="Search()" class="form-control" name="material" ng-model="note.Material" ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList" required>
+                            <option value=100>-- ALL --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 control-label">
+                        <label>
+                            <input name="onlyOwner" type="checkbox" ng-model="owner"> {{'onlyOwner'|translate}}
+                        </label>
+                        <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}} </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div style="width: 100%; ">
+            <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination ui-grid-resize-columns ui-grid-core ui-grid-core ui-grid-exporter></div>
+        </div>
+
+
+    </form>
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static" data-keyboard="false">
+
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-body" style="padding-bottom:3px">
+                    <div>
+
+                        <form class="form-horizontal model-form " name="form">
+                            <H4 style="background-color: #ececec; padding-left: 15px; padding-right: 15px">{{'Create Tightened Analysis Requisition'|translate}}</H4>
+                            <div class="col-sm-12 form-group">
+                                <div class="form-group search-table">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">{{'TypeName'|translate}}</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-control" name="TypeID" ng-model="new.TypeID" ng-options=" c.TypeID as c.TypeName for c in CategoryList" required>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">{{'SampleName'|translate}}</label>
+
+                                        <div class="col-sm-3">
+                                            <select class="form-control" name="nameSample1" ng-model="new.SampleName" ng-options=" c.SampleName as c.Description_{{lang}} for c in SampleList" required>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-3 control-label">{{'Material'|translate}}</label>
+
+                                        <div class="col-sm-3">
+                                            <select class="form-control" name="material" ng-model="new.LOT_NO" ng-options="c.LOT_NO as c.Description_{{lang}}   for c in materialList  " required>
+
+                                            </select>
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">{{'Line'|translate}}</label>
+
+                                        <div class="col-sm-3">
+                                            <input class="form-control" name="Line" ng-model="new.Line" required maxlength="4">
+
+                                        </div>
+
+
+                                        <label class="col-sm-3 control-label">{{'CreateTime'|translate}}</label>
+                                        <div class="col-sm-3">
+                                            <input id="datetimepicker5" class="form-control" name="DateTo" ng-model="new.SheetDate" date-picker time="Y-m-d H:i" required>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group ">
+
+                                        <label class="col-sm-3 control-label">{{'Purpose'|translate}}</label>
+
+                                        <div class="col-sm-3">
+                                            <input class="form-control" name="Purpose" ng-model="new.Purpose" required>
+
+                                        </div>
+                                        <label class="col-sm-3 control-label">{{'CreateType'|translate}}</label>
+
+                                        <div class="col-sm-3">
+                                            <select class="form-control" name="CreateType" ng-model="new.CreateType" ng-options="c.ID as c.Type   for c in CreateType  " required>
+                                    </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+
+                    <button id="btnSaveSubmit" type="button" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="savesubmit()">
+                        {{'saveSubmit'|translate}}
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'Close'|translate}}</button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>

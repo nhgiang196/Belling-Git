@@ -1,0 +1,130 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+
+    .picture {
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    //Status="W"
+
+    function GateGoodIn_confirm($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateGuest,GateGoodsOut, $resource, uiGridConstants,$translate) {
+        var lang = window.localStorage.lang;
+        $scope.passOrNot= GateGuest.GetCheckList();
+        $scope.good = {};
+        $scope.Files = [];
+        GateGoodsOut.GoodBasic().getGoodsByItemID({ItemID: $scope.variable.VoucherID,language:lang}).$promise.then(function (res) {
+            $scope.note = res[0];
+            $scope.Files = eval(res[0].FileNames);
+            $scope.note.IsBack == true ?  $translate.instant('GoodsBack') : $translate.instant('GoodsBackNO')
+
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+
+        $scope.savesubmit = function () {
+            var query = {};
+            query.ItemID = $scope.variable.VoucherID;
+            if ($scope.leadercheck_result == "YES") {
+                query.Status = "W";
+            }
+            else {
+                query.Status = "X";
+            }
+            GateGoodsOut.GoodBasic().saveGoodsBackItemStatus(query).$promise.then(function (res) {
+                $scope.formVariables.push({name: "JWUser", value: "Guard"});
+                $scope.formVariables.push({name: "leadercheck_result", value: $scope.leadercheck_result});
+                $scope.formVariables.push({name: "start_remark", value: ""});
+                $scope.submit();
+            }, function (errResponse) {
+                Notifications.addError({'status': 'error', 'message': errResponse});
+            });
+        }
+    }
+</script>
+<div ng-controller=" GateGoodIn_confirm">
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend><h3>{{'GoodsInConfirm'|translate}}</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <table id="table" class="table table-bordered" style="table-layout:fixed">
+
+                <tr>
+                    <th>{{'VoucherID'|translate}}:{{note.VoucherID}}</th>
+
+                    <th>{{'GoodsType'|translate}}:{{note.GoodsType}}</th>
+
+                    <th>{{'TakeCompany'|translate}}:{{note.TakeCompany}}</th>
+
+                </tr>
+                <tr>
+                    <th>{{'GoodsTakeOut'|translate}}:{{note.TakeOut}}</th>
+
+                    <th>{{'Vehicle'|translate}}:{{note.VehicleNO}}</th>
+
+                    <th>{{'Remark'|translate}}:{{note.Remark}}</th>
+
+                </tr>
+                <tr>
+                    <th>{{'OutTime'|translate}}:{{note.OutTime}}</th>
+
+                    <th>{{'InTime'|translate}}:{{note.InTime}}</th>
+
+                    <th>{{'GoodsOutReasons'|translate}}:{{note.Reason}}</th>
+
+                </tr>
+                <tr>
+                    <th>{{'GoodsName'|translate}}:{{note.GoodsName}}</th>
+
+                    <th>{{'OutNumber'|translate}}:{{note.GoodsAmountTotal}}</th>
+
+                    <th>{{'InNumber'|translate}}:{{note.GoodsAmount}}</th>
+                </tr>
+                <tr>
+                    <th>{{'Unit'|translate}}:{{note.Unit}}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+        <div class="picture">
+            <li ng-repeat="planList in Files" style="float:left">
+                <img ng-src='/api/cmis/showfile?filename={{planList.DocId}}&mimetype={{planList.FileType}}'
+                     height='340px' width='450px'/>
+            </li>
+        </div>
+
+        <H4 style="background-color: #ececec; padding: 5px">{{'GoodsInConfirm'|translate}}</H4>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+            <div class="col-sm-3">
+                <select class="form-control" history-field="IsPass" form-field
+                        name="leadercheck_result"
+                        ng-model="leadercheck_result"
+                        ng-options="c.value as c.name for c in passOrNot"
+                        required> </select>
+            </div>
+        </div>
+        <div class="form-group" ng-if="leadercheck_result=='NO'">
+            <label class="col-sm-2  control-label" style="text-align: left;">{{'DenyReason'|translate}}:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="leadercheck_remark" type="text" form-field
+                          history-field="DenyReason" ng-model="leadercheck_remark" field-validate rows="3"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">{{'submit'|translate}}</button>
+
+            </div>
+        </div>
+    </form>
+</div>

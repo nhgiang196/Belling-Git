@@ -1,0 +1,162 @@
+<style type="text/css">
+    .jdm-toolbar-tabs {
+        position: absolute;
+        top: 50%;
+        left: -120px;
+        margin-top: 10px;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .well {
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #eee;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+</style>
+<br>
+<div class=" col-sm-3">
+    <form class="well" novalidate name="form">
+        <label>{{'From'|translate}}</label>
+        <input class="form-control" type="text" name="BeginTime" ng-model="note.BeginTime" date-picker time="Y-m-d H:i"
+            required />
+
+        <label>{{'To'|translate}}</label>
+        <input class="form-control" type="text" name="EndTime" ng-model="note.EndTime" date-picker time="Y-m-d H:i"
+            required />
+        <label>{{'TypeName'|translate}}</label>
+        <select class="form-control" name="TypeID" ng-model="note.TypeID" ng-options=" c.TypeID as c.TypeName for c in CategoryList"
+            required>
+        </select>
+        <label>{{'SampleName'|translate}}</label>
+        <select class="form-control" name="SampleName" ng-model="note.SampleName" ng-options="c.SampleName as c.Description_{{lang}} for c in SampleList"
+            required>
+        </select>
+
+        <label class="control-label">{{'Line'|translate}}</label>
+        <select class="col-sm-1  form-control" style="float: none;" name="line" ng-model="note.Line" ng-options="c.Line as c.Linespc for c in LinesList">
+        </select>
+        
+        <label>{{'Material'|translate}}</label>
+        <select class="form-control" name="material" ng-model="note.LOT_NO" ng-options="c.LOT_NO as c.Description_{{lang}}   for c in materialList  ">
+            <option value="">---All--</option>
+        </select>
+        <label class="checkbox inline">
+            <input type="checkbox" id="delegate" name="delegate" value="note.Isdelegate" />委托
+        </label>
+        <select class="col-sm-1  form-control" ng-change="myShow(note.Charttype)" id="charttype" name="charttype"
+            required ng-model="note.Charttype">
+            <option value="0">------</option>
+            <option value="5">趋势图</option>
+            <option value="4">I－MR图</option>
+        </select>
+        <label>{{'PropertyName'|translate}}</label>
+
+        <select id="single_value" ng-show="isVisible" class="col-sm-1  form-control" style="   float: none;" name="property"
+            ng-model="note.Property" ng-options="c.PropertyName as c.PropertyName  for c in Attributs">
+        </select>
+        <select id="multiple_value" ng-show="!isVisible" style="width: 100%" ui-select2 ng-model="PropertyName" name="PropertyName"
+            multiple>
+            <option ng-repeat="value in Attributs" value="{{value.PropertyName}}">
+                {{value.PropertyName}}
+            </option>
+        </select>
+        <div class="form-actions" style="margin-top: 5px;">
+            <button type="button" class="btn btn-primary" ng-click="Search()" ng-disabled="form.$invalid">数据获取</button>
+        </div>
+    </form>
+
+</div>
+<div class=" col-sm-9">
+    <div ng-if='note.Charttype==4'>
+        <div id="chart0" style="height: auto;" ng-show='!datashow'></div>
+        <div id="rchart0" style="height: auto;" ng-show='!datashow'></div>
+
+    </div>
+    <div ng-if='note.Charttype==5'>
+        <div ng-repeat='i in  chartnotes'>
+            <div id="gchart{{$index}}" style="height: auto;" ng-show='!datashow'></div>
+            <br>
+        </div>
+    </div>
+    <div id="tabledata" ng-show="mycharts.length>0 && isVisible">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td style=" font-weight:bold">Parameter:</td>
+                    <td colspan="5"><a ng-click="butshowData()" title="show data">{{mycharts[0].ChartCreater.mHeader}}</a></td>
+                </tr>
+                <tr>
+                    <td style=" font-weight:bold">X平均</td>
+                    <td>{{mycharts[0].ChartCreater.X}}</td>
+                    <td style=" font-weight:bold">S</td>
+                    <td>{{mycharts[0].ChartCreater.S}}</td>
+                    <td style=" font-weight:bold">CV%</td>
+                    <td>{{mycharts[0].ChartCreater.CV}}</td>
+                </tr>
+                <tr>
+                    <td style=" font-weight:bold">CP</td>
+                    <td>{{mycharts[0].ChartCreater.CP}}</td>
+                    <td style=" font-weight:bold">CPK</td>
+                    <td>{{mycharts[0].ChartCreater.CPK}} </td>
+                    <td style=" font-weight:bold">ZBench</td>
+                    <td>{{mycharts[0].ChartCreater.Zbench}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <table class="table table-bordered" ng-show='datashow'>
+        <tr style="width: 1000px">
+            <th ng-repeat="header in plansHeader">{{header}}</th>
+        </tr>
+        <tr ng-repeat="value in mycharts[0].ChartCreater.MainData">
+            <td ng-repeat="header in plansHeader">
+                {{value[header]}}
+            </td>
+
+        </tr>
+
+    </table>
+    <!-- <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td style=" font-weight:bold">Parameter:</td>
+                    <td colspan="5">{{mycharts[1].ChartCreater.mHeader}}</td>
+                </tr>
+                <tr>
+                    <td style=" font-weight:bold">X平均</td>
+                    <td>{{mycharts[1].ChartCreater.X}}</td>
+                    <td style=" font-weight:bold">S</td>
+                    <td>{{mycharts[1].ChartCreater.S}}</td>
+                    <td style=" font-weight:bold">CV%</td>
+                    <td>{{mycharts[1].ChartCreater.CV}}</td>
+                </tr>
+                <tr>
+                    <td style=" font-weight:bold">CP</td>
+                    <td>{{mycharts[1].ChartCreater.CP}}</td>
+                    <td style=" font-weight:bold">CPK</td>
+                    <td>{{mycharts[1].ChartCreater.CPK}} </td>
+                    <td style=" font-weight:bold">ZBench</td>
+                    <td>{{mycharts[1].ChartCreater.Zbench}}</td>
+                </tr>            
+            </tbody>
+        </table> -->
+    <!-- <div id="chart2" style="height: auto;"></div>
+    <div id="chart3" style="height: auto;"></div>
+    <div id="chart4" style="height: auto;"></div>
+    <div id="chart5" style="height: auto;"></div>
+    <div id="chart6" style="height: auto;"></div>
+    <div id="chart7" style="height: auto;"></div> -->
+</div>
+</div>

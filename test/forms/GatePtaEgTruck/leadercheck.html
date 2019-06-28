@@ -1,0 +1,96 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    function GatePtaEgTruck_leadercheck($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GatePtaEg, $resource, uiGridConstants) {
+        var lang = window.localStorage.lang;
+        $scope.passOrNot = [{
+            "name": $translate.instant('agree'),
+            "value": "YES"
+        }, {"name": $translate.instant('notAgree'), "value": "NO"}];
+        GatePtaEg.GatePtgEgTruckBasic().ptaEgTruckByVoucherID({voucherid:$scope.variable.VoucherID}).$promise.then(function (res) {
+           $scope.note = res;
+            $scope.note.ExpectIn = $filter('date')($scope.note.ExpectIn, 'yyyy-MM-dd');
+            $scope.note.ValidatePeriod = $filter('date')($scope.note.ValidatePeriod, 'yyyy-MM-dd');
+        }, function (errormessage) {
+            Notifications.addError({'status': 'error', 'message': errormessage});
+        });
+        $scope.savesubmit = function(){
+            $scope.formVariables.push({name: "JWUser", value: "Guard"});
+            $scope.formVariables.push({name: "leadercheck_result", value: $scope.leadercheck_result});
+            $scope.submit();
+        }
+    }
+</script>
+<div ng-controller="GatePtaEgTruck_leadercheck">
+    <div>
+        <legend><h3>{{"FEPVPtaEgTruck"|translate}}</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <form class="form-horizontal" role="form" name="form" novalidate>
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th colspan="9" style="text-align: center;background_color:#eee;" class=ng-binding>PTA/EG车辆进厂信息--领导审核单</th>
+                    </tr>
+                    <tr>
+                        <th>单据号</th>
+                        <td colspan="2">{{note.VoucherID}}</td>
+                        <th>车号</th>
+                        <td colspan="2">{{note.VehicleNO}}</td>
+                        <th>厂商</th>
+                        <td colspan="2">{{note.Manufacturer}}</td>
+                    </tr>
+                    <tr>
+                        <th>订单号</th>
+                        <td colspan="2">{{note.OrderNO}}</td>
+                        <th>物料</th>
+                        <td colspan="2">{{note.PtaEg}}</td>
+                        <th>期望进厂日期</th>
+                        <td colspan="2">{{note.ExpectIn}}</td>
+
+                    </tr>
+                    <tr>
+                        <th>有效期到</th>
+                        <td colspan="2">{{note.ValidatePeriod}}</td>
+                        <th>进厂联系人</th>
+                        <td colspan="2">{{note.LinkMan}}</td>
+                        <th>联系电话</th>
+                        <td colspan="2">{{note.LinkPhone}}</td>
+                    </tr>
+                </table>
+                <H4 style="background-color: #ececec; padding: 5px">领导审核</H4>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="text-align: left;">是否同意:</label>
+
+                    <div class="col-sm-3">
+                        <select class="form-control" history-field="是否同意" form-field
+                                name="leadercheck_result"
+                                ng-model="leadercheck_result"
+                                ng-options="c.value as c.name for c in passOrNot"
+                                required> </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="leadercheck_result=='NO'">
+                    <label class="col-sm-2  control-label" style="text-align: left;">否决原因:</label>
+
+                    <div class="col-sm-6">
+                <textarea class="form-control" name="leadercheck_remark" type="text" form-field
+                          history-field="领导否决原因" ng-model="leadercheck_remark" field-validate rows="3"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

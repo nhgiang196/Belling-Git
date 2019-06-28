@@ -1,0 +1,226 @@
+<style>
+    footer {
+        display: none;
+    }
+
+    @page {
+        size: A4;
+        /* margin: 0; */
+        /* size: auto; */
+        margin-top: 5.5mm;
+        margin-left: 9mm;
+        margin-right: 9mm;
+        margin-bottom: 0mm;
+    }
+
+
+    /* Print styling */
+
+    @media print {
+        .container {
+        padding-top: 0px !important;
+    }
+    
+    ul,
+    ol {
+        margin-bottom: 0
+    }
+
+        #myfooter {
+            position: fixed;
+            width: 90%;
+            bottom: 20mm;
+        }
+        table {
+            page-break-inside: auto
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+
+        }
+
+        thead {
+            /* color:gainsboro; */
+            background: gainsboro !important;
+            /* background-color: gainsboro !important; */
+        }
+
+        html,
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+        }
+
+        [class*="col-sm-"] {
+            float: left;
+        }
+
+        [class*="col-xs-"] {
+            float: left;
+        }
+
+        .col-sm-12,
+        .col-xs-12 {
+            width: 100% !important;
+        }
+
+        .col-sm-11,
+        .col-xs-11 {
+            width: 91.66666667% !important;
+        }
+
+        .col-sm-10,
+        .col-xs-10 {
+            width: 83.33333333% !important;
+        }
+
+        .col-sm-9,
+        .col-xs-9 {
+            width: 75% !important;
+        }
+
+        .col-sm-8,
+        .col-xs-8 {
+            width: 66.66666667% !important;
+        }
+
+        .col-sm-7,
+        .col-xs-7 {
+            width: 58.33333333% !important;
+        }
+
+        .col-sm-6,
+        .col-xs-6 {
+            width: 50% !important;
+        }
+
+        .col-sm-5,
+        .col-xs-5 {
+            width: 41.66666667% !important;
+        }
+
+        .col-sm-4,
+        .col-xs-4 {
+            width: 33.33333333% !important;
+        }
+
+        .col-sm-3,
+        .col-xs-3 {
+            width: 25% !important;
+        }
+
+        .col-sm-2,
+        .col-xs-2 {
+            width: 16.66666667% !important;
+        }
+
+        .col-sm-1,
+        .col-xs-1 {
+            width: 8.33333333% !important;
+        }
+
+        .col-sm-1,
+        .col-sm-2,
+        .col-sm-3,
+        .col-sm-4,
+        .col-sm-5,
+        .col-sm-6,
+        .col-sm-7,
+        .col-sm-8,
+        .col-sm-9,
+        .col-sm-10,
+        .col-sm-11,
+        .col-sm-12,
+        .col-xs-1,
+        .col-xs-2,
+        .col-xs-3,
+        .col-xs-4,
+        .col-xs-5,
+        .col-xs-6,
+        .col-xs-7,
+        .col-xs-8,
+        .col-xs-9,
+        .col-xs-10,
+        .col-xs-11,
+        .col-xs-12 {
+            float: left !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0 !important;
+            min-width: 768px;
+        }
+
+        .container {
+            width: auto;
+            min-width: 750px;
+        }
+
+        body {
+            /* font-size: 10px; */
+        }
+
+        a[href]:after {
+            content: none;
+        }
+
+        .noprint,
+        div.alert,
+        header,
+        .group-media,
+        .btn,
+        .footer,
+        form,
+        #comments,
+        .nav,
+        ul.links.list-inline,
+        ul.action-links,
+        .clear,
+        .modal {
+            display: none !important;
+            padding: 0px !important;
+        }
+
+        .footer-page {
+            position: fixed;
+        }
+    }
+
+    .navbar {
+        display: none;
+    }
+
+
+    #bottom-footer {
+        display: none;
+    }
+    
+    div {
+        margin-top: 15px;
+    }
+</style>
+<approval_master></approval_master>
+<div id="page-contain">
+    <div>品管部門:<br>Bộ phận QLCL: {{receiver[0].UserName}} </div>
+    <table>
+        <tr>
+            <td>品管部門<br>Bộ phận SX: {{receiver[3].UserName}} </td>
+            <td>簽收人員<br>Người nhận: {{receiver[1].UserName}} </td>
+        </tr>
+    </table>
+    <div ng-show='!isRed'>
+        <p>處理結果Kết quả xử lý: {{recod.Remark}} </p>
+        <p>- 不合格狀況及原因分析TT. không phù hợp và PT nguyên nhân:<br>{{recod.Reason}}
+        <p>- 改善對策及執行情形Đối sách cải thiện và tình hình thực hiện:<br>{{recod.State}}</p>
+        <p>- 不合格品處理方式Phương pháp xử lý sản phẩm không phù hợp:<br>{{recod.Solution}} </p>
+        <p>- 防止再發生措施Biện pháp ngăn ngừa tái phát sinh:<br>{{recod.Prevention}}</p>
+        <p>廠（處）室批示VP xưởng (b.phận) duyệt:{{receiver[2].UserName}}</p>
+
+    </div>
+    <p id="myfooter" style="text-align:right;">{{color.ISO}}</p>
+</div>

@@ -1,0 +1,131 @@
+<style>
+    .search-table {
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .modal-lg {
+        width: 900px;
+    }
+
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        padding: 15px 0px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 5px
+    }
+</style>
+
+<div>
+    <form class="form-horizontal" role="form" novalidate name="queryform" ng-show="bpmnloaded==false">
+        <legend><h3>{{'FEPVJointTruck'|translate}}--{{'Search'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">{{'CompanyCheckInDate'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateFrom" ng-model="dateFrom" date-picker/>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'dateTo'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateTo" ng-model="dateTo" date-picker/>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'VoucherID'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VoucherID" ng-model="VoucherID">
+                    </div>
+                    <label>
+                        <input name="onlyOwner" type="checkbox" ng-model="onlyOwner"> {{'onlyOwner'|translate}}
+                    </label>
+                </div>
+                <div class="form-group">
+                   
+                    <label class="col-sm-1 control-label">{{'Status'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="status" ng-model="status"
+                                ng-options="c.Status as c.Remark for c in StatusList">
+                            <option value="">-- ALL --</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'VehicleNO'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VehicleNO" ng-model="VehicleNO">
+                    </div>
+               
+                  
+                  
+                    <label class="col-sm-1 control-label">{{'Company'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="CompanyCode" ng-model="CompanyCode"
+                                ng-options="c.value as c.name for c in CompanyCodeList">
+                            <option value="">-- ALL --</option>
+                        </select>
+                    </div>
+                   
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
+                        </button>
+                    </div>
+                </div>          
+
+               
+            </div>
+        </div>
+        <div style=" width: 100%;">
+            <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-core ui-grid-exporter></div>
+        </div>
+
+    </form>
+
+    <div ng-if="bpmnloaded==true" style="padding-top: 20px">
+
+        <div process-diagram-preview flow-key="FEPVJointTruck"/>
+        <!-- <div  process-diagram-preview process-definition-id="FlowDefinitionId"></div>-->
+    </div>
+</div>
+
+<create_joint_voucher></create_joint_voucher>
+<guest_user></guest_user>
+<div style="top: 60px; position: fixed; right: 0px;" class="pinned col-md-2 ">
+    <div class="row">
+        <div class="col-md-12" style="  padding-left:0px;padding-right: 2px; ">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active" style="cursor:pointer;">
+                    <a class="nav-list"> {{'Menu'|translate}}</a>
+                </li>
+                <li style="cursor:pointer;">
+                    <a ng-click="showPng()" class="nav-list"> <i class="icon-bar glyphicon glyphicon-picture"></i>
+                        {{'Flowchart'|translate}} <span class="badge">图</span></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

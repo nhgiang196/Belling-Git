@@ -1,0 +1,153 @@
+<div class="modal fade" id="modifyModal" role="dialog" >
+    <div class="modal-dialog modal-lg " style="width: 80%">
+        <div class="modal-content">
+            <div class="modal-body customModal" style="padding-bottom:3px">
+                <div>
+                    <form class="form-horizontal model-form " name="formGrades"  >
+                        <H4 style="background-color: #ececec; padding-left: 15px; padding-right: 15px">{{'Create Grade Requisition'|translate}}</H4>
+                        <div class="col-sm-12 form-group">
+                            <div class="form-group search-table" >
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-2" style="margin-left: 55px">
+                                            <label class="control-label">{{'SampleName'|translate}}:</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input class="form-control" type="text" name="SampleDes" ng-model="SampleDes" readonly disabled/>
+                                        </div>
+                                        <div class="col-sm-2" style="margin-left: 55px">
+                                            <label type="text" class="col-sm-2 control-label">{{'Material'|translate}}:</label>
+                                        </div>
+                                        <div class="col-sm-3">
+
+                                            <select class="form-control" name="material" ng-model="note.Material" disabled
+                                                    ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 15px">
+                                        <div class="col-sm-2" style="margin-left: 55px">
+                                            <code  style="font-size: 120%;"><label style="font-size: 100%;" class="col-sm-2 control-label" >{{'Grade'|translate}}:</label></label></code>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select  name="gradeVersion" ng-model="new.Grade"   style="width: 100%;height: 32px" required
+
+                                                     ng-options="c as c.Grade for c in gradesList"  />
+
+                                        </div>
+                                        <div class="col-sm-2" style="margin-left: 55px">
+                                            <code style="font-size: 120%;"> <label type="text" class="col-sm-2 control-label">{{'ValidDate'|translate}}:</label></code>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input class="form-control" type="text" name="sendTime" ng-model="new.ValidDate"  date-picker time="Y-m-d H:i" required/>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <th><code style="font-size: 120%;"><label style="font-size: 100%;" class="col-sm-2 control-label" >PropertyName</label></code></th>
+                                <th style=" width: 100px" >Is Judge</th>
+                                <th>Prec</th>
+                                <th>Lower</th>
+                                <th>Upper</th>
+                                <th>ValueSpec</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>  <select  style="height: 32px;width: 200px"  name="PropertyName" ng-model="new.Property"
+                                               ng-options="c as c.PropertyName for c in Attribute" >
+
+                                </select>
+                                </td>
+                                <td><input  style="width: 70%" type="checkbox" ng-model="new.IsJudge"></td>
+                                <td><input  style="width: 40%;height: 32px" type="text"  maxlength="1" limit-number number-only ng-model="new.Prec" ng-maxlength="1" ></td>
+                                <td>
+                                    <div>
+                                        <input type="checkbox" ng-model="new.lower" name="lower"  ng-change="Caculated('min')" >
+
+                                        <input  style="width: 40%;height: 32px; margin-left: 10px" type="text" number-only ng-model="new.lowerVal" />
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div>
+                                        <input type="checkbox"   ng-model="new.upper" name="upper" ng-change="Caculated('max')" >
+                                        <input  style="width: 40%;height: 32px; margin-left: 10px" type="text"  number-only ng-model="new.upperVal" />
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div >
+                                        <input  style=" height: 32px" type="text" ng-model="new.ValueSpec" disabled>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button style="" type="button" class="btn btn-primary" ng-click="CreateVoucher()" ng-disabled="new.ValidDate==''||new.Grade==undefined||new.Property==undefined">{{'Add'|translate}}</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <th>PropertyName</th>
+                                <th>Grade</th>
+                                <th>Is Judge</th>
+                                <th>ValidDate</th>
+                                <th>Prec</th>
+                                <th>Min</th>
+                                <th>Max</th>
+                                <th>ValueSpec</th>
+                                <th>Delete</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="x in materials" >
+                                <td><a ng-click="editItem($index)">{{x.PropertyName}}</a> </td>
+                                <td>{{x.Grade}}</td>
+                                <td><input  style="width: 70%" type="checkbox" ng-checked="x.Enable" disabled >
+
+                                </td>
+                                <td>{{x.ValidDate}}</td>
+                                <td>{{x.Prec}}</td>
+                                <td>{{x.MinValue}}</td>
+                                <td>{{x.MaxValue}}</td>
+                                <td>{{x.ValueSpec}}</td>
+                                <td><a ng-click="deleteMaterialsItem($index)"
+                                       class="btn-xs btn btn-danger">{{'Delete'|translate}}</a></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div><h4>{{'NextStep'|translate}}</h4></div>
+                        <div leader-check  flow-key="QCGrades"  user-name="{{username}}"></div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" >
+                <button id="btnSaveSubmit" type="button" class="btn btn-primary"
+                        ng-click="submitModify()"  ng-disabled="formGrades.$invalid || !materials.length>0 " >
+                    {{'saveSubmit'|translate}}
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{'Close'|translate}}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

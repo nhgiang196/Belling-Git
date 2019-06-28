@@ -1,0 +1,285 @@
+<style>
+    .Outer {
+        height: 100%;
+        min-height: 400px;
+        /* Set to height you need */
+    }
+    .Inner>p {
+        vertical-align: middle;
+        text-align: center;
+        margin: 0 auto;
+    }
+    table p {
+        margin: 0 0 0 0;
+    }
+    table td {
+        vertical-align: middle !important;
+    }
+
+    /* Print styling */
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    @media print {
+        @page {
+            size: landscape;
+        }
+
+        footer {
+            display: none;
+        }
+
+
+        .container {
+            padding-top: 0px !important;
+        }
+
+        #myfooter {
+            position: fixed;
+            width: 90%;
+            bottom: 20mm;
+        }
+
+        table {
+            page-break-before: auto;
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-inside: avoid;
+
+        }
+
+        thead {
+            /* color:gainsboro; */
+            background: gainsboro !important;
+            /* background-color: gainsboro !important; */
+        }
+
+        .col-sm-6,
+        .col-xs-6 {
+            width: 50% !important;
+            float: left;
+        }
+
+
+        html,
+        body {
+
+            margin: 0;
+            padding: 0;
+            /* writing-mode: tb-rl; */
+        }
+
+        /* body {
+            margin: 0;
+            padding: 0 !important;
+            min-width: 768px;
+        } */
+
+        /* .container {
+            width: auto;
+            min-width: 750px;
+        } */
+
+        #bottom-footer,
+        .formSearch,
+        .navbar {
+            display: none;
+        }
+
+        /* #mychart{
+            width: 50%;
+        } */
+    }
+</style>
+<div class="formSearch">
+    <form></form>
+    <form class="form-horizontal" role="form" novalidate name="formChart">
+        <legend>
+            <h3>{{'A Grade Chart'|translate}}</h3>
+        </legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'dateFrom'|translate}}</label>
+                <div class="col-sm-3">
+                    <input required type="text" class="form-control" name="dateFrom" ng-model="dateFrom"
+                        ng-change="isRun=false" date-picker>
+                </div>
+                <label class="col-sm-2 control-label">{{'dateTo'|translate}}</label>
+                <div class="col-sm-3">
+                    <input required class="form-control" name="dateTo" ng-model="dateTo" 
+                    ng-change="isRun=false" date-picker>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
+                <div class="col-sm-3">
+                    <select required class="form-control" name="SampleName" ng-model="SampleName"
+                        ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList">
+                        <!-- <option value="">-- ALL --</option> -->
+                    </select>
+                </div>
+
+                <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" style="float: none;" name="line" ng-model="Line"
+                        ng-change="isRun=false" ng-options="c.Line as c.Linespc for c in LinesList">
+                        <option value="">-- ALL --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5"></div>
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-3">
+                    <!-- <input name="onlyOwner" type="checkbox" ng-model="onlyOwner"> {{'onlyOwner'|translate}} -->
+                    <button style="margin-left: 15px" type="button" class="btn btn-primary" ng-click="Search()"
+                        ng-disabled="formChart.$invalid">
+                        📊 {{'Search'|translate}}
+                    </button>
+                    <button style="margin-left: 15px" type="button" class="btn btn-primary" ng-click="Print()"
+                        ng-disabled="!isRun">
+                        🖨️ {{'Print' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<!-- HEADER TABLE -->
+<div class="col-sm-12" ng-show="isRun">
+    <div class="row" style="text-align: center; color: darkblue">
+        <h3> <strong>
+                {{vdepart}} {{Line}}-总A及率% {{dateFrom | date:"yyyy/MM"}}
+            </strong>
+
+        </h3>
+    </div>
+    <div class="col-sm-6 Outer">
+        <div class="Inner">
+            <table class="table table-responsive table-bordered" border="black"
+                style="font-size: 8.5pt; margin-right: auto; font-family:Verdana, Geneva, Tahoma, sans-serif; ">
+                <thead style="text-align: center;">
+                    <tr style="background-color: cadetblue">
+                        <td>
+                            <p></p>
+                        </td>
+                        <td colspan="2" width="274">
+                            <p>个别A及率%</p>
+                        </td>
+                        <td colspan="2" width="182">
+                            <p> A 及率%</p>
+                        </td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- FIRST GRADE A ENTITY [0] -->
+                    <tr>
+                        <td rowspan="{{lenA}}">
+                            <p>正料</p>
+                        </td>
+
+                        <!-- HEADER -->
+                        <td width="15%">
+                            <p>{{spanA.LOT_NO}}  </p>
+                        </td>
+                        <!-- TS1 -->
+                        <td>
+                            <p>{{spanA.ts1}} </p>
+                        </td>
+
+                        <!-- TS2, -->
+                        <td rowspan="{{lenA}}">
+                            <p>{{spanA.ts2}} </p>
+                        </td>
+                        <!-- TS4, -->
+                        <td rowspan="{{lenA+lenB}}">
+                            <p>{{spanA.ts4}} </p>
+                        </td>
+                        <!-- DETAIL[0] -->
+
+                    </tr>
+                    <!-- REPEAT HEADER FOR THE OTHER ENTITY IN ha-->
+                    <tr ng-repeat="item in ha">
+                        <td>
+                            <p>{{item.LOT_NO}} </p>
+                        </td>
+                        <td>
+                            <p>{{item.ts1}}</p>
+                        </td>
+                        <!-- REPEAT FOR DETAIL INFORMATION -->
+
+                    </tr>
+
+                    <!-- FIRST GRADE B VALUE-->
+                    <tr ng-hide="lenB==0">
+                        <td rowspan="{{lenB}}">
+                            <p>交接料 </p>
+                        </td>
+                        <td>
+                            <p>{{spanB.LOT_NO}}</p>
+                        </td>
+                        <td>
+                            <p>{{spanB.ts1}} </p>
+                        </td>
+                        <td rowspan="{{lenB}}">
+                            <p>{{spanB.ts2}}</p>
+                        </td>
+
+                    </tr>
+                    <tr ng-repeat="item in hb">
+                        <td>
+                            <p>{{item.LOT_NO}} </p>
+                        </td>
+                        <td>
+                            <p>{{item.ts1}} </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- CHART  -->
+    <div class="col-sm-6">
+        <div id="mychart" style="max-width: 80%;"></div>
+        <div style="font-size: 120%; text-align: center;">
+            <p> 正料: {{spanA.ts3}}%
+            </p>交接料: {{spanB.ts3}}%
+        </div>
+    </div>
+
+    <!-- DETAIL FORM  -->
+    <div class="container" style="margin-top:100px">
+        <table width=100% class="table table-responsive table-bordered" border="black"
+            style="font-size: 8.5pt; margin:auto; font-family:Verdana, Geneva, Tahoma, sans-serif;" ng-show="sampleheader.length>0">
+            <tbody>
+                <tr style="text-align: center;background-color: cadetblue">
+                    <td> {{'MaterialNo' | translate}} </td>
+                    <td colspan="{{propheader.length}}">
+                        {{'Result by PropertyName' | translate}}
+                    </td>
+                </tr>
+                <tr ng-repeat="s in sampleheader">
+                    <td>{{s[0]}}
+                    </td>
+                    <td ng-repeat="p in propheader">
+                        <p ng-repeat="d in detail  | filter:{LOT_NO:s[0],Grades:s[1],PropertyName:p}">
+                            ({{$index+1}}){{d.ProdDate}} {{d.PropertyName}} {{d.Result}}
+                            <span ng-if="$last"><br>ValueSpec: <strong>{{d.ValueSpec}} </strong></span>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

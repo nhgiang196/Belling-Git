@@ -1,0 +1,186 @@
+<style>
+    .modal-lg {
+        width: 900px;
+    }
+
+    .form-group {
+        margin-bottom: 5px
+    }
+</style>
+
+<div>
+    <form class="form-horizontal" role="form" novalidate name="form" ng-show="bpmnloaded==false">
+        <legend><h3>{{'FEPVPtaEgTruck'|translate}}--{{'Search'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">{{'VoucherID'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VoucherID" ng-model="VoucherID">
+                    </div>
+                    <label class="col-sm-1 control-label">{{'Status'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <select class="form-control" name="status" ng-model="status"
+                                ng-options="c.Status as c.Remark for c in StatusList">
+                            <option value="">-- ALL --</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'Company'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="Manufacturer" ng-model="Manufacturer">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">{{'InTime'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateFrom" ng-model="dateFrom" date-picker/>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'dateTo'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateTo" ng-model="dateTo" date-picker/>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <label>
+                            <input name="onlyOwner" type="checkbox" ng-model="onlyOwner"> {{'onlyOwner'|translate}}
+                        </label></div>
+                    <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%;">
+            <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-core ui-grid-exporter></div>
+        </div>
+    </form>
+
+    <div ng-if="bpmnloaded==true" style="padding-top: 20px">
+        <div process-diagram-preview flow-key="FEPVPtaEgTruck"/>
+        <!-- <div  process-diagram-preview process-definition-id="FlowDefinitionId"></div>-->
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+                <div>
+                    <form class="form-horizontal model-form " name="form">
+                        <div class=" form-group ">
+
+                            <label class="col-sm-2 control-label">*{{'VehicleNO'|translate}}</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="VehicleNO"
+                                       ng-model="note.VehicleNO"
+                                       required>
+                                <span style="font-size: 12px;color:#000000">{{'RemakeVNo'| translate}}</span>
+                            </div>
+                            <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="VoucherID"
+                                       ng-model="note.VoucherID"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'Company'|translate}}</label>
+
+                            <div class="col-sm-4"><input type="text" class="form-control" name="Manufacturer"
+                                                         ng-model="note.Manufacturer"
+                                                         required></div>
+                            <label class="col-sm-2 control-label">{{'OrderNO'|translate}}</label>
+
+                            <div class="col-sm-4"><input type="text" class="form-control" name="OrderNO"
+                                                         ng-model="note.OrderNO"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'Material'|translate}}</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" name="PtaEg" ng-model="note.PtaEg"
+                                        ng-options=" c.Spec for c in material track by c.Spec"
+                                        required></select>
+
+                            </div>
+                            <label class="col-sm-2 control-label">*{{'ExpectedIn'|translate}}</label>
+
+                            <div class="col-sm-4"><input class="form-control" type="text" name="ExpectIn"
+                                                         ng-model="note.ExpectIn" date-picker min="0"
+                                                          required/></div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-sm-2 control-label">*{{'LinkMan'|translate}}</label>
+
+                            <div class="col-sm-4"><input class="form-control" name="LinkMan" ng-model="note.LinkMan"
+                                                         required></div>
+                            <label class="col-sm-2 control-label">*{{'ValidTo'|translate}}</label>
+
+                            <div class="col-sm-4"><input class="form-control" type="text" name="ValidatePeriod"
+                                                           ng-model="note.ValidatePeriod" min="0" max={{maxDate}} date-picker
+                                                          required/></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'LinkPhone'|translate}}</label>
+
+                            <div class="col-sm-4"><input type="text" class="form-control" name="LinkPhone"
+                                                         ng-model="note.LinkPhone"
+                                                         required></div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{'Remark'|translate}}</label>
+
+                            <div class="col-sm-6"><textarea class="form-control" name="Remark" ng-model="note.Remark"></textarea></div>
+
+                            </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="reset()">{{'Close'|translate}}</button>
+                <!--    <button type="button" class="btn btn-default"   ng-click="reset()">重置</button>-->
+
+                <button type="button" class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid||note.VoucherID">
+                    {{'saveSubmit'|translate}}
+                </button>
+                <button  type="button" class="btn btn-info" ng-click="addGuest()" ng-disabled="!note.VoucherID">{{'AddGuest'|translate}}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div ng-include="'forms/GateGuest/NextTask.html'"></div>
+<div ng-include="'forms/GateGuest/NewModal.html'"></div>
+<div style="top: 60px; position: fixed; right: 0px;" class="pinned col-md-2 "    >
+    <div class="row">
+        <div class="col-md-12"   style="  padding-left:0px;padding-right: 2px; ">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"  style="cursor:pointer;">
+                    <a class="nav-list"> {{'Menu'|translate}}</a>
+                </li>
+                <li style="cursor:pointer;">
+                    <a ng-click="showPng()" class="nav-list"> <i class="icon-bar glyphicon glyphicon-picture"></i>   {{'Flowchart'|translate}}  <span class="badge">图</span></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

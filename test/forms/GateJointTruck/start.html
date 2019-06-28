@@ -1,0 +1,150 @@
+<!--没用到-->
+
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+function GateJointTruck_start($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateEngine, $resource, uiGridConstants,$window,$routeParams) {
+
+}
+</script>
+<div ng-controller="GateJointTruck_start">
+
+    <div class="col-sm-12">
+
+        <form class="form-horizontal" role="form" name="form" novalidate>
+            <legend><h3>协同车辆</h3></legend>
+
+            <div class=" form-group ">
+                <label class="col-sm-2 control-label">单据号</label>
+
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="VoucherID"
+                           ng-model="note.VoucherID"
+                           readonly>
+                </div>
+                <label class="col-sm-3 control-label">车型</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" name="VehicleShape" ng-model="note.VehicleShape"
+                            history-field="车型"
+                            ng-options="c.VehicleShape as c.VehicleShape for c in Shape" required></select>
+                </div>
+            </div>
+            <div class=" form-group ">
+
+                <label class="col-sm-2 control-label">车行</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" name="TransferCompany" ng-model="note.TransferCompany"
+                            history-field="车行"
+                            ng-options="c.TruckCompany as c.TruckCompany for c in transfer" required></select>
+                </div>
+                <label class="col-sm-3 control-label">车号</label>
+
+                <div class="col-sm-2">
+
+                    <input type="text" class="form-control" name="VehicleNO"
+                           ng-model="note.VehicleNO"
+                           required>
+                </div>
+            </div>
+            <div class=" form-group ">
+
+                <label class="col-sm-2 control-label">司机</label>
+
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="Driver"
+                           ng-model="note.Driver"
+                           required>
+                </div>
+                <label class="col-sm-3 control-label">司机电话</label>
+
+                <div class="col-sm-2">
+
+                    <input type="text" class="form-control" name="DriverPhone"
+                           ng-model="note.DriverPhone"
+                           required>
+                </div>
+            </div>
+            <div class=" form-group ">
+                <label class="col-sm-2 control-label">期望进厂日期</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="ExpectIn"
+                           ng-model="note.ExpectIn" date-picker
+                           history-field="期望进厂日期" min="0" required/>
+                </div>
+                <label class="col-sm-3 control-label">有效期到</label>
+
+                <div class="col-sm-2">
+
+                    <input class="form-control" type="text" name="ValidatePeriod"
+                           ng-model="note.ValidatePeriod" date-picker
+                           history-field="有效期到" min="0" required/>
+                </div>
+            </div>
+            <div class=" form-group ">
+                <label class="col-sm-2 control-label">物料类型</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" name="MaterielType" ng-model="note.MaterielType"
+                            history-field="物料类型"
+                            ng-options="c.MaterialType as c.MaterialType for c in material" required></select>
+                </div>
+                <label class="col-sm-3 control-label">备注</label>
+
+                <div class="col-sm-2">
+
+                    <input type="text" class="form-control" name="Remark"
+                           ng-model="note.Remark"
+                           required>
+                </div>
+            </div>
+
+        </form>
+
+        <H4 style="background-color: #ececec; padding: 5px">发货单信息</H4>
+
+        <form class="form-horizontal" role="form" name="order" novalidate>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">发货单号</label>
+
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="ShippingOrder" ng-model="ShippingOrder" required>
+                </div>
+
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary" ng-click="addOrder()"
+                            ng-disabled="order.$invalid">添加
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="delOrder()">删除
+                    </button>
+                </div>
+            </div>
+
+            <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                 ui-grid-resize-columns ui-grid-core ui-grid-exporter></div>
+        </form>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-9 col-sm-3">
+            <button class="btn btn-warning" ng-click="savedraft()"
+                    ng-disabled="form.$invalid">保存草稿
+            </button>
+            <button class="btn btn-primary" ng-click="savesubmit()"
+                    ng-disabled="form.$invalid">保存并提交
+            </button>
+
+
+        </div>
+    </div>
+
+</div>

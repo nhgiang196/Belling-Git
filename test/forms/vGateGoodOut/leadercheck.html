@@ -1,0 +1,188 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+
+    .picture {
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    function GateGoodOut_leadercheck($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, $resource, uiGridConstants, GateGoodsOut,$translatePartialLoader,$translate) {
+        $translatePartialLoader.addPart('GoodsOut');
+        $translate.refresh();
+        var lang = window.localStorage.lang;
+        $scope.passOrNot = [{"name": $translate.instant('agree'), "value": "YES"}, {"name": $translate.instant('notAgree'), "value": "NO"}, {"name": $translate.instant('SpecialAgree'), "value": "Offline"}];
+        $scope.good = {};
+        $scope.GoodsItems = [];
+        $scope.Files = [];
+        GateGoodsOut.GoodBasic().getGoodByVoucherID({VoucherID: $scope.variable.VoucherID,language:lang}).$promise.then(function (res) {
+            $scope.details = res[0];
+            console.log(res)
+            $scope.GoodsItems = res[0].GoodsItems;
+            $scope.details.ExpectOut = $filter('date')($scope.details.ExpectOut, 'yyyy-MM-dd');
+            $scope.details.ExpectBack = $filter('date')($scope.details.ExpectBack, 'yyyy-MM-dd');
+            $scope.filedata = JSON.parse(res[0].FileNames) || [];
+            $scope.details.IsBackinfo = $scope.details.IsBack == true ?  $translate.instant('GoodsBack') : $translate.instant('GoodsBackNO')
+            GateGoodsOut.GetGateGoodsOutPID().get({
+                VoucherID: $scope.variable.VoucherID,
+                activityName: "StartEvent_1"
+            }).$promise.then(function (res) {
+                        console.log("---------------------------");
+                        console.log(res);
+                        $scope.processInstanceId = res.ProcessInstanceId;
+                        //得到日志
+                        EngineApi.getProcessLogs.getList({"id": $scope.processInstanceId, "cId": ""}, function (data) {
+                            if (data.length === 0) {
+                                $scope.processLogs = "";
+                            } else {
+                                $scope.processLogs = data[0];
+                                var checkList = $filter('filter')($scope.processLogs.Logs, "Section manager check");
+                                console.log(checkList)
+                                for (var i = 0; i < checkList.length; i++) {
+                                    if (checkList[i].HistoryField[0].Value == "Offline") {
+                                        document.getElementById("check").style.display = "";
+                                    }
+                                }
+                            }
+                        });
+
+                    }, function (errormessage) {
+                        console.log("no processInstanceId")
+                        console.log(errormessage);
+                        //   Notifications.addError({'status': 'error', 'message': errormessage});
+                    });
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+
+
+        $scope.savesubmit = function () {
+            $scope.formVariables.push({name: "JWUser", value: "Guard"});
+            $scope.formVariables.push({name: "leadercheck_result", value: $scope.leadercheck_result});
+            console.log($scope.leadercheck_result);
+            $scope.submit();
+            if($scope.leadercheck_result == "Offline"){
+                var href = "#/gate/GoodsOut/" +$scope.variable.VoucherID + "/print";
+                window.open(href);
+            }
+
+        }
+    }
+</script>
+<div ng-controller="GateGoodOut_leadercheck">
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend><h3>{{'GoodsOut'|translate}}</h3></legend>
+        <div class="col-sm-12">
+            <table class="table table-bordered"  >
+
+                <tr>
+                    <td>{{'VoucherID'|translate}}：{{details.VoucherID}}</td>
+                    <td>{{'GoodsType'|translate}}：{{details.GoodsTypeRemark}}</td>
+                    <td>{{'BackOrNot'|translate}}：{{details.IsBackinfo}}</td>
+                </tr>
+
+                <tr>
+
+
+                    <td>{{'ExpectBack'|translate}}：{{details.ExpectBack}}</td>
+                    <td>{{'TakeOut'|translate}}：{{details.TakeOut}}</td>
+                    <td>{{'TakeCompany'|translate}}：{{details.TakeCompany}}</td>
+                </tr>
+
+
+                <tr>
+                    <td>{{'VehicleNO'|translate}}：{{details.VehicleNO}}</td>
+                    <td>{{'ExpectOut'|translate}}：{{details.ExpectOut}}</td>
+
+                    <td>{{'Remark'|translate}}：{{details.Remark}}</td>
+                </tr>
+            </table>
+            <H4 style="background-color: #ececec; padding: 5px">{{'GoodsDetails'|translate}}</h4>
+             <div class="col-sm-12">
+               <table class="table table-bordered" >
+                        <tr>
+                            <th>{{'GoodsName'|translate}}</th>
+                            <th>{{'Number'|translate}}</th>
+                            <th>{{'Unit'|translate}}</th>
+                            <th>{{'GoodsOutReasons'|translate}}</th>
+                        </tr>
+                        <tr ng-repeat="guestItem in details.GoodsItems">
+                            <td style="width: 180px">{{guestItem.GoodsName}}
+                            <td>{{guestItem.GoodsAmount}}</td>
+                            <td>{{guestItem.UnitRemark}}</td>
+                            <td>{{guestItem.ReasonRemark}}</td>
+                        </tr>
+                    </table>
+
+                </div>
+            <H4 style="background-color: #ececec; padding: 5px">{{'Process'|translate}}</h4>
+            <table  class="table table-bordered"><tr>
+                <th><a href="#/processlog/{{processInstanceId}}" target="_blank">{{'DoneTask'|translate}}</a></th><th>{{'DoneTaskUserName'|translate}}</th><th>{{'Stamp'|translate}}</th><th>{{'Suggest'|translate}}{{'Remark'|translate}}</th></tr>
+                <tbody  ng-repeat="log in processLogs.Logs">
+                <tr ng-if="log.TaskName=='Section manager check'">
+                    <td>{{log.UserId }}</td>
+                    <td>{{log.UserName}}</td>
+                    <td>{{log.FormatStamp }}</td>
+                    <td>
+                        {{log.HistoryField[0].Name}}:  {{log.HistoryField[0].Value}}
+                    </td>
+                </tr>
+                <tr ng-if="log.TaskName=='起始表单'">
+                    <td>{{log.UserId }}</td>
+                    <td>{{log.UserName }}</td>
+                    <td>{{log.FormatStamp }}</td>
+                    <td>{{'GoodsOut'|translate}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <H4 style="background-color: #ececec; padding: 5px">{{'GoodsPic'|translate}}</h4>
+
+            <div class=" form-group col-sm-12">
+                <div ng-repeat="file in filedata" style="padding: 5px; float: left">
+                    <img ng-src='/api/cmis/showfile?filename={{file.DocId}}&mimetype={{file.FileType}}'
+                         height='320px' width='450px'/>
+                </div>
+            </div>
+
+        </div>
+
+        <H4 style="background-color: #ececec; padding: 5px">{{'leaderCheck'|translate}}</H4>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+
+            <div class="col-sm-3">
+                <select class="form-control" history-field="IsPass" form-field
+                        name="leadercheck_result"
+                        ng-model="leadercheck_result"
+                        ng-options="c.value as c.name for c in passOrNot"
+                        required> </select>
+            </div>
+        </div>
+        <div class="form-group" ng-if="leadercheck_result=='NO'">
+            <label class="col-sm-2  control-label" style="text-align: left;">{{'DenyReason'|translate}}:</label>
+
+            <div class="col-sm-6">
+                <textarea class="form-control" name="leadercheck_remark" type="text" form-field
+                          history-field="DenyReason" ng-model="leadercheck_remark" field-validate rows="3"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">{{'submit'|translate}}</button>
+
+
+            </div>
+        </div>
+    </form>
+</div>

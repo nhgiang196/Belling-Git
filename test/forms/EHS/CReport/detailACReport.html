@@ -1,0 +1,92 @@
+
+<style>
+    .title {
+        width: 101%;
+        background-color: #ececec;
+        padding: 5px 0px 5px 10px;
+        border: 1px solid #ececec;
+        border-radius: 6px;
+    }
+
+
+    .btn-ct-ac {
+        font-weight: bold;
+        font-family: tahoma;
+    }
+
+    .ctr-lb {
+        padding-top: 0px !important;
+    }
+</style>
+
+<div class="modal fade" id="ACdetail_Modal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+    data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content" style="padding: 5px;">
+
+            <div class="modal-body" style="padding-bottom:3px">
+
+                <h3 class="text-center">THÔNG TIN NẠN NHÂN</h3>
+
+                <H4 class="title"> Thông tin chi tiết</H4>
+
+                <form class="form-horizontal" role="form" name="formdetail" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ctr-lb">* Mã nhân viên: </label>
+                        
+                        <div class="col-sm-4">
+                            <select style="width:100%" ui-select2 ng-model="gd.employeeID" name="employeeID" aria-readonly="true" required>
+                                <!-- <option ng-repeat="value in nhânviên" value="{{value.employeeID}}">
+                                    {{value.employeeID}}
+                                </option> -->
+                                <option>
+                                    nv1
+                                </option>
+                                <option>
+                                    nv2
+                                </option>
+                            </select>
+                        </div>
+
+                        <label class="col-sm-2 control-label ctr-lb">* Tình hình xử lý sau bị thương: </label>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" type="text" name="ac_treatment" ng-model="gd.Treatment_Result" />
+                        </div>
+                    </div> <!-- end of form-group -->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ctr-lb">* Tình hình chi tiết quá trình bị thương: </label>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" type="text" rows="3" name="ac_injury" ng-model="gd.Injury_Description" />
+                        </div>
+
+                        <label class="col-sm-6 control-label ctr-lb">* Danh tính người chứng kiến hoặc người có quan hệ với nạn nhân
+                            (Người ngoài xưởng xin ghi rõ cách thức liên hệ):</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="ac_witness" ng-model="gd.Witness_info" />
+                        </div>
+                    </div> <!-- end of form-group -->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ctr-lb"> </label>
+                        <div class="col-sm-4">
+                            <input type="file" id="file_process_ac" style="display:none !important" multiple>
+                            <button id="btn_file_process_ac" class="btn btn-info" style="display:inline-block;"
+                                type="button" ng-click="btnfile('file_process_ac','file_name_process_ac')"><i class="glyphicon glyphicon-plus-sign fas-ct"></i> File</button>
+                            <span id="file_name_process_ac"> No file chosen</span>
+                        </div>
+                        
+                    </div> <!-- end of form-group -->
+
+                </form> <!-- end of form -->     
+
+                <div class="modal-footer">
+                    <button id="btnSaveSubmit" type="button" class="btn btn-primary btn-ct-ac" ng-click="saveUpdateAC()" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> Lưu </button>
+                    <button type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal" ng-click="resetAC()"><i class="glyphicon glyphicon-remove" style="color: grey;"></i> Hủy </button>
+                </div> <!-- end of modal-footer-->
+
+            </div> <!-- end of modal-body -->
+        </div> <!-- end of modal-content -->
+    </div> <!-- end of modal-dialog -->
+</div> <!-- end of modal

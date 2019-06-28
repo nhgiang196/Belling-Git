@@ -1,0 +1,60 @@
+<style>
+    .tooltip-multiline {
+        height: auto;
+        width: auto;
+    }
+
+    table.ex1 {
+        table-layout: auto;
+    }
+
+    colorfull {
+        background: red;
+    }
+
+    /* colorStyle to class */
+    .lastversion {
+        background-color: #ffff66;
+    }
+
+    .currenversion {
+        background-color: #9898e6;
+    }
+
+    .processversion {
+        background-color: #80bfff;
+    }
+</style>
+<div class="container">
+    <table class="table" border="1px solid blue" style="table-layout: auto">
+        <thead class="thead-light">
+            <tr>
+                <th style="width: auto;white-space:nowrap; text-align:center" ng-repeat="headers in header">{{headers |
+                    translate}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="value in finalData">
+            <td style="width:auto;white-space:nowrap;" ng-repeat="hder in header" ng-class="value['Status'].contains('S') && value['Version'].contains(MaxVersion)
+                        ? 'currenversion' : 
+                    value['Status'].contains('P')
+                        ? 'processversion': 'lastversion' ">
+                <span style="cursor: hand;cursor: pointer;width: auto" ng-click="" tooltip-grade-version="value[hder]">{{value[hder].ValueSpec}}</span>
+                <p>{{value[hder]}}</p>
+            </td>
+        </tr>
+
+    </table>
+    <h3>Description</h3>
+    <p>Color by {{'Version' | translate}} </p>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="lastversion">Last Version</td>
+                <td class="currenversion">Curren Version</td>
+                <td class="processversion">Processing Version</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+</div>

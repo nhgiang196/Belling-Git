@@ -1,0 +1,93 @@
+<style>
+    .model-form {display: inline-block;}
+    .modal-lg {
+        width: 900px;
+    }
+    #Grid{ height:440px; }
+</style>
+
+<form class="form-horizontal" role="form" novalidate name="form">
+    <legend><h3>{{'03'|translate}}</h3></legend>
+
+    <div class="col-md-12" style="z-index:10;">
+        <div class="form-group">
+            <label class="col-md-2 control-label">Start Date *</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control"  date-picker  readonly ng-model="startdate" > <!-- max min-->
+            </div>
+            <label class="col-md-2 control-label">End Date *</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control"  date-picker  readonly  ng-model="enddate">
+
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">单据号</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control"  ></td>
+            </div>
+            <label class="col-md-2 control-label">物品类型</label>
+            <div class="col-md-3">
+                <select class="form-control" type="text"  required>
+                    <option>2232</option>
+                    <option>322323</option>
+                    <option>322332</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary" >查询</button>
+           </div>
+        </div>
+    </div>
+ </form>
+
+<div class="col-md-12" >
+    <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+         ui-grid-resize-columns
+         ui-grid-core ui-grid-exporter external-scopes="gridHandlers" ></div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="form-inline model-form" name="modelForm">
+                    <div class="form-group col-md-6">
+                        <label class="control-label">参数名称*：</label>
+                        <input type="text" class="form-control" name="Name" ng-model="para.Name"  required>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">参数值*：</label>
+                        <input type="text" class="form-control" name="CValue" ng-model="para.CValue" />
+                        <div style="color:red;font-size:12px;"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">参数值1：</label>
+                        <input type="text" class="form-control"  >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">{{'03'|translate}}*</label>
+                         <input class="form-control" type="text" name="Doc_number" ng-model="Doc_number" >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class=" control-label">{{'04'|translate}}</label>
+                        <select class="form-control" ng-model="cur_lang">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

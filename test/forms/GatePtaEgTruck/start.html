@@ -1,0 +1,160 @@
+<!--没有用-->
+
+
+<script type="text/javascript">
+    function GatePtaEgTruck_start($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateEngine, $resource, uiGridConstants) {
+        GateEngine.GatePtgEgTruck().getPtaEgTypes().$promise.then(function (res) {
+            $scope.material = res;
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        $scope.note ={};
+      //  $scope.note.ExpectIn = $filter('date')(new Date(), "yyyy-MM-dd");
+        document.getElementById('ExpectIn').placeholder = $filter('date')(new Date(), "yyyy-MM-dd");
+        $scope.savesubmit = function () {
+            GateEngine.GateJointTruck().isInBlackList({
+                vehicle: $scope.note.VehicleNO,
+                type: "车辆"
+            }).$promise.then(function (res) {
+                        if (res.msg) {
+                            Notifications.addError({'status': 'error', 'message':res.msg});
+                            return
+                        }
+                        else {
+                            GateEngine.GetGateCheckers().getCheckers({
+                                owner: Auth.username,
+                                level: "12"
+                            }).$promise.then(function (res) {
+                                var leaderList = [];
+                                for (var i = 0; i < res.length; i++) {
+                                    leaderList[i] = res[i].Person;
+                                }
+                                console.log(leaderList)
+                                if (leaderList.length <= 0) {
+                                    Notifications.addError({'status': 'error', 'message': "没取到签核的领导"});
+                                    return
+                                } else {
+                                    var query = {};
+                                    query = $scope.note;
+                                    query.UserID = Auth.username;
+                                    query.Status = "F";
+                                    GateEngine.GateJointTruck().isInBlackList({
+                                        vehicle: $scope.note.VehicleNO,
+                                        type: "车辆"
+                                    }).$promise.then(function (res) {
+                                                if (res.msg == "") {
+                                                    GateEngine.GatePtgEgTruck().savePtaEgTruck(query).$promise.then(function (res) {
+                                                        var voucherid = res.VoucherID
+                                                        if (voucherid) {
+                                                            $scope.formVariables.push({
+                                                                name: "ChecherArray",
+                                                                value: leaderList
+                                                            });
+                                                            $scope.formVariables.push({
+                                                                name: "start_remark",
+                                                                value: "PTA/EG车辆进厂信息" + voucherid
+                                                            });
+                                                            $scope.formVariables.push({
+                                                                name: "VoucherID",
+                                                                value: voucherid
+                                                            });
+                                                            $scope.submitkey(voucherid);
+                                                        }
+
+                                                    }, function (errResponse) {
+                                                        Notifications.addError({
+                                                            'status': 'error',
+                                                            'message': errResponse
+                                                        });
+                                                    });
+                                                }
+                                                else {
+                                                    Notifications.addError({'status': 'error', 'message': res.msg});
+                                                }
+                                            }, function (errResponse) {
+                                                Notifications.addError({'status': 'error', 'message': errResponse});
+                                            });
+                                }
+                            }, function (errormessage) {
+                                Notifications.addError({'status': 'error', 'message': errormessage});
+                            })
+                        }
+                    },
+                    function (errResponse) {
+                        callback(errResponse);
+                    });
+        }
+    }
+</script>
+<div ng-controller="GatePtaEgTruck_start">
+    <div id="newVoucher">
+        <legend><h3>PTA/EG车辆进厂信息</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <form class="form-horizontal" role="form" name="form" novalidate>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">单据号</label>
+
+                        <div class="col-sm-4"><input type="text" class="form-control" name="VoucherID"
+                                                     ng-model="note.VoucherID"
+                                                     readonly></div>
+                        <label class="col-sm-2 control-label">车号</label>
+
+                        <div class="col-sm-4"><input type="text" class="form-control" name="VehicleNO"
+                                                     ng-model="note.VehicleNO"
+                                                     required></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">厂商</label>
+
+                        <div class="col-sm-4"><input type="text" class="form-control" name="Manufacturer"
+                                                     ng-model="note.Manufacturer"
+                                                     required></div>
+                        <label class="col-sm-2 control-label">订单号</label>
+
+                        <div class="col-sm-4"><input type="text" class="form-control" name="OrderNO"
+                                                     ng-model="note.OrderNO"
+                                                     required></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">物料</label>
+
+                        <div class="col-sm-4"><select class="form-control" name="PtaEg" ng-model="note.PtaEg"
+                                                      history-field="车型"
+                                                      ng-options="c.PtaEg as c.PtaEg for c in material"
+                                                      required></select></div>
+                        <label class="col-sm-2 control-label">期望进厂日期</label>
+
+                        <div class="col-sm-4"><input class="form-control" type="text" name="ExpectIn" id ="ExpectIn"
+                                                     ng-model="note.ExpectIn" date-picker
+                                                     history-field="期望进厂日期"  min="0" required/></div>
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-sm-2 control-label">有效期到</label>
+
+                        <div class="col-sm-4"><input class="form-control" type="text" name="ValidatePeriod"
+                                                     ng-model="note.ValidatePeriod" date-picker
+                                                     history-field="有效期到"  min="0" required/></div>
+                        <label class="col-sm-2 control-label">进厂联系人</label>
+
+                        <div class="col-sm-4"><input class="form-control" name="LinkMan" ng-model="note.LinkMan"
+                                                     history-field="进厂联系人" required></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系电话</label>
+
+                        <div class="col-sm-4"><input type="text" class="form-control" name="LinkPhone"
+                                                     ng-model="note.LinkPhone"
+                                                     required></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" style="float: right;margin-right: 150px"
+            ng-click="savesubmit()"
+            ng-disabled="form.$invalid">
+        保存并提交
+    </button>
+</div>

@@ -1,0 +1,474 @@
+﻿<script type="text/javascript">
+    function GateGuest_update($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateGuest, $resource, $translatePartialLoader, $translate) {
+        $translatePartialLoader.addPart('GateGuest');
+        $translate.refresh();
+        var lang = window.localStorage.lang;
+        var array = [];
+
+        GateGuest.GuestBasic().getGuest({
+            VoucherID: $scope.variable.VoucherID,
+            Language: lang
+        }).$promise.then(function (res) {
+
+                    $scope.note = res[0];
+                    $scope.note.ExpectIn =$filter('date')(new Date($scope.note.ExpectIn),"yyyy-MM-dd hh:mm") ;//$filter('date')( $scope.variable.GuestType, "yyyy-MM-dd");
+                    $scope.note.ExpectOutTime=moment($scope.note.ExpectIn).add(1, 'days').format('YYYY-MM-DD');
+
+                    $scope.guestItems = res[0].GuestItems;
+                    if (res[0].GuestItems) {
+                        array = res[0].GuestItems;
+                    }
+                }, function (errormessage) {
+                    Notifications.addError({'status': 'error', 'message': errormessage});
+                });
+
+        GateGuest.GuestBasic().getGuestType({language: lang}).$promise.then(function (res) {
+            $scope.kind = res;
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        GateGuest.GuestBasic().getGuestRegions({language: lang}).$promise.then(function (res) {
+            $scope.regions = res;
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        GateGuest.GetQueryStatus().get({ctype: 'Guest', language: lang, flag: '1'}).$promise.then(function (res) {
+            $scope.StatusList = res;
+
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+
+
+        $scope.$watch("note.Respondent", function (n, o) {
+            if (n !== undefined && document.getElementById("EmployeeID").readOnly == false) {
+                if (n.length == 10) {
+                    var query = {};
+                    query.UserID = Auth.username;
+                    query.EmployeeID = n;
+                    GateGuest.GuestBasic().getNameByEmployeeID(query).$promise.then(function (res) {
+                        $scope.note.RespondentName = res[0].Name;
+                        $scope.note.DepartmentSpc = res[0].Specification;
+                    }, function (errResponse) {
+                        Notifications.addError({'status': 'error', 'message': errResponse});
+                    });
+                } else {
+                    $scope.note.RespondentName = "";
+                }
+            }
+        });
+        $scope.$watch("note.ExpectIn", function (n) {
+
+            if ($filter('date')(new Date($scope.note.ExpectIn), "yyyy-MM-dd") < $filter('date')(new Date(), "yyyy-MM-dd")) {
+                Notifications.addError({
+                    'status': 'error',
+                    'message': $translate.instant("ErrorUnjointTruckDate")
+                });
+
+                $scope.$apply();
+
+
+
+            } else {
+                if (n !== undefined && $scope.note.ExpectIn !== null) {
+                    $scope.note.ExpectOutTime=moment($scope.note.ExpectIn).add(1, 'days').format('YYYY-MM-DD hh:mm');
+                    $scope.$apply();
+                }
+
+
+            }
+
+        })
+
+
+        $scope.addGuestItem = function () {
+            if ($scope.newName != null && $scope.newidCard != null) {
+
+                array.push({GuestName: $scope.newName, IdCard: $scope.newidCard, CardNO: $scope.newCardNO});
+
+                $scope.guestItems = array;
+                $scope.newName = $scope.newidCard = $scope.newCardNO = null;
+            }
+        };
+
+        $scope.deleteGuestItem = function (index) {
+            $scope.guestItems.splice(index, 1);
+        };
+        function asyncLoop(iterations, func, callback) {
+            var index = 0;
+            var done = false;
+            var loop = {
+                next: function () {
+                    if (done) {
+                        return;
+                    }
+                    if (index < iterations) {
+                        index++;
+                        func(loop);
+
+                    } else {
+                        done = true;
+                        callback();
+                    }
+                },
+
+                iteration: function () {
+                    return index - 1;
+                },
+
+                break: function () {
+                    done = true;
+                    callback();
+                }
+            };
+            loop.next();
+            return loop;
+        }
+
+        var saveInit = function (type) {
+            var dateObj = {};
+            var note = $scope.note;
+            if (note.GuestType == "1") {//SaveGuest
+                note.IsNeedConfirm = true;
+                dateObj.confirm = "YES"
+            }
+            else {
+                note.IsNeedConfirm = false;
+                dateObj.confirm = "NO"
+            }
+            var employeeID = $scope.note.Respondent;
+            note.Respondent = employeeID.toUpperCase();
+            note.UserID = Auth.username;
+            note.Status = "F";
+            note.GuestItems = $scope.guestItems;
+            note.Region = $scope.note.Region;
+            dateObj.note = note;
+            return dateObj;
+        };
+        $scope.savesubmit = function () {
+
+            var leaderLists = [];
+            var dateObj = saveInit();
+            var outputdate = moment($scope.note.ExpectIn).add(1, 'days').format('YYYY-MM-DD');
+            var kinds = $scope.note.Region + "|" + $scope.note.GuestType;
+           if(new Date($scope.note.ExpectIn)<new Date($filter('date')(new Date(), "yyyy-MM-dd"))){
+               Notifications.addError({'status': 'error', 'message': 'Expect in date have to equal or greater than current date'});
+               return;
+           }
+            console.log('Region: ' + kinds);
+            GateGuest.GetGateCheckers().getCheckers({
+                owner: Auth.username,
+                fLowKey: "FEPVGateGuest",
+                Kinds: kinds,
+                CheckDate: $scope.note.ExpectIn
+            }).$promise.then(function (res) {
+
+                        var leaderList = [];
+                        for (var i = 0; i < res.length; i++) {
+                            leaderList[i] = res[i].Person;
+                        }
+                        console.log('RESSSSSS: ' + leaderList[0]);
+                        if (leaderList.length <= 0 && dateObj.confirm != "NO") {
+                            Notifications.addError({'status': 'error', 'message': $translate.instant('leaderError')});
+
+                        } else {
+
+                            GateGuest.SaveGuest().save(dateObj.note).$promise.then(function (res) {
+                                $scope.formVariables.push({name: "GuestChecherArray", value: leaderList});
+                                $scope.formVariables.push({name: "update_result", value: "OK"});
+                                $scope.formVariables.push({name: "start_confirm", value: dateObj.confirm});
+                                $scope.formVariables.push({name: "start_area", value: $scope.note.Region});
+                                $scope.formVariables.push({name: "start_kind", value: $scope.note.GuestType});
+                                $scope.formVariables.push({name: "start_endDate", value: outputdate});
+                                $scope.formVariables.push({name: "IsChecker", value: dateObj.confirm});
+                                $scope.formVariables.push({name: "JWUser", value: "Guard"});
+                                $scope.submit('update');
+
+                            }, function (errormessage) {
+                                Notifications.addError({'status': 'error', 'message': errormessage});
+                            });
+                        }
+
+                    }, function (errormessage) {
+                        Notifications.addError({'status': 'error', 'message': errormessage});
+                    })
+        };
+
+
+        $scope.close = function () {
+
+            if (confirm($translate.instant('Delete_IS_MSG'))) {
+                $scope.formVariables.push({name: "update_result", value: "Cancel"});
+                $scope.submit('delete');
+            }
+        };
+        //贵宾的生成
+        $scope.searchEmployeeInfo = function () {
+            if (document.getElementById("EmployeeName").readOnly != false) {
+                document.getElementById("EmployeeName").readOnly = false;
+                document.getElementById("EmployeeID").readOnly = true;
+                $scope.recod.start_code = "";
+            }
+            else {
+                document.getElementById("EmployeeID").readOnly = false;
+                document.getElementById("EmployeeName").readOnly = true;
+            }
+        }
+    }
+</script>
+<div ng-controller="GateGuest_update">
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend><h3>{{'GuestPlan'|translate}}</h3></legend>
+
+        <div class="form-group form-table">
+            <div class=" form-group ">
+                <label class="col-sm-3 control-label">{{'VoucherID'|translate}}</label>
+
+                <div class="col-sm-2 ">
+
+                    <input class="form-control " type="text" name="VoucherID" readonly ng-model="note.VoucherID">
+                </div>
+
+                <label class="col-sm-3 control-label">*{{'GuestType'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" type="text" name="GuestType" ng-model="note.GuestType"
+                            max="0"
+                            required history-field="GuestType" form-field
+                            ng-options="t.ID as t.GuestType for t in kind">
+                    </select>
+                </div>
+            </div>
+
+            <div class=" form-group ">
+                <label class="col-sm-3 control-label">*{{'Respondent'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input id="EmployeeID" class="form-control" type="text" name="Respondent"
+                           ng-model="note.Respondent"
+                           history-field="Respondent"/>
+                </div>
+                <label class="col-sm-3 control-label">*{{'ExpectIn'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="ExpectIn" ng-model="note.ExpectIn"
+                           date-picker time="Y-m-d H:i"
+                           history-field="ExpectIn" min="0" required/>
+                </div>
+            </div>
+            <div class=" form-group ">
+                <label class="col-sm-3 control-label">{{'DepartmentSpc'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="DepartmentSpc" readonly
+                           ng-model="note.DepartmentSpc"
+                           max="0"
+                           history-field="GuestName" required/>
+                </div>
+                <label class="col-sm-3 control-label">*{{'Enterprise'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="Enterprise"
+                           ng-model="note.Enterprise"
+                           required/>
+                </div>
+
+            </div>
+            <div class=" form-group ">
+                <label class="col-sm-3 control-label">{{'Name'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input id="EmployeeName" class="form-control" type="text" name="RespondentName"
+                           ng-model="note.RespondentName"
+                           history-field="Name" required readonly/>
+                </div>
+
+                <label class="col-sm-3 control-label">*{{'Region'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" type="text" name="Region" ng-model="note.Region"
+                            max="0"
+                            history-field="Region" required
+                            ng-options="t.ID as t.Region for t in regions"></select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'GoodsExpectOut'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="ExpectOutTime"
+                           ng-model="note.ExpectOutTime"
+                           date-picker time="Y-m-d H:i"
+                           history-field="GoodsExpectOut" form-field min="0">
+                </div>
+                <label class="col-sm-3 control-label">{{'VehicleNO'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="VehicleNo" ng-model="note.VehicleNo"
+                           history-field="VehicleNO" form-field>
+                </div>
+            </div>
+            <div class=" form-group ">
+                <label class="col-sm-3 control-label">*{{'ExtNO'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="ExtNO" ng-model="note.ExtNO"
+                           required/>
+                </div>
+                <label class="col-sm-3 control-label">{{'DenyReason'|translate}}</label>
+
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" readonly name="remark"
+                           ng-model="variable.leadercheck_remark"/>
+
+                </div>
+            </div>
+            <div class=" form-group ">
+                <label class="col-sm-3 control-label">*{{'Content'|translate}}</label>
+
+                <div class="col-sm-7">
+                    <textarea class="form-control" type="text" name="Content" ng-model="note.Content" required/>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-10">
+                <H4 style="background-color: #ececec; padding:3px">{{'GuestDetails'|translate}}</H4>
+
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">*{{'GuestName'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="newName" ng-model="newName"/>
+                    </div>
+
+                    <label ng-show="note.GuestType=='3'"
+                           class="col-sm-2 control-label">{{'GuestIDCard'|translate}}</label>
+                    <label ng-hide="note.GuestType =='3'"
+                           class="col-sm-2 control-label">*{{'GuestIDCard'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="newidCard" ng-model="newidCard"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-success " ng-click="addGuestItem()">{{'Add'|translate}}
+                        </button>
+                    </div>
+                </div>
+
+
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr ng-repeat="guestItem in guestItems">
+
+                        <td>
+                            {{guestItem.GuestName}}
+                        </td>
+                        <td>
+                            {{guestItem.IdCard}}
+                        </td>
+                        <td>
+                            <a ng-click="deleteGuestItem($index)"
+                               class="btn-xs btn btn-danger">{{'Delete'|translate}}</a>
+                        </td>
+                    </tr>
+
+
+                </table>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-9 col-sm-3">
+                <button type="button" class="btn btn-danger" style="margin-right: 30px" ng-click="close()">
+                    {{'Delete'|translate}}
+                </button>
+
+                <button type="button"  class="btn btn-primary" ng-click="savesubmit()"
+                        ng-disabled="form.$invalid||!guestItems.length">{{'submit'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal fade" id="messageModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+
+                <div>
+                    <div ng-if="showMessageModal!=''">
+                        <h3><img src="/css/image/warn.png" style="width: 25px;height: 25px; padding-bottom: 5px">{{'Warning'|translate}}
+                        </h3>
+
+                        <p>
+                            <mark>{{'messageGateGuest'|translate}}</mark>
+                        </p>
+                    </div>
+                    <div style="border-top: 1px solid #e5e5e5"></div>
+                    <h3>{{'NextStep'|translate}}</h3>
+
+                    <div ng-repeat="nt in listleadercheck">
+                        <div>{{'Candidate'| translate}} : <code style="font-size: 120%;"> {{nt}}</code></div>
+                        <!--<p ng-if="nt.assignee!=null">{{'assignee'|translate}}：<code style="font-size: 120%;">{{nt.assignee}}-->
+                        <!---- <span show-user="{{nt.assignee}}"></span></code></p>-->
+                        <!--<span ng-if="nt.assignee==null" show-candidate="{{nt}}"></span>-->
+                        <!--<p ng-if="nt.name!=null">{{'TaskName'|translate}}：{{nt.name}} </p>-->
+                        <!--<p ng-if="nt.description!=null">{{'Remark'|translate}}：{{nt.description}} </p>-->
+                        <!--<p ng-if="nt.due!=null">{{'datedue'|translate}}：{{nt.due}} </p>-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="modalSubmit()">{{'OK'|translate}}</button>
+                    <button type="button" class="btn btn-default" ng-click="modalCancelUpdate()">
+                        {{'Cancel'|translate}}
+                    </button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<div class="modal fade" id="nextModalGateGuestupdate" role="dialog" aria-labelledby="myLargeModalLabel"
+     data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+
+                <div>
+
+                    <div style="border-top: 1px solid #e5e5e5"></div>
+                    <h3>{{'NextStep'|translate}}</h3>
+
+                    <div ng-repeat="nt in listleadercheck">
+                        <div>{{'Candidate'| translate}} : <code style="font-size: 120%;"> {{nt}}</code></div>
+                        <!--<p ng-if="nt.assignee!=null">{{'assignee'|translate}}：<code style="font-size: 120%;">{{nt.assignee}}-->
+                        <!---- <span show-user="{{nt.assignee}}"></span></code></p>-->
+                        <!--<span ng-if="nt.assignee==null" show-candidate="{{nt}}"></span>-->
+                        <!--<p ng-if="nt.name!=null">{{'TaskName'|translate}}：{{nt.name}} </p>-->
+                        <!--<p ng-if="nt.description!=null">{{'Remark'|translate}}：{{nt.description}} </p>-->
+                        <!--<p ng-if="nt.due!=null">{{'datedue'|translate}}：{{nt.due}} </p>-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="modalSubmit()">{{'OK'|translate}}</button>
+                    <button type="button" class="btn btn-default" ng-click="modalCancelUpdate()">
+                        {{'Cancel'|translate}}
+                    </button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal-dial

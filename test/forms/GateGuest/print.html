@@ -1,0 +1,124 @@
+<style>
+    .navbar-inverse{
+    display: none;
+}
+    .border-date{
+      border: 1px solid #a1a1a1;
+        padding: 10px 40px;
+
+        width: 300px;
+    }
+    /*.table-custom{*/
+        /*border: 2px solid;*/
+    /*}*/
+    /*.table-bordered > tbody > tr > td {*/
+    /*border: 2px solid!important;*/
+    /*}*/
+    /*.table-bordered > tbody > tr > th {*/
+        /*border: 2px solid!important;*/
+    /*}*/
+</style>
+<div class="row" style="margin-left:70px"  >
+<div  style="float: left"><img width="70px" src="https://nhanlucit.vn/wp-content/uploads/2016/04/logo_201301180051.jpg" >
+</div>
+    <div class="col-sm-8" > <h5 style="font-weight:bold" >遠東紡織（越南）有限公司</h5>
+        <span style="font-weight:bold" >CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)</span>
+    </div>
+
+</div>
+
+<div style="text-align: center;font-weight: bold;margin-bottom:30px;">
+    <h3 style="font-weight: bold;">訪客申請表</h3>
+    <h3>Phiếu đăng ký khách đến thăm</h3>
+
+</div>
+<div class="col-sm-12"><strong style="position: relative;float: right;margin-right:78px">Create Date:  {{date}}</strong></div>
+
+<table class="table table-bordered table-custom " width="80%"
+       style="table-layout:fixed ; width: 85%;
+    margin: auto;">
+    <tr>
+        <td>{{'VoucherID'|translate}}：{{details.VoucherID}}</td>
+        <td>{{'GuestType'|translate}}：{{details.GuestType}}</td>
+    </tr>
+    <tr>
+        <td>{{'Region'|translate}}：{{details.Region}}</td>
+        <td>{{'Enterprise'|translate}}：{{details.Enterprise}}</td>
+    </tr>
+    <tr>
+        <td>{{'Respondent'|translate}}：{{details.Respondent}}</td>
+        <td>{{'UserID'|translate}}：{{details.UserID}}</td>
+    </tr>
+    <tr>
+        <td>{{'Name'|translate}}：{{RespondentName}}</td>
+
+        <td>{{'UserName'|translate}}：{{CreateName}}</td>
+    </tr>
+
+    <tr>
+        <td>{{'ExtNO'|translate}}：{{details.ExtNO}}</td>
+        <td>{{'Department'|translate}}：{{DepartmentSpc}}</td>
+    </tr>
+    <tr>
+        <td>{{'VehicleNO'|translate}}：{{details.VehicleNo}}</td>
+        <td>{{'ExpectIn'|translate}}：{{details.ExpectIn}}</td>
+    </tr>
+    <tr>
+        <td>{{'Content'|translate}}：{{details.Content}}</td>
+        <td>{{'GoodsExpectOut'|translate}}：{{details.ExpectOutTime}}</td>
+    </tr>
+
+</table>
+
+<table class="table table-bordered table-custom" style="table-layout:fixed;width: 85%;
+    margin: auto; margin-top: 20px">
+    <tr>
+        <th>{{'GuestName'|translate}}</th>
+        <th>{{'GuestIDCard'|translate}}</th>
+    </tr>
+    <tr ng-repeat="guestItem in guestItems">
+        <td title="'GuestName'" width="350px">
+            {{guestItem.GuestName}}
+        </td>
+        <td title="'GuestName'" width="350px">
+            {{guestItem.IdCard}}
+        </td>
+    </tr>
+</table>
+<table  class="table table-bordered table-custom" style="table-layout:fixed; width: 85%;
+    margin: auto;margin-top: 20px"><tr>
+    <th><a href="#/processlog/{{processInstanceId}}" target="_blank">{{'DoneTask'|translate}}</a></th><th>{{'DoneTaskUserName'|translate}}</th><th>{{'Stamp'|translate}}</th><th>{{'Suggest'|translate}}{{'Remark'|translate}}</th></tr>
+    <tbody  ng-repeat="log in processLogs.Logs.slice().reverse()">
+    <tr ng-if="log.TaskName=='Leader check'">
+        <td>{{log.UserId }}</td>
+        <td>{{log.UserName}}</td>
+        <td>{{log.FormatStamp }}</td>
+        <td>
+            {{log.HistoryField[0].Name}}:  {{log.HistoryField[0].Value}}
+        </td>
+    </tr>
+    <tr ng-if="log.TaskName=='起始表单'">
+        <td>{{log.UserId }}</td>
+        <td>{{log.UserName }}</td>
+        <td>{{log.FormatStamp }}</td>
+        <td>{{'GuestPlan'|translate}}</td>
+    </tr>
+    </tbody>
+</table>
+<table class="table table-bordered table-custom" style="table-layout: fixed;
+    width: 42.5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 50%;">
+    <tr>
+        <td  width="150px" height="50px">{{'Manager'|translate}}</td>
+        <td></td>
+    </tr>
+</table>
+
+<div class="row" style="width:85%; margin: auto; text-align: center">
+    <strong>Note: </strong>
+    <span >所有訪客在建廠期間進入工地或臨時辦公室，需呈事業部主管核准並向工地副總經理報備 </br>Tất cả khách đến thăm trong thời gian xây dựng vào công trình hoặc văn phòng tạm, phải </br>trình chủ quản bộ phận ký
+       duyệt đồng thời báo cáo lên Phó Tổng Giám Đốc nhà máy</span></br>
+
+</div>

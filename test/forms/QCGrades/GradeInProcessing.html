@@ -1,0 +1,63 @@
+<style>
+
+    .widthControl {
+        width: 35%;
+    }
+</style>
+<table class="table table-bordered" style="margin-top: 20px">
+    <thead>
+        <tr>
+            <th>{{ 'UserID' | translate }}</th>
+            <td>{{Grade.UserID}}</td>
+            <th>{{ 'Version' | translate}}</th>
+            <td class="widthControl">{{Grade.VersionSpc}}</td>
+        </tr>
+        <tr>
+            <th>{{ 'SampleName' | translate}}</th>
+            <td class="widthControl">{{Grade[SampleNames]}}</td>
+            <th>{{'Material' | translate }}</th>
+            <td>{{Grade[Material]}}</td>
+        </tr>
+    </thead>
+
+</table>
+
+<table class="table table-bordered" style="margin-top: 20px;table-layout: auto">
+    <thead>
+        <tr>
+            <th>{{'PropertyName' | translate}}</th>
+            <th>{{ 'Grade' | translate}}</th>
+            <th>{{ 'Enable' | translate }}</th>
+            <th>{{ 'MaxValue' | translate}}</th>
+            <th>{{ 'MinValue' | translate }}</th>
+            <th>{{ 'Prec' | translate}}</th>
+            <th>{{ 'ValueSpec' | translate }}</th>
+            <th>{{ 'ValidDate' | translate }}</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="x in Grade.Grades">
+            <td style="color: red">{{x.PropertyName}}</td>
+            <td>{{x.Grade}}</td>
+            <td>
+                <input style="width: 70%" type="checkbox" ng-checked="{{x.Enable}}" disabled>
+            </td>
+            <td>{{x.MaxValue==''?'empty':x.MaxValue|number:x.Prec}}</td>
+            <td>{{x.MinValue==''?'empty':x.MinValue|number:x.Prec }}</td>
+            <td>{{x.Prec}}</td>
+            <td>{{x.ValueSpec}}</td>
+            <td>{{x.ValidDate}}</td>
+
+        </tr>
+    </tbody>
+</table>
+<div style="width: 100%;table-layout: auto">
+    <div ng-if="bpmnloaded==true" style="padding-top: 20px">
+        <legend style="width: 100%">
+            <h3>{{'Grades History'|translate}}</h3>
+        </legend>
+        <div show-history-grades data-test="{{dataTest}}"></div>
+    </div>
+</div>

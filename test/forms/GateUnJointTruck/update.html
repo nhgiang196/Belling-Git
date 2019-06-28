@@ -1,0 +1,278 @@
+<script type="text/javascript">
+    function GateUnJointTruck_update($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateGuest, $resource, GateJointTruck, GateUnJointTruck, $translate) {
+        var lang = window.localStorage.lang;
+        $scope.flowkey = "FEPVUnJointTruck";
+
+        console.log($scope.variable.leadercheck_remark);
+        GateUnJointTruck.UnJointTruckBasic().getVehicleTypes({
+            Language: lang,
+            Type: "UnJointTruck"
+        }).$promise.then(function (res) {
+            $scope.Shape = res;
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        GateUnJointTruck.UnJointTruckBasic().unJointTruckByVoucherID({voucherid: $scope.variable.VoucherID}).$promise.then(function (res) {
+            $scope.note = res;
+            $scope.note.ExpectIn = $filter('date')($scope.note.ExpectIn, 'yyyy-MM-dd');
+            $scope.note.ValidatePeriod = $filter('date')($scope.note.ValidatePeriod, 'yyyy-MM-dd');
+            $scope.$watch("note.ExpectIn", function (n) {
+
+                if ($filter('date')(new Date($scope.note.ExpectIn), "yyyy-MM-dd") < $filter('date')(new Date(), "yyyy-MM-dd")) {
+                    Notifications.addError({
+                        'status': 'error',
+                        'message': $translate.instant("ErrorUnjointTruckDate")
+                    });
+
+                    $scope.$apply();
+                    document.getElementById("btnSaveSubmit").disabled = true;
+
+
+                } else {
+                    if (n !== undefined && $scope.note.ExpectIn !== null) {
+                        $scope.note.ValidatePeriod = $filter('date')(new Date($scope.note.ExpectIn).setDate(new Date($scope.note.ExpectIn).getDate() + 2), "yyyy-MM-dd");
+
+                    }
+                    document.getElementById("btnSaveSubmit").disabled = false;
+
+                }
+
+            });
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        console.log("www");
+
+
+        function saveVoucher(Status, callback) {
+            var query = {};
+            query = $scope.note;
+            query.Status = Status;
+            query.UserID = Auth.username;
+            query.OrderNO = $scope.note.OrderNO || "";
+            GateJointTruck.JointTruckBasic().isInBlackList({
+                vehicle: $scope.note.VehicleNO,
+                type: "Truck"
+            }).$promise.then(function (res) {
+                        if (res.msg) {
+                            callback(res.msg);
+
+                        } else {
+                            GateUnJointTruck.SaveUnJointTruck().save(query).$promise.then(function (res) {
+                                        var voucherid = res.VoucherID;
+                                        if (voucherid) {
+                                            $scope.note.VoucherID = voucherid;
+                                            callback("");
+                                        }
+                                    },
+                                    function (errResponse) {
+                                        callback(errResponse);
+                                    });
+
+                        }
+                    },
+                    function (errResponse) {
+                        callback(errResponse);
+                    });
+        }
+
+        $scope.myChangeFunction = function () {
+
+            if ($scope.note.ExpectIn) {
+                $scope.note.ValidatePeriod = moment(new Date($scope.note.ExpectIn)).add(2, 'days').format('YYYY-MM-DD');
+            }
+
+            // $filter('date')(new Date($scope.note.ExpectIn).setDate(new Date($scope.note.ExpectIn).getDate()+2), "yyyy-MM-dd");
+
+        };
+        $scope.savesubmit = function () {
+            saveVoucher("F", function (errmsg) {
+                        console.log("hdghdghdghdfgh "+errmsg);
+                        if (errmsg) {
+                            Notifications.addMessage({'status': 'error', 'message': errmsg});
+                        } else {
+                            GateGuest.GetGateCheckerLeaders({
+                                        owner: Auth.username,
+                                        fLowKey: $scope.flowkey,
+                                        Kinds: "",
+                                        CheckDate: $scope.note.ExpectIn
+                                    },
+                                    function (res, errormsg) {
+                                        if (errormsg) {
+                                            Notifications.addError({'status': 'error', 'message': errormsg});
+
+                                        } else {
+                                            var leaderList = [];
+                                            for (var i = 0; i < res.length; i++) {
+                                                leaderList[i] = res[i].Person;
+                                            }
+                                            if (leaderList.length <= 0) {
+                                                Notifications.addError({
+                                                    'status': 'error',
+                                                    'message': $translate.instant('Leader_NO_MSG')
+                                                });
+
+                                            } else {
+                                                $scope.formVariables.push({name: "IsChecker", value: "YES"});
+                                                $scope.formVariables.push({name: "ChecherArray", value: leaderList});
+                                                $scope.formVariables.push({
+                                                    name: "start_remark",
+                                                    value: $scope.note.VoucherID + " " + $scope.note.VehicleNO
+                                                });
+                                                $scope.formVariables.push({name: "JWUser", value: "Guard"});
+                                                $scope.formVariables.push({name: "update_result", value: "OK"});
+                                                $scope.historyVariable.push({name: "Delete", value: "NO"}); //作废
+
+                                                    $scope.formVariables.push({name: "checkoutconfirm", value: "NO"});
+                                                    $scope.submit();
+
+                                            }
+                                        }
+                                    });
+                        }
+                    },
+                    function (errResponse) {
+                        Notifications.addError({'status': 'error', 'message': errResponse});
+                    });
+        };
+        $scope.close = function () {
+            //流程图会自动关闭
+            $scope.formVariables.push({name: "update_result", value: "Cancel"});
+            $scope.historyVariable.push({name: "Delete", value: "YES"});
+            $scope.submit();
+
+        }
+
+    }
+</script>
+<div ng-controller="GateUnJointTruck_update">
+    <div>
+        <legend><h3>{{'FEPVUnJointTruck'|translate}}--{{'Update'|translate}}</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <form class="form-horizontal" role="form" name="form" novalidate ng-mouseover="myChangeFunction()">
+
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">{{'DenyReason'|translate}}</label>
+
+                    <div class="col-sm-6 ">
+
+                        {{variable.leadercheck_remark}}
+                    </div>
+                </div>
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">{{'VoucherID'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VoucherID"
+                               ng-model="note.VoucherID"
+                               readonly>
+
+                    </div>
+                    <label class="col-sm-3 control-label">*{{'Models'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <select class="form-control" name="VehicleType" ng-model="note.VehicleType"
+                                ng-options="c.ID as c.Spec for c in Shape" history-field
+                                required></select>
+                    </div>
+                </div>
+
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">*{{'VehicleNO'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VehicleNO"
+                               ng-model="note.VehicleNO"
+                               required history-field>
+                    </div>
+                    <label class="col-sm-3 control-label">*{{'Company'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="Manufacturer"
+                               ng-model="note.Manufacturer"
+                               required history-field>
+                    </div>
+                </div>
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">{{'OrderNO'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="OrderNO"
+                               ng-model="note.OrderNO" history-field/>
+                    </div>
+                    <label class="col-sm-3 control-label">*{{'Material'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="Material"
+                               ng-model="note.Material"
+                               required history-field/>
+                    </div>
+                </div>
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">*{{'ExpectedIn'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="ExpectIn" ng-change="selecteddate()"
+                               ng-model="note.ExpectIn" min="0" date-picker
+                               required history-field/>
+                    </div>
+                    <label class="col-sm-3 control-label">*{{'ValidTo'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="ValidatePeriod"
+                               ng-model="note.ValidatePeriod" readonly/>
+                    </div>
+                </div>
+                <div class=" form-group ">
+
+                    <label class="col-sm-3 control-label">*{{'LinkMan'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" name="LinkMan" ng-model="note.LinkMan"
+                               required history-field>
+                    </div>
+
+
+                    <label class="col-sm-3 control-label">*{{'LinkPhone'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="LinkPhone"
+                               ng-model="note.LinkPhone"
+                               required history-field>
+                    </div>
+                </div>
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">{{'StorageNO'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="StorageNO"
+                               ng-model="note.StorageNO"
+                               history-field>
+                    </div>
+                </div>
+                <div class=" form-group ">
+                    <label class="col-sm-3 control-label">{{'Remark'|translate}}</label>
+
+                    <div class="col-sm-5">
+                            <textarea type="text" class="form-control" name="Remark"
+                                      ng-model="note.Remark"
+                                      history-field></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="form-group">
+        <div class="col-sm-offset-7 col-sm-4">
+            <button type="button" class="btn btn-danger" ng-click="close()"> {{'Delete'|translate}}</button>
+            <button id="btnSaveSubmit" type="button" class="btn btn-primary" ng-click="savesubmit()"
+                    ng-disabled="form.$invalid"> {{'saveSubmit'|translate}}
+            </button>
+
+        </div>
+    </div>
+
+
+</div>

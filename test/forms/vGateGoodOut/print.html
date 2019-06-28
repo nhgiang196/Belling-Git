@@ -1,0 +1,102 @@
+<style>
+
+    #footer {
+        display: none;
+    }
+
+.navbar-inverse{
+    display: none;
+}
+
+
+    .clear{clear:both}
+
+
+
+
+</style>
+<div class="col-sm-12">
+<div class="col-sm-12" style="padding-top: 0px" id="printPage">
+    <legend style="padding-left: 10px;">
+        <h3>{{'GoodsOut'|translate}}
+            <io-barcode code="{{VoucherID}}" type="CODE128B" options="options"></io-barcode>
+        </h3>
+    </legend>
+    <div class="col-sm-12 " >
+        <table class="table table-bordered">
+
+            <tr>
+                <td>{{'VoucherID'|translate}}：{{details.VoucherID}}</td>
+                <td>{{'GoodsType'|translate}}：{{details.GoodsTypeRemark}}</td>
+                <td>{{'BackOrNot'|translate}}：{{details.IsBackinfo}}</td>
+            </tr>
+            <tr>
+                <td>{{'ExpectBack'|translate}}：{{details.ExpectBack}}</td>
+                <td>{{'TakeOut'|translate}}：{{details.TakeOut}}</td>
+                <td>{{'TakeCompany'|translate}}：{{details.TakeCompany}}</td>
+            </tr>
+            <tr>
+                <td>{{'VehicleNO'|translate}}：{{details.VehicleNO}}</td>
+                <td>{{'ExpectOut'|translate}}：{{details.ExpectOut}}</td>
+                <td>{{'Remark'|translate}}：{{details.Remark}}</td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <th>{{'GoodsName'|translate}}</th>
+                <th>{{'Number'|translate}}</th>
+                <th>{{'Unit'|translate}}</th>
+                <th>{{'GoodsOutReasons'|translate}}</th>
+            </tr>
+            <tr ng-repeat="guestItem in details.GoodsItems">
+                <td style="width: 180px">{{guestItem.GoodsName}}
+                <td>{{guestItem.GoodsAmount}}</td>
+                <td>{{guestItem.UnitRemark}}</td>
+                <td>{{guestItem.ReasonRemark}}</td>
+            </tr>
+        </table>
+        <table  class="table table-bordered"><tr>
+            <th><a href="#/processlog/{{processInstanceId}}" target="_blank">{{'DoneTask'|translate}}</a></th><th>{{'DoneTaskUserName'|translate}}</th><th>{{'Stamp'|translate}}</th><th>{{'Suggest'|translate}}{{'Remark'|translate}}</th></tr>
+            <tbody  ng-repeat="log in processLogs.Logs">
+            <tr ng-if="log.TaskName=='Section manager check'">
+                <td>{{log.UserId }}</td>
+                <td>{{log.UserName}}</td>
+                <td>{{log.FormatStamp }}</td>
+                <td>
+                    {{log.HistoryField[0].Name}}:  {{log.HistoryField[0].Value}}
+                </td>
+            </tr>
+            <tr ng-if="log.TaskName=='起始表单'">
+                <td>{{log.UserId }}</td>
+                <td>{{log.UserName }}</td>
+                <td>{{log.FormatStamp }}</td>
+                <td>{{'GoodsOut'|translate}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <h4>{{'GoodsPic'|translate}}</h4>
+        <div style="padding-left:30px">
+        <div class="col-sm-12"  ng-repeat="file in filedata">
+            <div   style="padding: 5px; float: left">
+
+                <img ng-src='/api/cmis/showfile?filename={{file.DocId}}&mimetype={{file.FileType}}'
+                     height='300px' width='450px'/>
+            </div>
+
+        </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-12" >
+        <table id="check" class="table table-bordered"style="padding-top: 20px; display:none">
+            <tr style="padding: 5px;">
+                <th>承办人：</th>
+                <th>科主管：</th>
+                <th>厂处室主管：</th>
+                <th>事业群主管：</th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+</div>

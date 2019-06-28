@@ -1,0 +1,372 @@
+<style>
+    .container {
+        padding-top: 0px !important;
+    }
+
+    ul,
+    ol {
+        margin-bottom: 0
+    }
+
+    .table tr {
+        text-align: center;
+        padding: 4px;
+        line-height: 14px;
+        /* font-size:10px; */
+    }
+
+    .PropertySpec {
+        background-color: #cfccff;
+    }
+
+    footer {
+        display: none;
+    }
+
+    table {
+        /* width: 1200px; */
+        width: 100%;
+        margin-left: 0px;
+        margin: auto;
+        margin-top: 30px !;
+    }
+
+    thead {
+        background-color: rgb(230, 230, 230);
+    }
+
+
+    footer {
+        display: none;
+    }
+
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    #page-contain {
+
+        font-size: 9.5pt;
+        /* padding-left: 8pt;
+        padding-right: 5pt; */
+        font-family: 'Times New Roman', Times, serif;
+        margin: 15px;
+    }
+
+    @page {
+        size: A4;
+        /* margin: 0; */
+        /* size: auto; */
+        margin-top: 4.5mm;
+        margin-left: 9mm;
+        margin-right: 9mm;
+        margin-bottom: 0mm;
+    }
+
+
+    /* Print styling */
+
+    @media print {
+        #myfooter {
+            position: fixed;
+            width: 90%;
+            bottom: 20mm;
+        }
+
+        table {
+            page-break-inside: auto
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+
+        }
+
+        thead {
+            /* color:gainsboro; */
+            background: gainsboro !important;
+            /* background-color: gainsboro !important; */
+        }
+
+        html,
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+        }
+
+        [class*="col-sm-"] {
+            float: left;
+        }
+
+        [class*="col-xs-"] {
+            float: left;
+        }
+
+        .col-sm-12,
+        .col-xs-12 {
+            width: 100% !important;
+        }
+
+        .col-sm-11,
+        .col-xs-11 {
+            width: 91.66666667% !important;
+        }
+
+        .col-sm-10,
+        .col-xs-10 {
+            width: 83.33333333% !important;
+        }
+
+        .col-sm-9,
+        .col-xs-9 {
+            width: 75% !important;
+        }
+
+        .col-sm-8,
+        .col-xs-8 {
+            width: 66.66666667% !important;
+        }
+
+        .col-sm-7,
+        .col-xs-7 {
+            width: 58.33333333% !important;
+        }
+
+        .col-sm-6,
+        .col-xs-6 {
+            width: 50% !important;
+        }
+
+        .col-sm-5,
+        .col-xs-5 {
+            width: 41.66666667% !important;
+        }
+
+        .col-sm-4,
+        .col-xs-4 {
+            width: 33.33333333% !important;
+        }
+
+        .col-sm-3,
+        .col-xs-3 {
+            width: 25% !important;
+        }
+
+        .col-sm-2,
+        .col-xs-2 {
+            width: 16.66666667% !important;
+        }
+
+        .col-sm-1,
+        .col-xs-1 {
+            width: 8.33333333% !important;
+        }
+
+        .col-sm-1,
+        .col-sm-2,
+        .col-sm-3,
+        .col-sm-4,
+        .col-sm-5,
+        .col-sm-6,
+        .col-sm-7,
+        .col-sm-8,
+        .col-sm-9,
+        .col-sm-10,
+        .col-sm-11,
+        .col-sm-12,
+        .col-xs-1,
+        .col-xs-2,
+        .col-xs-3,
+        .col-xs-4,
+        .col-xs-5,
+        .col-xs-6,
+        .col-xs-7,
+        .col-xs-8,
+        .col-xs-9,
+        .col-xs-10,
+        .col-xs-11,
+        .col-xs-12 {
+            float: left !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0 !important;
+            min-width: 768px;
+        }
+
+        .container {
+            margin-top: 10px;
+            width: auto;
+            min-width: 750px;
+        }
+
+        body {
+            /* font-size: 10px; */
+        }
+
+        a[href]:after {
+            content: none;
+        }
+
+        .noprint,
+        div.alert,
+        header,
+        .group-media,
+        .btn,
+        .footer,
+        form,
+        #comments,
+        .nav,
+        ul.links.list-inline,
+        ul.action-links,
+        .clear,
+        .modal {
+            display: none !important;
+            padding: 0px !important;
+        }
+
+        .footer-page {
+            position: fixed;
+        }
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .border {
+        border-collapse: black;
+        border-style: solid;
+        border-width: 0.5px;
+
+    }
+
+    hr {
+        border: 0.5px solid black;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #bottom-footer {
+        display: none;
+    }
+
+    /* div {
+        margin-top: 15px;
+    } */
+</style>
+<div class="container">
+    <div id="page-contain">
+        <p style="text-align:center; font-size:12pt;"> 品質異常執行矯正與防止再發生措施報告表 </br> <span style="font-size:11pt;">THỰC
+                BẢNG BÁO CÁO THỰC HIỆN KHẮC PHỤC SỰ BẤT THƯỜNG VỀ CHẤT LƯỢNG <br>SẢN PHẨM VÀ CÁC BIỆN PHÁP PHÒNG NGỪA
+                TÁI PHÁT SINH</span> </br>編號<span style="font-size:11pt;">Mã: {{recod.VoucherID}}</span> </p>
+        <div class="row">
+            <div class="col-sm-3">單位: <span style="font-size:15pt;">{{vdepart}}</span><br>Đơn vị</div>
+            <div class="col-sm-3">🗹品質超限單 <br>Vượt quá chất lượng </div>
+            <div class="col-sm-3">☐抱怨處理單 <br>Xử lý khiếu nại </div>
+            <div class="col-sm-3">年{{BeginDate.substr(0,4)}} 月 {{BeginDate.substr(5,2)}} 日{{BeginDate.substr(8,2)}}
+                <br>{{BeginDate}} </div>
+        </div>
+        <table border="1" cellpadding="2pt">
+            <tbody>
+                <tr>
+                    <td width="15%">
+                        <p>產品類型（批號）<br> Loại SP (số lô)</p>
+                    </td>
+                    <td width="10%"> {{vdepart}} </td>
+                    <td style="vertical-align: top;" colspan="2" rowspan="2">
+                        <p>異常說明:<br>Mô tả sự bất thường:</p>
+                        <table style="table-layout:fixed;" class=" table-bordered">
+                            <thead>
+                                <tr style="padding:0px;margin:0;">
+                                    <th style="padding:0px;margin:0;text-align:center;" ng-repeat="header in plansHeader">
+                                        <span ng-if="header!='PropertyName'">{{ header }}</span></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in UQList">
+                                    <td style="padding:0px;margin:0;text-align:center;" ng-repeat="header in plansHeader">
+                                        <div ng-bind-html="row[header].replace('$','').replace('#','')"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="134">
+                        <p>品質超限單編號或抱怨處理單編號</br>Mã đơn vượt quá giới hạn chất lượng hoặc mã đơn xử lý khiếu
+                            nại</p>
+                    </td>
+                    <td width="108">{{recod.VoucherID}} </td>
+                </tr>
+                <tr>
+                    <td width="134">
+                        <p>生產線別（套別）</br>Loại d.chuyền SX</p>
+                    </td>
+                    <td width="108">{{recod.LINE}} </td>
+                    <td style="vertical-align: top;" colspan="2" rowspan="2" width="393"> 管制規格:</br>Mô tả quy cách<br>
+                        <ul ng-repeat="row in UQList">
+                            <li>{{row['PropertyName']}}: {{row['ValueSpec']}}</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="134"> 客戶名稱</br>Tên khách hàng </td>
+                    <td width="108"> </td>
+                </tr>
+                <tr>
+                    <td colspan="3" width="70%">
+                        <p>一. 矯正措施執行情形</br>Tình hình thực hiện biện pháp khắc phục</p>
+                        <p>a. 不合格狀況及原因分析TT. không phù hợp và PT nguyên nhân:{{recod.Reason}}<br>產品 sản
+                            phẩm:{{recod.LOT_NO}}</br>b. 改善對策及執行情形Đối sách cải thiện và tình hình thực
+                            hiện:{{recod.State}}</p>
+                    </td>
+                    <td style="vertical-align: top;" width="30%">
+                        <p>效果之查證、評估或確認（請科主管簽註矯正措施成效結果）</p>
+                        <p>Thẩm định, đánh giá hoặc xác nhận hiệu quả (chủ quản phòng ký xác nhận kết
+                            quả khắc phục)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <p>二. 不合格品處理方式Phương pháp xử lý sản phẩm không phù hợp:<br>{{recod.Solution}} </p>
+                    </td>
+                    <td style="vertical-align: top;" rowspan="2">
+                        <p>逾期未結案，提供廠處管理審查檢討之決議 Trường hợp quá hạn, cung cấp giải pháp xem xét đánh giá quản
+                            lý nhà máy:</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <p>三.防止再發生措施Biện pháp ngăn ngừa tái phát sinh:<br>{{recod.Prevention}}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <p>四.會簽單位意見Ý kiến của các đơn vị đồng ký duyệt:<br> {{recod.Remark}} </p>
+                    </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row" style="text-align:center; page-break-inside: avoid;">
+            <div class="col-sm-3">副總經理: <br>P. TGĐ<br><br><br><br>_____________________</nr>
+            </div>
+            <div class="col-sm-3">廠主管: <br>Chủ quản xưởng<br><br><br><br>{{receiver[2].UserName}} </div>
+            <div class="col-sm-3">科主管:<br>Chủ quản phòng<br><br><br><br>{{receiver[3].UserName}} </div>
+            <div class="col-sm-3">製表:<br>Người lập<br><br><br><br>{{receiver[1].UserName}} </div>
+        </div>
+        <div id="myfooter" style="padding-top:10pt;">
+            <p style="text-align:right;">5VGAAQR142-01</p>
+        </div>
+    </div>
+</div>
+</div>

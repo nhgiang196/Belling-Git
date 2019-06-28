@@ -1,0 +1,224 @@
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+    function GoodsOut_start($scope, EngineApi, $http, $timeout, Notifications, $compile, $upload, $filter, Auth, $resource, $translatePartialLoader, $translate,GateEngine) {
+        //there is mult language address
+        $translatePartialLoader.addPart('GoodsOut');
+        $translate.refresh();
+
+        // test array
+        $scope.kind = [{"GuestType": "return back"}, {"GuestType": " no return XX"}]
+        $scope.files = []
+        $scope.deletefile = function (docid, index) {
+            var data = "DocId=" + docid;
+            $http.delete('/api/cmis/deletefile?' + data)
+                    .success(function (data, status, headers) {
+                        console.log(data);
+                        $scope.files.splice(index, 1);
+                    })
+                    .error(function (data, status, header, config) {
+                        Notifications.addError({'status': 'error', 'message': status + data});
+                    });
+        }
+        $scope.onFileSelect = function ($files, size) {
+            console.log($files);
+            if (!size) {
+                size = 1024 * 1024 * 1;
+            }
+            if ($files.size > size) {
+                Notifications.addError({'status': 'error', 'message': "upload file can't over " + size + "byte"});
+                return false;
+            } else {
+                for (var i = 0; i < $files.length; i++) {
+                    var $file = $files[i];
+
+                    $scope.upload = $upload.upload({
+                        url: '/api/cmis/upload',
+                        method: "POST",
+                        file: $file
+                    }).progress(function (evt) {
+                        // get upload percentage
+                        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+
+                    }).success(function (data, status, headers, config) {
+                        // file is uploaded successfully
+                        console.log(data.file);
+                        $scope.files.push(data.file);
+                    }).error(function (data, status, headers, config) {
+                        console.log($file);
+                        console.log(status);
+                        console.log(data);
+                    });
+                }
+            }
+        }
+
+
+        $scope.savesubmit = function(){
+            $scope.formVariables.push({name: "GoodOutChecher", value: [Auth.username]});
+            $scope.formVariables.push({name: "start_remark", value: "remark"});
+            $scope.submit();
+        }
+
+    }
+</script>
+<div ng-app="MyApp" ng-controller="GoodsOut_start">
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend><h3>{{'01'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group form-table">
+
+                <div class=" form-group ">
+                    <label class="col-sm-2 control-label">{{'03'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="Doc_number" ng-model="Doc_number" >
+                    </div>
+                    <label class="col-sm-3 control-label">{{'04'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="cur_lang" >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'05'|translate}}</label>
+                    <div class="col-sm-2">
+                        <label class="control-label"><input type="radio" name="optradio"/>Yes</label>
+                        <label class="control-label"><input type="radio" name="optradio"/>No</label>
+                    </div>
+                    <label class="col-sm-3 control-label">{{'06'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="date" name="field6" ng-model="field6"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'07'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="field7" ng-model="field7">
+                    </div>
+                    <label class="col-sm-3 control-label">{{'08'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="field8" ng-model="field8"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'09'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="field9" ng-model="field9">
+
+                    </div>
+                    <label class="col-sm-3 control-label">{{'10'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="date" name="field10" ng-model="field10"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'11'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="field11" ng-model="field11">
+
+                    </div>
+                    <label class="col-sm-3 control-label">上传文件</label>
+                    <div class="col-sm-3">
+                        <div class="btn btn-info  my-btn-file">
+                            <i class="glyphicon glyphicon-folder-open"></i> Browse…
+                            <input type="file" ng-file-select="onFileSelect($files,5242880)">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class = "col-sm-12">
+                        <table>
+                            <tr >
+
+
+                                <td ng-repeat="file in files">
+                                    <div class="my-file-preview-frame">
+                                            <img ng-src='/api/cmis/downfile?filename={{file.DocId}}&mimetype={{file.FileType}}'
+                                                 width='150px' height='150px'
+                                              />
+                                        <div >
+                                            <div class="btn btn-danger btn-xs" ng-click="deletefile(file.DocId,$index)">
+                                                        <i class="glyphicon glyphicon-remove"></i>删除
+                                             </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </form>
+    <H4 style="background-color: #ececec; padding: 5px">承办项目项目</H4>
+    <form class="form-horizontal" role="form" novalidate name="form">
+
+        <div class="col-sm-12 form-group">
+            <div class="form-group form-table">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'15'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="goods_name" ng-model="note.goods_name">
+                    </div>
+                    <label class="col-sm-3 control-label">{{'16'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="number" ng-model="note.number"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'17'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="unit" ng-model="note.unit">
+                    </div>
+                    <label class="col-sm-3 control-label">{{'18'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="out_reason" ng-model="note.out_reason"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary btn-sm" ng-click="add()" ng-disabled="form.$invalid" >Add item</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered " >
+        <tr style=" background-color: #ececec">
+            <th>品名</th>
+            <th>数量</th>
+            <th>单位</th>
+            <th>出厂事由</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="good in goodsinfo">
+            <td>{{good.goods_name}}</td>
+            <td>{{good.number}}</td>
+            <td>{{good.unit}}</td>
+            <td>{{good.out_reason}}</td>
+            <td>  <input type="button" name="Delete" value="Delete" ng-click="delete($index)" onclick="ShowConfirm()" > </td>
+        </tr>
+
+
+    </table>
+    <div class="form-group" >
+        <div class="col-sm-offset-9 col-sm-3">
+            <button class="btn btn-warning" >保存草稿</button>
+            <button class="btn btn-primary" >保存并提交</button>
+
+            <button class="btn btn-danger" >删除</button>
+        </div>
+    </div>
+</div>

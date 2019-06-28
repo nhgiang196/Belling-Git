@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="vendor/datatables/datatables.min.css">
+
+<style>
+    thead {
+        text-align: center;
+    }
+
+    .result-red {
+        color: red !important;
+    }
+
+    .result-yellow {
+        color: rgb(161, 105, 1) !important;
+    }
+
+    .grade-red {
+        background: red !important;
+        color: #000000;
+    }
+
+    .grade-yellow {
+        background: orange !important;
+        color: #000000;
+    }
+
+    .ValueSpec {
+        color: rgb(27, 27, 26) !important;
+    }
+
+    .well {
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #eee;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+
+    .header {
+        padding: 10px 16px;
+        background: rgb(255, 255, 255);
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 10;
+        z-index: 1000;
+        width: auto;
+    }
+
+    /* .sticky + .content {
+        padding-top: 102px;
+        }     */
+</style>
+<br>
+
+<div class="col-lg-3 col-sm-3">
+    <div class="header" id="myHeader">
+        <form class="well" role="form" novalidate name="form">
+            <legend>
+                Search Panel
+            </legend>
+            <div class="form-group">
+                <label class="control-label">{{'From'|translate}}</label>
+                <div class="">
+                    <input 
+                    ng-blur="getMaterial()"
+                    class="form-control" name="DateFrom" 
+                    ng-model="note.DateFrom" required date-picker>
+                </div>
+
+                <label class=" control-label">{{'To'|translate}}</label>
+                <div class="">
+                    <input 
+                    ng-blur="getMaterial()"
+                    class="form-control" name="DateFrom" ng-model="note.DateTo" required date-picker>
+                </div>
+
+                <label class=" control-label">{{'TypeName'|translate}}</label>
+                <div class="">
+                    <select class="form-control" name="TypeID" ng-model="note.TypeID"
+                        ng-options=" c.TypeID as c.TypeName for c in CategoryList" required>
+                    </select>
+                </div>
+                <label class=" control-label">{{'SampleName'|translate}}</label>
+                <div class="">
+                    <select class="form-control" name="nameSample" ng-model="note.SampleName" ng-change="SampleNameChange(note.SampleName)" 
+                        ng-options=" c.SampleName as c.Description_{{lang}} for c in SampleList" required>
+                        <option value="">-- ALL --</option>
+                    </select>
+                </div>
+                <label class=" control-label">{{'Line'|translate}}</label>
+                <div class="">
+                    <select class="form-control" name="line" ng-model="note.Line"
+                        ng-options="c.Line as c.Linespc for c in LinesList">
+                        <option value="">-- ALL --</option>
+                    </select>
+                </div>
+                <label class=" control-label">{{'Material'|translate}}</label>
+                <div class="">
+                    <!-- <select class="form-control" name="material" ng-model="note.Material"
+                        ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
+                        <option value="">-- ALL --</option>
+                    </select> -->
+                    <select id="multiple_value"  style="width: 100%" ui-select2
+                        ng-model="note.Material" name="material" multiple>
+                        <option ng-repeat="c in materialList" value="{{c.LOT_NO}}">
+                                {{c.LOT_NO}} ({{c.Description_EN}})
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" style="padding-top:10px">
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary" ng-click="Search()"
+                        ng-disabled="form.$invalid">{{'Search'|translate}}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="col-lg-9 col-sm-9">
+    <h3 class="text-center">{{'QueryPlans'|translate}}</h3>
+    <!--Report Detail Page-->
+    <table id="data" class="table  table-bordered table-responsive table-hover text-center" cellspacing="0"></table>
+</div>

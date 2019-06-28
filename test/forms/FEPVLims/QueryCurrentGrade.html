@@ -1,0 +1,81 @@
+<style>
+
+    .table th, .table td {
+        padding: 4px;
+        line-height: 14px;
+        font-size:10px;
+    }
+    footer{
+        display: none;
+    }
+    .table{
+
+        width: 1500px;
+        margin-left: 0px;
+        margin: auto;
+        margin-top: 30px!;
+    }
+    .table-bordered tbody tr:nth-child(odd) td {
+        background-color: #F2FAFE;
+    }
+    .form-group{     margin-bottom: 5px}
+    #myTable th {
+        background-color: #73879C;
+        color: #ECF0F1;
+        font: 10px;
+        text-align: center;
+
+    }
+    .Overrange{
+        color: red!important;
+    }
+    .greenyellow{
+        background: red!important;
+        color: #000000;
+    }
+    .glyphicon-file{
+        color:#000000;
+    }
+
+
+
+</style>
+<div>
+    <form class="form-horizontal" role="form" novalidate name="form" style="" >
+    <legend><h3>{{'QueryCurrentGrade'|translate}}</h3></legend>
+    <div class="col-sm-12 form-group">
+        <div class="form-group search-table" style="margin-left:20px">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">{{'TypeName'|translate}}</label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="TypeID" ng-model="note.TypeID"
+                            ng-options=" c.TypeID as c.TypeName for c in CategoryList" required>
+                    </select>
+                </div>
+
+                <label class="col-sm-1 control-label">{{'SampleName'|translate}}</label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="nameSample" ng-model="note.SampleName"
+                            ng-options=" c.SampleName as c.Description_{{lang}} for c in SampleList" required>
+                    </select>
+                </div>
+
+                <div class="col-sm-2" >
+                    <button  type="button" class="btn btn-primary" ng-click="Search()" ng-disabled="form.$invalid">{{'Search'|translate}} </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="left:-50px;position:absolute;">
+        <table id="myTable" class="table table-bordered "   >
+            <tr id="test"   >
+                <th  ng-repeat="header in plansHeader"  >{{header}}</th>
+            </tr>
+            <tr ng-repeat="value in plansList">
+                <td   ng-repeat="header in plansHeader">
+                    <div  ng-bind-html="value[header]"></div></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</div>

@@ -1,0 +1,141 @@
+<div class="row">
+    <div class="col-sm-3">
+        <div class="btn btn-info my-btn-file">
+            <i class="glyphicon glyphicon-foler-open"></i>Browse...
+            <input multiple type="file" ng-file-select="uploadFile($files)">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="container">
+
+    <div class="row" style="padding-top:10px;">
+        <div class="col-sm-5">
+
+            <label> CostCenter</label>
+            <input type="text" name="abc" class="input" ng-model="cost">
+        </div>
+        <div class="col-sm-5">
+
+            <label> Specification</label>
+            <input type="text" name="abc" class="input" ng-model="spec">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#basicExampleModal">
+                Add company
+            </button>
+            <button class="btn btn-primary" ng-click="SearchFunction()">
+                Get Department Data
+            </button>
+        </div>
+    </div>
+
+
+    <h3>Department work! New feature</h3>
+    <!-- BẢNG ĐỘNG -->
+    <table class="table table-bordered">
+        <tr>
+            <td>Index</td>
+            <td ng-repeat="item in headers">
+                {{item.name}}
+            </td>
+        </tr>
+
+        <tr ng-repeat="item in list">
+            <td> {{$index + 1}} </td>
+            <td ng-repeat="i in headers">
+                {{item[i.name] }}
+            </td>
+        </tr>
+    </table>
+
+    <!-- BẢNG TĨNH -->
+    <!-- <table class="table table-bordered">
+            <tr>
+                <td>Index</td>
+                <td>CostCenter</td>
+                <td>CostCenter</td>
+                <td>Specification_EN</td>
+                <td>Specification_VN</td>
+                <td>Specification_TW</td>
+                <td>Specification_CN</td>
+                <td>Center</td>
+            </tr>
+            
+            <tr ng-repeat="item in list">
+            <td> {{$index + 1}}   </td>
+            <td>{{item.CostCenter       }}   </td>
+            <td>{{item.Specification_EN }}       </td>
+            <td>{{item.Specification_VN }}       </td>
+            <td>{{item.Specification_TW }}       </td>
+            <td>{{item.Specification_CN }}       </td>
+            <td>{{item.Center           }}   </td>
+    
+            </tr>
+    
+        </table>
+         -->
+
+
+
+
+
+
+</div>
+
+
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>CompName</label>
+                        <input type="text" name="abc" class="input" ng-model="entity.CompName">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>CompCode</label>
+                        <input type="text" name="abc" class="input" ng-model="entity.CompCode">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>Type</label>
+                        <input type="text" name="abc" class="input" ng-model="entity.Type">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Phone</label>
+                        <input type="text" name="abc" class="input" ng-model="entity.Phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>Address</label>
+                        <input type="text" name="abc" class="input" ng-model="entity.Address">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Email</label>
+                        <input type="text" name="abc" class="input" ng-model="entity.Email">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="AddCompanyFunction()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
