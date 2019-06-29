@@ -9,6 +9,7 @@ define(
         ,'./WasteItemService'
         ,'./DepartmentService'
         ,'./CReportService'
+        ,'./CReportDirective'
     ],function(){
 
 })

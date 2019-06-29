@@ -251,7 +251,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     });
                 }
             };
-
             //Getlink để hiện báo cáo
             $scope.GetLink = function (data) {
                 var employee_id = data.entity.EmployeeID;
@@ -618,7 +617,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                             if (resultRows.length == 1) {
 
                                 if ((resultRows[0].Rp_Status != "P") && (resultRows[0].Rp_CreatorID == Auth.username)) {
-                                    disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
+                                    disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  /????
                                     loadICDetail(resultRows[0].Rp_ID);
                                     $('#my-modal').modal('show');
                                 } else {
@@ -762,7 +761,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         $scope.leaderlist = leaderlist;
                         console.log("Checklist", $scope.checkList);
                         console.log("leaderlist", $scope.leaderlist);
-                        $scope.SaveSubmitCReport('RP_1906260041');
+                        
                         return true;
                         
                     };
@@ -796,7 +795,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         });
                         //Voucher has not created yet, then create.
                         /**Save and Submit Button */
-                        if (confirm('Would you like save and submit this Voucher?')) {
+                        if (confirm('Would you like save and submit this Voucher? '+Rp_ID )) {
                             // if (isCreated) {
                             //     /** Save  */
                             //     var note = saveInitNote();
@@ -849,26 +848,26 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         } else {
                             alert('submit done!"');
                             /**Save to Server and change status */
-                            // LIMSService.UpdateRYStatusVoucher({
-                            //     voucherID: voucherid,
-                            //     status: 'P',
-                            //     userid: username
-                            // }, function (res) {
-                            //     if (res.Success) {
-                            //         Notifications.addMessage({
-                            //             'status': 'info',
-                            //             'message': 'Your voucher ' + voucherid + ' is submited!'
-                            //         });
-                            //         $timeout(() => {
-                            //             $scope.Search();
-                            //         }, 2000);
-                            //     }
-                            // }, function (err) {
-                            //     Notifications.addError({
-                            //         'status': 'error',
-                            //         'message': 'Save Error' + err
-                            //     });
-                            // })
+                            CReportService.Update({
+                                voucherID: voucherid,
+                                status: 'P',
+                                userid: username
+                            }, function (res) {
+                                if (res.Success) {
+                                    Notifications.addMessage({
+                                        'status': 'info',
+                                        'message': 'Your voucher ' + voucherid + ' is submited!'
+                                    });
+                                    $timeout(() => {
+                                        $scope.Search();
+                                    }, 2000);
+                                }
+                            }, function (err) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': 'Save Error' + err
+                                });
+                            })
                         }
                     })
                     /** Change Status to P */
