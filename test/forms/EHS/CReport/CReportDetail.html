@@ -1,4 +1,4 @@
-<page size="A4" id="page-contain" class="container" ng-show="ReportDetail.Rp_Type=='IC'">
+<page size="A4" id="page-contain" class="container" ng-if="ReportDetail.Rp_Type=='IC'">
     <!--header Container-->
     <div class="header">
         <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
@@ -39,14 +39,16 @@
         <div class="col-lg-12 col-sm-12 col-mrg">
             4.0 事故地點 Địa điểm xảy ra sự cố: {{ReportDetail.Rp_Location}}
             <br>
-            <a href="/{{item.File_ID}}" target="_blank" ng-repeat="item in ICfile_Location"
+            <a href="/{{item.File_ID}}" target="_blank"
+                ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}"
                 style="padding-left: 3%; display:block;">{{item.File_ID}}</a>
         </div>
 
         <div class="col-lg-12 col-sm-12 col-mrg">
             5.0 事故發生經過 Diễn biến sự cố (請詳細說明 Thuyết minh chi tiết):
             <p style="padding-left: 3%; text-align: justify;">{{ReportDetail.RpIC_Description}}</p>
-            <a href="/{{item.File_ID}}" target="_blank" ng-repeat="item in ICfile_Description"
+            <a href="/{{item.File_ID}}" target="_blank"
+                ng-repeat="item in FileAttached | filter:{ColumnName: 'Injury_Description'}"
                 style="padding-left: 3%;display:block;">{{item.File_ID}}</a>
         </div>
 
@@ -116,19 +118,18 @@
     </div>
     <!--end of body-->
     <div class="divFooter col-sm-12" style="text-align:right;">5VEXXHR382-01</div>
-
 </page>
 
 
-<page size="A4" id="page-contain" class="container" ng-show="ReportDetail.Rp_Type!='IC'">
+<!-- **************************************************************************************************************** -->
+
+<page size="A4" id="page-contain" class="container" ng-if="ReportDetail.Rp_Type!='IC'">
 
     <div class="header">
         <h4 style="text-align:center; font-family: 'Times New Roman', Times, serif; margin-bottom: 4%;">
             CÔNG TY TNHH POLYTEX FAR EASTERN (VIET NAM)<br>
             遠東新世紀股份有限公司(越南紡纖廠)
-
         </h4>
-
         <div style="text-align: center; margin-bottom: 4%;">
             <h4 style="font-family: 'Times New Roman', Times, serif;">BÁO CÁO TAI NẠN NGOÀI Ý MUỐN <br>
                 意外傷害報告書
@@ -143,20 +144,47 @@
 
 
     <div class="body">
-
-        <div class="col-lg-12 col-sm-12 ">
+        <div class="col-lg-12 col-sm-12">
             1.0 Thông tin cơ bản người bị thương 傷者基本資料:
         </div>
 
+        <table style="border:black;" class="table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align:center;"> Họ tên 姓名 : </th>
+                    <th style="text-align:center;"> Giới tính 性別 :</th>
+                    <th style="text-align:center;"> Tuổi 年齡 : 歲
+                    <th style="text-align:center;"> Mã nhân viên 工號 : </th>
+                    <th style="text-align:center;"> Đơn vị 單位: </th>
+                    <th style="text-align:center;"> Công việc đảm nhận 擔任工作 :</th>
+                    <th style="text-align:center;"> Ngày vào làm 進廠日期 :</th>
+
+                    <!-- <th style="text-align:center;" ng-repeat="header in InjuryDetail[0]">{{ header }}</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="Injuries in InjuryDetail">
+                    <td> {{Injuries.Name}} </td>
+                    <td> {{Injuries.Sex}} </td>
+                    <td> {{Injuries.Age}} </td>
+                    <td> {{Injuries.EmployeeID}} </td>
+                    <td> {{Injuries.Specification}} </td>
+                    <td> {{Injuries.PositionName}} </td>
+                    <td> {{Injuries.Hiring | date:  'yyyy-MM-dd' }} </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 
         <div style="padding-left: 3%;">
-            <div class="col-lg-4 col-sm-4 col-mrg">
+            <div class="col-lg-4 col-sm-4 col-mrg" ng-repeat="Injuries in InjuryDetail">
                 Họ tên 姓名 : {{Injuries.Name}}
             </div>
             <div class="col-lg-4 col-sm-4 col-mrg">
-                Giới tính 性別 : {{Injuries.sex}}
+                Giới tính 性別 : {{Injuries.Sex}}
             </div>
             <div class="col-lg-4 col-sm-4 col-mrg">
-                Tuổi 年齡 : {{}} 歲
+                Tuổi 年齡 : {{Injuries.Age}} 歲
             </div>
             <div class="col-lg-12 col-sm-12 col-mrg">
                 Mã nhân viên 工號 : {{Injuries.EmployeeID}}
@@ -170,7 +198,7 @@
             <div class="col-lg-12 col-sm-12 col-mrg">
                 Ngày vào làm 進廠日期 :{{Injuries.Hiring}}
             </div>
-        </div>
+        </div> -->
 
         <div class="col-lg-12 col-sm-12">
             2.0 Thời gian bị thương 受傷時間:{{ReportDetail.Rp_DateTime | date : 'yyyy-MM-dd HH:mm'}}
@@ -180,27 +208,31 @@
             3.0 Địa điểm bị thương 受傷地點：(nếu bên ngoài xưởng, xin vẽ ra vị trí địa lý 若係廠外受傷，請劃出地理位置):
             {{ReportDetail.Rp_Location}}
             <br>
-            <a href="/{{item.File_ID}}" target="_blank" ng-repeat="item in ACfile_Location"
+            <a href="/{{item.File_ID}}" target="_blank"
+                ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}"
                 style="padding-left: 3%; display: block;">{{item.File_ID}}</a>
         </div>
 
         <div class="col-lg-12 col-sm-12">
             4.0 Tình hình chi tiết quá trình bị thương 受傷經過詳細情形 :
-            <p style="padding-left: 3%; text-align: justify;">{{ReportDetail.Injury_Description}}</p>
-            <a href="/{{item.File_ID}}" target="_blank"
-                ng-repeat="item in ACfile_Injury_Description"
-                style="padding-left: 3%; display: block;">{{item.File_ID}}</a>
+            <div ng-repeat="person in InjuryDetail" >
+                <p style="padding-left: 3%; text-align: justify;">({{person.Name}}) {{person.Injury_Description}}</p>
+                <a href="/{{item.File_ID}}" target="_blank"
+                    ng-repeat="item in FileAttached | filter:{ColumnName: 'Injury_Description'}"
+                    style="padding-left: 3%; display: block;">{{item.File_ID}}</a>
+            </div>
+
         </div>
 
         <div class="col-lg-12 col-sm-12">
             5.0Danh tính người chứng kiến hiện trường hoặc người có quan hệ với người bị thương受傷關係人或現場見證人姓名：
             (nếu bên ngoài xưởng xin ghi rõ cách thức liên lạc 若係廠外請註明聯絡方法):
-            <p style="padding-left: 3%; text-align: justify;">{{ReportDetail.Witness_info}}</p>
+            <p style="padding-left: 3%; text-align: justify;" ng-repeat="person in InjuryDetail" >({{person.Name}}): {{person.Witness_info}}</p>
         </div>
 
         <div class="col-lg-12 col-sm-12">
             6.0 0Tình hình xử lý sau khi bị thương 受傷後處理情形:
-            <p style="padding-left: 3%; text-align: justify;">{{ReportDetail.Treatment_Result}}</p>
+            <p style="padding-left: 3%; text-align: justify;" ng-repeat="person in InjuryDetail" >({{person.Name}}){{person.Treatment_Result}}</p>
         </div>
 
 

@@ -25,6 +25,14 @@ define(['app', 'angular'], function (app, angular) {
             });
 
             this.GetInfoBasic = $resource('/Waste/CReportController/:operation', {}, {
+                GetDetailReport: {
+                    method: 'GET',
+                    params: {
+                        operation: 'GetFull_CReportDetail'
+                    },
+                    // isArray: true
+                },
+                
                 SearchIC: {
                     method: 'GET',
                     params: {
@@ -32,6 +40,7 @@ define(['app', 'angular'], function (app, angular) {
                     },
                     isArray: true
                 },
+               
 
                 SearchAC: {
                     method: 'GET',

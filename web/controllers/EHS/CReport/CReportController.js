@@ -452,7 +452,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 CReportService.FindByID({
                     Rp_ID: id
                 }, function (data) {
-                    
+
                     $scope.recordIC.rp_id = data.Rp_ID;
                     $scope.recordIC.icGroup = data.RpIC_Group;
                     $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
@@ -718,6 +718,27 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     },
                     order: 5
 
+                }, {
+                    title: $translate.instant('Submit'),
+                    action: function () {
+                        var resultRows = $scope.gridApi.selection.getSelectedRows();
+                        if (resultRows.length == 1) {
+                            if (resultRows[0].Status != 'P' && resultRows[0].Status != 'S' && resultRows[0].Rp_CreatorID == Auth.username) {
+                                $scope.SaveSubmitCReport(resultRows[0].Rp_ID);
+                            } else {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Delete_onlyowner_MSG')
+                                });
+                            }
+                        } else {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': $translate.instant('Select_ONE_MSG')
+                            });
+                        }
+                    },
+                    order: 6
                 }
             ];
 
@@ -761,9 +782,9 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         $scope.leaderlist = leaderlist;
                         console.log("Checklist", $scope.checkList);
                         console.log("leaderlist", $scope.leaderlist);
-                        
+
                         return true;
-                        
+
                     };
                     return false;
                 }, function (errormessage) {
@@ -772,7 +793,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 })
             }
 
-            
+
 
             /**Save Submit */
             $scope.SaveSubmitCReport = function (Rp_ID) {
@@ -795,7 +816,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         });
                         //Voucher has not created yet, then create.
                         /**Save and Submit Button */
-                        if (confirm('Would you like save and submit this Voucher? '+Rp_ID )) {
+                        if (confirm('Would you like save and submit this Voucher? ' + Rp_ID)) {
                             // if (isCreated) {
                             //     /** Save  */
                             //     var note = saveInitNote();
@@ -821,8 +842,8 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                                 name: 'Rp_ID',
                                 value: Rp_ID //chosen
                             });
-                            
-                            SubmitAndChangeStatus(Rp_ID);//need to check before submit
+
+                            SubmitAndChangeStatus(Rp_ID); //need to check before submit
 
                             // LIMSService.ISOQualify.GetNewRYVoucher({
                             //     voucherid: $scope.recod.VoucherID
