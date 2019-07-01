@@ -2,15 +2,31 @@ define(['myapp', 'angular'], function (myapp, angular) {
     myapp.directive('createAcReport', ['$upload', 'CReportService', 'Auth', '$q',
         function ($upload, CReportService, Auth, $q) {
             return {
-                restrict: 'E', //?
+                restrict: 'E',
                 controller: function ($scope) {
                     $scope.flowkey = 'HW-User'; // ??
                     $scope.username = Auth.username;
-                    formVariables = $scope.formVariables = []; //???
-                    historyVariable = $scope.historyVariable = []; //????
+                    // formVariables = $scope.formVariables = []; //???
+                    // historyVariable = $scope.historyVariable = []; //????
 
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
 
+                    $scope.uploadFile_AC = function ($files, colName) {
+                        $upload.upload({
+                            url: '/Waste/files/Upload',
+                            method: "POST",
+                            file: $files
+                        }).progress(function (evt) {
+
+                        }).then(function (res) {
+                            res.data.forEach(x => {
+                                $scope.dt.name = x;
+                                $scope.dt.col = colName;
+                                $scope.listfileAC.push($scope.dt);
+                                $scope.dt = {};
+                            })
+                        })
+                    }
 
                     // xóa file tình hình bị thương khỏi QCFiles 
                     $scope.removeFileInjury = function (index) {
@@ -75,12 +91,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 }
                             })
 
-                            if (sameID){
+                            if (sameID) {
                                 sameID = false;
                                 return;
                             }
                             else {
-                                
+
                                 $scope.gd.Rp_ID = $scope.recordAC.rp_id || '';
 
                                 if ($scope.listfileAC.length > 0) {
@@ -105,8 +121,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.employees.splice(index, 1);
                     };
 
+                    var count = 0;
                     function saveInitDataAC() {
                         var note = {};
+                        count = 0;
                         note.Rp_ID = $scope.recordAC.rp_id || '';
                         note.Rp_Date = $scope.recordAC.date || '';
                         note.Rp_Stamp = $scope.recordAC.stamp || '';
@@ -128,6 +146,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                         $scope.lsFile = [];
                         if ($scope.listfile.length > 0) {
+                            count++;
+
                             $scope.listfile.forEach(element => {
                                 $scope.f.File_ID = element.name;
                                 $scope.f.ColumnName = element.col;
@@ -205,19 +225,32 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     /**
                      * save submit 
                      */
+
+                    var nofile = false;
                     $scope.saveSubmitAC = function () {
                         if ($scope.employees.length != 0) {
                             $scope.mySwitch = false;
                             var note = saveInitDataAC();
-                            var status = $scope.status;
-                            switch (status) {
-                                case 'N':
-                                    SaveAC(note);
-                                    $scope.resetAC();
-                                    break;
-                                case 'M':
-                                    updateByID_AC(note);
-                                    break;
+                            if (count == 0 && $scope.recordAC.ac_location== "O") {
+                                $scope.nofileLoc();
+                                nofile = true;
+                            }
+
+                            if (nofile) {
+                                nofile = false;
+                                return;
+                            }
+                            else {
+                                var status = $scope.status;
+                                switch (status) {
+                                    case 'N':
+                                        SaveAC(note);
+                                        $scope.resetAC();
+                                        break;
+                                    case 'M':
+                                        updateByID_AC(note);
+                                        break;
+                                }
                             }
                         } else {
                             $scope.ac_details_msg();
@@ -235,9 +268,25 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.employees = [];
                         $scope.Search();
                         $scope.listfile = [];
-                        $scope.lsFile = []; 
-                        $scope.injury = []; 
+                        $scope.lsFile = [];
+                        $scope.injury = [];
                     };
+
+                    $scope.emp_name = "";
+                    //show tên nhân viên theo mã nhân viên
+                    $scope.showEmployeeName = function (emp_id) {
+
+
+                        $scope.listEmployee.forEach(x => {
+                            if (x.EmployeeID == emp_id) {
+                                $scope.emp_name = x.Name;
+
+                            }
+
+                        })
+                        return $scope.emp_name;
+                    };
+
                 },
 
                 templateUrl: './forms/EHS/CReport/createACReport.html'

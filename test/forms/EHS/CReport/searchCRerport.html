@@ -31,6 +31,14 @@
     .form-control{
         height: 34px;
     }
+    .grid_cell_ct{
+        width: 100%;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 5px;
+    }
 </style>
 
 <form class="form-horizontal" role="form" novalidate name="form" style="padding-top:30px">
@@ -53,8 +61,12 @@
 
                 <label class="col-sm-2 control-label">{{'From'|translate}}</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="text" id="time-search-from" name="dateFrom" ng-model="dateFrom" style="display:inline-block; width:88%;" date-picker />
-                    <label class="glyphicon glyphicon-calendar calender" for='time-search-from' style="vertical-align: top;"></label>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" id="time-search-from" name="dateFrom" ng-model="dateFrom" date-picker />
+                        <span class="input-group-addon">
+                            <label class="glyphicon glyphicon-calendar" style="color: grey" for="time-search-from"></label>
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -66,8 +78,12 @@
 
                 <label class="col-sm-2 control-label">{{'To'|translate}}</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="text" id="time-search-to" name="dateTo" ng-model="dateTo" style="display:inline-block; width:88%;" date-picker />
-                    <label class="glyphicon glyphicon-calendar calender" for='time-search-to' style="vertical-align: top;"></label>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" id="time-search-to" name="dateTo" style="height: 34px;" ng-model="dateTo" date-picker />
+                        <span class="input-group-addon">
+                            <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-search-to' ></label>
+                        </span>
+                    </div>
                 </div>
             </div>
 

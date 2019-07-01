@@ -3,9 +3,9 @@ define(['myapp', 'angular'], function (myapp, angular) {
         function ($filter, Notifications, Auth, EngineApi, CReportService,InfolistService, $translate, $q, $scope, $routeParams) {
 
             //evaluate combobox
-            $scope.evaluatelist = InfolistService.Infolist('evaluate');
+            var evaluatelist = InfolistService.Infolist('evaluate');
             // location combobox
-            $scope.locationlist= InfolistService.Infolist('location');
+            var locationlist= InfolistService.Infolist('location');
             
             /**
              * Report init
@@ -58,53 +58,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         }
                     );
 
-                    switch ($scope.ACdetail.Rp_Location) {
-                        case 'DN':
-                        $scope.ACdetail.Rp_Location = $translate.instant($scope.locationlist[0].name);
-                        break;
-                        case 'HS':
-                        $scope.ACdetail.Rp_Location = $translate.instant($scope.locationlist[1].name);
-                        break;
-                        case 'O':
-                        $scope.ACdetail.Rp_Location = $translate.instant($scope.locationlist[2].name);
-                        break;
-                    };
+                    $scope.ACdetail.Rp_Location = locationlist.find(item => item.id === $scope.ACdetail.Rp_Location).name;
 
-                    switch ($scope.ACdetail.RpAC_ResultHardware) {
-                        case 'VG':
-                        $scope.ACdetail.RpAC_ResultHardware = $translate.instant($scope.evaluatelist[0].name);
-                        break;
-                        case 'G':
-                        $scope.ACdetail.RpAC_ResultHardware = $translate.instant($scope.evaluatelist[1].name);
-                        break;
-                        case 'MD':
-                        $scope.ACdetail.RpAC_ResultHardware = $translate.instant($scope.evaluatelist[2].name);
-                        break;
-                        case 'B':
-                        $scope.ACdetail.RpAC_ResultHardware = $translate.instant($scope.evaluatelist[3].name);
-                        break;
-                        case 'VB':
-                        $scope.ACdetail.RpAC_ResultHardware = $translate.instant($scope.evaluatelist[4].name);
-                        break;
-                    };
+                    $scope.ACdetail.RpAC_ResultHardware = evaluatelist.find(item => item.id === $scope.ACdetail.RpAC_ResultHardware).name;
 
-                    switch ($scope.ACdetail.RpAC_ResultSoftware) {
-                        case 'VG':
-                        $scope.ACdetail.RpAC_ResultSoftware =$translate.instant( $scope.evaluatelist[0].name);
-                        break;
-                        case 'G':
-                        $scope.ACdetail.RpAC_ResultSoftware =$translate.instant( $scope.evaluatelist[1].name);
-                        break;
-                        case 'MD':
-                        $scope.ACdetail.RpAC_ResultSoftware = $translate.instant($scope.evaluatelist[2].name);
-                        break;
-                        case 'B':
-                        $scope.ACdetail.RpAC_ResultSoftware = $translate.instant($scope.evaluatelist[3].name);
-                        break;
-                        case 'VB':
-                        $scope.ACdetail.RpAC_ResultSoftware = $translate.instant($scope.evaluatelist[4].name);
-                        break;
-                    };
+                    $scope.ACdetail.RpAC_ResultSoftware = evaluatelist.find(item => item.id === $scope.ACdetail.RpAC_ResultSoftware).name;
 
                     $scope.ACdetail.Rp_Date = moment(data.Table0[0].Rp_Date).format('DD/MM/YYYY');
                     $scope.ACdetail.Hiring = moment(data.Table0[0].Hiring).format('DD/MM/YYYY');

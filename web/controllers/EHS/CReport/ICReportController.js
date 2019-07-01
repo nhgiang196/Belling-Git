@@ -3,11 +3,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
         function ($filter, Notifications, Auth, EngineApi, CReportService,InfolistService, $translate, $q, $scope, $routeParams) {
 
             //evaluate combobox
-            $scope.evaluatelist = InfolistService.Infolist('evaluate');
+            var evaluatelist = InfolistService.Infolist('evaluate');
             // location combobox
-            $scope.locationlist= InfolistService.Infolist('location');
+            var locationlist= InfolistService.Infolist('location');
             // incident type combobox
-            $scope.incidentlist= InfolistService.Infolist('incident');
+            var incidentlist= InfolistService.Infolist('incident');
             /**
              * Report init
              */
@@ -46,51 +46,16 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         }
                     );
 
-                    switch ($scope.ICdetail.RpIC_Evaluate) {
-                        case 'VG':
-                        $scope.ICdetail.RpIC_Evaluate = $translate.instant($scope.evaluatelist[0].name);
-                        break;
-                        case 'G':
-                        $scope.ICdetail.RpIC_Evaluate = $translate.instant($scope.evaluatelist[1].name);
-                        break;
-                        case 'MD':
-                        $scope.ICdetail.RpIC_Evaluate = $translate.instant($scope.evaluatelist[2].name);
-                        break;
-                        case 'B':
-                        $scope.ICdetail.RpIC_Evaluate = $translate.instant($scope.evaluatelist[3].name);
-                        break;
-                        case 'VB':
-                        $scope.ICdetail.RpIC_Evaluate = $translate.instant($scope.evaluatelist[4].name);
-                        break;
-                    };
-
-                    switch ($scope.ICdetail.Rp_Location) {
-                        case 'DN':
-                        $scope.ICdetail.Rp_Location = $translate.instant($scope.locationlist[0].name);
-                        break;
-                        case 'HS':
-                        $scope.ICdetail.Rp_Location = $translate.instant($scope.locationlist[1].name);
-                        break;
-                        case 'O':
-                        $scope.ICdetail.Rp_Location = $translate.instant($scope.locationlist[2].name);
-                        break;
-                    };
-
-                    switch ($scope.ICdetail.RpIC_IncidentType) {
-                        case 'ind1':
-                        $scope.ICdetail.RpIC_IncidentType = $scope.incidentlist[0].name;
-                        break;
-                        case 'ind2':
-                        $scope.ICdetail.RpIC_IncidentType = $scope.incidentlist[1].name;
-                        break;
-                    };
-                        
+                    $scope.ICdetail.RpIC_Evaluate = evaluatelist.find(item => item.id === $scope.ICdetail.RpIC_Evaluate).name;
                     
+                    $scope.ICdetail.Rp_Location = locationlist.find(item => item.id === $scope.ICdetail.Rp_Location).name;
+                    
+                    $scope.ICdetail.RpIC_IncidentType = incidentlist.find(item => item.id === $scope.ICdetail.RpIC_IncidentType).name;
+
                     $scope.ICdetail.Rp_Date = moment($scope.ICdetail.Rp_Date).format("YYYY") + '年 Năm ' + moment($scope.ICdetail.Rp_Date).format("MM") + '月 Tháng ' + moment($scope.ICdetail.Rp_Date).format("DD") + '日 Ngày ';
                     $scope.ICdetail.Rp_DateTime = moment($scope.ICdetail.Rp_DateTime).format("YYYY") + '年 Năm ' + moment($scope.ICdetail.Rp_DateTime).format("MM") + '月 Tháng ' + moment($scope.ICdetail.Rp_DateTime).format("DD") + '日 Ngày ' + moment($scope.ICdetail.Rp_DateTime).format("HH") + '時 Giờ ' + moment($scope.ICdetail.Rp_DateTime).format("mm") + '分 Phút ';
                 }, function (error) {
                     console.log(error);
-                    // deferred.reject(error);
                 })
             }
             

@@ -24,12 +24,12 @@
     .container, .row{
         padding: 0;
     }
+    
     page {
         background: white;
         display: block;
         margin: 0 auto;
-        margin-bottom: 0.5cm;
-        
+        margin-bottom: 0.5cm; 
         box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
     }
 
@@ -38,14 +38,23 @@
         padding: 0cm 1.5cm 1.5cm 2cm !important;
     }
 
+    .ic_img_loc{
+        width: 200px;
+        height: 200px;
+    }
+
     @media print {
         table {
-            page-break-inside: auto
+            page-break-inside: auto;
         }
 
         tr {
-            page-break-inside: avoid;
+            
             page-break-after: auto
+        }
+
+        td{
+            page-break-inside: avoid;
         }
 
         html,body,page {
@@ -53,14 +62,30 @@
             box-shadow: 0;
         }
 
+
         .divFooter {
+            display: block;
             position: fixed;
-            bottom: 0px; 
-            left: 0;
-            right: 55px;
+            bottom: 0px;
+            width: 84%;
             margin-top: 5px;
+            border-bottom:none;
             }
+            .ic_img_loc{
+                display: block;
+                margin: 10px auto;
+                width: 100%;
+                height: auto;
+            }
+            .a-ic{
+                display: block;
+                text-align: center;
+                page-break-after: auto
+            }
+            
     }
+
+    
 
     .col-mrg {
         margin-bottom: 2%;
@@ -72,119 +97,165 @@
 </style>
 
 <page size="A4" id="page-contain" class="container">
-    <!--header Container-->
-    <div class="header">
-        <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
-            遠東紡纖(越南)有限公司 - 化纖廠       
-         </div>
-        <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
-            CTY TNHH POLYTEX FAR EASTERN (VN) - XƯỞNG HÓA SỢI 
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg col-mrg" style="text-align: center; margin-top:3% ">
-            <Strong>虛驚事故報調查報告書 <br>
-                BÁO CÁO SỰ CỐ SUÝT XẢY RA 
-                </Strong>
-        </div>
-        <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
-            填報日期 Ngày tháng: {{ICdetail.Rp_Date}}
-        </div>
-    </div>
-    <!--end of header-->
+    <table class="body">
+    
+        <tbody>
 
-    <div class="clearfix"></div>
+            <tr>
+                <td>
+                    <div class=" col-mrg" style="text-align: center;">
+                        遠東紡纖(越南)有限公司 - 化纖廠       
+                        </div>
+                    <div class=" col-mrg" style="text-align: center;">
+                        CTY TNHH POLYTEX FAR EASTERN (VN) - XƯỞNG HÓA SỢI 
+                    </div>
+                    <div class=" col-mrg col-mrg" style="text-align: center; margin-top:3% ">
+                        <Strong>虛驚事故報調查報告書 <br>
+                            BÁO CÁO SỰ CỐ SUÝT XẢY RA 
+                            </Strong>
+                    </div>
+                    <div  style="margin-bottom:3%; text-align: right">
+                        填報日期 Ngày tháng: {{ICdetail.Rp_Date}}
+                    </div>
+                </td>
+            </tr>
 
-    <!--body Container-->
-    <div class="body">
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        1.0 事故單位 Đơn vị xảy ra sự cố: {{ICdetail.RpIC_Group}} 群 Nhóm, {{ICdetail.DepartmentName| translate }} 廠 Xưởng,
+                        {{ICdetail.SubDepartmentName}} 科 Bộ phận.
+                    </div>
 
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            1.0 事故單位 Đơn vị xảy ra sự cố: {{ICdetail.RpIC_Group}} 群 Nhóm, {{ICdetail.DepartmentName}} 廠 Xưởng,
-            {{ICdetail.SubDepartmentName}} 科 Bộ phận.
-        </div>
+                    <div class=" col-mrg">
+                        2.0 事故類型 Loại hình sự cố: {{ICdetail.RpIC_IncidentType}}
+                    </div>
 
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            2.0 事故類型 Loại hình sự cố: {{ICdetail.RpIC_IncidentType}}
-        </div>
+                    <div class=" col-mrg">
+                        3.0 事故時間 Thời gian tai nạn: {{ICdetail.Rp_DateTime}}
+                    </div>
+                </td>
+            </tr>
 
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            3.0 事故時間 Thời gian tai nạn: {{ICdetail.Rp_DateTime}}
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            4.0 事故地點 Địa điểm xảy ra sự cố: {{ICdetail.Rp_Location}}
-            <br>
-            <a href="http://localhost:843/{{item.File_ID}}" target="_blank" ng-repeat="item in ICfile_Location" style="padding-left: 3%; display:block;">{{item.File_ID}}</a>
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            5.0 事故發生經過 Diễn biến sự cố (請詳細說明 Thuyết minh chi tiết):
-            <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Description}}</p>
-            <a href="http://localhost:843/{{item.File_ID}}" target="_blank" ng-repeat="item in ICfile_Description" style="padding-left: 3%;display:block;">{{item.File_ID}}</a>
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            6.0 事故發生原因 Nguyên nhân phát sinh sự cố:
-            <br>
-            <p style="padding-left: 3%">A: Nguyên nhân trực tiếp 直接原因:</p>
-
-            <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_DirectReason}}</p>
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        4.0 事故地點 Địa điểm xảy ra sự cố: {{ICdetail.Rp_Location| translate }}
+                        <br>
+                        <div style="padding-left: 3%; text-align: justify; padding-bottom: 3%;">
+                            <a class="a-ic" href="/{{item.File_ID}}" ng-repeat="item in ICfile_Location" target="_blank">
+                                <img class="ic_img_loc" ng-src="{{item.File_ID}}" alt="{{item.File_ID}}" />
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        5.0 事故發生經過 Diễn biến sự cố (請詳細說明 Thuyết minh chi tiết):
+                        <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Description}}</p>
+                        <a href="/{{item.File_ID}}" target="_blank" ng-repeat="item in ICfile_Description" style="padding-left: 3%;display:block;">{{item.File_ID}}</a>
+                    </div>
+                </td>
+            </tr>
             
-            <p style=" padding-left: 3%">B: Nguyên nhân gián tiếp 間接原因 :</p>
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        6.0 事故發生原因 Nguyên nhân phát sinh sự cố:
+                        <br>
+                        <p style="padding-left: 3%">A: Nguyên nhân trực tiếp 直接原因:</p>
+            
+                        <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_DirectReason}}</p>
+                        
+                        <p style=" padding-left: 3%">B: Nguyên nhân gián tiếp 間接原因 :</p>
+            
+                        <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_IndirectReason}}</p>
+            
+                        <p style="padding-left: 3%">C: Nguyên nhân cơ bản 基本原因 : </p>
+                        <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_BasicReason}}</p>
+            
+                    </div>
+                </td>
+            </tr>
 
-            <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_IndirectReason}}</p>
+        
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        7.0 事故結果Hậu quả sự cố：(人員驚嚇、設備損失、生產損失或其他)Nhân viên hoảng sợ, tổn thất thiết bị,thiệt hại sản xuất,….):
+                        <br>
+                        <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Damage}}</p>
+                    </div>
+                </td>
+            </tr>
+        
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        8.0 事故後處理情形 Tình hình xử lý sau sự cố:
+                        <br>
+                        <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Process}}</p>
+                    </div>
+                </td>
+            </tr>
+        
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        9.0 如何防止同樣事故發生  Làm thế nào để ngăn ngừa sự cố:
+                        <br>
+                        <p style="padding-left: 3%; text-align: justify;">{{ICdetail.Rp_PreventMeasure}} </p>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        10.0 Đánh giá theo dõi sau khi thực hiện đối sách phòng ngừa 執行防止對策後之追蹤考核 : {{ICdetail.RpIC_Evaluate|translate}}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class=" col-mrg">
+                        11.0 Phê duyệt của chủ quản 主管批示 :
+                        <table border="1px" cellpadding="5px" style="width:100%; height: 100%; margin-top: 3%;">
+                            <tr style="text-align:center;">
+                                <td style="width:5%">填報人 Creator</td>
+                                <td></td>
+                                <td style="width:5%">Leader</td>
+                                <td></td>
+                                <td style="width:5%">Header Factory</td>
+                                <td></td>
+                                <td style="width:5%">Supervisor</td>
+                                <td></td>
+                                <td style="width:5%">Leader</td>
+                                <td></td>
+                                <td style="width:5%">Manager</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p style="margin-top:2%; text-align:justify;"> Bản này chia làm hai bản, một bản do bộ phận phát sinh sự cố lưu, một bản do bộ phận ATMT lưu.
+                        本表一式兩份，一份由事故單位自存，一份送安環處位存查。 
+                    </p>
+                </td>
+            </tr>
+        
+        </tbody>
 
-            <p style="padding-left: 3%">C: Nguyên nhân cơ bản 基本原因 : </p>
-            <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_BasicReason}}</p>
+        <tfoot>
+            <tr>
+                <td> <div class="divFooter" style="text-align: right;">5VEXXHR382-01</div> </td>
+            </tr>
+        </tfoot>
 
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            7.0 事故結果Hậu quả sự cố：(人員驚嚇、設備損失、生產損失或其他)Nhân viên hoảng sợ, tổn thất thiết bị,thiệt hại sản xuất,….):
-            <br>
-            <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Damage}}</p>
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            8.0 事故後處理情形 Tình hình xử lý sau sự cố:
-            <br>
-            <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Process}}</p>
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            9.0 如何防止同樣事故發生  Làm thế nào để ngăn ngừa sự cố:
-            <br>
-            <p style="padding-left: 3%; text-align: justify;">{{ICdetail.Rp_PreventMeasure}} </p>
-        </div>
-
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            10.0 Đánh giá theo dõi sau khi thực hiện đối sách phòng ngừa 執行防止對策後之追蹤考核 : {{ICdetail.RpIC_Evaluate}}
-
-        </div>
-
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            11.0 Phê duyệt của chủ quản 主管批示 :
-            <table border="1px" cellpadding="5px" style="width:100%; height: 100%; margin-top: 3%;">
-                <tr style="text-align:center;">
-                    <td style="width:5%">填報人 Creator</td>
-                    <td></td>
-                    <td style="width:5%">Leader</td>
-                    <td></td>
-                    <td style="width:5%">Header Factory</td>
-                    <td></td>
-                    <td style="width:5%">Supervisor</td>
-                    <td></td>
-                    <td style="width:5%">Leader</td>
-                    <td></td>
-                    <td style="width:5%">Manager</td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-sm-12 col-lg-12" style="margin-top:2%; text-align:justify;"> Bản này chia làm hai bản, một bản do bộ phận phát sinh sự cố lưu, một bản do bộ phận ATMT lưu.
-            本表一式兩份，一份由事故單位自存，一份送安環處位存查。 
-            </div>
-    </div><!--end of body-->
-    <div class="divFooter col-sm-12" style="text-align:right;" >5VEXXHR382-01</div>
+        </table><!--end of body-->
+   
 </page>
 
 

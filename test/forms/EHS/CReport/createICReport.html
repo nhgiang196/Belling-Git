@@ -2,6 +2,7 @@
     .title {
         width: 101%;
         background-color: #ececec;
+
         padding: 5px 0px 5px 10px;
         border: 1px solid #ececec;
         border-radius: 6px;
@@ -55,37 +56,52 @@
 <div class="modal fade" id="my-modal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
     data-keyboard="false">
     <div class="modal-dialog modal-lg">
+
         <div class="modal-content" style="padding: 5px;">
+
             <div class="modal-body" style="padding-bottom:3px">
+
                 <h3 class="text-center">{{'IncidentReport'|translate}}</h3>
+
                 <H4 class="title">{{'Incident_info'|translate}}</H4>
                 <form class="form-horizontal model-form " name="icform">
                     <label class="col-sm-12 control-label ctr-lb" style="text-align: left;">*
                         {{'IcUnit'|translate}}:</label>
                     <div class=" form-group frm-mrg" style="margin-top:20px;">
-                        <label class="col-sm-2 control-label ctr-lb">* {{'Group'|translate}}</label>
-                        <div class="col-sm-2">
-                            <input style="width:100%; height: 26px;" class="form-control" type="text"
-                                ng-model="recordIC.icGroup" re>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}</label>
+                        <div class="col-sm-4">
+                            <select style="width:100%" ui-select2 ng-model="recordIC.ic_SubDeparmentid"
+                                name="ic_SubDeparmentid" required>
+                                <option ng-repeat="s_dpm in sub_dpm" value="{{s_dpm.CostCenter}}">
+                                    {{s_dpm.CostCenter}} - {{s_dpm.Specification|translate}}</option>
+
+                            </select>
                         </div>
+                       
+
+
                     </div> <!-- end of form-group frm-mrg -->
+
                     <div class=" form-group frm-mrg" style="margin-top:20px;">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Factory'|translate}}</label>
                         <div class="col-sm-4">
                             <select style="width:100%" ui-select2 ng-model="recordIC.ic_departmentid"
                                 name="ic_departmentid" required>
-                                <option ng-repeat="ct_dpm in center_dpm" value="{{ct_dpm.CostCenter}}">
-                                    {{ct_dpm.Specification|translate}}</option>
-                            </select>
-                        </div> <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}</label>
-                        <div class="col-sm-4">
-                            <select style="width:100%" ui-select2 ng-model="recordIC.ic_SubDeparmentid"
-                                name="ic_SubDeparmentid" required>
-                                <option ng-repeat="s_dpm in sub_dpm" value="{{s_dpm.CostCenter}}">
-                                    {{s_dpm.Specification|translate}}</option>
+                                <option ng-selected="showFactoryByDept(recordIC.ic_SubDeparmentid)"
+                                    ng-repeat="ct_dpm in center_dpm" value="{{ct_dpm.CostCenter}}">
+                                    {{ct_dpm.Specification|translate}} </option>
                             </select>
                         </div>
+
+                        <label class="col-sm-2 control-label ctr-lb">{{'Group'|translate}}</label>
+                        <div class="col-sm-2">
+                            <input style="width:100%; height: 26px;" class="form-control" type="text"
+                                ng-model="recordIC.icGroup">
+                        </div>
+
+                       
                     </div> <!-- end of form-group frm-mrg -->
+
                     <div class=" form-group frm-mrg " style="margin-top:20px;">
                         <label class="col-sm-2 control-label ctr-lb">* {{'IncidentType'|translate}}</label>
                         <div class="col-sm-4">
@@ -94,7 +110,9 @@
                                 <option ng-repeat='item in incidentlist' value="{{item.id}}">{{item.name | translate}}
                                 </option>
                             </select>
-                        </div> <label class="col-sm-2 control-label ctr-lb">* {{'Iclocation'|translate}}</label>
+                        </div>
+
+                        <label class="col-sm-2 control-label ctr-lb">* {{'Iclocation'|translate}}</label>
                         <div class="col-sm-4">
                             <select style="width:100%" ui-select2 ng-change="showBtnFile()"
                                 ng-model="recordIC.icLocation" name="recordIC.icLocation" required>
@@ -103,15 +121,20 @@
                             </select>
                         </div>
                     </div> <!-- end of form-group frm-mrg -->
+
                     <div class="form-group frm-mrg">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Icdatetime'|translate}} </label>
                         <div class="col-sm-4">
-                            <input type='text' id="time-prc-ic" class="form-control" date-picker time="Y-m-d H:i"
-                                max="0" name="recordIC.icDatetime" ng-model="recordIC.icDatetime"
-                                style="width: 87%;display: inline-block;" />
-                            <label class="glyphicon glyphicon-calendar calender" for='time-prc-ic'
-                                style="vertical-align: top;"></label>
+                            <div class='input-group date'>
+                                <input type='text' id="time-prc-ic" class="form-control" date-picker time="Y-m-d H:i" max="0" name="recordIC.icDatetime"
+                                ng-model="recordIC.icDatetime" />
+                                <span class="input-group-addon">
+                                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ic' ></label>
+                                </span>
                         </div>
+                        </div>
+
+
                         <label class="col-sm-2 control-label ctr-lb"></label>
                         <div class="col-sm-4">
                             <input type="file" ng-file-select="UploadFileHSE($files,'IC', 'Rp_Location')"
@@ -120,13 +143,15 @@
                                 type="button" ng-disabled="btnFile" ng-model='btnFile'
                                 ng-click="btnfile('file_location_ic','file_name_location_ic')">
                                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
-                            </button> <span><input type="checkbox" ng-model="listfile_loc_ic"
-                                    style="vertical-align: text-top;"> {{'ShowFile'|translate}}</span>
+                            </button>
+
+                            <span><input type="checkbox" ng-model="listfile_loc_ic" style="vertical-align: text-top;">
+                                {{'ShowFile'|translate}}</span>
                             <table ng-show="listfile_loc_ic"
                                 class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
                                 style="margin-top:10px;">
                                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Location'">
-                                    <td><a href="/{{step.name}}" target="_blank">{{step.name}}</a></td>
+                                    <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
                                     <td><a ng-click="removeFile($index)">
                                             <span class="glyphicon glyphicon-remove"
                                                 style="color: red; margin-top:66%;"></span>
@@ -138,6 +163,7 @@
                         </div>
 
                     </div> <!-- end of form-group frm-mrg -->
+
                     <div class="form-group frm-mrg">
                         <label class="col-sm-2 control-label ctr-lb" style="margin-top: 1%;">*
                             {{'Description'|translate}}</label>
@@ -152,13 +178,15 @@
                                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
                             </button>
                             <span><input type="checkbox" ng-model="listfile_process_ic"
-                                    style="vertical-align: text-top;"> {{'ShowFile'|translate}}</span> </div>
+                                    style="vertical-align: text-top;"> {{'ShowFile'|translate}}</span>
+
+                        </div>
                         <div class="col-sm-4 col-sm-push-2">
                             <table ng-show="listfile_process_ic"
                                 class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
                                 style="margin-top:10px;">
                                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Description'">
-                                    <td><a href="/{{step.name}}" target="_blank">{{step.name}}</a></td>
+                                    <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
                                     <td><a ng-click="removeFile($index)">
                                             <span class="glyphicon glyphicon-remove"
                                                 style="color: red; margin-top:66%;"></span>
@@ -166,10 +194,13 @@
                                     </td>
                                 </tr>
                             </table>
+
                         </div>
                     </div>
                     <!-- end of form-group frm-mrg -->
+
                     <div class="col-sm-6">
+
                         <div class="form-group frm-mrg">
                             <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Dr_reason'|translate}}
                             </label>
@@ -177,7 +208,9 @@
                                 <textarea class="form-control" rows="4" type="text" name="recordIC.icDr_reason"
                                     ng-model="recordIC.icDr_reason" />
                                 </div>
-                        </div><!-- end of form-group frm-mrg -->                        <div class="form-group frm-mrg">
+                        </div><!-- end of form-group frm-mrg -->
+
+                        <div class="form-group frm-mrg">
                             <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Idr_reason'|translate}} </label>
                             <div class="col-sm-8 rm-padding-left">
                                 <textarea class="form-control" rows="4" type="text" name="recordIC.icIdr_reason" ng-model="recordIC.icIdr_reason" />
@@ -189,15 +222,21 @@
                             <div class="col-sm-8 rm-padding-left">
                                 <textarea class="form-control" rows="4" type="text" name="recordIC.icBasic" ng-model="recordIC.icBasic" />
                             </div>
-                        </div><!-- end of form-group frm-mrg -->                    </div><!-- end of col-sm-6 -->
+                        </div><!-- end of form-group frm-mrg -->
+
+                    </div><!-- end of col-sm-6 -->
                     
-                    <div class="col-sm-6">                        <div class="form-group frm-mrg">
+                    <div class="col-sm-6">
+
+                        <div class="form-group frm-mrg">
                             <label class="col-sm-4 control-label ctr-lb">* {{'Result'|translate}}</label>
                             <div class="col-sm-8 rm-padding-right">
                                 <textarea class="form-control" rows="4" type="text" name="recordIC.icResult" ng-model="recordIC.icResult" />
                             </div>
-                        </div><!-- end of form-group frm-mrg -->                        <div class="form-group frm-mrg">
-                            <label class="col-sm-4 control-label ctr-lb">* {{'Process'|translate}}</label>
+                        </div><!-- end of form-group frm-mrg -->
+
+                        <div class="form-group frm-mrg">
+                            <label class="col-sm-4 control-label ctr-lb">* {{'IcProcess'|translate}}</label>
                             <div class="col-sm-8 rm-padding-right">
                                 <textarea class="form-control" rows="4" type="text" name="recordIC.icImprove" ng-model="recordIC.icImprove" />
                             </div>
@@ -208,7 +247,11 @@
                             <div class="col-sm-8 rm-padding-right">
                                 <textarea class="form-control" rows="4" type="text" name="recordIC.icPrevent" ng-model="recordIC.icPrevent" />
                             </div>
-                        </div><!-- end of form-group frm-mrg -->                    </div><!-- end of col-sm-6 -->                    <div class="form-group frm-mrg">
+                        </div><!-- end of form-group frm-mrg -->
+
+                    </div><!-- end of col-sm-6 -->
+
+                    <div class="form-group frm-mrg">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Evaluate'|translate}} </label>
                         <div class="col-sm-4">
                             <select style="width:100%"  ui-select2 ng-model="recordIC.icEvaluate" name="icEvaluate" required>
@@ -222,6 +265,7 @@
                         <span show-checker user-name={{leader.Person}}></span>
                     </div>
                 </form> <!-- end of form -->     
+            
                 <div class="modal-footer">
                     <button id="btnSaveSubmit" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveICReport()" ng-disabled="icform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'Save'|translate}} </button>
                     <button id="btnSaveSubmit" type="button" class="btn btn-info btn-ct-ac" ng-click="SaveSubmitCReport(recordIC.rp_id)" ><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>

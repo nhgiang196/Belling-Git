@@ -529,7 +529,18 @@
   "Circumstance Report": "Lập báo cáo",
   "ShowFile":"Hiển thị danh sách file",
   "Delete_onlyowner_MSG":"Bạn không thể xóa báo cáo của người khác",
+  "Delete_Processing_MSG":"Bạn không thể xóa báo cáo đang xử lý",
+  "Delete_Deleted_MSG":"Bạn không thể xóa báo cáo đã xóa",
+  "Delete_Signed_MSG":"Bạn không thể xóa báo cáo đã ký duyệt",
   "Update_onlyowner_MSG":"Bạn không thể cập nhật báo cáo của người khác",
+  "Update_Processing_MSG":"Bạn không thể cập nhật báo cáo đang xử lý",
+  "Update_Deleted_MSG":"Bạn không thể cập nhật báo cáo đã xóa",
+  "Update_Signed_MSG":"Bạn không thể cập nhật báo cáo đã ký duyệt",
   "KnittingDyeing":"Xưởng Dệt Nhuộm",
-  "FiberChemical":"Xưởng Hóa Sợi"
+  "FiberChemical":"Xưởng Hóa Sợi",
+  "Draft":"Bản Nháp",
+  "EmployeeName":"Tên nhân viên",
+  "Processing":"Đang xử lý",
+  "Signed":"Đã Ký Duyệt",
+  "File_Location":"Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố"
 }

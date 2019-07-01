@@ -521,7 +521,18 @@
   "Circumstance Report":"Circumstance Report",
   "ShowFile":"Show list of files",
   "Delete_onlyowner_MSG":"you can't delete other people's reports",
+  "Delete_Processing_MSG":"You can't delete the report that is processing",
+  "Delete_Deleted_MSG":"You can't delete the report that was deleted",
+  "Delete_Signed_MSG":"You can't delete the report that was signed approval",
   "Update_onlyowner_MSG":"you can't update other people's reports",
+  "Update_Processing_MSG":"You can't update the report that is processing",
+  "Update_Deleted_MSG":"You can't update the report that was deleted",
+  "Update_Signed_MSG":"You can't update the report that was signed approval",
   "KnittingDyeing":"Knitting Dyeing",
-  "FiberChemical":"Fiber Chemical"
+  "FiberChemical":"Fiber Chemical",
+  "Draft":"Draft",
+  "EmployeeName":"Employee Name",
+  "Processing":"Processing",
+  "Signed":"Signed approval",
+  "File_Location":"Please upload location file"
 }
