@@ -10,13 +10,11 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             //----------------------------------------------------------
             $scope.save_msg = function () {
                 $timeout(function () {
-                    Notifications.addMessage(
-                        {
-                            'status': 'information',
-                            'message': $translate.instant('Save_Success_MSG')
-                        });
-                }
-                    , 400);
+                    Notifications.addMessage({
+                        'status': 'information',
+                        'message': $translate.instant('Save_Success_MSG')
+                    });
+                }, 400);
             }
 
             $scope.nofileLoc = function () {
@@ -30,21 +28,18 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
             $scope.update_msg = function () {
                 $timeout(function () {
-                    Notifications.addMessage(
-                        {
-                            'status': 'information',
-                            'message': $translate.instant('Update_Success_MSG')
-                        });
-                }
-                    , 400);
+                    Notifications.addMessage({
+                        'status': 'information',
+                        'message': $translate.instant('Update_Success_MSG')
+                    });
+                }, 400);
             }
 
             $scope.ac_details_msg = function () {
-                Notifications.addMessage(
-                    {
-                        'status': 'information',
-                        'message': $translate.instant('ACDetails_Msg')
-                    });
+                Notifications.addMessage({
+                    'status': 'information',
+                    'message': $translate.instant('ACDetails_Msg')
+                });
             }
 
             // IC-----------------------------------------------------------------------------
@@ -82,8 +77,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             }
 
             // report type combobox
-            $scope.typelist = [
-                {
+            $scope.typelist = [{
                     id: '0',
                     name: $translate.instant('Incident')
                 },
@@ -104,159 +98,161 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             // AC type combobox
             $scope.ACTypelist = InfolistService.Infolist('ACType');
 
-            $scope.getCReportStatus = function(id){
+            $scope.getCReportStatus = function (id) {
                 var status = $scope.statuslist.find(item => item.id === id).name;
                 status = $translate.instant(status);
                 return status;
             }
 
-            $scope.getCReportLocation= function(id){
+            $scope.getCReportLocation = function (id) {
                 var location = $scope.locationlist.find(item => item.id === id).name;
                 location = $translate.instant(location);
                 return location;
             }
 
-            $scope.getCReportIncident = function(id){
+            $scope.getCReportIncident = function (id) {
                 var ICType = $scope.incidentlist.find(item => item.id === id).name;
-                ICType  = $translate.instant(ICType );
-                return ICType ;
+                ICType = $translate.instant(ICType);
+                return ICType;
             }
 
-            $scope.getCReportAccident = function(id){
+            $scope.getCReportAccident = function (id) {
                 var ACType = $scope.ACTypelist.find(item => item.id === id).name;
-                ACType  = $translate.instant(ACType);
-                return ACType ;
+                ACType = $translate.instant(ACType);
+                return ACType;
             }
             // định nghĩa cột trong Grid UI của Incident (sự cố)
-            var colIC =
-                [
-                    {
-                        field: 'Rp_ID',
-                        minWidth: 30,
-                        displayName: $translate.instant('ReportID'),
-                        cellTooltip: true,
-                        cellTemplate: "<a  ng-click='grid.appScope.GetLink(row)' style='cursor:pointer;display: block;height: 80%;overflow: hidden;padding: 5px;' target='_blank'>{{COL_FIELD}}</a>"
-                    },
+            var colIC = [{
+                    field: 'Rp_ID',
+                    minWidth: 30,
+                    displayName: $translate.instant('ReportID'),
+                    cellTooltip: true,
+                    cellTemplate: "<a  ng-click='grid.appScope.GetLink(row)' style='cursor:pointer;display: block;height: 80%;overflow: hidden;padding: 5px;' target='_blank'>{{COL_FIELD}}</a>"
+                },
 
-                    {
-                        field: 'Rp_Date',
-                        displayName: $translate.instant('CreateDate'),
-                        minWidth: 100,
-                        cellTooltip: true,
+                {
+                    field: 'Rp_Date',
+                    displayName: $translate.instant('CreateDate'),
+                    minWidth: 100,
+                    cellTooltip: true,
 
-                    },
+                },
 
-                    {
-                        field: 'DepartmentName',
-                        minWidth: 70,
-                        displayName: $translate.instant('Department'),
-                        cellTooltip: true
-                    },
+                {
+                    field: 'DepartmentName',
+                    minWidth: 70,
+                    displayName: $translate.instant('Department'),
+                    cellTooltip: true
+                },
 
-                    {
-                        field: 'RpIC_IncidentType',
-                        minWidth: 200,
-                        displayName: $translate.instant('IncidentType'),
-                        cellTooltip: true,
-                        cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportIncident(row.entity.RpIC_IncidentType)}}</span>'
-                    },
-                    {
-                        field: 'Rp_DateTime',
-                        minWidth: 70,
-                        displayName: $translate.instant('Icdatetime'),
-                        cellTooltip: true
-                    },
-                    {
-                        field: 'Rp_Location',
-                        minWidth: 100,
-                        displayName: $translate.instant('Iclocation'),
-                        cellTooltip: true,
-                        cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportLocation(row.entity.Rp_Location)}}</span>'
-                    },
-                    {
-                        field: 'Rp_CreatorID',
-                        minWidth: 100,
-                        displayName: $translate.instant('Creator'),
-                        cellTooltip: true
-                    },
-                    {
-                        field: 'Rp_Status',
-                        displayName: $translate.instant('Status'),
-                        width: 100,
-                        minWidth: 10,
-                        cellTooltip: true,
-                        cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportStatus(row.entity.Rp_Status)}}</span>'
+                {
+                    field: 'RpIC_IncidentType',
+                    minWidth: 200,
+                    displayName: $translate.instant('IncidentType'),
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportIncident(row.entity.RpIC_IncidentType)}}</span>'
+                },
+                {
+                    field: 'Rp_DateTime',
+                    minWidth: 70,
+                    displayName: $translate.instant('Icdatetime'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Rp_Location',
+                    minWidth: 100,
+                    displayName: $translate.instant('Iclocation'),
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportLocation(row.entity.Rp_Location)}}</span>'
+                },
+                {
+                    field: 'Rp_CreatorID',
+                    minWidth: 100,
+                    displayName: $translate.instant('Creator'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Rp_Status',
+                    displayName: $translate.instant('Status'),
+                    width: 100,
+                    minWidth: 10,
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportStatus(row.entity.Rp_Status)}}</span>'
 
-                    }
-                ];
+                }
+            ];
 
             // định nghĩa cột trong Grid UI của Accident (tai nạn)
-            var colAC =
-                [
-                    {
-                        field: 'Rp_ID',
-                        minWidth: 130,
-                        displayName: $translate.instant('ReportID'),
-                        cellTooltip: true,
-                        cellTemplate: "<a  ng-click='grid.appScope.GetLink(row)' style='cursor:pointer;display: block;height: 80%;overflow: hidden;padding: 5px;' target='_blank'>{{COL_FIELD}}</a>"
+            var colAC = [{
+                    field: 'Rp_ID',
+                    minWidth: 130,
+                    displayName: $translate.instant('ReportID'),
+                    cellTooltip: true,
+                    cellTemplate: "<a  ng-click='grid.appScope.GetLink(row)' style='cursor:pointer;display: block;height: 80%;overflow: hidden;padding: 5px;' target='_blank'>{{COL_FIELD}}</a>"
 
-                    },
-                    {
-                        field: 'Rp_Type',
-                        displayName: $translate.instant('ReportType'),
-                        minWidth: 120,
-                        cellTooltip: true,
-                        cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportAccident(row.entity.Rp_Type)}}</span>'
-                    },
+                },
+                {
+                    field: 'Rp_Type',
+                    displayName: $translate.instant('ReportType'),
+                    minWidth: 120,
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportAccident(row.entity.Rp_Type)}}</span>'
+                },
 
-                    {
-                        field: 'Rp_Date',
-                        displayName: $translate.instant('CreateDate'),
-                        minWidth: 120,
-                        cellTooltip: true,
+                {
+                    field: 'Rp_Date',
+                    displayName: $translate.instant('CreateDate'),
+                    minWidth: 120,
+                    cellTooltip: true,
 
-                    },
+                },
 
-                    {
-                        field: 'DepartmentName',
-                        minWidth: 120,
-                        displayName: $translate.instant('Department'),
-                        cellTooltip: true
-                    },
-                    {
-                        field: 'Rp_DateTime',
-                        minWidth: 120,
-                        displayName: $translate.instant('Acdatetime'),
-                        cellTooltip: true
-                    },
-                    {
-                        field: 'Rp_Location',
-                        minWidth: 120,
-                        displayName: $translate.instant('Aclocation'),
-                        cellTooltip: true,
-                        cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportLocation(row.entity.Rp_Location)}}</span>'
-                    },
-                    {
-                        field: 'EmployeeID',
-                        minWidth: 140,
-                        displayName: $translate.instant('EmployeeID'),
-                        cellTooltip: true
-                    },
-                    {
-                        field: 'Rp_CreatorID',
-                        minWidth: 125,
-                        displayName: $translate.instant('Creator'),
-                        cellTooltip: true
-                    },
-                    {
-                        field: 'Rp_Status',
-                        displayName: $translate.instant('Status'),
-                        minWidth: 100,
-                        cellTooltip: true,
-                        cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportStatus(row.entity.Rp_Status)}}</span>'
+                {
+                    field: 'DepartmentName',
+                    minWidth: 120,
+                    displayName: $translate.instant('Department'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Rp_DateTime',
+                    minWidth: 120,
+                    displayName: $translate.instant('Acdatetime'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Rp_Location',
+                    minWidth: 120,
+                    displayName: $translate.instant('Aclocation'),
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportLocation(row.entity.Rp_Location)}}</span>'
+                },
+                {
+                    field: 'EmployeeID',
+                    minWidth: 140,
+                    displayName: $translate.instant('EmployeeID'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Name',
+                    minWidth: 140,
+                    displayName: $translate.instant('EmployeeName'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Rp_CreatorID',
+                    minWidth: 125,
+                    displayName: $translate.instant('Creator'),
+                    cellTooltip: true
+                },
+                {
+                    field: 'Rp_Status',
+                    displayName: $translate.instant('Status'),
+                    minWidth: 100,
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportStatus(row.entity.Rp_Status)}}</span>'
 
-                    }
-                ];
+                }
+            ];
 
             //Grid setting mặc định tên 
             $scope.gridOptions = {
@@ -329,8 +325,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 // chỉ xem báo cáo của tôi
                 if ($scope.onlyOwner == true) {
                     query.uid = Auth.username;
-                }
-                else query.uid = '';
+                } else query.uid = '';
                 return query;
             };
 
@@ -339,9 +334,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 // show grid ui theo loại báo cáo 
                 if ($scope.rp_type.id == "1") {
 
-                    $scope.gridOptions = {
-                        columnDefs: colAC
-                    }
+                    $scope.gridOptions.columnDefs = colAC;
 
                     var query = SearchList();
                     CReportService.SearchAC(query, function (data) {
@@ -351,11 +344,9 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
                     })
 
-                }
-                else if ($scope.rp_type.id == "0") {
-                    $scope.gridOptions = {
-                        columnDefs: colIC
-                    }
+                } else if ($scope.rp_type.id == "0") {
+                    $scope.gridOptions.columnDefs = colIC;
+
 
                     var query = SearchList();
                     CReportService.SearchIC(query, function (data) {
@@ -445,8 +436,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                             x.name = element.File_ID;
                             x.col = element.ColumnName;
                             $scope.listfile.push(x);
-                        }
-                        else {
+                        } else {
                             var x = {};
                             x.Rp_ID = element.Rp_ID;
                             x.name = element.File_ID;
@@ -473,25 +463,26 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
             // delete
             function deleteById(id) {
-                var data = { Rp_ID: id };
+                var data = {
+                    Rp_ID: id
+                };
                 CReportService.Delete(data, function (res) {
-                    if (res.Success) {
-                        $scope.Search();
-                        $timeout(function () {
-                            Notifications.addMessage(
-                                {
+                        if (res.Success) {
+                            $scope.Search();
+                            $timeout(function () {
+                                Notifications.addMessage({
                                     'status': 'information',
                                     'message': $translate.instant('Delete_Succeed_Msg')
                                 })
-                        }, 400);
-                    } else {
-                        Notifications.addError({
-                            'status': 'error',
-                            'message': $translate.instant('saveError') + res.Message
-                        });
-                    }
+                            }, 400);
+                        } else {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': $translate.instant('saveError') + res.Message
+                            });
+                        }
 
-                },
+                    },
                     function (error) {
                         Notifications.addError({
                             'status': 'error',
@@ -501,193 +492,184 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             };
 
             //Grid menu
-            var gridMenu =
-                [
-                    {
-                        title: $translate.instant('CreateIC'),
-                        action: function () {
-                            // $scope.rp_type.id = '0';
-                            $scope.rp_type = $scope.typelist[0];
-                            $scope.status = 'N';
-                            $('#my-modal').modal('show');
-                            $scope.resetIC();
-                        },
-                        order: 1
+            var gridMenu = [{
+                    title: $translate.instant('CreateIC'),
+                    action: function () {
+                        // $scope.rp_type.id = '0';
+                        $scope.rp_type = $scope.typelist[0];
+                        $scope.status = 'N';
+                        $('#my-modal').modal('show');
+                        $scope.resetIC();
                     },
-                    {
-                        title: $translate.instant('CreateAC'),
-                        action: function () {
-                            // $scope.rp_type.id = '1';
-                            $scope.rp_type = $scope.typelist[1];
-                            $scope.status = 'N';
-                            $scope.listEmployee = []; // danh sách lấy thông tin nhân viên
-                            $('#myModal').modal('show');
-                            $scope.resetAC();
+                    order: 1
+                },
+                {
+                    title: $translate.instant('CreateAC'),
+                    action: function () {
+                        // $scope.rp_type.id = '1';
+                        $scope.rp_type = $scope.typelist[1];
+                        $scope.status = 'N';
+                        $scope.listEmployee = []; // danh sách lấy thông tin nhân viên
+                        $('#myModal').modal('show');
+                        $scope.resetAC();
 
-                        },
-                        order: 2
                     },
+                    order: 2
+                },
 
-                    {
-                        title: $translate.instant('Update'),
-                        action: function () {
-                            var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
-                            //UPDATE BÁO CÁO SỰ CỐ
-                            if ($scope.rp_type.id == "0") {
-                                $scope.status = 'M'; //Set update Status
-                                if (resultRows.length == 1) {
-
-                                    if(resultRows[0].Rp_CreatorID != Auth.username){
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_onlyowner_MSG')
-                                        });
-                                    }else if(resultRows[0].Rp_Status == 'P'){
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_Processing_MSG')
-                                        });
-                                    }
-                                    else if(resultRows[0].Rp_Status == 'X') {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_Deleted_MSG')
-                                        });
-                                    }
-                                    else if(resultRows[0].Rp_Status == 'S') {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_Signed_MSG')
-                                        });
-                                    }else{
-                                        disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
-                                        loadICDetail(resultRows[0].Rp_ID);
-                                        $('#my-modal').modal('show');
-                                    }
-
-                                } else {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Select_ONE_MSG')
-                                    });
-                                }
-                                //UPDATE BÁO CÁO TAI NẠN
-                            } else if ($scope.rp_type.id == "1") {
-                                $scope.mySwitch = true; // disable 
-                                $scope.status = 'M'; //Set update Status
-                                if (resultRows.length == 1) {
-
-                                    if(resultRows[0].Rp_CreatorID != Auth.username){
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_onlyowner_MSG')
-                                        });
-                                    }else if(resultRows[0].Rp_Status == 'P'){
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_Processing_MSG')
-                                        });
-                                    }
-                                    else if(resultRows[0].Rp_Status == 'X') {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_Deleted_MSG')
-                                        });
-                                    }
-                                    else if(resultRows[0].Rp_Status == 'S') {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Update_Signed_MSG')
-                                        });
-                                    }else{
-                                        disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
-                                        loadACDetail(resultRows[0].Rp_ID);
-                                        $('#myModal').modal('show');
-                                    }
-
-
-                                }
-                                else {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Select_ONE_MSG')
-                                    });
-                                }
-                            }
-
-                        },
-                        order: 3
-                    },
-
-                    {
-                        title: '🖨️ ' + $translate.instant('PrintReport'),
-                        action: function () {
-                            var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
-                            if ($scope.rp_type.id == "0") {
-                                if (resultRows.length == 1) {
-                                    var href = '#/CircumstanceReport/ICReport/print/' + resultRows[0].Rp_ID + ':true';
-                                    window.open(href);
-                                } else {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Select_ONE_MSG')
-                                    });
-                                }
-                            } else {
-                                if (resultRows.length == 1) {
-                                    var href = '#/CircumstanceReport/ACReport/print/' + resultRows[0].Rp_ID + ':true';
-                                    window.open(href);
-                                } else {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Select_ONE_MSG')
-                                    });
-                                }
-                            }
-
-                        },
-                        order: 4
-                    },
-                    {
-                        title: $translate.instant('Delete'),
-                        action: function () {
-                            var resultRows = $scope.gridApi.selection.getSelectedRows();
+                {
+                    title: $translate.instant('Update'),
+                    action: function () {
+                        var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
+                        //UPDATE BÁO CÁO SỰ CỐ
+                        if ($scope.rp_type.id == "0") {
+                            $scope.status = 'M'; //Set update Status
                             if (resultRows.length == 1) {
-                                if(resultRows[0].Rp_CreatorID != Auth.username){
+
+                                if (resultRows[0].Rp_CreatorID != Auth.username) {
                                     Notifications.addError({
                                         'status': 'error',
-                                        'message': $translate.instant('Delete_onlyowner_MSG')
+                                        'message': $translate.instant('Update_onlyowner_MSG')
                                     });
-                                }else if(resultRows[0].Rp_Status == 'P'){
+                                } else if (resultRows[0].Rp_Status == 'P') {
                                     Notifications.addError({
                                         'status': 'error',
-                                        'message': $translate.instant('Delete_Processing_MSG')
+                                        'message': $translate.instant('Update_Processing_MSG')
                                     });
+                                } else if (resultRows[0].Rp_Status == 'X') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Deleted_MSG')
+                                    });
+                                } else if (resultRows[0].Rp_Status == 'S') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Signed_MSG')
+                                    });
+                                } else {
+                                    disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
+                                    loadICDetail(resultRows[0].Rp_ID);
+                                    $('#my-modal').modal('show');
                                 }
-                                else if(resultRows[0].Rp_Status == 'X') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Delete_Deleted_MSG')
-                                    });
-                                }
-                                else if(resultRows[0].Rp_Status == 'S') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Delete_Signed_MSG')
-                                    });
-                                }else if (confirm($translate.instant('Delete_IS_MSG') + ':' + resultRows[0].Rp_ID)) {
-                                    deleteById(resultRows[0].Rp_ID);
-                                    $scope.Search();
-                                }
-                                
+
                             } else {
                                 Notifications.addError({
                                     'status': 'error',
                                     'message': $translate.instant('Select_ONE_MSG')
                                 });
                             }
-                        },
-                        order: 5
+                            //UPDATE BÁO CÁO TAI NẠN
+                        } else if ($scope.rp_type.id == "1") {
+                            $scope.mySwitch = true; // disable 
+                            $scope.status = 'M'; //Set update Status
+                            if (resultRows.length == 1) {
+
+                                if (resultRows[0].Rp_CreatorID != Auth.username) {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_onlyowner_MSG')
+                                    });
+                                } else if (resultRows[0].Rp_Status == 'P') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Processing_MSG')
+                                    });
+                                } else if (resultRows[0].Rp_Status == 'X') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Deleted_MSG')
+                                    });
+                                } else if (resultRows[0].Rp_Status == 'S') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Signed_MSG')
+                                    });
+                                } else {
+                                    disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
+                                    loadACDetail(resultRows[0].Rp_ID);
+                                    $('#myModal').modal('show');
+                                }
+
+
+                            } else {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Select_ONE_MSG')
+                                });
+                            }
+                        }
+
+                    },
+                    order: 3
+                },
+
+                {
+                    title: '🖨️ ' + $translate.instant('PrintReport'),
+                    action: function () {
+                        var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
+                        if ($scope.rp_type.id == "0") {
+                            if (resultRows.length == 1) {
+                                var href = '#/CircumstanceReport/ICReport/print/' + resultRows[0].Rp_ID + ':true';
+                                window.open(href);
+                            } else {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Select_ONE_MSG')
+                                });
+                            }
+                        } else {
+                            if (resultRows.length == 1) {
+                                var href = '#/CircumstanceReport/ACReport/print/' + resultRows[0].Rp_ID + ':true';
+                                window.open(href);
+                            } else {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Select_ONE_MSG')
+                                });
+                            }
+                        }
+
+                    },
+                    order: 4
+                },
+                {
+                    title: $translate.instant('Delete'),
+                    action: function () {
+                        var resultRows = $scope.gridApi.selection.getSelectedRows();
+                        if (resultRows.length == 1) {
+                            if (resultRows[0].Rp_CreatorID != Auth.username) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Delete_onlyowner_MSG')
+                                });
+                            } else if (resultRows[0].Rp_Status == 'P') {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Delete_Processing_MSG')
+                                });
+                            } else if (resultRows[0].Rp_Status == 'X') {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Delete_Deleted_MSG')
+                                });
+                            } else if (resultRows[0].Rp_Status == 'S') {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Delete_Signed_MSG')
+                                });
+                            } else if (confirm($translate.instant('Delete_IS_MSG') + ':' + resultRows[0].Rp_ID)) {
+                                deleteById(resultRows[0].Rp_ID);
+                                $scope.Search();
+                            }
+
+                        } else {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': $translate.instant('Select_ONE_MSG')
+                            });
+                        }
+                    },
+                    order: 5
 
                 }, {
                     title: $translate.instant('Submit'),
@@ -711,19 +693,20 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     },
                     order: 6
                 }
-                ];
+            ];
 
             //Choose SubDepartment to show Employees 
             $scope.showEmployeeList = function (dept_id) {
                 $scope.gd = {};
                 $scope.employees = [];
                 if (dept_id == null || dept_id == '') return;
-                CReportService.GetEmployee({ DepartmentID: dept_id }, function (res) {
+                CReportService.GetEmployee({
+                    DepartmentID: dept_id
+                }, function (res) {
                     if (res.length > 0) {
                         $scope.listEmployee = res;
                         console.log($scope.listEmployee);
-                    }
-                    else $scope.listEmployee = [];
+                    } else $scope.listEmployee = [];
                 })
                 $scope.listEmployee = [];
             };
@@ -753,7 +736,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         $scope.leaderlist = leaderlist;
                         console.log("Checklist", $scope.checkList);
                         console.log("leaderlist", $scope.leaderlist);
-
                         return true;
 
                     };
@@ -779,11 +761,11 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         formVariables.push({
                             name: 'Receive_User',
                             // name: 'Leader_Checklist',
-                            value: $scope.checkList
+                            value: ['FEPV000166']
                         }); //initiator -> Leader_Checklist
                         historyVariable.push({
                             name: 'workflowkey',
-                            value: $scope.flowkey
+                            value: 'CReportHSE'
                         });
                         //Voucher has not created yet, then create.
                         /**Save and Submit Button */
@@ -833,40 +815,39 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
                 function SubmitAndChangeStatus(voucherid) {
                     /**Submit to BPMN */
-                    debugger;
                     CReportService.SubmitBPM(formVariables, historyVariable, '', function (res, message) {
                         if (message) {
                             alert('Can not Submit this voucher because : ' + message);
                         } else {
                             alert('submit done!"');
                             /**Save to Server and change status */
-                            CReportService.Update({
-                                voucherID: voucherid,
-                                status: 'P',
-                                userid: username
-                            }, function (res) {
-                                if (res.Success) {
-                                    Notifications.addMessage({
-                                        'status': 'info',
-                                        'message': 'Your voucher ' + voucherid + ' is submited!'
-                                    });
-                                    $timeout(() => {
-                                        $scope.Search();
-                                    }, 2000);
-                                }
-                            }, function (err) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': 'Save Error' + err
-                                });
-                            })
+                            // CReportService.Update({
+                            //     voucherID: voucherid,
+                            //     status: 'P',
+                            //     userid: username
+                            // }, function (res) {
+                            //     if (res.Success) {
+                            //         Notifications.addMessage({
+                            //             'status': 'info',
+                            //             'message': 'Your voucher ' + voucherid + ' is submited!'
+                            //         });
+                            //         $timeout(() => {
+                            //             $scope.Search();
+                            //         }, 2000);
+                            //     }
+                            // }, function (err) {
+                            //     Notifications.addError({
+                            //         'status': 'error',
+                            //         'message': 'Save Error' + err
+                            //     });
+                            // })
                         }
                     })
                     /** Change Status to P */
 
                 } //fnhangeStatus
             } // fnSavesubmit
-        }//function
+        } //function
     ]) // myapp.controller
 
 }) //define

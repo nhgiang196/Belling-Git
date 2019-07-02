@@ -534,5 +534,6 @@
   "EmployeeName":"Employee Name",
   "Processing":"Processing",
   "Signed":"Signed approval",
-  "File_Location":"Please upload location file"
+  "File_Location":"Please upload location file",
+  "EmployeeName":"Employee Name"
 }

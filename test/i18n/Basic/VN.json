@@ -542,5 +542,6 @@
   "EmployeeName":"Tên nhân viên",
   "Processing":"Đang xử lý",
   "Signed":"Đã Ký Duyệt",
-  "File_Location":"Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố"
+  "File_Location":"Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố",
+  "EmployeeName":"Tên nhân viên"
 }

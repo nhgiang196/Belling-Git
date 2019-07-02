@@ -82,6 +82,7 @@
             }
         }
         function SubmitAndRemind() {
+            debugger;
             $q.all([$scope.submit()]).then(function () {
                 $scope.loading = true;  
                 var reminder_parrams = {
@@ -89,7 +90,6 @@
                     userid: Auth.username,
                     formkey: 'publish'
                 }
-                debugger;
                 LIMSService.SendReminder(reminder_parrams, function (res) {
                     if (res.Success) return;
                 }, function (error) {
