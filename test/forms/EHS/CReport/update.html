@@ -1,0 +1,130 @@
+<h1>update 
+</h1>
+
+<script>
+    function RYVoucherCheck(
+        $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
+        Auth, GateGuest, $translate, CReportService, $filter, $q) {
+
+
+        var lang = window.localStorage.lang;
+        $scope.username = Auth.username;
+        $scope.recod = {};
+        $translate.refresh();
+        $scope.passOrNot = [{
+                "name": $translate.instant('Update'),
+                "value": "UPDATE"
+            },
+            {
+                "name": $translate.instant('Delete'),
+                "value": "DELETE"
+            }
+            // { "name": 'DeleteVoucher', "value": "Cancel" }
+        ];
+        $scope.ISReceive = 'Yes';
+        $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
+        $scope.loading = false;
+
+        function SaveBpmn() {
+            if ($scope.checkList.length <= 0) {
+                Notifications.addError({
+                    'status': 'error',
+                    'message': 'Don\'t get leader'
+                });
+                return;
+            }
+            // $scope.formVariables.push({
+            //     name: "Engineer_List",
+            //     value: $scope.checkList
+            // })
+            // $scope.formVariables.push({
+            //     name: "IsPublish",
+            //     value: $scope.checkList
+            // })
+
+
+            // $scope.formVariables.push({
+            //     name: 'Rp_ID',
+            //     value: $scope.variable.Rp_ID //chosen
+            // });
+            // $scope.historyVariable.push({
+            //     name: 'workflowkey',
+            //     value: 'CReportHSE2'
+            // });
+            debugger;
+            $scope.submit();
+
+        }
+
+        function saveInitData() {
+            var note = {};
+            note.userID = Auth.username;
+            note.voucherID = $scope.VoucherID || '';
+            note.reason = $scope.recod.Reason || '';
+            note.solution = $scope.recod.Solution || '';
+            note.prevention = $scope.recod.Prevention || '';
+            note.remark = $scope.leadercheck_remark || '';
+            note.status = $scope.recod.Status || '';
+            note.state = $scope.recod.State || '';
+            return note;
+        }
+        /**
+         * Update status by updateByID
+         */
+        $scope.Save = function (isSubmit) {
+
+            SaveBpmn();
+            // var data = saveInitData();
+
+        }
+    }
+</script>
+<div ng-controller="RYVoucherCheck">
+
+    <h1> My please welcome</h1>
+
+    <h1> My please welcome</h1>
+
+    <h1> My please welcome</h1>
+    <!-- REPORT DIRECTIVE -->
+    <!-- <approval-master vid='{{variable.OverID}}' style="width: 85%"></approval-master> -->
+    <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report>
+
+    <!-- CHOOSE FORM -->
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <!-- RECEVEIVE AND PROCESS FORM -->
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
+            <div class="col-sm-3">
+                <select class="form-control" history-field="UpdateCommand" form-field name="UpdateCommand" ng-model="UpdateCommand"
+                    ng-options="c.value as c.name for c in passOrNot" required> </select>
+            </div>
+        </div>
+
+        <!-- leader remark show if returned -->
+        <!-- <div>
+            <h3 style="color:red;">
+                {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
+            </h3>
+        </div> -->
+        <!-- NEXT CANDIDATE -->
+        <div class="row">
+            <div>
+                <h4>{{'NextStep'|translate}}</h4>
+            </div>
+            <div leader-check flow-key="CReportHSE2" user-name="{{username}}"></div>
+        </div>
+
+        <!-- BUTTON OF SUBMITTING -->
+        <div class="form-group" ng-hide="recod.Status=='K'">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="Save(true)"
+                    ng-disabled="form.$invalid||disableSubmit||loading">
+                    {{'Save Submit'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

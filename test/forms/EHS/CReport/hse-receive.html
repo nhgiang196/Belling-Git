@@ -1,0 +1,126 @@
+<!-- D:\nhgiang\p\WebBeling-Git\test\forms\CReport\recieve.html -->
+<h1>
+leader hse check report
+
+</h1>
+<script>
+    function RYVoucherCheck(
+        $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
+        Auth, GateGuest, $translate, CReportService, $filter, $q) {
+
+
+        var lang = window.localStorage.lang;
+
+        $scope.recod = {};
+        $translate.refresh();
+        $scope.passOrNot = [{
+                "name": $translate.instant('agree'),
+                "value": "YES"
+            },
+            {
+                "name": $translate.instant('notAgree'),
+                "value": "NO"
+            }
+            // { "name": 'DeleteVoucher', "value": "Cancel" }
+        ];
+        $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
+        $scope.loading = false;
+
+        function SaveBpmn() {
+            // if ($scope.checkList.length <= 0) {
+            //     Notifications.addError({
+            //         'status': 'error',
+            //         'message': 'Don\'t get leader'
+            //     });
+            //     return;
+            // }
+
+
+            $scope.submit();
+            // $q.all([$scope.submit()]).then(function () {
+            //     $scope.loading = true;
+            //     var reminder_parrams = {
+            //         voucherID: $scope.VoucherID,
+            //         userid: Auth.username,
+            //         formkey: 'leadercheck'
+            //     }
+            //     debugger;
+            //     LIMSService.SendReminder(reminder_parrams, function (res) {
+            //         if (res.Success) return;
+            //     }, function (error) {
+            //         Notifications.addError({
+            //             'status': 'error',
+            //             'message': $translate.instant('saveError') + error
+            //         });
+            //     })
+            // });
+
+
+        }
+
+        function saveInitData() {
+            var note = {};
+            note.userID = Auth.username;
+            note.voucherID = $scope.VoucherID || '';
+            note.reason = $scope.recod.Reason || '';
+            note.solution = $scope.recod.Solution || '';
+            note.prevention = $scope.recod.Prevention || '';
+            note.remark = $scope.leadercheck_remark || '';
+            note.status = $scope.recod.Status || '';
+            note.state = $scope.recod.State || '';
+            return note;
+        }
+        /**
+         * Update status by updateByID
+         */
+        $scope.Save = function (isSubmit) {
+
+            SaveBpmn();
+            // var data = saveInitData();
+
+        }
+    }
+</script>
+<div ng-controller="RYVoucherCheck">
+    <!-- REPORT DIRECTIVE -->
+    <!-- <approval-master vid='{{variable.OverID}}' style="width: 85%"></approval-master> -->
+    <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report>
+
+    <!-- CHOOSE FORM -->
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <!-- RECEVEIVE AND PROCESS FORM -->
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
+            <div class="col-sm-3">
+                <select class="form-control" history-field="ISPublish" form-field name="ISPublish" ng-model="ISPublish"
+                    ng-options="c.value as c.name for c in passOrNot" required> </select>
+            </div>
+        </div>
+
+        <!-- leader remark show if returned -->
+        <!-- <div>
+            <h3 style="color:red;">
+                {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
+            </h3>
+        </div> -->
+        <!-- NEXT CANDIDATE -->
+        <div class="row">
+            <div>
+                <h4>{{'NextStep'|translate}}</h4>
+            </div>
+            <div leader-check flow-key="CReportHSE2" user-name="{{username}}" kinds=""></div>
+        </div>
+
+        <!-- BUTTON OF SUBMITTING -->
+        <div class="form-group" ng-hide="recod.Status=='K'">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="Save(true)"
+                    ng-disabled="form.$invalid||disableSubmit||loading">
+                    {{'Save Submit'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
