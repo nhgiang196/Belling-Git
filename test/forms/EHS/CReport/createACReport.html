@@ -82,28 +82,18 @@
                 <h3 class="text-center">{{'AccidentReport'|translate}}</h3>
 
                 <H4 class="title"> {{'Info'|translate}} </H4>
-                <form class="form-horizontal model-form " name="acform">
+                <form class="form-horizontal model-form " name="acform" style="margin-top:15px;">
 
-                    <div class="form-group" style="margin-bottom:20px;">
-                        <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
-                        <div class="col-sm-4">
-                            <select class="ACsubdepartment" style="width:100%" ui-select2
-                                ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
-                                ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="mySwitch">
-                                <option ng-repeat="s_dpm in sub_dpm" value="{{s_dpm.CostCenter}}">
-                                    {{s_dpm.Specification|translate}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <hr>
                     <div class=" form-group ">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Acdatetime'|translate}} : </label>
                         <div class="col-sm-4">
-                            <input type='text' id="time-prc-ac" class="form-control"
-                                style="display: inline-block; width: 87%; margin-bottom: 6%;" date-picker
-                                time="Y-m-d H:i" max="0" name="ac_datetime" ng-model="recordAC.ac_datetime" />
-                            <label class="glyphicon glyphicon-calendar calender" for='time-prc-ac'
-                                style="display: inline-block;margin-top: 3px;"></label>
+                            <div class='input-group date'>
+                                <input type='text' id="time-prc-ac" class="form-control" date-picker
+                            time="Y-m-d H:i" max="0" name="ac_datetime" ng-model="recordAC.ac_datetime" />
+                            <span class="input-group-addon">
+                                <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ac' ></label>
+                            </span>
+                        </div>
                         </div>
 
                         <label class="col-sm-2 control-label ctr-lb">* {{'Improvesoft'|translate}} : </label>
@@ -137,8 +127,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label ctr-lb"></label>
                         <div class="col-sm-4">
-                            <input type="file" ng-file-select="UploadFileHSE($files,'AC', 'Rp_Location')" id="file_location_ac"
-                                style="display:none !important" multiple>
+                            <input type="file" ng-file-select="UploadFileHSE($files,'Rp_Location')" id="file_location_ac"
+                                style="display:none !important" multiple accept="image/*">
                             <button id="btn_file_location_ac" class="btn btn-info" style="display:inline-block;"
                                 type="button" ng-disabled="btnFile_AC" ng-model='btnFile_AC'
                                 ng-click="btnfile('file_location_ac','file_name_location_ac')">
@@ -197,12 +187,13 @@
 
                         <label class="col-sm-2 control-label ctr-lb">* {{'Datecomp'|translate}}:</label>
                         <div class="col-sm-4">
-                            <input style="display: inline-block; width: 86%" class="form-control" id="time-cpl"
-                                type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp" date-picker min="0"
-                                required />
-                            <label class="glyphicon glyphicon-calendar calender"
-                                style="margin-bottom: 3px;margin-left: 4px;display: inline-block;vertical-align: middle;"
-                                for='time-cpl' style="color:grey; font-size: 29px; width: 8%"></label>
+                            <div class='input-group date'>
+                                <input  class="form-control" id="time-cpl"
+                                    type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp" date-picker min="0" required />
+                                <span class="input-group-addon">
+                                    <label class="glyphicon glyphicon-calendar" style="color: grey"  for='time-cpl' ></label>
+                                </span>
+                            </div>
                         </div>
                     </div><!-- end of form-group -->
                 </form> <!-- end of form -->
@@ -212,6 +203,20 @@
                 <H4 class="title"> {{'Victim_info'|translate}} </H4>
 
                 <form class="form-horizontal" role="form" name="formdetail" novalidate>
+
+                        <div class="form-group" style="margin-bottom:20px; margin-top:20px;">
+                            <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
+                            <div class="col-sm-4">
+                                <select class="ACsubdepartment" style="width:100%" ui-select2
+                                    ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
+                                    ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="mySwitch">
+                                    <option ng-repeat="s_dpm in sub_dpm" value="{{s_dpm.CostCenter}}">
+                                        {{s_dpm.CostCenter}} - {{s_dpm.Specification|translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+
                     <div class="form-group">
                         <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeID'|translate}}: </label>
 
@@ -246,7 +251,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label ctr-lb"> </label>
                         <div class="col-sm-4">
-                            <input type="file" ng-file-select="UploadFileHSE($files,'AC', 'Injury_Description')"  id="file_process_ac" style="display:none !important" multiple>
+                            <input type="file" ng-file-select="UploadFileHSE($files,'Injury_Description')"  id="file_process_ac" style="display:none !important" multiple>
                             <button id="btn_file_process_ac" class="btn btn-info" style="display:inline-block;"
                                 type="button" ng-click="btnfile('file_process_ac','file_name_process_ac')">
                                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
@@ -316,14 +321,14 @@
                         </table>
                     </div> <!-- end of table-scroll -->
                 </div> <!-- end of table-wrapper -->
-                    <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">{{'NextStep' |
+                    <H4 class="title">{{'NextStep' |
                         translate}} </H4>
-                    <div style="margin-top:10px" ng-repeat="leader in leaderlist">
+                    <div style="margin-top:10px; margin-left:5px;" ng-repeat="leader in leaderlist">
                         <span show-checker user-name={{leader.Person}}></span>
                     </div>
                 <div class="modal-footer">
-                    <button id="btnSaveSubmit" type="button" class="btn btn-primary btn-ct-ac" ng-click="saveSubmitAC()" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'saveSubmit'|translate}}</button>
-                    <button id="btnSaveSubmit" type="button" class="btn btn-info btn-ct-ac" ng-click="SaveSubmitCReport(recordAC.rp_id)" ><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
+                    <button id="btnSaveAC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveACReport()" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'saveSubmit'|translate}}</button>
+                    <button id="btnSaveSubmitAC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordAC.rp_id)" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
                     <button type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal" ng-click="resetAC()"><i class="glyphicon glyphicon-remove" style="color: grey; vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
                 </div> <!-- end of modal-footer-->
 

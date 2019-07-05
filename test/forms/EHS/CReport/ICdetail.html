@@ -115,7 +115,7 @@
                             </Strong>
                     </div>
                     <div  style="margin-bottom:3%; text-align: right">
-                        填報日期 Ngày tháng: {{ICdetail.Rp_Date}}
+                        填報日期 Ngày tháng : {{ICdetail.Rp_Date}}
                     </div>
                 </td>
             </tr>
@@ -128,11 +128,11 @@
                     </div>
 
                     <div class=" col-mrg">
-                        2.0 事故類型 Loại hình sự cố: {{ICdetail.RpIC_IncidentType}}
+                        2.0 事故類型 Loại hình sự cố : {{ICdetail.RpIC_IncidentType}}
                     </div>
 
                     <div class=" col-mrg">
-                        3.0 事故時間 Thời gian tai nạn: {{ICdetail.Rp_DateTime}}
+                        3.0 事故時間 Thời gian tai nạn : {{ICdetail.Rp_DateTime}}
                     </div>
                 </td>
             </tr>
@@ -140,7 +140,7 @@
             <tr>
                 <td>
                     <div class=" col-mrg">
-                        4.0 事故地點 Địa điểm xảy ra sự cố: {{ICdetail.Rp_Location| translate }}
+                        4.0 事故地點 Địa điểm xảy ra sự cố : {{ICdetail.Rp_Location| translate }}
                         <br>
                         <div style="padding-left: 3%; text-align: justify; padding-bottom: 3%;">
                             <a class="a-ic" href="/{{item.File_ID}}" ng-repeat="item in ICfile_Location" target="_blank">
@@ -154,7 +154,7 @@
             <tr>
                 <td>
                     <div class=" col-mrg">
-                        5.0 事故發生經過 Diễn biến sự cố (請詳細說明 Thuyết minh chi tiết):
+                        5.0 事故發生經過 Diễn biến sự cố (請詳細說明 Thuyết minh chi tiết) :
                         <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Description}}</p>
                         <a href="/{{item.File_ID}}" target="_blank" ng-repeat="item in ICfile_Description" style="padding-left: 3%;display:block;">{{item.File_ID}}</a>
                     </div>
@@ -164,9 +164,9 @@
             <tr>
                 <td>
                     <div class=" col-mrg">
-                        6.0 事故發生原因 Nguyên nhân phát sinh sự cố:
+                        6.0 事故發生原因 Nguyên nhân phát sinh sự cố :
                         <br>
-                        <p style="padding-left: 3%">A: Nguyên nhân trực tiếp 直接原因:</p>
+                        <p style="padding-left: 3%">A: Nguyên nhân trực tiếp 直接原因 :</p>
             
                         <p style="padding-left: 5%; text-align: justify;"> {{ICdetail.RpIC_DirectReason}}</p>
                         
@@ -185,7 +185,7 @@
             <tr>
                 <td>
                     <div class=" col-mrg">
-                        7.0 事故結果Hậu quả sự cố：(人員驚嚇、設備損失、生產損失或其他)Nhân viên hoảng sợ, tổn thất thiết bị,thiệt hại sản xuất,….):
+                        7.0 事故結果 Hậu quả sự cố：(人員驚嚇、設備損失、生產損失或其他) Nhân viên hoảng sợ, tổn thất thiết bị, thiệt hại sản xuất,….) :
                         <br>
                         <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Damage}}</p>
                     </div>
@@ -195,7 +195,7 @@
             <tr>
                 <td>
                     <div class=" col-mrg">
-                        8.0 事故後處理情形 Tình hình xử lý sau sự cố:
+                        8.0 事故後處理情形 Tình hình xử lý sau sự cố :
                         <br>
                         <p style="padding-left: 3%; text-align: justify;">{{ICdetail.RpIC_Process}}</p>
                     </div>
@@ -205,7 +205,7 @@
             <tr>
                 <td>
                     <div class=" col-mrg">
-                        9.0 如何防止同樣事故發生  Làm thế nào để ngăn ngừa sự cố:
+                        9.0 如何防止同樣事故發生 Làm thế nào để ngăn ngừa sự cố :
                         <br>
                         <p style="padding-left: 3%; text-align: justify;">{{ICdetail.Rp_PreventMeasure}} </p>
                     </div>

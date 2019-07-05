@@ -46,6 +46,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 var deferred = $q.defer();
                 CReportService.GetAccidentDetail({ Rp_ID: $scope.Rp_ID, EmployeeID: $scope.EmployeeID }, function (data) {
                     $scope.ACdetail = data.Table0[0];
+                    if($scope.ACdetail.Birthday === null){
+                        $scope.ACdetail.Age = '';
+                    }else{
+                        $scope.ACdetail.Age = parseInt($scope.ACdetail.Rp_Date) - parseInt($scope.ACdetail.Birthday);
+                    }     
                     $scope.ACfile_Injury_Description = [];
                     $scope.ACfile_Location = [];
                     data.Table1.forEach(

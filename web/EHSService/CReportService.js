@@ -63,18 +63,21 @@ define(['app', 'angular'], function (app, angular) {
                         operation: 'Update'
                     },
                 },
+
                 getById:
                 {
                     method:'POST',
                     params :{operation :'FindById'}
                   
                 },
+
                 delete:
                 {
                     method:'DELETE',
                     params :{operation :'Delete'}
                   
                 },
+
                 GetBasic:
                 {
                     method:'GET',
@@ -82,21 +85,29 @@ define(['app', 'angular'], function (app, angular) {
                     isArray: true
                   
                 },
+
                 FindIC:
                 {
                     method:'GET',
                     params :{operation :'FindIC'},
                     // isArray: true
                 },
+
                 GetAccidentDetail: {
                     method: 'GET',
                     params: {operation: 'GetAccidentDetail'},
                     // isArray: true
                 },
+
                 GetEmployee: {
                     method: 'GET',
                     params: {operation: 'GetEmployee'},
                     isArray: true
+                },
+
+                SubmitStatus: {
+                    method: 'POST',
+                    params: {operation: 'SubmitStatus'},
                 }
         
             })
@@ -205,6 +216,16 @@ define(['app', 'angular'], function (app, angular) {
         CReportService.prototype.GetEmployee = function (query, callback) {
             console.log(query);
             this.GetInfoBasic.GetEmployee(query).$promise.then(function (data) {
+                callback(data);
+            }, function (ex) {
+                console.log(ex);
+                callback(null, ex);
+            })
+        }
+
+        CReportService.prototype.SubmitStatus = function (query, callback) {
+            console.log(query);
+            this.GetInfoBasic.SubmitStatus(query).$promise.then(function (data) {
                 callback(data);
             }, function (ex) {
                 console.log(ex);

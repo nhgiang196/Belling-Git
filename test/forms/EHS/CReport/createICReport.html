@@ -131,14 +131,14 @@
                                 <span class="input-group-addon">
                                     <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ic' ></label>
                                 </span>
-                        </div>
+                            </div>
                         </div>
 
 
                         <label class="col-sm-2 control-label ctr-lb"></label>
                         <div class="col-sm-4">
-                            <input type="file" ng-file-select="UploadFileHSE($files,'IC', 'Rp_Location')"
-                                id="file_location_ic" style="display:none !important" multiple>
+                            <input type="file" ng-file-select="UploadFileHSE($files, 'Rp_Location')"
+                                id="file_location_ic" style="display:none !important" multiple accept="image/*">
                             <button id="btn_file_location_ic" class="btn btn-info" style="display:inline-block;"
                                 type="button" ng-disabled="btnFile" ng-model='btnFile'
                                 ng-click="btnfile('file_location_ic','file_name_location_ic')">
@@ -149,7 +149,7 @@
                                 {{'ShowFile'|translate}}</span>
                             <table ng-show="listfile_loc_ic"
                                 class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
-                                style="margin-top:10px;">
+                                style="margin-top:10px; width:100%">
                                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Location'">
                                     <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
                                     <td><a ng-click="removeFile($index)">
@@ -171,7 +171,7 @@
                             <textarea class="form-control" type="text" rows="5" name="recordIC.icProcess"
                                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordIC.icProcess">
                             </textarea>
-                            <input type="file" ng-file-select="UploadFileHSE($files,'IC', 'Rp_Description')"
+                            <input type="file" ng-file-select="UploadFileHSE($files, 'Rp_Description')"
                                 id="file_process_ic" style="display:none !important" multiple>
                             <button id="btn_file_process_ic" class="btn btn-info" style="display:inline-block;"
                                 type="button" ng-click="btnfile('file_process_ic','file_name_process_ic')">
@@ -259,18 +259,21 @@
                             </select>
                         </div>
                     </div><!-- end of col-sm-6 -->
-                    <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">{{'NextStep' |
-                        translate}} </H4>
-                    <div style="margin-top:10px" ng-repeat="leader in leaderlist">
+
+                    <H4 class="title">{{'NextStep' | translate}} </H4>
+                    <div style="margin-top:10px; margin-left:5px;" ng-repeat="leader in leaderlist">
                         <span show-checker user-name={{leader.Person}}></span>
                     </div>
+
                 </form> <!-- end of form -->     
             
                 <div class="modal-footer">
-                    <button id="btnSaveSubmit" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveICReport()" ng-disabled="icform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'Save'|translate}} </button>
-                    <button id="btnSaveSubmit" type="button" class="btn btn-info btn-ct-ac" ng-click="SaveSubmitCReport(recordIC.rp_id)" ><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
+                    <button id="btnSaveIC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveICReport()" ng-disabled="icform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'Save'|translate}} </button>
+                    <button id="btnSaveSubmitIC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordIC.rp_id)" ng-disabled="icform.$invalid" ><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
                     <button type="button" class="btn btn-default btn-ct-ac" ng-click="resetIC()" data-dismiss="modal"><i class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
-                </div> <!-- end of modal-footer-->            </div> <!-- end of modal-body -->
+                </div> <!-- end of modal-footer-->
+
+            </div> <!-- end of modal-body -->
         </div> <!-- end of modal-content -->
     </div> <!-- end of modal-dialog -->
 </div> <!-- end of modal -->

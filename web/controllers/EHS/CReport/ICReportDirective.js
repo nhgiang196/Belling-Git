@@ -1,15 +1,14 @@
 
 define(['myapp', 'angular'], function (myapp, angular) {
-    myapp.directive('createIcReport', ['$upload', 'CReportService', 'Auth', '$q', 'Notifications', '$translate',
-        function ($upload, CReportService, Auth, Notifications, $translate, $q) {
+    myapp.directive('createIcReport', ['CReportService', 'Auth',
+        function (CReportService, Auth) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
                     var lang = window.localStorage.lang;
                     $scope.flowkey = 'HW01';
                     $scope.username = Auth.username;
-                    // formVariables = $scope.formVariables = [];
-                    // historyVariable = $scope.historyVariable = [];
+
                     $scope.btnFile = true;
                     $scope.btnFile_AC = true;
                    
@@ -21,31 +20,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                          
                         } else {
                             $scope.btnFile = true;
-                            $scope.btnFile_AC = true;                        }
+                            $scope.btnFile_AC = true;
+                        }
                     }
-
-                    $scope.listfile = [];
-                    $scope.dt = {};
-
-                    $scope.uploadFile = function ($files, colName) {
-                        $upload.upload({
-                            url: '/Waste/files/Upload',
-                            method: "POST",
-                            file: $files
-                        }).progress(function (evt) {
-
-                        }).then(function (res) {
-
-                            res.data.forEach(x => {
-                                $scope.dt.name = x;
-                                $scope.dt.col = colName;
-                                $scope.listfile.push($scope.dt);
-                                $scope.dt = {};
-                            })
-
-
-                        })
-                    }
+                    
 
                     // xóa file khỏi QCFiles 
                     $scope.removeFile = function (index) {
@@ -57,22 +35,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                         CReportService.DeleteFile(namefile, function (res) {
                             if (res.Success) {
-
-                                Notifications.addMessage({ 'status': 'information', 'message': $translate.instant('Delete_Success_MSG') });
-
-                            } else {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + res.Message
-                                });
+                                console.log(res.Success);
                             }
-
                         },
                             function (error) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + error
-                                });
+                                console.log(error);
                             })
                     }
 
@@ -93,15 +60,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     }, function (error) {
 
                     })
-
-                    // $scope.listDept = [];
-                    // $scope.showDepartmentList = function (center_id) {
-                    //     if (center_id == null || center_id == '') return;
-                    //     var biennaodo = { center: center_id, Lang: lang };
-                    //     CReportService.GetDataDepartment(biennaodo, function (res) {
-                    //         $scope.listDept = res;
-                    //     })
-                    // };
 
                     $scope.showFactoryByDept = function (dept_id) {
                         if (dept_id == null || dept_id == '') return;
@@ -173,16 +131,28 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         CReportService.Create(data, function (res) {
                             console.log(res)
                             if (res.Success) {
-                                $scope.Search();
-                                $('#my-modal').modal('hide');
-                                $scope.save_msg();
+                                if($scope.btnSub){
+                                    $scope.ID_IC = res.Data;
+                                    $scope.formVariables.push({
+                                        name: 'Rp_ID',
+                                        value: $scope.ID_IC //chosen
+                                    });
+                                    $scope.SubmitAndChangeStatus($scope.ID_IC);
+                                    $scope.btnSub = false;
+                                    $('#my-modal').modal('hide');
+                                }else{
+                                    $('#my-modal').modal('hide');
+                                    $scope.save_msg();
+                                    $scope.Search();
+                                }
+              
                             }
                             else {
-                                Notifications.addError({ 'status': 'error', 'message': $translate.instant('saveError') + res.Message });
+                                $scope.save_error_msg();
                             }
 
                         }, function (error) {
-                            Notifications.addError({ 'status': 'error', 'message': $translate.instant('saveError') + error });
+                            $scope.save_error_msg();
                         })
                     }
 
@@ -192,26 +162,30 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     function updateByID_IC(data) {
                         CReportService.Update(data, function (res) {
                             if (res.Success) {
-                                $('#my-modal').modal('hide');
-                                $scope.update_msg();
+                                if ($scope.btnSub) {
+                                    $('#my-modal').modal('hide');
+                                    $scope.submit_success_msg();
+                                    $scope.Search();
+                                    $scope.btnSub = false;
+                                }
+                                else {
+                                    $('#my-modal').modal('hide');
+                                    $scope.update_msg();
+                                    $scope.Search();
+                                }
                             } else {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + res.Message
-                                });
+                                $scope.update_error_msg();
                             }
                         },
                             function (error) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + error
-                                });
+                                $scope.update_error_msg();
                             })
                     }
 
                     var nofile = false;
 
-                    $scope.saveSubmitIC = function () {
+                    $scope.SaveICReport = function () {
+
                         var note = saveInitDataIC();
                         if (count == 0 && $scope.recordIC.icLocation == "O") {
                             $scope.nofileLoc();
@@ -232,8 +206,14 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 case 'M':
                                     updateByID_IC(note);
                                     break;
+                                case 'SM':
+                                    note.Rp_Status = 'SM';
+                                    $scope.btnSub = true;
+                                    updateByID_IC(note);
+                                    break;
                             }
                         }
+                        
                     };
 
                     /*
@@ -244,6 +224,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.listfile = [];
                         $scope.lsFile = [];
                         $scope.Search();
+                        $scope.ID_IC = "";
+                        $scope.btnFile = true;
+                        $scope.listfile_loc_ic = false; 
+                        $scope.listfile_process_ic = false;
                     }
 
                 },

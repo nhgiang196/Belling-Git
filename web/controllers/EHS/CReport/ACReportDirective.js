@@ -1,32 +1,11 @@
 define(['myapp', 'angular'], function (myapp, angular) {
-    myapp.directive('createAcReport', ['$upload', 'CReportService', 'Auth', '$q',
-        function ($upload, CReportService, Auth, $q) {
+    myapp.directive('createAcReport', [ 'CReportService', 'Auth',
+        function (CReportService, Auth) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
                     $scope.flowkey = 'HW-User'; // ??
                     $scope.username = Auth.username;
-                    // formVariables = $scope.formVariables = []; //???
-                    // historyVariable = $scope.historyVariable = []; //????
-
-                    $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
-
-                    $scope.uploadFile_AC = function ($files, colName) {
-                        $upload.upload({
-                            url: '/Waste/files/Upload',
-                            method: "POST",
-                            file: $files
-                        }).progress(function (evt) {
-
-                        }).then(function (res) {
-                            res.data.forEach(x => {
-                                $scope.dt.name = x;
-                                $scope.dt.col = colName;
-                                $scope.listfileAC.push($scope.dt);
-                                $scope.dt = {};
-                            })
-                        })
-                    }
 
                     // xóa file tình hình bị thương khỏi QCFiles 
                     $scope.removeFileInjury = function (index) {
@@ -38,22 +17,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                         CReportService.DeleteFile(namefile, function (res) {
                             if (res.Success) {
-
-                                Notifications.addMessage({ 'status': 'information', 'message': $translate.instant('Delete_Success_MSG') });
-
-                            } else {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + res.Message
-                                });
-                            }
-
+                                console.log(res.Success);  
+                            } 
                         },
                             function (error) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + error
-                                });
+                                console.log(error);                               
                             })
                     }
 
@@ -86,7 +54,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         if ($scope.gd != null || $scope.gd != {}) {
                             $scope.employees.forEach(x => {
                                 if ($scope.gd.EmployeeID == x.EmployeeID) {
-                                    alert('trùng nhân viên');
+                                    $scope.same_employee_msg();
                                     sameID = true;
                                 }
                             })
@@ -179,23 +147,22 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     function updateByID_AC(data) {
                         CReportService.Update(data, function (res) {
                             if (res.Success) {
-                                $scope.Search();
-                                $('#myModal').modal('hide');
-                                $('#messageModal').modal('hide');
-                                $('#nextModal').modal('hide');
-                                $scope.update_msg();
+                                if($scope.btnSub){
+                                    $('#myModal').modal('hide');
+                                    $scope.submit_success_msg();
+                                    $scope.Search();
+                                    $scope.btnSub = false;
+                                }else{
+                                    $('#myModal').modal('hide');
+                                    $scope.Search();
+                                    $scope.update_msg();
+                                }                               
                             } else {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + res.Message
-                                });
+                                $scope.update_error_msg();
                             }
                         },
                             function (error) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + error
-                                });
+                                $scope.update_error_msg();
                             })
                     }
 
@@ -206,17 +173,26 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         CReportService.Create(data, function (res) {
                             console.log(res)
                             if (res.Success) {
-                                $scope.Search();
-                                $('#myModal').modal('hide');
-                                $('#messageModal').modal('hide');
-                                $('#nextModal').modal('hide');
-                                $scope.save_msg();
+                                if($scope.btnSub){
+                                    $scope.ID_AC = res.Data;
+                                    $scope.formVariables.push({
+                                        name: 'Rp_ID',
+                                        value: $scope.ID_AC //chosen
+                                    });
+                                    $scope.SubmitAndChangeStatus($scope.ID_AC);
+                                    $scope.btnSub = false;
+                                    $('#myModal').modal('hide');
+                                }else{
+                                    $('#myModal').modal('hide');
+                                    $scope.save_msg();
+                                    $scope.Search();
+                                }
                             }
                             else {
-                                Notifications.addError({ 'status': 'error', 'message': $translate.instant('saveError') + res.Message });
+                                $scope.save_error_msg();
                             }
                         }, function (error) {
-                            Notifications.addError({ 'status': 'error', 'message': $translate.instant('saveError') + error });
+                            $scope.save_error_msg();
                         })
 
                     }
@@ -227,7 +203,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                      */
 
                     var nofile = false;
-                    $scope.saveSubmitAC = function () {
+                    $scope.SaveACReport = function () {
                         if ($scope.employees.length != 0) {
                             $scope.mySwitch = false;
                             var note = saveInitDataAC();
@@ -250,6 +226,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     case 'M':
                                         updateByID_AC(note);
                                         break;
+                                    case 'SM':
+                                        note.Rp_Status = 'SM';
+                                        $scope.btnSub = true;
+                                        updateByID_AC(note);
+                                        break;
                                 }
                             }
                         } else {
@@ -263,6 +244,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                      */
                     $scope.resetAC = function () {
                         $scope.mySwitch = false;
+                        $scope.listfileAC = [];
                         $scope.recordAC = {};
                         $scope.gd = {};
                         $scope.employees = [];
@@ -270,6 +252,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.listfile = [];
                         $scope.lsFile = [];
                         $scope.injury = [];
+                        $scope.ID_AC = "";
+                        $scope.btnFile_AC = true;
+                        $scope.listfile_loc_ac = false;
+                        $scope.listfile_process_ac =false;
                     };
 
                     $scope.emp_name = "";

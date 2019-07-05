@@ -137,6 +137,7 @@
   "Update": "Modify",
   "UpdateTime": "Update Time",
   "Update_Success_MSG": "Updated successfully",
+  "UpdateError":"Update Failed",
   "UploadFile": "Upload File",
   "UserID": "UserID",
   "UserName": "UserName",
@@ -528,6 +529,10 @@
   "Update_Processing_MSG":"You can't update the report that is processing",
   "Update_Deleted_MSG":"You can't update the report that was deleted",
   "Update_Signed_MSG":"You can't update the report that was signed approval",
+  "Submit_onlyowner_MSG":"you can't submit other people's reports",
+  "Submit_Processing_MSG":"You can't submit the report that is processing",
+  "Submit_Deleted_MSG":"You can't submit the report that was deleted",
+  "Submit_Signed_MSG":"You can't submit the report that was signed approval",
   "KnittingDyeing":"Knitting Dyeing",
   "FiberChemical":"Fiber Chemical",
   "Draft":"Draft",
@@ -535,5 +540,9 @@
   "Processing":"Processing",
   "Signed":"Signed approval",
   "File_Location":"Please upload location file",
-  "EmployeeName":"Employee Name"
+  "Submit_Alert":"Would you like to save and submit this Report?",
+  "Submit_Alert_Error":"Your report could not submited because",
+  "Submit_Success_MSG":"Your report is submited!",
+  "onlyOwnerReport": "Only my created report",
+  "SameEmployee": "Employee's information is the same"
 }
