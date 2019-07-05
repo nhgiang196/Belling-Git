@@ -238,7 +238,7 @@ define(['app', 'angular'], function (app, angular) {
             var variablesMap = Forms.variablesToMap(formVariables);
             var historyVariableMap = Forms.variablesToMap(historyVariable);
             EngineApi.getKeyId().getkey({
-                'key': 'CReportHSE'
+                'key': 'CReportHSE2'
             }, function (res) {
                 var definitionID = res.id;
                 var datafrom = {

@@ -1,48 +1,45 @@
-
 /**
  * Created by wangyanyan on 14-3-6.
  *
  */
-define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
-    myapp.controller("doTaskController", ['$q','$scope', '$http', '$compile', '$routeParams', '$resource', '$location', 'Forms', 'Notifications', 'EngineApi','Auth','GateGuest', function($q,$scope, $http, $compile, $routeParams, $resource, $location, Forms, Notifications, EngineApi,Auth,GateGuest) {
+define(['myapp', 'angular', 'bpmn'], function (myapp, angular, Bpmn) {
+    myapp.controller("doTaskController", ['$q', '$scope', '$http', '$compile', '$routeParams', '$resource', '$location', 'Forms', 'Notifications', 'EngineApi', 'Auth', 'GateGuest', function ($q, $scope, $http, $compile, $routeParams, $resource, $location, Forms, Notifications, EngineApi, Auth, GateGuest) {
         var taskid = $routeParams.taskid,
             pid = $routeParams.pid,
             formVariables = $scope.formVariables = [],
             historyVariable = $scope.historyVariable = [];
-        var nextleadercheck=new Array();
-        $scope.bpmnloaded=false;
-        $scope.showPngg=function(){
+        var nextleadercheck = new Array();
+        $scope.username = Auth.username;
+        $scope.bpmnloaded = false;
+        $scope.showPngg = function () {
             if ($scope.bpmnloaded == true) {
                 $scope.bpmnloaded = false;
             } else {
                 $scope.bpmnloaded = true;
             }
-
         }
         $scope.butmocsubit = false;
+
         function asyncLoop(iterations, func, callback) {
             var index = 0;
             var done = false;
             var loop = {
-                next: function() {
+                next: function () {
                     if (done) {
                         return;
                     }
                     if (index < iterations) {
                         index++;
                         func(loop);
-
                     } else {
                         done = true;
                         callback();
                     }
                 },
-
-                iteration: function() {
+                iteration: function () {
                     return index - 1;
                 },
-
-                break: function() {
+                break: function () {
                     done = true;
                     callback();
                 }
@@ -52,7 +49,7 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
         }
         EngineApi.getTaskform().getForm({
             "id": taskid
-        }, function(res) {
+        }, function (res) {
             if (res.message) {
                 console.log(res.message);
                 Notifications.addError({
@@ -61,17 +58,16 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                 });
                 return;
             }
-
+            console.log("formkey:", res.formkey);
+            console.log("getFullFormTask:", res);
             $scope.taskid = res.taskid;
-
-            $http.get(res.formkey).success(function(data, status, headers, config) {
-
+            $http.get(res.formkey).success(function (data, status, headers, config) {
                 $("#bindHtml").html(data);
                 var newScope = $scope.$new();
                 $compile($("#bindHtml").contents())($scope.$new());
             });
             //show 流程图
-            $scope.$on('menuBarLoad', function() {
+            $scope.$on('menuBarLoad', function () {
                 //父级能得到值
                 $scope.$broadcast('tomenuBarLoad', "", taskid);
                 //  alert(pdid);
@@ -79,7 +75,9 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
             var superQuery = {
                 id: $routeParams.pid
             };
-            EngineApi.gethistoryProcessList().get(superQuery, function(superreslist) {
+            /** GET HISTORY */
+            EngineApi.gethistoryProcessList().get(superQuery, function (superreslist) {
+                console.log("HIstorylist:", superreslist);
                 if (superreslist.superProcessInstanceId) {
                     var url = "#/processlog/" + superreslist.superProcessInstanceId + "/" + $routeParams.pid;
                 } else {
@@ -88,42 +86,41 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                 console.log(url);
                 $scope.historyurl = url;
             });
-            /* $scope.$on('menu_historyLoad', function() {
-                 //父级能得到值
-                 $scope.$broadcast('to_menu_historyLoad', res.pid);
-                 //  alert(pdid);
-             });*/
             $scope.variable = res.data;
             $scope.processInstanceId = res.pid;
             var variablesMap = {};
-            function SaveGuest(note, callback) {
-                GateGuest.SaveGuest().save(note).$promise.then(function (res) {
-                    var voucherid = res.VoucherID;
-                    if (voucherid) {
-                        $scope.recod.start_voucherid = voucherid;
-                        callback(voucherid, "")
-
-                    } else {
-                        callback(voucherid, $translate.instant('saveError'))
-                    }
-                }, function (errormessage) {
-                    callback("", errormessage)
-                });
-            }
-
-            $scope.modalSubmit= function(){
-
+            /**??? */
+            // function SaveGuest(note, callback) {
+            //     GateGuest.SaveGuest().save(note).$promise.then(function (res) {
+            //         var voucherid = res.VoucherID;
+            //         if (voucherid) {
+            //             $scope.recod.start_voucherid = voucherid;
+            //             callback(voucherid, "")
+            //         } else {
+            //             callback(voucherid, $translate.instant('saveError'))
+            //         }
+            //     }, function (errormessage) {
+            //         callback("", errormessage)
+            //     });
+            // }
+            $scope.modalSubmit = function () {
                 $('#warningModal').modal('hide');
                 $('#messageModal').modal('hide');
                 $('nextModalGateGuestupdate').modal('hide');
-                setTimeout(function() {
+                setTimeout(function () {
+                    CompleteTask();
+                }, 1000);
+            }
+            $scope.modalCancelUpdate = function () {
+                $('#warningModal').modal('hide');
+                $('#messageModal').modal('hide');
+                $('#nextModalGateGuestupdate').modal('hide');
+            }
 
 
-                console.log("--do task---");
-                    console.log(formVariables);
+            function CompleteTask() {
                 variablesMap = Forms.variablesToMap(formVariables);
                 historyVariable = Forms.variablesToMap(historyVariable)
-                  //  console.log('TEST:  ' +variablesMap);
                 console.log(variablesMap);
                 var datafrom = {
                     formdata: variablesMap,
@@ -132,9 +129,11 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                 //   var datafrom = {
                 //     formdata: $scope.variable
                 //};
+                debugger;
+                
                 EngineApi.doTask().complete({
                     "id": $scope.taskid
-                }, datafrom, function(res) {
+                }, datafrom, function (res) {
                     console.log(res);
                     if (res.message) {
                         Notifications.addError({
@@ -149,474 +148,178 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                             'message': res.message
                         });
                     } else {
-
                         var url = "/taskForm/" + res.url + $scope.processInstanceId
-                       $location.url(url);
+                        $location.url(url);
                     }
                 })
-                }, 1000);
             }
-            $scope.modalCancelUpdate= function(){
-                $('#warningModal').modal('hide');
-                $('#messageModal').modal('hide');
-                $('#nextModalGateGuestupdate').modal('hide');
-
-            }
-
-
-            $scope.submit = function(status) {
-
-                if(status=='checkout'){
-
-                    variablesMap = Forms.variablesToMap(formVariables);
-                    historyVariable = Forms.variablesToMap(historyVariable)
-                    console.log(variablesMap);
-                    var datafrom = {
-                        formdata: variablesMap,
-                        historydata: historyVariable
-                    };
-                    //   var datafrom = {
-                    //     formdata: $scope.variable
-                    //};
-                    EngineApi.doTask().complete({
-                        "id": $scope.taskid
-                    }, datafrom, function(res) {
-                        console.log(res);
-                        if (res.message) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.message
-                            });
-                            return
-                        }
-                        if (!res.result) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.message
-                            });
-                        } else {
-
-                            var url = "/taskForm/" + res.url + $scope.processInstanceId
-                            $location.url(url);
-                        }
-                    })
+            $scope.submit = function (status) {
+                if (status == 'checkout') {
+                    CompleteTask();
                 }
-                if(status=='delete'){
-
-                    variablesMap = Forms.variablesToMap(formVariables);
-                    historyVariable = Forms.variablesToMap(historyVariable)
-                    console.log(variablesMap);
-                    var datafrom = {
-                        formdata: variablesMap,
-                        historydata: historyVariable
-                    };
-                    //   var datafrom = {
-                    //     formdata: $scope.variable
-                    //};
-                    EngineApi.doTask().complete({
-                        "id": $scope.taskid
-                    }, datafrom, function(res) {
-                        console.log(res);
-                        if (res.message) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.message
-                            });
-                            return
-                        }
-                        if (!res.result) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.message
-                            });
-                        } else {
-
-                            var url = "/taskForm/" + res.url + $scope.processInstanceId
-                            $location.url(url);
-                        }
-                    })
+                if (status == 'delete') {
+                    CompleteTask();
                 }
-                if(status=='update'){
-
-
-
-
+                if (status == 'update') {
                     var list = new Array();
                     var getLeader = new Array();
-
-                    var formValue= Forms.variablesToMap(formVariables);
-                    if(formValue.start_kind=='2'){
+                    var formValue = Forms.variablesToMap(formVariables);
+                    if (formValue.start_kind == '2') {
                         $scope.modalSubmit();
                         return;
                     }
                     asyncLoop(formValue.GuestChecherArray.length, function (loops) {
-
                             asyncLoop(formValue.GuestChecherArray[loops.iteration()].split(',').length, function (loop) {
-
                                     if (formValue.GuestChecherArray[loops.iteration()].split(',').length == 1) {
                                         getLeader.push(formValue.GuestChecherArray[loops.iteration()]);
                                         loops.next();
-                                    }
-                                    else {
-                                        if (getLeader.indexOf(formValue.GuestChecherArray[loop.iteration()]) == -1 && formValue.GuestChecherArray[loop.iteration()]!=undefined) {
-
+                                    } else {
+                                        if (getLeader.indexOf(formValue.GuestChecherArray[loop.iteration()]) == -1 && formValue.GuestChecherArray[loop.iteration()] != undefined) {
                                             getLeader.push(formValue.GuestChecherArray[loop.iteration()]);
-
-
                                         }
                                         loop.next();
                                     }
-
                                 },
-                                function () {
-
-                                });
-
+                                function () {});
                         },
-                        function () {
-
-                        });
+                        function () {});
                     console.log(getLeader.length);
                     for (var i = 0; i < getLeader.length; i++) {
-
                         if (getLeader[i].split(',').length == 1) {
                             //console.log(test[i].split(',')[key]);
                             if (getLeader[i] == Auth.username) {
                                 list.push(getLeader[i + 1]);
-                            }else{
-                                if(list.indexOf(getLeader[0])==-1){
+                            } else {
+                                if (list.indexOf(getLeader[0]) == -1) {
                                     list.push(getLeader[0]);
                                 }
-
                             }
                         } else {
                             for (var key in getLeader[i].split(',')) {
                                 // console.log(test[i].split(',')[key]);
                                 if (getLeader[i].split(',')[key] == Auth.username) {
-                                    if(getLeader[i + 1].split(',')[key]===undefined){
-
+                                    if (getLeader[i + 1].split(',')[key] === undefined) {
                                         list.push(getLeader[i + 1]);
-                                    }else{
+                                    } else {
                                         list.push(getLeader[i + 1].split(',')[key]);
                                     }
-                                }else{
-                                    if(list.indexOf(getLeader[0])==-1){
+                                } else {
+                                    if (list.indexOf(getLeader[0]) == -1) {
                                         list.push(getLeader[0]);
                                     }
-
                                 }
                             }
                         }
                     }
                     asyncLoop(list.length, function (loops) {
-                            //console.log(list[loops.iteration()].split(',').length);
-                            if(list[loops.iteration()].split(',').length>1){
-                                asyncLoop(list[loops.iteration()].split(',').length, function (loop) {
-                                        EngineApi.getMemberInfo().get({userid: list[loops.iteration()].split(',')[loop.iteration()]}, function (ress) {
-                                           //   console.log(list[loops.iteration()].split(',')[loop.iteration()] +' -- '+ress.Name)
-                                            nextleadercheck.push(list[loops.iteration()].split(',')[loop.iteration()] + ' -- ' + ress.Name);
-
-                                            loop.next();
-                                        });
-                                },
-                                    function () {
-
+                        //console.log(list[loops.iteration()].split(',').length);
+                        if (list[loops.iteration()].split(',').length > 1) {
+                            asyncLoop(list[loops.iteration()].split(',').length, function (loop) {
+                                    EngineApi.getMemberInfo().get({
+                                        userid: list[loops.iteration()].split(',')[loop.iteration()]
+                                    }, function (ress) {
+                                        //   console.log(list[loops.iteration()].split(',')[loop.iteration()] +' -- '+ress.Name)
+                                        nextleadercheck.push(list[loops.iteration()].split(',')[loop.iteration()] + ' -- ' + ress.Name);
+                                        loop.next();
                                     });
-                            }
-                            else{
-                                EngineApi.getMemberInfo().get({userid: list[loops.iteration()]}, function (ress) {
-                                    //  console.log(list[loops.iteration()] +' -- '+ress.Name)
-                                    nextleadercheck.push(list[loops.iteration()] + ' -- ' + ress.Name);
-
-                                    loops.next();
-                                });
-                            }
-
-                        },function () {
-
-
-                        });
+                                },
+                                function () {});
+                        } else {
+                            EngineApi.getMemberInfo().get({
+                                userid: list[loops.iteration()]
+                            }, function (ress) {
+                                //  console.log(list[loops.iteration()] +' -- '+ress.Name)
+                                nextleadercheck.push(list[loops.iteration()] + ' -- ' + ress.Name);
+                                loops.next();
+                            });
+                        }
+                    }, function () {});
                     GateGuest.GuestBasic().checkUserBelongDyeing({
                         EmployeeID: Auth.username
                     }).$promise.then(function (res1) {
-                            GateGuest.GuestBasic().getGuest({
-                                VoucherID: res.data.VoucherID,
-                                Language: window.localStorage.lang
-                            }).$promise.then(function (resgetList) {
-                                    var tesst = resgetList;
-                                    if(resgetList[0].Region=='1'){
-                                        if (res1[0].DepartmentID.substr(0, 3) == '512') {
-                                            $scope.showMessageModal = '';
-                                            $scope.listleadercheck = nextleadercheck;
-
-                                            $('#messageModal').modal('show');
-                                        } else {
-                                            $scope.listleadercheck = nextleadercheck;
-
-                                            $('#messageModal').modal('show');
-                                        }
-                                    }
-                                     else {
-                                        $scope.listleadercheck = nextleadercheck;
-                                        $('#nextModalGateGuestupdate').modal('show');
-                                    }
-
-
-                                }, function () {
-
-                                });
-                        },function(){
-
-                        });
-
-
-                }
-                if(status=='NO'){
-                    variablesMap = Forms.variablesToMap(formVariables);
-                    historyVariable = Forms.variablesToMap(historyVariable)
-                    console.log(variablesMap);
-                    var datafrom = {
-                        formdata: variablesMap,
-                        historydata: historyVariable
-                    };
-                    //   var datafrom = {
-                    //     formdata: $scope.variable
-                    //};
-                    EngineApi.doTask().complete({
-                        "id": $scope.taskid
-                    }, datafrom, function(res) {
-                        console.log(res);
-                        if (res.message) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.message
-                            });
-                            return
-                        }
-                        if (!res.result) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.message
-                            });
-                        } else {
-
-                            var url = "/taskForm/" + res.url + $scope.processInstanceId
-                            $location.url(url);
-                        }
-                    })
-                }
-                else {
-
-                    if (Auth.username == 'FEPVNN0003' || Auth.username == 'FEPVNN0023') {
-                        variablesMap = Forms.variablesToMap(formVariables);
-                        historyVariable = Forms.variablesToMap(historyVariable)
-
-                        var datafrom = {
-                            formdata: variablesMap,
-                            historydata: historyVariable
-                        };
-                        //   var datafrom = {
-                        //     formdata: $scope.variable
-                        //};
-                        EngineApi.doTask().complete({
-                            "id": $scope.taskid
-                        }, datafrom, function (res) {
-                            console.log(res);
-                            if (res.message) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': res.message
-                                });
-                                return
-                            }
-                            if (!res.result) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': res.message
-                                });
+                        GateGuest.GuestBasic().getGuest({
+                            VoucherID: res.data.VoucherID,
+                            Language: window.localStorage.lang
+                        }).$promise.then(function (resgetList) {
+                            var tesst = resgetList;
+                            if (resgetList[0].Region == '1') {
+                                if (res1[0].DepartmentID.substr(0, 3) == '512') {
+                                    $scope.showMessageModal = '';
+                                    $scope.listleadercheck = nextleadercheck;
+                                    $('#messageModal').modal('show');
+                                } else {
+                                    $scope.listleadercheck = nextleadercheck;
+                                    $('#messageModal').modal('show');
+                                }
                             } else {
-
-                                var url = "/taskForm/" + res.url + $scope.processInstanceId
-                                $location.url(url);
+                                $scope.listleadercheck = nextleadercheck;
+                                $('#nextModalGateGuestupdate').modal('show');
                             }
-                        })
+                        }, function () {});
+                    }, function () {});
+                }
+                if (status == 'NO') {
+                    CompleteTask();
+                } else {
+                    if (Auth.username == 'FEPVNN0003' || Auth.username == 'FEPVNN0023') {
+                        CompleteTask();
                     } else {
-                        if(status=='update'){
-
-                        }else{
+                        if (status == 'update') {} else {
                             if (res.data.start_area == '1') {
-
                                 GateGuest.GuestBasic().checkUserBelongDyeing({
                                     EmployeeID: Auth.username
                                 }).$promise.then(function (res) {
-
-                                        if (res[0].DepartmentID.substr(0, 3) == '513' || res[0].DepartmentID.substr(0, 3) == '519' || res[0].DepartmentID.substr(0, 3) == '511') {
-                                            if (res[0].DepartmentID.substr(0, 3) == '519') {
-
-                                                if (Auth.username == 'FEPVNN0023') {
-                                                    variablesMap = Forms.variablesToMap(formVariables);
-                                                    historyVariable = Forms.variablesToMap(historyVariable)
-                                                    console.log(variablesMap);
-                                                    var datafrom = {
-                                                        formdata: variablesMap,
-                                                        historydata: historyVariable
-                                                    };
-                                                    //   var datafrom = {
-                                                    //     formdata: $scope.variable
-                                                    //};
-                                                    EngineApi.doTask().complete({
-                                                        "id": $scope.taskid
-                                                    }, datafrom, function (res) {
-                                                        console.log(res);
-                                                        if (res.message) {
-                                                            Notifications.addError({
-                                                                'status': 'error',
-                                                                'message': res.message
-                                                            });
-                                                            return
-                                                        }
-                                                        if (!res.result) {
-                                                            Notifications.addError({
-                                                                'status': 'error',
-                                                                'message': res.message
-                                                            });
-                                                        } else {
-
-                                                            var url = "/taskForm/" + res.url + $scope.processInstanceId
-                                                            $location.url(url);
-                                                        }
-                                                    })
-
-                                                }
+                                    if (res[0].DepartmentID.substr(0, 3) == '513' || res[0].DepartmentID.substr(0, 3) == '519' || res[0].DepartmentID.substr(0, 3) == '511') {
+                                        if (res[0].DepartmentID.substr(0, 3) == '519') {
+                                            if (Auth.username == 'FEPVNN0023') {
+                                                CompleteTask();
                                             }
-                                            if (res[0].DepartmentID.substr(0, 3) == '511') {
-
-                                                if (Auth.username == 'FEPVNN0003') {
-                                                    variablesMap = Forms.variablesToMap(formVariables);
-                                                    historyVariable = Forms.variablesToMap(historyVariable)
-                                                    console.log(variablesMap);
-                                                    var datafrom = {
-                                                        formdata: variablesMap,
-                                                        historydata: historyVariable
-                                                    };
-                                                    //   var datafrom = {
-                                                    //     formdata: $scope.variable
-                                                    //};
-                                                    EngineApi.doTask().complete({
-                                                        "id": $scope.taskid
-                                                    }, datafrom, function (res) {
-                                                        console.log(res);
-                                                        if (res.message) {
-                                                            Notifications.addError({
-                                                                'status': 'error',
-                                                                'message': res.message
-                                                            });
-                                                            return
-                                                        }
-                                                        if (!res.result) {
-                                                            Notifications.addError({
-                                                                'status': 'error',
-                                                                'message': res.message
-                                                            });
-                                                        } else {
-
-                                                            var url = "/taskForm/" + res.url + $scope.processInstanceId
-                                                            $location.url(url);
-                                                        }
-                                                    })
-                                                } else {
-
-
-                                                }
-                                            } else {
-
-
-                                            }
-
                                         }
-                                        else {
-
-                                            variablesMap = Forms.variablesToMap(formVariables);
-                                            historyVariable = Forms.variablesToMap(historyVariable)
-                                            console.log(variablesMap);
-                                            var datafrom = {
-                                                formdata: variablesMap,
-                                                historydata: historyVariable
-                                            };
-
-                                            EngineApi.doTask().complete({
-                                                "id": $scope.taskid
-                                            }, datafrom, function (res) {
-                                                console.log(res);
-                                                if (res.message) {
-                                                    Notifications.addError({
-                                                        'status': 'error',
-                                                        'message': res.message
-                                                    });
-                                                    return
-                                                }
-                                                if (!res.result) {
-                                                    Notifications.addError({
-                                                        'status': 'error',
-                                                        'message': res.message
-                                                    });
-                                                } else {
-
-                                                    var url = "/taskForm/" + res.url + $scope.processInstanceId
-                                                    $location.url(url);
-                                                }
-                                            })
-                                        }
-                                    }, function (errResponse) {
-                                        Notifications.addError({'status': 'error', 'message': errResponse});
+                                        if (res[0].DepartmentID.substr(0, 3) == '511') {
+                                            if (Auth.username == 'FEPVNN0003') {
+                                                CompleteTask();
+                                            } else {}
+                                        } else {}
+                                    } else {
+                                        CompleteTask();
+                                    }
+                                }, function (errResponse) {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': errResponse
                                     });
+                                });
                                 var list = new Array();
                                 var getLeader = new Array();
-
                                 asyncLoop($scope.variable.GuestChecherArray.length, function (loops) {
-
                                         asyncLoop($scope.variable.GuestChecherArray[loops.iteration()].split(',').length, function (loop) {
                                                 // console.log($scope.variable.GuestChecherArray[loop.iteration()]);
                                                 if ($scope.variable.GuestChecherArray[loops.iteration()].split(',').length == 1) {
                                                     getLeader.push($scope.variable.GuestChecherArray[loops.iteration()]);
                                                     loops.next();
-                                                }
-                                                else {
-                                                    if (getLeader.indexOf($scope.variable.GuestChecherArray[loop.iteration()]) == -1&&$scope.variable.GuestChecherArray[loop.iteration()]!=undefined) {
-
+                                                } else {
+                                                    if (getLeader.indexOf($scope.variable.GuestChecherArray[loop.iteration()]) == -1 && $scope.variable.GuestChecherArray[loop.iteration()] != undefined) {
                                                         getLeader.push($scope.variable.GuestChecherArray[loop.iteration()]);
-
-
                                                     }
                                                     loop.next();
                                                 }
-
                                             },
-                                            function () {
-
-                                            });
-
+                                            function () {});
                                     },
-                                    function () {
-
-                                    });
-
+                                    function () {});
                                 for (var i = 0; i < getLeader.length; i++) {
                                     console.log(getLeader[i].split(',').length);
                                     if (getLeader[i].split(',').length == 1) {
-
                                         if (getLeader[i] == Auth.username) {
-                                            if(getLeader[i+1] == Auth.username){
-
-                                                if(list.indexOf(getLeader[i + 1])==-1&&getLeader[i + 1]!=undefined){
+                                            if (getLeader[i + 1] == Auth.username) {
+                                                if (list.indexOf(getLeader[i + 1]) == -1 && getLeader[i + 1] != undefined) {
                                                     list.push(getLeader[i + 1]);
                                                 }
-                                            }else{
-                                                if(list.indexOf(getLeader[i + 1])==-1&&getLeader[i + 1]!=undefined){
+                                            } else {
+                                                if (list.indexOf(getLeader[i + 1]) == -1 && getLeader[i + 1] != undefined) {
                                                     list.push(getLeader[i + 1]);
                                                 }
                                             }
-
                                         }
                                         //}else{
                                         //    list.push(getLeader[0]);
@@ -624,155 +327,73 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                                     } else {
                                         for (var key in getLeader[i].split(',')) {
                                             // console.log(test[i].split(',')[key]);
-
                                             if (getLeader[i].split(',')[key] == Auth.username) {
-                                                if(getLeader[i + 1]===undefined){
-
-                                                }else{
-                                                    if(getLeader[i + 1].split(',')[key]===undefined){
-
+                                                if (getLeader[i + 1] === undefined) {} else {
+                                                    if (getLeader[i + 1].split(',')[key] === undefined) {
                                                         list.push(getLeader[i + 1]);
-                                                    }else{
+                                                    } else {
                                                         list.push(getLeader[i + 1].split(',')[key]);
                                                     }
                                                 }
-
-                                            }
-                                            else{
-                                                if( getLeader.length==1){
-
-                                                }
-
+                                            } else {
+                                                if (getLeader.length == 1) {}
                                             }
                                         }
                                     }
                                 }
                                 asyncLoop(list.length, function (loops) {
                                     console.log(list[loops.iteration()]);
-                                    EngineApi.getMemberInfo().get({userid: list[loops.iteration()]}, function (ress) {
-                                        if(nextleadercheck.indexOf(list[loops.iteration()] + ' -- ' + ress.Name)==-1){
+                                    EngineApi.getMemberInfo().get({
+                                        userid: list[loops.iteration()]
+                                    }, function (ress) {
+                                        if (nextleadercheck.indexOf(list[loops.iteration()] + ' -- ' + ress.Name) == -1) {
                                             nextleadercheck.push(list[loops.iteration()] + ' -- ' + ress.Name);
                                         }
                                         loops.next();
                                     });
-
-                                },function () {
-                                    console.log('OK: '+ nextleadercheck);
-                                    $scope.leaderchecker=nextleadercheck;
-                                    if($scope.leaderchecker ==undefined||$scope.leaderchecker==''){
-                                        variablesMap = Forms.variablesToMap(formVariables);
-                                        historyVariable = Forms.variablesToMap(historyVariable)
-                                        console.log(variablesMap);
-                                        var datafrom = {
-                                            formdata: variablesMap,
-                                            historydata: historyVariable
-                                        };
-
-                                        EngineApi.doTask().complete({
-                                            "id": $scope.taskid
-                                        }, datafrom, function (res) {
-                                            console.log(res);
-                                            if (res.message) {
-                                                Notifications.addError({
-                                                    'status': 'error',
-                                                    'message': res.message
-                                                });
-                                                return
-                                            }
-                                            if (!res.result) {
-                                                Notifications.addError({
-                                                    'status': 'error',
-                                                    'message': res.message
-                                                });
-                                            } else {
-
-                                                var url = "/taskForm/" + res.url + $scope.processInstanceId;
-                                                $location.url(url);
-                                            }
-                                        })
-                                    }else{
-
+                                }, function () {
+                                    console.log('OK: ' + nextleadercheck);
+                                    $scope.leaderchecker = nextleadercheck;
+                                    if ($scope.leaderchecker == undefined || $scope.leaderchecker == '') {
+                                        CompleteTask();
+                                    } else {
                                         $('#warningModal').modal('show');
                                     }
-
-
                                 });
-
-
-
-
-                            }
-                            else {
+                            } else {
                                 console.log('33333');
-                                variablesMap = Forms.variablesToMap(formVariables);
-                                historyVariable = Forms.variablesToMap(historyVariable)
-                                console.log(variablesMap);
-                                var datafrom = {
-                                    formdata: variablesMap,
-                                    historydata: historyVariable
-                                };
-
-                                EngineApi.doTask().complete({
-                                    "id": $scope.taskid
-                                }, datafrom, function (res) {
-                                    console.log(res);
-                                    if (res.message) {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': res.message
-                                        });
-                                        return
-                                    }
-                                    if (!res.result) {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': res.message
-                                        });
-                                    } else {
-
-                                        var url = "/taskForm/" + res.url + $scope.processInstanceId;
-                                        $location.url(url);
-                                    }
-                                })
+                                CompleteTask();
                             }
-
                         }
-
-
                         //Get list of leader check
-
-
                     }
                 }
-
-
-
-
-
             }
 
+
+
         })
+
     }]);
-    myapp.controller("loadController", ['$scope', '$rootScope', 'EngineApi', '$location', function($scope, $rootScope, EngineApi, $location) {
+    myapp.controller("loadController", ['$scope', '$rootScope', 'EngineApi', '$location', function ($scope, $rootScope, EngineApi, $location) {
         $scope.menuBar = true;
         $scope.bindform = true;
-        $scope.toggleCustom = function() {
+        $scope.toggleCustom = function () {
             //   alert("0o");
             $scope.menuBar = $scope.menuBar === false ? true : false;
-            $(".pinned").toggle(function() {
+            $(".pinned").toggle(function () {
                 $(this).addClass("highlight");
                 $(this).next().fadeOut(1000);
-            }, function() {
+            }, function () {
                 $(this).removeClass("highlight");
                 $(this).next("div .content").fadeIn(1000);
             });
         };
-        $scope.showPng = function() {
+        $scope.showPng = function () {
             $scope.$emit('menuBarLoad');
         }
-
         $scope.bpmn = {};
-        $scope.$on('tomenuBarLoad', function(d, flowid, taskid) {
+        $scope.$on('tomenuBarLoad', function (d, flowid, taskid) {
             var diagram = $scope.bpmn.diagram;
             console.log(flowid); //子级得不到值
             // var pdid="checkForm:1:0381187d-aa59-11e3-a11f-0c84dc2d23b0";
@@ -780,7 +401,7 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                 if ($scope.bindform) {
                     EngineApi.getTasks().get({
                         "id": taskid
-                    }, function(task) {
+                    }, function (task) {
                         var oldTask = $scope.bpmn.task;
                         if (diagram) {
                             if (taskid == oldTask) {
@@ -793,7 +414,7 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                         flowid = task.processDefinitionId;
                         EngineApi.getProcessDefinitions().xml({
                             id: flowid
-                        }, function(result) {
+                        }, function (result) {
                             var diagram = $scope.bpmn.diagram,
                                 xml = result.bpmn20Xml;
                             if (diagram) {
@@ -830,7 +451,7 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                     $scope.bpmn.id = flowid;
                     EngineApi.getProcessDefinitions().xml({
                         id: flowid
-                    }, function(result) {
+                    }, function (result) {
                         console.log(result);
                         var diagram = $scope.bpmn.diagram,
                             xml = result.bpmn20Xml;
@@ -839,7 +460,6 @@ define(['myapp', 'angular','bpmn'], function(myapp, angular,Bpmn) {
                         }
                         var width = $('#diagram').width();
                         var height = $('#diagram').height();
-
                         diagram = new Bpmn().render(xml, {
                             diagramElement: 'diagram',
                             width: width,
