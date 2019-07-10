@@ -66,10 +66,6 @@
     a:hover {
         cursor: pointer;
     }
-
-    .ACsubdepartment:hover {
-        cursor: not-allowed;
-    }
 </style>
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
     data-keyboard="false">
@@ -84,16 +80,25 @@
                 <H4 class="title"> {{'Info'|translate}} </H4>
                 <form class="form-horizontal model-form " name="acform" style="margin-top:15px;">
 
+                    <div class="form-group" style="margin-bottom:3%;">
+                        <label class="col-sm-2 control-label ctr-lb">* Loại hình sự cố : </label>
+                        <div class="col-sm-4">
+                            <select style="width:100%" ui-select2 ng-model="recordAC.submittype" name="SubmitType" required>
+                                <option ng-repeat='item in SubmitTypelist' ng-if="item.id != 'EVR'" value="{{item.id}}">{{item.name | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class=" form-group ">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Acdatetime'|translate}} : </label>
                         <div class="col-sm-4">
                             <div class='input-group date'>
-                                <input type='text' id="time-prc-ac" class="form-control" date-picker
-                            time="Y-m-d H:i" max="0" name="ac_datetime" ng-model="recordAC.ac_datetime" />
-                            <span class="input-group-addon">
-                                <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ac' ></label>
-                            </span>
-                        </div>
+                                    <input type='text' id="time-prc-ac" class="form-control" date-picker
+                                time="Y-m-d H:i" max="0" name="ac_datetime" ng-model="recordAC.ac_datetime" required/>
+                                <span class="input-group-addon">
+                                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ac' ></label>
+                                </span>
+                            </div>
                         </div>
 
                         <label class="col-sm-2 control-label ctr-lb">* {{'Improvesoft'|translate}} : </label>
@@ -204,30 +209,88 @@
 
                 <form class="form-horizontal" role="form" name="formdetail" novalidate>
 
-                        <div class="form-group" style="margin-bottom:20px; margin-top:20px;">
-                            <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
-                            <div class="col-sm-4">
-                                <select class="ACsubdepartment" style="width:100%" ui-select2
-                                    ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
-                                    ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="mySwitch">
-                                    <option ng-repeat="s_dpm in sub_dpm" value="{{s_dpm.CostCenter}}">
-                                        {{s_dpm.CostCenter}} - {{s_dpm.Specification|translate}}</option>
+                    <div class="form-group" style="margin-bottom:20px; margin-top:20px;">
+                        <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
+                        <div class="col-sm-4">
+                            <select style="width:100%" ui-select2 ng-model="recordAC.ac_subdepartment"
+                                name="ac_subdepartment" required ng-change="showEmployeeList(recordAC.ac_subdepartment)"
+                                ng-disabled="mySwitch">
+                                <option value=""></option>
+                                <option  value="{{deptDefault.CostCenter}}">
+                                    {{deptDefault.CostCenter}} - {{deptDefault.Specification|translate}}</option>
+                                <option value="Other"> {{'Other'|translate}} </option>  <!--translate-->
+                               
+                            </select>
+                        </div>
+                    </div>
+
+                    <div ng-if="recordAC.ac_subdepartment=='Other'" ng-init="on=true">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ctr-lb">{{'EmployeeName' | translate}}: </label>
+                        <div class="col-lg-4 col-sm-4">
+                                <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Name" ng-required="on"/>
+                        </div>
+                        <div class="col-lg-6 col-sm-6" style="padding-left: 50px;">
+                            <label class="col-lg-3 col-sm-3  control-label ctr-lb"> {{'Sex' | translate}}: </label>
+                            <div class="col-lg-4 col-sm-4">
+                                    <select class="form-control" ng-model="gd.Contractor_Victim_Sex" ng-required="on">
+                                    <option value="male">{{Male | translate}}</option>
+                                    <option value="female">{{Female | translate}}</option>
                                 </select>
                             </div>
+                            <label class="col-lg-2 col-sm-2 control-label ctr-lb"> {{'Age' | translate}} </label>
+                            <div class="col-lg-3 col-sm-3" style="padding-right: 0px;">
+                                    <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Age" ng-required="on" />
+                            </div>
+                        </div>                 
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ctr-lb">{{'EmployeeID' | translate}}: </label>
+                        <div class="col-lg-4 col-sm-4">
+                                <input class="form-control" type="text" ng-model="gd.EmployeeID" ng-required="on"/>
                         </div>
+                        <label class="col-sm-2 control-label ctr-lb">{{'Unit_Other' | translate}}: </label>
+                        <div class="col-lg-4 col-sm-4">
+                                <input class="form-control" type="text" ng-model="gd.Contractor_Name" ng-required="on" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ctr-lb">{{'Job' | translate}}: </label>
+                        <div class="col-lg-4 col-sm-4">
+                                <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Work" ng-required="on" />
+                        </div>
+                        <label class="col-sm-2 control-label ctr-lb">{{'DayToWork' | translate}}: </label>
+                        <div class='input-group date col-ls-4 col-sm-4'>
+                                <input type='text' id="DATE" class="form-control" date-picker max="0" name="DATE"
+                                    ng-model="gd.Contractor_Victim_DateWork"  ng-required="on"/>
+                            <span class="input-group-addon">
+                                <label class="glyphicon glyphicon-calendar" style="color: grey" for='DATE' ></label>
+                            </span>
+                        </div>
+                    </div>
+                    </div> 
+
                         <hr>
 
                     <div class="form-group">
+                            <div ng-if="recordAC.ac_subdepartment!='Other'">
                         <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeID'|translate}}: </label>
 
                         <div class="col-sm-4">
-                            <select style="width:100%" ui-select2 ng-model="gd.EmployeeID" name="employeeID" required>
+                                            <select style="width:100%" ui-select2 ng-model="gd.EmployeeID" name="employeeID" ng-required="!on" >
                                 <option ng-repeat="value in listEmployee" value="{{value.EmployeeID}}">
                                     {{value.EmployeeID}} - {{value.Name}}
                                 </option>
                             </select>
                         </div>
 
+
+                            </div>
+                        
+
+                        
                         <label class="col-sm-2 control-label ctr-lb">* {{'Ac_treatment'|translate}}: </label>
                         <div class="col-sm-4">
                             <textarea class="form-control" type="text" name="ac_treatment"

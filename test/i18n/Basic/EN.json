@@ -544,5 +544,19 @@
   "Submit_Alert_Error":"Your report could not submited because",
   "Submit_Success_MSG":"Your report is submited!",
   "onlyOwnerReport": "Only my created report",
-  "SameEmployee": "Employee's information is the same"
+  "SameEmployee": "Employee's information is the same",
+  "Safety":"Safety",
+  "Environment":"Environment",
+  "FireProtection":" Fire Protection",
+  "PollutionEnvironment":"Environmental Pollution Incident",
+  "FileValidation_MSG":"You just can upload file with file extentions: .jpeg, .jpg, .png, .pdf, .doc, .docx",
+  "FileValidation_IMG_MSG":"You just can upload file with file extentions: .jpeg, .jpg, .png, .pdf",
+  "Other":"Other",
+  "Male":"Male",
+  "Female":"Female",
+  "Unit_Other":"Unit",
+  "Job":"Undertaking",
+  "DayToWork":"Day to work",
+  "Age":"Age",
+  "CategoryReport":"Category Of Report"
 }

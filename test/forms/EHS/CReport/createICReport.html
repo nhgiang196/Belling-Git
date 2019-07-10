@@ -69,13 +69,13 @@
                         {{'IcUnit'|translate}}:</label>
                     <div class=" form-group frm-mrg" style="margin-top:20px;">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}</label>
-                        <div class="col-sm-4">
-                            <select style="width:100%" ui-select2 ng-model="recordIC.ic_SubDeparmentid"
-                                name="ic_SubDeparmentid" required>
-                                <option ng-repeat="s_dpm in sub_dpm" value="{{s_dpm.CostCenter}}">
-                                    {{s_dpm.CostCenter}} - {{s_dpm.Specification|translate}}</option>
-
-                            </select>
+                        <div class="col-sm-10">
+                            <!-- <select style="width:100%" ui-select2 ng-model="recordIC.ic_SubDeparmentid"
+                                name="ic_SubDeparmentid" >
+                                <option ng-selected="true">
+                                        {{deptDefault.CostCenter}} - {{deptDefault.Specification|translate}}</option>
+                            </select> -->
+                            <input type="text" ng-model="showDeptInIC" style="width: 100%; height: 26px;" class="form-control"  readonly>    
                         </div>
                        
 
@@ -85,12 +85,7 @@
                     <div class=" form-group frm-mrg" style="margin-top:20px;">
                         <label class="col-sm-2 control-label ctr-lb">* {{'Factory'|translate}}</label>
                         <div class="col-sm-4">
-                            <select style="width:100%" ui-select2 ng-model="recordIC.ic_departmentid"
-                                name="ic_departmentid" required>
-                                <option ng-selected="showFactoryByDept(recordIC.ic_SubDeparmentid)"
-                                    ng-repeat="ct_dpm in center_dpm" value="{{ct_dpm.CostCenter}}">
-                                    {{ct_dpm.Specification|translate}} </option>
-                            </select>
+                            <input type="text" ng-model="showFactoryInIC" style="width: 100%; height: 26px;" class="form-control"  readonly>
                         </div>
 
                         <label class="col-sm-2 control-label ctr-lb">{{'Group'|translate}}</label>
@@ -105,9 +100,8 @@
                     <div class=" form-group frm-mrg " style="margin-top:20px;">
                         <label class="col-sm-2 control-label ctr-lb">* {{'IncidentType'|translate}}</label>
                         <div class="col-sm-4">
-                            <select style="width:100%" ui-select2 ng-model="recordIC.icType" name="recordIC.icType"
-                                required>
-                                <option ng-repeat='item in incidentlist' value="{{item.id}}">{{item.name | translate}}
+                            <select style="width:100%" ui-select2 ng-model="recordIC.icType" name="recordIC.icType" required>
+                                <option ng-repeat='item in SubmitTypelist' value="{{item.id}}">{{item.name | translate}}
                                 </option>
                             </select>
                         </div>
@@ -127,7 +121,7 @@
                         <div class="col-sm-4">
                             <div class='input-group date'>
                                 <input type='text' id="time-prc-ic" class="form-control" date-picker time="Y-m-d H:i" max="0" name="recordIC.icDatetime"
-                                ng-model="recordIC.icDatetime" />
+                                ng-model="recordIC.icDatetime" required/>
                                 <span class="input-group-addon">
                                     <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ic' ></label>
                                 </span>

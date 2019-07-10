@@ -35,15 +35,25 @@
 
     page[size="A4"] {
         width: 21cm;
-        padding: 0cm 1.5cm 1.5cm 2cm !important;
-    }
-
-    .ic_img_loc{
-        width: 200px;
-        height: 200px;
+        padding: 1in 0.75in 1in 0.75in !important;
     }
 
     @media print {
+
+        #page-contain {
+        font-size: 12px;
+        font-family: 'Times New Roman';
+        }
+
+        h4{
+            font-size: 12px;
+        }
+
+        page[size="A4"] {
+        width: 21cm;
+        padding: 0in 0.75in 1in 0.75in !important;
+        }
+
         table {
             page-break-inside: auto;
         }
@@ -71,17 +81,7 @@
             margin-top: 5px;
             border-bottom:none;
             }
-            .ic_img_loc{
-                display: block;
-                margin: 10px auto;
-                width: 100%;
-                height: auto;
-            }
-            .a-ic{
-                display: block;
-                text-align: center;
-                page-break-after: auto
-            }
+            
             
     }
 
@@ -128,7 +128,7 @@
                     </div>
 
                     <div class=" col-mrg">
-                        2.0 事故類型 Loại hình sự cố : {{ICdetail.RpIC_IncidentType}}
+                        2.0 事故類型 Loại hình sự cố : {{ICdetail.RpIC_IncidentType | translate }}
                     </div>
 
                     <div class=" col-mrg">
@@ -142,11 +142,7 @@
                     <div class=" col-mrg">
                         4.0 事故地點 Địa điểm xảy ra sự cố : {{ICdetail.Rp_Location| translate }}
                         <br>
-                        <div style="padding-left: 3%; text-align: justify; padding-bottom: 3%;">
-                            <a class="a-ic" href="/{{item.File_ID}}" ng-repeat="item in ICfile_Location" target="_blank">
-                                <img class="ic_img_loc" ng-src="{{item.File_ID}}" alt="{{item.File_ID}}" />
-                            </a>
-                        </div>
+                        <a href="/{{item.File_ID}}" ng-repeat="item in ICfile_Location" target="_blank" style="padding-left: 3%; display: block;">{{item.File_ID}}</a>
                     </div>
                 </td>
             </tr>

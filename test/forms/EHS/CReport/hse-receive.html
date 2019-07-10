@@ -10,7 +10,8 @@ leader hse check report
 
 
         var lang = window.localStorage.lang;
-
+        
+        $scope.username = Auth.username;
         $scope.recod = {};
         $translate.refresh();
         $scope.passOrNot = [{
@@ -110,7 +111,7 @@ leader hse check report
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div leader-check flow-key="CReportHSE2" user-name="{{username}}" kinds=""></div>
+            <div leader-check flow-key="CReportHSE" user-name="{{username}}" kinds=""></div>
         </div>
 
         <!-- BUTTON OF SUBMITTING -->

@@ -46,16 +46,14 @@
         <h3>{{'Report'|translate}}</h3>
     </legend>
 
-    <div class="col-sm-12 form-group">
-        <div class="form-group search-table">
+    <div class=" form-group">
+
+            <div class="col-sm-10 form-group search-table">
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">* {{'ReportType'|translate}}</label>
-                <div class="col-sm-3">
-                    <select class="form-control" ng-model="rp_type" ng-options="type.name for type in typelist" ng-change="Search()"
-                        required>
-
-                        <!-- <option ng-repeat="item in typelist" value="{{item.id}}">{{item.name}}</option> -->
+                <label class="col-lg-2 col-sm-2 control-label">{{'CategoryReport' | translate}}:</label>
+                <div class="col-lg-3 col-sm-3">
+                    <select class="form-control" ng-model="rp_Submittype" ng-options="subtype.name | translate for subtype in SubmitTypelist track by subtype.id" ng-change="ChangeSubmitType()">
                     </select>
                 </div>
 
@@ -68,12 +66,15 @@
                         </span>
                     </div>
                 </div>
+
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{'ReportID'|translate}}</label>
+                <label class="col-sm-2 control-label">{{'ReportType'|translate}}</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" ng-model="rp_id">
+                    <select class="form-control" ng-model="rp_type"  ng-change="Search()" required>
+                        <option style="padding-left: 5px;" ng-repeat="item in demolist"  value="{{item.id}}">{{item.name}}</option>
+                    </select>
                 </div>
 
                 <label class="col-sm-2 control-label">{{'To'|translate}}</label>
@@ -84,7 +85,23 @@
                             <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-search-to' ></label>
                         </span>
                     </div>
+                </div>                
+                
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'ReportID'|translate}}</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" ng-model="rp_id">
                 </div>
+
+                <div class="col-sm-3 col-sm-push-2">
+                    <label>
+                        <input name="onlyOwnerReport" type="checkbox" ng-model="onlyOwner" >
+                        {{'onlyOwnerReport'|translate}}
+                    </label>
+                </div>
+
             </div>
 
             <div class="form-group">
@@ -97,11 +114,6 @@
                     </select>
                 </div>
 
-                <div class="col-sm-3 col-sm-push-2">
-                    <label>
-                        <input name="onlyOwnerReport" type="checkbox" ng-model="onlyOwner" >
-                        {{'onlyOwnerReport'|translate}}
-                    </label></div>
                 <div class="col-sm-1 col-sm-push-2">
                     <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
                     </button>
@@ -109,6 +121,30 @@
             </div>
 
         </div> <!-- end of search table -->
+       
+        <div class="col-sm-2 form-group">
+            <ul class="list-group" style=" margin-right: -40px;">
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;"> {{ 'Safety' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter_Safe}}</span>
+                    </p>
+                </li>
+                
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;">
+                        {{ 'Environment' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter_Envi}}</span>
+                    </p>
+                </li>
+
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;">
+                        {{ 'FireProtection' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter_Fire}}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
     </div> <!-- end of col-sm-12 -->
 
     <div style="width: 100%;">

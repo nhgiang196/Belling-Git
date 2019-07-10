@@ -1,5 +1,5 @@
 define(['myapp', 'angular'], function (myapp, angular) {
-    myapp.directive('createAcReport', [ 'CReportService', 'Auth',
+    myapp.directive('createAcReport', ['CReportService', 'Auth',
         function (CReportService, Auth) {
             return {
                 restrict: 'E',
@@ -17,11 +17,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                         CReportService.DeleteFile(namefile, function (res) {
                             if (res.Success) {
-                                console.log(res.Success);  
-                            } 
+                                console.log(res.Success);
+                            }
                         },
                             function (error) {
-                                console.log(error);                               
+                                console.log(error);
                             })
                     }
 
@@ -31,6 +31,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.gd.Injury_Description = $scope.employees[index].Injury_Description;
                         $scope.gd.Treatment_Result = $scope.employees[index].Treatment_Result;
                         $scope.gd.Witness_info = $scope.employees[index].Witness_info;
+                        $scope.gd.Contractor_Victim_Name = $scope.employees[index].Contractor_Victim_Name;
+                        $scope.gd.Contractor_Victim_Sex = $scope.employees[index].Contractor_Victim_Sex;
+                        $scope.gd.Contractor_Victim_Age = $scope.employees[index].Contractor_Victim_Age;
+                        $scope.gd.Contractor_Name = $scope.employees[index].Contractor_Name;
+                        $scope.gd.Contractor_Victim_DateWork = $scope.employees[index].Contractor_Victim_DateWork;
+                        $scope.gd.Contractor_Victim_Work = $scope.employees[index].Contractor_Victim_Work;
 
                         for (i = $scope.injury.length - 1; i >= 0; i--) {
                             if ($scope.injury[i].empID == $scope.gd.EmployeeID) {
@@ -107,7 +113,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         note.RpAC_DateComplete = $scope.recordAC.ac_datecomp;
                         note.RpAC_ResultSoftware = $scope.recordAC.ac_resultsoft;
                         note.RpAC_ResultHardware = $scope.recordAC.ac_resulthard;
-
+                        note.Rp_SubmitType = $scope.recordAC.submittype;
                         note.Rp_CreatorID = Auth.username;
 
                         note.AccidentDetail = $scope.employees;
@@ -147,16 +153,16 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     function updateByID_AC(data) {
                         CReportService.Update(data, function (res) {
                             if (res.Success) {
-                                if($scope.btnSub){
+                                if ($scope.btnSub) {
                                     $('#myModal').modal('hide');
                                     $scope.submit_success_msg();
                                     $scope.Search();
                                     $scope.btnSub = false;
-                                }else{
+                                } else {
                                     $('#myModal').modal('hide');
                                     $scope.Search();
                                     $scope.update_msg();
-                                }                               
+                                }
                             } else {
                                 $scope.update_error_msg();
                             }
@@ -173,7 +179,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         CReportService.Create(data, function (res) {
                             console.log(res)
                             if (res.Success) {
-                                if($scope.btnSub){
+                                if ($scope.btnSub) {
                                     $scope.ID_AC = res.Data;
                                     $scope.formVariables.push({
                                         name: 'Rp_ID',
@@ -182,8 +188,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     $scope.SubmitAndChangeStatus($scope.ID_AC);
                                     $scope.btnSub = false;
                                     $('#myModal').modal('hide');
-                                }else{
+                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
+                                } else {
                                     $('#myModal').modal('hide');
+                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
                                     $scope.save_msg();
                                     $scope.Search();
                                 }
@@ -207,7 +215,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         if ($scope.employees.length != 0) {
                             $scope.mySwitch = false;
                             var note = saveInitDataAC();
-                            if (count == 0 && $scope.recordAC.ac_location== "O") {
+                            if (count == 0 && $scope.recordAC.ac_location == "O") {
                                 $scope.nofileLoc();
                                 nofile = true;
                             }
@@ -255,13 +263,18 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.ID_AC = "";
                         $scope.btnFile_AC = true;
                         $scope.listfile_loc_ac = false;
-                        $scope.listfile_process_ac =false;
+                        $scope.listfile_process_ac = false;
                     };
 
                     $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
                     $scope.showEmployeeName = function (emp_id) {
 
+                        $scope.employees.forEach(x => {
+                            if (x.EmployeeID == emp_id) {
+                                $scope.emp_name = x.Contractor_Victim_Name;
+                            }
+                        })
 
                         $scope.listEmployee.forEach(x => {
                             if (x.EmployeeID == emp_id) {

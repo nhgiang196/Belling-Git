@@ -61,6 +61,26 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                     })
 
+                    // get department by account user
+                    $scope.GetDeptByUser = function () {
+                        $scope.deptDefault = {};
+                        var employeeid = { emp_id: $scope.username };
+                        CReportService.GetDataDepartment(employeeid, function (data) {
+                            $scope.sub_dpm.forEach(x => {
+                                if (data[0].DepartmentID == x.CostCenter) {
+                                    $scope.deptDefault = x;
+                                    $scope.recordIC.ic_SubDeparmentid = x.CostCenter;
+                                    $scope.showDeptInIC = x.CostCenter + " - " + x.Specification;
+                                    $scope.showFactoryByDept($scope.recordIC.ic_SubDeparmentid);
+                                }
+                            });
+
+                        }, function (error) {
+
+                        })
+                    }
+
+                    // Show Factory by Department
                     $scope.showFactoryByDept = function (dept_id) {
                         if (dept_id == null || dept_id == '') return;
 
@@ -71,6 +91,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.center_dpm.forEach(x => {
                             if (x.CostCenter == basodau) {
                                 $scope.recordIC.ic_departmentid = x.CostCenter;
+                                $scope.showFactoryInIC = x.Specification;
                             }
                         })
                     };
@@ -117,7 +138,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         note.RpIC_Damage = $scope.recordIC.icResult;
                         note.RpIC_Process = $scope.recordIC.icImprove;
                         note.RpIC_Evaluate = $scope.recordIC.icEvaluate;
-                        note.RpIC_IncidentType = $scope.recordIC.icType;
+                        note.RpIC_IncidentType = note.Rp_SubmitType = $scope.recordIC.icType;
                         note.Rp_Date = $scope.recordIC.date || '';
                         note.Rp_Stamp = $scope.recordIC.stamp || '';
                         note.Rp_CreatorID = Auth.username;
@@ -140,9 +161,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     $scope.SubmitAndChangeStatus($scope.ID_IC);
                                     $scope.btnSub = false;
                                     $('#my-modal').modal('hide');
+                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
                                 }else{
                                     $('#my-modal').modal('hide');
                                     $scope.save_msg();
+                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
                                     $scope.Search();
                                 }
               

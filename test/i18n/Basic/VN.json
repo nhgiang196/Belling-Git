@@ -552,5 +552,19 @@
   "Submit_Alert_Error":"Báo cáo của bạn không thể Gửi kí duyệt vì",
   "Submit_Success_MSG":"Báo cáo của bạn đã được gửi ký duyệt!",
   "onlyOwnerReport": "Chỉ xem báo cáo của tôi",
-  "SameEmployee": "Thông tin nhân viên bị trùng lấp"
+  "SameEmployee": "Thông tin nhân viên bị trùng lấp",
+  "Safety":"An toàn",
+  "Environment":" Môi trường",
+  "FireProtection":" Phòng cháy chửa cháy",
+  "PollutionEnvironment":"Sự cố ô nhiễm môi trường",
+  "FileValidation_MSG":"Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf, .doc, .docx",
+  "FileValidation_IMG_MSG":"Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf",
+  "Other":"Khác",
+  "Male":"Nam",
+  "Female":"Nữ",
+  "Unit_Other":"Đơn vị",
+  "Job":"Công việc đảm nhận",
+  "DayToWork":"Ngày vào làm",
+  "Age":"Tuổi",
+  "CategoryReport":"Loại hình sự cố"
 }
