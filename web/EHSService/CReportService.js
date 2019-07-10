@@ -1,288 +1,344 @@
 define(['app', 'angular'], function (app, angular) {
     app.service('CReportService', [
-        
-        '$resource', '$q', 'Auth', '$location', '$translate', 'EngineApi', 'Forms', 
+
+        '$resource', '$q', 'Auth', '$location', '$translate', 'EngineApi', 'Forms',
         function ($resource, $q, Auth, $location, $translate, EngineApi, Forms) {
-        function CReportService() {
+            function CReportService() {
 
-            this.FileManagement = $resource('/Waste/files/:operation', {}, {
-                UploadFile: {
-                    method: 'POST',
-                    params: {
-                        operation: 'Upload'
-                    },
-                    headers: {
-                        enctype: "multipart/form-data",
-                        // Content-Type : "multipart/form-data"
+                this.getCReportPID = $resource('/hse/CReportHSE/PID', {}, {
+                    get: {
+                        method: 'GET'
                     }
-                },
-                DeleteFile: {
-                    method: 'DELETE',
-                    params: {
-                        operation: 'DeleteFile'
-                    }
-                },
-            });
+                });
 
-            this.GetInfoBasic = $resource('/Waste/CReportController/:operation', {}, {
-                GetDetailReport: {
-                    method: 'GET',
-                    params: {
-                        operation: 'GetFull_CReportDetail'
+
+                this.FileManagement = $resource('/Waste/files/:operation', {}, {
+                    UploadFile: {
+                        method: 'POST',
+                        params: {
+                            operation: 'Upload'
+                        },
+                        headers: {
+                            enctype: "multipart/form-data",
+                            // Content-Type : "multipart/form-data"
+                        }
                     },
-                    // isArray: true
-                },
-                
-                SearchIC: {
-                    method: 'GET',
-                    params: {
-                        operation: 'SearchIC'
+                    DeleteFile: {
+                        method: 'DELETE',
+                        params: {
+                            operation: 'DeleteFile'
+                        }
                     },
-                    isArray: true
-                },
-               
+                });
 
-                SearchAC: {
-                    method: 'GET',
-                    params: {
-                        operation: 'SearchAC'
+                this.GetInfoBasic = $resource('/Waste/CReportController/:operation', {}, {
+                    GetDetailReport: {
+                        method: 'GET',
+                        params: {
+                            operation: 'GetFull_CReportDetail'
+                        },
+                        // isArray: true
                     },
-                    isArray: true
-                },
 
-                Create: {
-                    method: 'POST',
-                    params: {
-                        operation: 'Create'
+                    SearchCReport: {
+                        method: 'GET',
+                        params: {
+                            operation: 'SearchCReport'
+                        },
+                        isArray: true
                     },
-                },
 
-                Update: {
-                    method: 'POST',
-                    params: {
-                        operation: 'Update'
+                    Create: {
+                        method: 'POST',
+                        params: {
+                            operation: 'Create'
+                        },
                     },
-                },
 
-                getById:
-                {
-                    method:'POST',
-                    params :{operation :'FindById'}
-                  
-                },
+                    Update: {
+                        method: 'POST',
+                        params: {
+                            operation: 'Update'
+                        },
+                    },
 
-                delete:
-                {
-                    method:'DELETE',
-                    params :{operation :'Delete'}
-                  
-                },
+                    getById: {
+                        method: 'POST',
+                        params: {
+                            operation: 'FindById'
+                        }
 
-                GetBasic:
-                {
-                    method:'GET',
-                    params :{operation :'GetBasic'},
-                    isArray: true
-                  
-                },
+                    },
 
-                FindIC:
-                {
-                    method:'GET',
-                    params :{operation :'FindIC'},
-                    // isArray: true
-                },
+                    delete: {
+                        method: 'DELETE',
+                        params: {
+                            operation: 'Delete'
+                        }
 
-                GetAccidentDetail: {
-                    method: 'GET',
-                    params: {operation: 'GetAccidentDetail'},
-                    // isArray: true
-                },
+                    },
 
-                GetEmployee: {
-                    method: 'GET',
-                    params: {operation: 'GetEmployee'},
-                    isArray: true
-                },
+                    GetBasic: {
+                        method: 'GET',
+                        params: {
+                            operation: 'GetBasic'
+                        },
+                        isArray: true
 
-                SubmitStatus: {
-                    method: 'POST',
-                    params: {operation: 'SubmitStatus'},
-                }
-        
-            })
-        }
+                    },
 
-        CReportService.prototype.DeleteFile = function (query, callback) {
-            console.log(query);
-            this.FileManagement.DeleteFile(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    FindIC: {
+                        method: 'GET',
+                        params: {
+                            operation: 'FindIC'
+                        },
+                        // isArray: true
+                    },
 
-        CReportService.prototype.SearchIC = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.SearchIC(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    GetAccidentDetail: {
+                        method: 'GET',
+                        params: {
+                            operation: 'GetAccidentDetail'
+                        },
+                        // isArray: true
+                    },
 
-        CReportService.prototype.SearchAC = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.SearchAC(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    GetEmployee: {
+                        method: 'GET',
+                        params: {
+                            operation: 'GetEmployee'
+                        },
+                        isArray: true
+                    },
 
-        CReportService.prototype.Create = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.Create(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    SubmitStatus: {
+                        method: 'POST',
+                        params: {
+                            operation: 'SubmitStatus'
+                        },
+                    },
 
-        CReportService.prototype.Update = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.Update(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    GetDataDepartment: {
+                        method: 'GET',
+                        params: {
+                            operation: 'GetDataDepartment'
+                        },
+                        isArray: true
 
-        CReportService.prototype.FindByID = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.getById(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    },
+                    GetDepartment_RP: {
+                        method: 'GET',
+                        params: {
+                            operation: 'GetDepartment_RP'
+                        }
 
-        CReportService.prototype.Delete = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.delete(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
+                    },
 
-        CReportService.prototype.GetBasic = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.GetBasic(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
-
-        CReportService.prototype.FindIC = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.FindIC(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
-
-        CReportService.prototype.GetAccidentDetail = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.GetAccidentDetail(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
-
-        CReportService.prototype.GetEmployee = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.GetEmployee(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
-
-        CReportService.prototype.SubmitStatus = function (query, callback) {
-            console.log(query);
-            this.GetInfoBasic.SubmitStatus(query).$promise.then(function (data) {
-                callback(data);
-            }, function (ex) {
-                console.log(ex);
-                callback(null, ex);
-            })
-        }
-
-
-        CReportService.prototype.SubmitBPM = function (formVariables, historyVariable, businessKey, callback) {
-            var variablesMap = Forms.variablesToMap(formVariables);
-            var historyVariableMap = Forms.variablesToMap(historyVariable);
-            EngineApi.getKeyId().getkey({
-                'key': 'CReportHSE2'
-            }, function (res) {
-                var definitionID = res.id;
-                var datafrom = {
-                    formdata: variablesMap,
-                    businessKey: businessKey,
-                    historydata: historyVariableMap
-                };
-                EngineApi.doStart().start({
-                    'id': definitionID
-                }, datafrom).$promise.then(function (res) {
-                    console.log(res);
-                    if (res.result && !res.message) {
-                        callback(res.result, '');
-                    }
-                    else {
-                        callback('', res.message)
+                    CountReport: {
+                        method: 'GET',
+                        params: {
+                            operation: 'CountReport'
+                        },
+                        isArray: true
 
                     }
-                }, function (errResponse) {
-                    callback('', errResponse)
+
+                })
+            }
+            CReportService.prototype.CReportHSEPID = function () {
+                return this.getCReportPID;
+            }
+
+
+            CReportService.prototype.DeleteFile = function (query, callback) {
+                console.log(query);
+                this.FileManagement.DeleteFile(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.SearchCReport = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.SearchCReport(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.Create = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.Create(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.Update = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.Update(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.FindByID = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.getById(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.Delete = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.delete(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.GetBasic = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.GetBasic(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.FindIC = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.FindIC(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.GetAccidentDetail = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.GetAccidentDetail(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.GetEmployee = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.GetEmployee(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.SubmitStatus = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.SubmitStatus(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.GetDataDepartment = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.GetDataDepartment(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.GetDepartment_RP = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.GetDepartment_RP(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.CountReport = function (query, callback) {
+                console.log(query);
+                this.GetInfoBasic.CountReport(query).$promise.then(function (data) {
+                    callback(data);
+                }, function (ex) {
+                    console.log(ex);
+                    callback(null, ex);
+                })
+            }
+
+            CReportService.prototype.SubmitBPM = function (formVariables, historyVariable, businessKey, callback) {
+                var variablesMap = Forms.variablesToMap(formVariables);
+                var historyVariableMap = Forms.variablesToMap(historyVariable);
+                EngineApi.getKeyId().getkey({
+                    'key': 'CReportHSE'
+                }, function (res) {
+                    var definitionID = res.id;
+                    var datafrom = {
+                        formdata: variablesMap,
+                        businessKey: businessKey,
+                        historydata: historyVariableMap
+                    };
+                    EngineApi.doStart().start({
+                        'id': definitionID
+                    }, datafrom).$promise.then(function (res) {
+                        console.log(res);
+                        if (res.result && !res.message) {
+                            callback(res.result, '');
+                        } else {
+                            callback('', res.message)
+
+                        }
+                    }, function (errResponse) {
+                        callback('', errResponse)
+
+                    });
 
                 });
 
-            });
+
+            }
 
 
+
+
+
+
+            return new CReportService();
         }
+    ]);
 
-
-
-
-
-
-        return new CReportService();
-    }]);
-
-    app.service('InfolistService',function(){
-        function InfolistService(){
-            this.Infolist = function(info){
+    app.service('InfolistService', function () {
+        function InfolistService() {
+            this.Infolist = function (info) {
                 switch (info) {
-                   
+
                     case 'evaluate':
                         var evaluatelist = [
-    
+
                             {
                                 id: 'VG',
                                 name: 'VeryGood'
@@ -305,11 +361,10 @@ define(['app', 'angular'], function (app, angular) {
                             }
                         ];
                         return evaluatelist;
-                    break;
-                
+                        break;
+
                     case 'location':
-                        var locationlist = [
-                            {
+                        var locationlist = [{
                                 id: 'KD',
                                 name: 'KnittingDyeing'
                             },
@@ -323,26 +378,10 @@ define(['app', 'angular'], function (app, angular) {
                             }
                         ];
                         return locationlist;
-                    break;
-
-                    case 'incident':
-                   
-                        var incidentlist = [
-                            {
-                                id: 'ind1',
-                                name: 'Loại hình sự cố 1'
-                            },
-                            {
-                                id: 'ind2',
-                                name: 'Loại hình sự cố 2'
-                            }
-                        ];
-                        return incidentlist;
-                    break;
+                        break;
 
                     case 'type':
-                        var typelist = [
-                            {
+                        var typelist = [{
                                 id: '0',
                                 name: 'Incident'
                             },
@@ -352,11 +391,10 @@ define(['app', 'angular'], function (app, angular) {
                             }
                         ];
                         return typelist;
-                    break;
+                        break;
 
                     case 'status':
-                        var statuslist = [
-                            {
+                        var statuslist = [{
                                 id: 'D',
                                 name: 'Draft'
                             },
@@ -372,14 +410,13 @@ define(['app', 'angular'], function (app, angular) {
                                 id: 'X',
                                 name: 'StatusX'
                             }
-            
+
                         ];
                         return statuslist;
-                    break;
-                    
+                        break;
+
                     case 'ACType':
-                        var ACTypelist = [
-                            {
+                        var ACTypelist = [{
                                 id: 'SA',
                                 name: 'Serious'
                             },
@@ -391,16 +428,34 @@ define(['app', 'angular'], function (app, angular) {
                                 id: 'MA',
                                 name: 'Minor'
                             }
-            
+
                         ];
                         return ACTypelist;
-                    break;
+                        break;
+
+                    case 'SubmitType':
+                        var SubmitTypelist = [{
+                                id: 'SF',
+                                name: 'Safety'
+                            },
+                            {
+                                id: 'EVR',
+                                name: 'Environment'
+                            },
+                            {
+                                id: 'FP',
+                                name: 'FireProtection'
+                            }
+
+                        ];
+                        return SubmitTypelist;
+                        break;
 
                 }
             }
 
         }
-            return new InfolistService();
+        return new InfolistService();
     });
 
 });
