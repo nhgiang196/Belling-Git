@@ -7,7 +7,6 @@ define(
         ,'./MethodProcessService'
         ,'./VoucherService'
         ,'./WasteItemService'
-        ,'./DepartmentService'
         ,'./CReportService'
         ,'./CReportDirective'
     ],function(){
