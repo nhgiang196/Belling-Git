@@ -659,6 +659,9 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                             if (resultRows.length == 1) {
                             //UPDATE BÁO CÁO SỰ CỐ
                             if (resultRows[0].Rp_Type == "IC") {
+                              
+                                $scope.rp_type = '0';
+                                
                                 $scope.status = 'M'; //Set update Status
 
 
@@ -695,6 +698,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                             } else {
                                 $scope.mySwitch = true; // disable 
                                 $scope.status = 'M'; //Set update Status
+                                $scope.rp_type = '1';
                                     if (resultRows[0].Rp_CreatorID != Auth.username) {
                                         Notifications.addError({
                                             'status': 'error',
@@ -942,7 +946,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         if (message) {
                             alert($translate.instant('Submit_Alert_Error') + message);
                         } else {
-                            if ($scope.status == 'N' || $scope.status == 'SB' || $scope.status == 'M') {
+                            if ($scope.status == 'N' ) {
                                 CReportService.SubmitStatus({ Rp_ID: Rp_ID, Rp_Status: 'P' },
                                     function (res) {
                                         if (res.Success) {

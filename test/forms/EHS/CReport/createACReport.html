@@ -81,7 +81,7 @@
                 <form class="form-horizontal model-form " name="acform" style="margin-top:15px;">
 
                     <div class="form-group" style="margin-bottom:3%;">
-                        <label class="col-sm-2 control-label ctr-lb">* Loại hình sự cố : </label>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'CategoryReport' | translate}}: </label>
                         <div class="col-sm-4">
                             <select style="width:100%" ui-select2 ng-model="recordAC.submittype" name="SubmitType" required>
                                 <option ng-repeat='item in SubmitTypelist' ng-if="item.id != 'EVR'" value="{{item.id}}">{{item.name | translate}}</option>
@@ -226,19 +226,19 @@
 
                     <div ng-if="recordAC.ac_subdepartment=='Other'" ng-init="on=true">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label ctr-lb">{{'EmployeeName' | translate}}: </label>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeName' | translate}}: </label>
                         <div class="col-lg-4 col-sm-4">
                                 <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Name" ng-required="on"/>
                         </div>
                         <div class="col-lg-6 col-sm-6" style="padding-left: 50px;">
-                            <label class="col-lg-3 col-sm-3  control-label ctr-lb"> {{'Sex' | translate}}: </label>
+                            <label class="col-lg-3 col-sm-3  control-label ctr-lb"> * {{'Sex' | translate}}: </label>
                             <div class="col-lg-4 col-sm-4">
                                     <select class="form-control" ng-model="gd.Contractor_Victim_Sex" ng-required="on">
-                                    <option value="male">{{Male | translate}}</option>
-                                    <option value="female">{{Female | translate}}</option>
+                                    <option value="male">{{'Male' | translate}}</option>
+                                    <option value="female">{{'Female' | translate}}</option>
                                 </select>
                             </div>
-                            <label class="col-lg-2 col-sm-2 control-label ctr-lb"> {{'Age' | translate}} </label>
+                            <label class="col-lg-2 col-sm-2 control-label ctr-lb">* {{'Age' | translate}} </label>
                             <div class="col-lg-3 col-sm-3" style="padding-right: 0px;">
                                     <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Age" ng-required="on" />
                             </div>
@@ -246,22 +246,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label ctr-lb">{{'EmployeeID' | translate}}: </label>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeID' | translate}}: </label>
                         <div class="col-lg-4 col-sm-4">
                                 <input class="form-control" type="text" ng-model="gd.EmployeeID" ng-required="on"/>
                         </div>
-                        <label class="col-sm-2 control-label ctr-lb">{{'Unit_Other' | translate}}: </label>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'Unit_Other' | translate}}: </label>
                         <div class="col-lg-4 col-sm-4">
                                 <input class="form-control" type="text" ng-model="gd.Contractor_Name" ng-required="on" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label ctr-lb">{{'Job' | translate}}: </label>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'Job' | translate}}: </label>
                         <div class="col-lg-4 col-sm-4">
                                 <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Work" ng-required="on" />
                         </div>
-                        <label class="col-sm-2 control-label ctr-lb">{{'DayToWork' | translate}}: </label>
+                        <label class="col-sm-2 control-label ctr-lb">* {{'DayToWork' | translate}}: </label>
                         <div class='input-group date col-ls-4 col-sm-4'>
                                 <input type='text' id="DATE" class="form-control" date-picker max="0" name="DATE"
                                     ng-model="gd.Contractor_Victim_DateWork"  ng-required="on"/>
