@@ -771,18 +771,6 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                     }
                 }
             }))
-            .when('/newhse/mypage', angularAMD.route({ //route
-                
-                templateUrl: "forms/EHS/Department/searchDepartment.html",
-                controller: 'DepartmentController',
-                controllerUrl: 'controllers/EHS/DepartmentController',
-                caseInsensitiveMatch: true,
-                resolve: {
-                    User: function (AuthenticationLoader) {
-                        return AuthenticationLoader();
-                    }
-                }
-            }))
             .when('/CircumstanceReport', angularAMD.route({ //route
                 
                 templateUrl: "forms/EHS/CReport/searchCRerport.html",
