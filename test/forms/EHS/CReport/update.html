@@ -1,10 +1,158 @@
-<h1>update 
-</h1>
-
 <script>
     function RYVoucherCheck(
         $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
-        Auth, GateGuest, $translate, CReportService, $filter, $q) {
+        Auth, GateGuest, $translate, CReportService, InfolistService, $filter, $q, $timeout, $upload) {
+        $scope.recordIC = {}; //for IC directive
+        $scope.recordAC = {}; //
+        $scope.flowkey = 'HW-EHS';
+        $scope.status = 'M'
+        $scope.onlyOwner = true;
+        $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
+        var lang = window.localStorage.lang;
+
+        $scope.btnfile = function (id, filename) {
+            var filein = document.querySelector("#" + id);
+            var filename = document.querySelector("#" + filename);
+
+            filein.click();
+        }
+        console.log('Rp_ID:', $scope.variable.Rp_ID);
+        /* Upload files*/
+        $scope.listfile = [];
+        $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
+        $scope.dt = {};
+        $scope.f = {};
+        $scope.UploadFileHSE = function ($files, _colName) {
+            debugger;
+            $upload.upload({
+                url: '/Waste/files/Upload',
+                method: "POST",
+                file: $files
+            }).progress(function (evt) {
+
+            }).then(function (res) {
+
+                res.data.forEach(x => {
+                    var chuthuong = x.toLowerCase();
+
+                    $scope.dt.name = x;
+                    $scope.dt.col = _colName;
+                    if (_colName == 'Injury_Description')
+                        if (chuthuong.includes(".doc") || chuthuong.includes(".docx") || chuthuong
+                            .includes(".pdf") || chuthuong.includes(".jpg") || chuthuong.includes(
+                                ".jpeg") || chuthuong.includes(".png"))
+                            $scope.listfileAC.push($scope.dt);
+                        else {
+                            $timeout(function () {
+                                Notifications.addMessage({
+                                    'status': 'info',
+                                    'message': $translate.instant(
+                                        'FileValidation_MSG')
+                                });
+                            }, 300);
+
+                            var namefile = {
+                                fname: x
+                            };
+
+                            CReportService.DeleteFile(namefile, function (res) {
+                                    if (res.Success) {
+                                        console.log(res.Success);
+                                    }
+                                },
+                                function (error) {
+                                    console.log(error);
+                                })
+                        }
+                    else if (_colName == 'Rp_Description')
+                        if (chuthuong.includes(".doc") || chuthuong.includes(".docx") || chuthuong
+                            .includes(".pdf") || chuthuong.includes(".jpg") || chuthuong.includes(
+                                ".jpeg") || chuthuong.includes(".png"))
+                            $scope.listfile.push($scope.dt);
+                        else {
+                            $timeout(function () {
+                                Notifications.addMessage({
+                                    'status': 'info',
+                                    'message': $translate.instant(
+                                        'FileValidation_MSG')
+                                });
+                            }, 300);
+
+                            var namefile = {
+                                fname: x
+                            };
+
+                            CReportService.DeleteFile(namefile, function (res) {
+                                    if (res.Success) {
+                                        console.log(res.Success);
+                                    }
+                                },
+                                function (error) {
+                                    console.log(error);
+                                })
+                        }
+                    else
+                    if (chuthuong.includes(".jpg") || chuthuong.includes(".jpeg") || chuthuong
+                        .includes(".png") || chuthuong.includes(".pdf"))
+                        $scope.listfile.push($scope.dt);
+                    else {
+
+                        $timeout(function () {
+                            Notifications.addMessage({
+                                'status': 'info',
+                                'message': $translate.instant(
+                                    'FileValidation_IMG_MSG')
+                            });
+                        }, 300);
+
+                        var namefile = {
+                            fname: x
+                        };
+
+                        CReportService.DeleteFile(namefile, function (res) {
+                                if (res.Success) {
+                                    console.log(res.Success);
+                                }
+                            },
+                            function (error) {
+                                console.log(error);
+                            })
+                    }
+                    $scope.dt = {};
+
+
+
+                })
+
+            })
+        }
+
+        // report type combobox
+        $scope.typelist = [{
+                id: 'all',
+                name: $translate.instant('All')
+            },
+            {
+                id: '0',
+                name: $translate.instant('Incident')
+            },
+            {
+                id: '1',
+                name: $translate.instant('Accident')
+            }
+        ];
+        //status combobox
+        $scope.statuslist = InfolistService.Infolist('status');
+        //evaluate combobox
+        $scope.evaluatelist = InfolistService.Infolist('evaluate');
+        // location combobox
+        $scope.locationlist = InfolistService.Infolist('location');
+        // AC type combobox
+        $scope.ACTypelist = InfolistService.Infolist('ACType');
+        // Submit type combobox
+        $scope.SubmitTypelist = InfolistService.Infolist('SubmitType');
+        $scope.rp_Submittype = $scope.SubmitTypelist[0];
+
 
 
         var lang = window.localStorage.lang;
@@ -51,10 +199,46 @@
             //     name: 'workflowkey',
             //     value: 'CReportHSE2'
             // });
-            debugger;
+
             $scope.submit();
 
         }
+
+        // $scope.deptDefault = {};
+        // var employeeid = {
+        //     emp_id: Auth.username
+        // };
+        // CReportService.GetDataDepartment(employeeid, function (data) {
+        //     
+        //     $scope.sub_dpm.forEach(x => {
+        //         if (data[0].DepartmentID == x.CostCenter) {
+        //             $scope.deptDefault = x;
+        //             $scope.recordIC.ic_SubDeparmentid = x.CostCenter;
+        //             $scope.showDeptInIC = x.CostCenter + " - " + x.Specification;
+        //             // $scope.showFactoryByDept($scope.recordIC.ic_SubDeparmentid);
+        //             var dept_id = $scope.recordIC.ic_SubDeparmentid
+        //             if (dept_id == null || dept_id == '') return;
+
+        //             if (dept_id.length > 3)
+        //                 var basodau = dept_id.slice(0, 3);
+        //             else basodau = dept_id;
+
+        //             $scope.center_dpm.forEach(x => {
+        //                 if (x.CostCenter == basodau) {
+        //                     $scope.recordIC.ic_departmentid = x.CostCenter;
+        //                     $scope.showFactoryInIC = x.Specification;
+        //                 }
+        //             })
+
+
+        //         }
+        //     });
+
+        // }, function (error) {
+
+        // })
+
+
 
         function saveInitData() {
             var note = {};
@@ -77,18 +261,215 @@
             // var data = saveInitData();
 
         }
+        $scope.recordIC = {};
+        $scope.recordAC = {};
+
+
+        LoadDetail();
+
+        function LoadDetail() {
+            CReportService.FindByID({
+                Rp_ID: $scope.variable.Rp_ID
+            }, function (data) {
+
+                if (data.Rp_Type == "IC")
+                    $scope.IsIC = true;
+                else $scope.IsIC = false;
+                debugger;
+                $scope.recordIC.rp_id = data.Rp_ID;
+                $scope.recordIC.icGroup = data.RpIC_Group;
+                $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
+                $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
+                $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
+                $scope.recordIC.icDatetime = data.Rp_DateTime;
+                $scope.recordIC.icLocation = data.Rp_Location;
+                $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
+                $scope.recordIC.icProcess = data.RpIC_Description;
+                $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
+                $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
+                $scope.recordIC.icBasic = data.RpIC_BasicReason;
+                $scope.recordIC.icResult = data.RpIC_Damage;
+                $scope.recordIC.icImprove = data.RpIC_Process;
+                $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
+                $scope.recordIC.icType = data.RpIC_IncidentType;
+
+                $scope.listfile = [];
+                data.FileAttached.forEach(element => {
+                    var x = {};
+                    x.Rp_ID = element.Rp_ID;
+                    x.name = element.File_ID;
+                    x.col = element.ColumnName;
+                    $scope.listfile.push(x);
+                })
+                $scope.recordAC.rp_id = data.Rp_ID;
+                $scope.recordAC.ac_subdepartment = data.Rp_SubDepartmentID;
+                $scope.recordAC.ac_type = data.Rp_Type;
+                $scope.recordAC.ac_datetime = data.Rp_DateTime;
+                $scope.recordAC.ac_location = data.Rp_Location;
+                $scope.recordAC.ac_prevent = data.Rp_PreventMeasure;
+                $scope.recordAC.ac_improvesoft = data.RpAC_ImproveSoftware;
+                $scope.recordAC.ac_improvehard = data.RpAC_ImproveHardware;
+                $scope.recordAC.ac_datecomp = data.RpAC_DateComplete;
+                $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
+                $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
+                $scope.recordAC.submittype = data.Rp_SubmitType;
+
+                $scope.employees = [];
+                debugger;
+                $scope.showEmployeeList(data.Rp_SubDepartmentID);
+                data.AccidentDetail.forEach(element => {
+                    var x = {};
+                    x.Injury_Description = element.Injury_Description;
+                    x.Rp_ID = element.Rp_ID;
+                    x.Treatment_Result = element.Treatment_Result;
+                    x.Witness_info = element.Witness_info;
+                    x.EmployeeID = element.EmployeeID;
+                    x.Contractor_Victim_Name = element.Contractor_Victim_Name;
+                    x.Contractor_Victim_Sex = element.Contractor_Victim_Sex;
+                    x.Contractor_Victim_Age = element.Contractor_Victim_Age;
+                    x.Contractor_Name = element.Contractor_Name;
+                    x.Contractor_Victim_DateWork = element.Contractor_Victim_DateWork;
+                    x.Contractor_Victim_Work = element.Contractor_Victim_Work;
+                    $scope.employees.push(x);
+                })
+                console.log('employeess:', $scope.employees);
+                $scope.injury = [];
+                data.FileAttached.forEach(element => {
+                    if (element.ColumnName == "Rp_Location") {
+                        var x = {};
+                        x.Rp_ID = element.Rp_ID;
+                        x.name = element.File_ID;
+                        x.col = element.ColumnName;
+                        $scope.listfile.push(x);
+                    } else {
+                        var x = {};
+                        x.Rp_ID = element.Rp_ID;
+                        x.name = element.File_ID;
+                        x.empID = element.Profile_ID;
+                        x.col = element.ColumnName;
+                        $scope.injury.push(x);
+                    }
+                })
+            }, function (error) {
+
+                Notifications.addError({
+                    'status': 'error',
+                    'message': res.Message
+                });
+            })
+        }
+
+        //Choose SubDepartment to show Employees 
+        $scope.showEmployeeList = function (dept_id) {
+            $scope.gd = {};
+            $scope.employees = [];
+            if (dept_id == null || dept_id == '') return;
+            CReportService.GetEmployee({
+                DepartmentID: dept_id
+            }, function (res) {
+                if (res.length > 0) {
+                    $scope.listEmployee = res;
+                    console.log($scope.listEmployee);
+                } else $scope.listEmployee = [];
+            })
+        };
+
+
+
+
+
+        //----------------------------------------------------------
+        $scope.save_msg = function () {
+            $timeout(function () {
+                Notifications.addMessage({
+                    'status': 'information',
+                    'message': $translate.instant('Save_Success_MSG')
+                });
+            }, 200);
+        }
+
+        $scope.nofileLoc = function () {
+            $timeout(function () {
+                Notifications.addError({
+                    'status': 'error',
+                    'message': $translate.instant('File_Location')
+                });
+            }, 200);
+        }
+
+        $scope.update_msg = function () {
+            $timeout(function () {
+                Notifications.addMessage({
+                    'status': 'information',
+                    'message': $translate.instant('Update_Success_MSG')
+                });
+            }, 300);
+        }
+
+        $scope.ac_details_msg = function () {
+            Notifications.addMessage({
+                'status': 'information',
+                'message': $translate.instant('ACDetails_Msg')
+            });
+        }
+
+        $scope.submit_success_msg = function () {
+            $timeout(function () {
+                Notifications.addMessage({
+                    'status': 'info',
+                    'message': $translate.instant('Submit_Success_MSG')
+                });
+            }, 300);
+        }
+
+        $scope.save_error_msg = function () {
+            $timeout(function () {
+                Notifications.addMessage({
+                    'status': 'error',
+                    'message': $translate.instant('Msg_Save')
+                });
+            }, 300);
+        }
+
+        $scope.update_error_msg = function () {
+            $timeout(function () {
+                Notifications.addMessage({
+                    'status': 'error',
+                    'message': $translate.instant('UpdateError')
+                });
+            }, 300);
+        }
+
+        $scope.same_employee_msg = function () {
+            $timeout(function () {
+                Notifications.addMessage({
+                    'status': 'error',
+                    'message': $translate.instant('SameEmployee')
+                });
+            }, 300);
+        }
+
+
+
+
+
+
+
+
+
+
     }
 </script>
 <div ng-controller="RYVoucherCheck">
-
-    <h1> My please welcome</h1>
-
-    <h1> My please welcome</h1>
-
-    <h1> My please welcome</h1>
     <!-- REPORT DIRECTIVE -->
     <!-- <approval-master vid='{{variable.OverID}}' style="width: 85%"></approval-master> -->
-    <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report>
+    <!-- <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report> -->
+    <div ng-show="IsIC">
+        <create_ic_report></create_ic_report>
+    </div>
+    <div ng-if="!IsIC">
+        <create_ac_report></create_ac_report>
+    </div>
 
     <!-- CHOOSE FORM -->
     <form class="form-horizontal" role="form" novalidate name="form">
@@ -98,8 +479,8 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
             <div class="col-sm-3">
-                <select class="form-control" history-field="UpdateCommand" form-field name="UpdateCommand" ng-model="UpdateCommand"
-                    ng-options="c.value as c.name for c in passOrNot" required> </select>
+                <select class="form-control" history-field="UpdateCommand" form-field name="UpdateCommand"
+                    ng-model="UpdateCommand" ng-options="c.value as c.name for c in passOrNot" required> </select>
             </div>
         </div>
 

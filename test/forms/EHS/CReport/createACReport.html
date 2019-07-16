@@ -67,13 +67,7 @@
         cursor: pointer;
     }
 </style>
-<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
-    data-keyboard="false">
-    <div class="modal-dialog modal-lg">
 
-        <div class="modal-content" style="padding: 5px;">
-
-            <div class="modal-body" style="padding-bottom:3px">
 
                 <h3 class="text-center">{{'AccidentReport'|translate}}</h3>
 
@@ -384,20 +378,20 @@
                         </table>
                     </div> <!-- end of table-scroll -->
                 </div> <!-- end of table-wrapper -->
+                <div ng-if="show.checker">
                     <H4 class="title">{{'NextStep' |
                         translate}} </H4>
                     <div style="margin-top:10px; margin-left:5px;" ng-repeat="leader in leaderlist">
                         <span show-checker user-name={{leader.Person}}></span>
                     </div>
+                </div>
+                   
                 <div class="modal-footer">
                     <button id="btnSaveAC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveACReport()" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'saveSubmit'|translate}}</button>
-                    <button id="btnSaveSubmitAC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordAC.rp_id)" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
-                    <button type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal" ng-click="resetAC()"><i class="glyphicon glyphicon-remove" style="color: grey; vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
+                    <button  ng-if="show.submitbutton"  id="btnSaveSubmitAC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordAC.rp_id)" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
+                    <button  ng-if="show.submitbutton" type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal" ng-click="resetAC()"><i class="glyphicon glyphicon-remove" style="color: grey; vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
                 </div> <!-- end of modal-footer-->
 
-            </div> <!-- end of modal-body -->
-        </div> <!-- end of modal-content -->
-    </div> <!-- end of modal-dialog -->
-</div> <!-- end of modal-->
+
 
 

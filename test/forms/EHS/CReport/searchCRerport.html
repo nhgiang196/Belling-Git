@@ -28,10 +28,11 @@
         margin-left: -3px;
     }
 
-    .form-control{
+    .form-control {
         height: 34px;
     }
-    .grid_cell_ct{
+
+    .grid_cell_ct {
         width: 100%;
         overflow: hidden;
         display: inline-block;
@@ -48,21 +49,25 @@
 
     <div class=" form-group">
 
-            <div class="col-sm-10 form-group search-table">
+        <div class="col-sm-10 form-group search-table">
 
             <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">{{'CategoryReport' | translate}}</label>
                 <div class="col-lg-3 col-sm-3">
-                    <select class="form-control" ng-model="rp_Submittype" ng-options="subtype.name | translate for subtype in SubmitTypelist track by subtype.id" ng-change="ChangeSubmitType()">
+                    <select class="form-control" ng-model="rp_Submittype"
+                        ng-options="subtype.name | translate for subtype in SubmitTypelist track by subtype.id"
+                        ng-change="ChangeSubmitType()">
                     </select>
                 </div>
 
                 <label class="col-sm-2 control-label">{{'From'|translate}}</label>
                 <div class="col-sm-3">
                     <div class='input-group date'>
-                        <input type='text' class="form-control" id="time-search-from" name="dateFrom" ng-model="dateFrom" date-picker />
+                        <input type='text' class="form-control" id="time-search-from" name="dateFrom"
+                            ng-model="dateFrom" date-picker />
                         <span class="input-group-addon">
-                            <label class="glyphicon glyphicon-calendar" style="color: grey" for="time-search-from"></label>
+                            <label class="glyphicon glyphicon-calendar" style="color: grey"
+                                for="time-search-from"></label>
                         </span>
                     </div>
                 </div>
@@ -72,21 +77,24 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">{{'ReportType'|translate}}</label>
                 <div class="col-sm-3">
-                    <select class="form-control" ng-model="rp_type"  ng-change="Search()" required>
-                        <option style="padding-left: 5px;" ng-repeat="item in demolist"  value="{{item.id}}">{{item.name}}</option>
+                    <select class="form-control" ng-model="rp_type" ng-change="Search()" required>
+                        <option style="padding-left: 5px;" ng-repeat="item in demolist" value="{{item.id}}">
+                            {{item.name}}</option>
                     </select>
                 </div>
 
                 <label class="col-sm-2 control-label">{{'To'|translate}}</label>
                 <div class="col-sm-3">
                     <div class='input-group date'>
-                        <input type='text' class="form-control" id="time-search-to" name="dateTo" style="height: 34px;" ng-model="dateTo" date-picker />
+                        <input type='text' class="form-control" id="time-search-to" name="dateTo" style="height: 34px;"
+                            ng-model="dateTo" date-picker />
                         <span class="input-group-addon">
-                            <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-search-to' ></label>
+                            <label class="glyphicon glyphicon-calendar" style="color: grey"
+                                for='time-search-to'></label>
                         </span>
                     </div>
-                </div>                
-                
+                </div>
+
             </div>
 
             <div class="form-group">
@@ -97,7 +105,7 @@
 
                 <div class="col-sm-3 col-sm-push-2">
                     <label>
-                        <input name="onlyOwnerReport" type="checkbox" ng-model="onlyOwner" >
+                        <input name="onlyOwnerReport" type="checkbox" ng-model="onlyOwner">
                         {{'onlyOwnerReport'|translate}}
                     </label>
                 </div>
@@ -121,7 +129,7 @@
             </div>
 
         </div> <!-- end of search table -->
-       
+
         <div class="col-sm-2 form-group">
             <ul class="list-group" style=" margin-right: -40px;">
                 <li class="list-group-item">
@@ -129,7 +137,7 @@
                         <span class="badge" style="background-color:#428bca">{{rpCounter_Safe}}</span>
                     </p>
                 </li>
-                
+
                 <li class="list-group-item">
                     <p class="nav-list" style="margin-bottom: 0px;">
                         {{ 'Environment' | translate }}
@@ -151,6 +159,45 @@
         <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
             ui-grid-core ui-grid-exporter></div>
     </div>
-   <create_ic_report></create_ic_report>
-   <create_ac_report></create_ac_report>
+
+    <div class="modal fade" id="my-modal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content" style="padding: 5px;">
+
+                <div class="modal-body" style="padding-bottom:3px">
+                    <create_ic_report></create_ic_report>
+                </div> <!-- end of modal-body -->
+            </div> <!-- end of modal-content -->
+        </div> <!-- end of modal-dialog -->
+    </div> <!-- end of modal -->
+
+
+
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content" style="padding: 5px;">
+
+                <div class="modal-body" style="padding-bottom:3px">
+
+
+                    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel"
+                        data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog modal-lg">
+
+                            <div class="modal-content" style="padding: 5px;">
+
+                                <div class="modal-body" style="padding-bottom:3px">
+                                    <create_ac_report></create_ac_report>
+
+                                </div> <!-- end of modal-body -->
+                            </div> <!-- end of modal-content -->
+                        </div> <!-- end of modal-dialog -->
+                    </div> <!-- end of modal-->
+
+
+
 </form>

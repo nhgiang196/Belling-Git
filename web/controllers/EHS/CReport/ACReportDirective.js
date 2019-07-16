@@ -1,13 +1,11 @@
-define(['myapp', 'angular'], function (myapp, angular) {
-    myapp.directive('createAcReport', ['CReportService', 'Auth',
+define(['app'], function (app) {
+    app.directive('createAcReport', ['CReportService', 'Auth',
         function (CReportService, Auth) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
-                    $scope.flowkey = 'HW-User'; // ??
-                    $scope.username = Auth.username;
-
                     // xóa file tình hình bị thương khỏi QCFiles 
+
                     $scope.removeFileInjury = function (index) {
                         var namefile = {
                             fname: $scope.listfileAC[index].name
@@ -16,10 +14,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.listfileAC.splice(index, 1);
 
                         CReportService.DeleteFile(namefile, function (res) {
-                            if (res.Success) {
-                                console.log(res.Success);
-                            }
-                        },
+                                if (res.Success) {
+                                    console.log(res.Success);
+                                }
+                            },
                             function (error) {
                                 console.log(error);
                             })
@@ -68,8 +66,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             if (sameID) {
                                 sameID = false;
                                 return;
-                            }
-                            else {
+                            } else {
 
                                 $scope.gd.Rp_ID = $scope.recordAC.rp_id || '';
 
@@ -96,6 +93,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     };
 
                     var count = 0;
+
                     function saveInitDataAC() {
                         var note = {};
                         count = 0;
@@ -152,21 +150,21 @@ define(['myapp', 'angular'], function (myapp, angular) {
                      */
                     function updateByID_AC(data) {
                         CReportService.Update(data, function (res) {
-                            if (res.Success) {
-                                if ($scope.btnSub) {
-                                    $('#myModal').modal('hide');
-                                    $scope.submit_success_msg();
-                                    $scope.Search();
-                                    $scope.btnSub = false;
+                                if (res.Success) {
+                                    if ($scope.btnSub) {
+                                        $('#myModal').modal('hide');
+                                        $scope.submit_success_msg();
+                                        $scope.Search();
+                                        $scope.btnSub = false;
+                                    } else {
+                                        $('#myModal').modal('hide');
+                                        $scope.Search();
+                                        $scope.update_msg();
+                                    }
                                 } else {
-                                    $('#myModal').modal('hide');
-                                    $scope.Search();
-                                    $scope.update_msg();
+                                    $scope.update_error_msg();
                                 }
-                            } else {
-                                $scope.update_error_msg();
-                            }
-                        },
+                            },
                             function (error) {
                                 $scope.update_error_msg();
                             })
@@ -195,8 +193,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     $scope.save_msg();
                                     $scope.Search();
                                 }
-                            }
-                            else {
+                            } else {
                                 $scope.save_error_msg();
                             }
                         }, function (error) {
@@ -223,8 +220,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             if (nofile) {
                                 nofile = false;
                                 return;
-                            }
-                            else {
+                            } else {
                                 var status = $scope.status;
                                 switch (status) {
                                     case 'N':
@@ -232,6 +228,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                         $scope.resetAC();
                                         break;
                                     case 'M':
+                                        note.Rp_Status = 'P';
                                         updateByID_AC(note);
                                         break;
                                     case 'SM':
@@ -269,7 +266,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
                     $scope.showEmployeeName = function (emp_id) {
-
+                        debugger;
                         $scope.employees.forEach(x => {
                             if (x.EmployeeID == emp_id) {
                                 $scope.emp_name = x.Contractor_Victim_Name;

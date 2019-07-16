@@ -9,6 +9,8 @@ define(
         ,'./WasteItemService'
         ,'./CReportService'
         ,'./CReportDirective'
+        ,'controllers/EHS/CReport/ICReportDirective'
+        ,'controllers/EHS/CReport/ACReportDirective'
     ],function(){
 
 })

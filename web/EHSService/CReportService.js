@@ -11,7 +11,11 @@ define(['app', 'angular'], function (app, angular) {
                     }
                 });
 
-
+                this.SendReminder = $resource('/hse/CReportHSE/PID', {}, {
+                    get: {
+                        method: 'GET'
+                    }
+                });
                 this.FileManagement = $resource('/Waste/files/:operation', {}, {
                     UploadFile: {
                         method: 'POST',
@@ -395,23 +399,18 @@ define(['app', 'angular'], function (app, angular) {
 
                     case 'status':
                         var statuslist = [{
-                                id: 'D',
-                                name: 'Draft'
-                            },
-                            {
-                                id: 'P',
-                                name: 'Processing'
-                            },
-                            {
-                                id: 'S',
-                                name: 'Signed'
-                            },
-                            {
-                                id: 'X',
-                                name: 'StatusX'
-                            }
-
-                        ];
+                            id: 'D',
+                            name: 'Draft'
+                        }, {
+                            id: 'P',
+                            name: 'Processing'
+                        }, {
+                            id: 'S',
+                            name: 'Signed'
+                        }, {
+                            id: 'X',
+                            name: 'StatusX'
+                        }];
                         return statuslist;
                         break;
 
@@ -419,12 +418,10 @@ define(['app', 'angular'], function (app, angular) {
                         var ACTypelist = [{
                                 id: 'SA',
                                 name: 'Serious'
-                            },
-                            {
+                            }, {
                                 id: 'HA',
                                 name: 'Heavy'
-                            },
-                            {
+                            }, {
                                 id: 'MA',
                                 name: 'Minor'
                             }
