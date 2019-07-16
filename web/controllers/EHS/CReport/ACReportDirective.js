@@ -45,45 +45,30 @@ define(['app'], function (app) {
 
                         $scope.employees.splice(index, 1);
                     };
-
                     //Add employee in param table (AccidentDetail)
-                    $scope.gd = {}; // thông tin cụ thể của 1 nhân viên
-                    $scope.employees = []; // list chứa nhân viên
-
-                    $scope.y = {};
-                    $scope.injury = []; // chứa tất cả file về tình hình bị thương của tất cả nạn nhân trong một tai nạn => dùng để add vào csdl
-
-                    var sameID = false;
                     $scope.addEmployee = function () {
                         if ($scope.gd != null || $scope.gd != {}) {
                             $scope.employees.forEach(x => {
                                 if ($scope.gd.EmployeeID == x.EmployeeID) {
                                     $scope.same_employee_msg();
-                                    sameID = true;
+                                    return;
                                 }
                             })
-
-                            if (sameID) {
-                                sameID = false;
-                                return;
-                            } else {
-
-                                $scope.gd.Rp_ID = $scope.recordAC.rp_id || '';
-
-                                if ($scope.listfileAC.length > 0) {
-                                    $scope.listfileAC.forEach(x => {
-                                        $scope.y.name = x.name;
-                                        $scope.y.col = x.col;
-                                        $scope.y.empID = $scope.gd.EmployeeID;
-                                        $scope.injury.push($scope.y);
-                                        $scope.y = {};
-                                    })
-                                }
-
-                                $scope.employees.push($scope.gd);
-                                $scope.gd = {};
-                                $scope.listfileAC = [];
+                            $scope.gd.Rp_ID = $scope.recordAC.rp_id || '';
+                            if ($scope.listfileAC.length > 0) {
+                                $scope.listfileAC.forEach(x => {
+                                    var y = {};
+                                    y.name = x.name;
+                                    y.col = x.col;
+                                    y.empID = $scope.gd.EmployeeID;
+                                    $scope.injury.push(y);
+                                })
                             }
+
+                            $scope.employees.push($scope.gd);
+
+                            $scope.gd = {};
+                            $scope.listfileAC = [];
                         }
                     };
 
@@ -121,22 +106,23 @@ define(['app'], function (app) {
                             count++;
 
                             $scope.listfile.forEach(element => {
-                                $scope.f.File_ID = element.name;
-                                $scope.f.ColumnName = element.col;
-                                $scope.f.Rp_ID = $scope.recordAC.rp_id || '';
-                                $scope.lsFile.push($scope.f);
-                                $scope.f = {};
+                                var f = {};
+                                f.File_ID = element.name;
+                                f.ColumnName = element.col;
+                                f.Rp_ID = $scope.recordAC.rp_id || '';
+                                $scope.lsFile.push(f);
                             })
                         }
 
                         if ($scope.injury.length > 0) {
                             $scope.injury.forEach(element => {
-                                $scope.f.File_ID = element.name;
-                                $scope.f.ColumnName = element.col;
-                                $scope.f.Profile_ID = element.empID;
-                                $scope.f.Rp_ID = $scope.recordAC.rp_id || '';
-                                $scope.lsFile.push($scope.f);
-                                $scope.f = {};
+                                var f = {};
+                                f.File_ID = element.name;
+                                f.ColumnName = element.col;
+                                f.Profile_ID = element.empID;
+                                f.Rp_ID = $scope.recordAC.rp_id || '';
+                                $scope.lsFile.push(f);
+                                f = {};
                             })
                         }
 
@@ -158,8 +144,8 @@ define(['app'], function (app) {
                                         $scope.btnSub = false;
                                     } else {
                                         $('#myModal').modal('hide');
-                                        $scope.Search();
                                         $scope.update_msg();
+                                        $scope.Search();
                                     }
                                 } else {
                                     $scope.update_error_msg();
@@ -176,6 +162,7 @@ define(['app'], function (app) {
                     function SaveAC(data) {
                         CReportService.Create(data, function (res) {
                             console.log(res)
+
                             if (res.Success) {
                                 if ($scope.btnSub) {
                                     $scope.ID_AC = res.Data;
@@ -263,24 +250,23 @@ define(['app'], function (app) {
                         $scope.listfile_process_ac = false;
                     };
 
-                    $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
                     $scope.showEmployeeName = function (emp_id) {
+                        var emp_name = '';
                         debugger;
-                        $scope.employees.forEach(x => {
-                            if (x.EmployeeID == emp_id) {
-                                $scope.emp_name = x.Contractor_Victim_Name;
-                            }
-                        })
 
-                        $scope.listEmployee.forEach(x => {
-                            if (x.EmployeeID == emp_id) {
-                                $scope.emp_name = x.Name;
+                        // $scope.listEmployee.forEach(x => {
+                        //     if (x.EmployeeID == emp_id && x.Name != null)
+                        //         return x.Name;
 
-                            }
+                        // })
 
-                        })
-                        return $scope.emp_name;
+                        // $scope.employees.forEach(x => {
+                        //     if (x.EmployeeID == emp_id && x.Contractor_Victim_Name != null)
+                        //         return x.Contractor_Victim_Name;
+                        // })
+
+                        return emp_name;
                     };
 
                 },

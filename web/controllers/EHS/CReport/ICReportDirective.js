@@ -102,7 +102,6 @@ define(['app'], function (app) {
                     /**
                      * Init Data to save
                      */
-                    $scope.f = {}; // thông tin cụ thể của 1 file
                     var count = 0;
 
                     function saveInitDataIC() {
@@ -118,11 +117,11 @@ define(['app'], function (app) {
                                 if (element.col == "Rp_Location")
                                     count++;
 
-                                $scope.f.File_ID = element.name;
-                                $scope.f.ColumnName = element.col;
-                                $scope.f.Rp_ID = $scope.recordIC.rp_id || '';
-                                $scope.lsFile.push($scope.f);
-                                $scope.f = {};
+                                var f = {};
+                                f.File_ID = element.name;
+                                f.ColumnName = element.col;
+                                f.Rp_ID = $scope.recordIC.rp_id || '';
+                                $scope.lsFile.push(f);
                             })
                         }
 

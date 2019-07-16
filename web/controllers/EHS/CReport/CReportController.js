@@ -10,7 +10,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 submitbutton: true,
                 checker: true
             }
-            var lang = window.localStorage.lang;
+            var lang = window.localStorage.lang || 'EN';
             /************************************************ */
 
 
@@ -46,7 +46,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             $scope.rp_type = $scope.typelist[0].id;
             $scope.demolist = $scope.typelist;
 
-            
+
             //status combobox
             $scope.statuslist = InfolistService.Infolist('status');
             //evaluate combobox
@@ -825,7 +825,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 },
 
             ];
-
             //Choose SubDepartment to show Employees 
             $scope.showEmployeeList = function (dept_id) {
                 $scope.gd = {};
