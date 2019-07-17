@@ -356,7 +356,7 @@
             <tbody>
                 <tr ng-repeat="ac in employees">
                     <td>{{ac.EmployeeID}}</td>
-                    <td>{{ac.Contractor_Name}} </td>
+                    <td>{{showEmployeeName(ac.EmployeeID)}} </td>
                     <td>{{ac.Injury_Description}}</td>
                     <td>{{ac.Witness_info}}</td>
                     <td>{{ac.Treatment_Result}}</td>

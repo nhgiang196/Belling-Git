@@ -47,6 +47,7 @@ define(['app'], function (app) {
                     };
                     //Add employee in param table (AccidentDetail)
                     $scope.addEmployee = function () {
+                        debugger;
                         if ($scope.gd != null || $scope.gd != {}) {
                             $scope.employees.forEach(x => {
                                 if ($scope.gd.EmployeeID == x.EmployeeID) {
@@ -250,23 +251,24 @@ define(['app'], function (app) {
                         $scope.listfile_process_ac = false;
                     };
 
+                    $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
                     $scope.showEmployeeName = function (emp_id) {
-                        var emp_name = '';
                         debugger;
+                        $scope.employees.forEach(x => {
+                            if (x.EmployeeID == emp_id) {
+                                $scope.emp_name = x.Contractor_Victim_Name;
+                            }
+                        })
 
-                        // $scope.listEmployee.forEach(x => {
-                        //     if (x.EmployeeID == emp_id && x.Name != null)
-                        //         return x.Name;
+                        $scope.listEmployee.forEach(x => {
+                            if (x.EmployeeID == emp_id) {
+                                $scope.emp_name = x.Name;
 
-                        // })
+                            }
 
-                        // $scope.employees.forEach(x => {
-                        //     if (x.EmployeeID == emp_id && x.Contractor_Victim_Name != null)
-                        //         return x.Contractor_Victim_Name;
-                        // })
-
-                        return emp_name;
+                        })
+                        return $scope.emp_name;
                     };
 
                 },
