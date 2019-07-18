@@ -100,6 +100,15 @@ leader hse check report
             </div>
         </div>
 
+        <!-- DENY TEXTAREA -->
+        <div class="form-group" ng-if="ISPublish=='NO'">
+            <label class="col-sm-2  control-label">*{{'DenyReason'|translate}}:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="leadercheck_remark" type="text" form-field
+                    history-field="DenyReason" ng-model="leadercheck_remark" rows="3" />
+                </div>
+        </div>
+
         <!-- leader remark show if returned -->
         <!-- <div>
             <h3 style="color:red;">
