@@ -3,7 +3,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
         function (GateGuest, $upload, $filter, Notifications, Auth, EngineApi, CReportService, InfolistService, $translate, $q, $scope, $timeout) {
             $scope.recordIC = {};
             $scope.recordAC = {};
-            $scope.flowkey = 'HW-EHS';
+            $scope.flowkey = 'HW-User';
             $scope.onlyOwner = true;
             $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
             $scope.show = {
@@ -11,37 +11,31 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 checker: true
             }
             var lang = window.localStorage.lang || 'EN';
-            /************************************************ */
+            
+            /***************************************************************************** */
 
-
-            // report type combobox
+            /**search comboboxs */
             $scope.typelist = [{
-                    id: 'all',
-                    name: $translate.instant('All')
-                },
-                {
-                    id: '0',
-                    name: $translate.instant('Incident')
-                },
-                {
-                    id: '1',
-                    name: $translate.instant('Accident')
-                }
-            ];
+                id: 'all',
+                name: $translate.instant('All')
+            }, {
+                id: '0',
+                name: $translate.instant('Incident')
+            }, {
+                id: '1',
+                name: $translate.instant('Accident')
+            }];
 
             $scope.typelistEVR = [{
-                    id: 'all',
-                    name: $translate.instant('All')
-                },
-                {
-                    id: '0',
-                    name: $translate.instant('Incident')
-                },
-                {
-                    id: '2',
-                    name: $translate.instant('PollutionEnvironment')
-                }
-            ];
+                id: 'all',
+                name: $translate.instant('All')
+            }, {
+                id: '0',
+                name: $translate.instant('Incident')
+            }, {
+                id: '2',
+                name: $translate.instant('PollutionEnvironment')
+            }];
 
             $scope.rp_type = $scope.typelist[0].id;
             $scope.demolist = $scope.typelist;
@@ -58,8 +52,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             // Submit type combobox
             $scope.SubmitTypelist = InfolistService.Infolist('SubmitType');
             $scope.rp_Submittype = $scope.SubmitTypelist[0];
-
-
 
             //----------------------------------------------------------
             $scope.save_msg = function () {
@@ -141,7 +133,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
                 filein.click();
             }
-            //------------------------------------------------------------------------------------
+            /*******************************************************************************************/
             /**Upload file */
             $scope.listfile = [];
             $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
@@ -242,24 +234,8 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 })
             }
 
-            $scope.ChangeSubmitType = function () {
-                if ($scope.rp_Submittype.id == 'EVR') {
-                    $scope.demolist = $scope.typelistEVR;
-                    $scope.rp_type = $scope.typelistEVR[0].id;
-                } else if ($scope.rp_Submittype.id == 'FP' || $scope.rp_Submittype.id == 'SF') {
-                    $scope.demolist = $scope.typelist;
-                    $scope.rp_type = $scope.typelist[0].id;
-                }
-                $scope.Search();
-            };
+            /**********************************GRID -UI DEFINITION*********************************************************/
 
-            //-------------------------------------------------------------------
-
-
-
-
-
-            // định nghĩa chung
             var colCReport = [
 
                 {
@@ -350,17 +326,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 return location;
             }
 
-            $scope.getCReportIncident = function (id) {
-                var ICType = $scope.SubmitTypelist.find(item => item.id === id).name;
-                ICType = $translate.instant(ICType);
-                return ICType;
-            }
-
-            $scope.getCReportAccident = function (id) {
-                var ACType = $scope.ACTypelist.find(item => item.id === id).name;
-                ACType = $translate.instant(ACType);
-                return ACType;
-            }
 
             $scope.getCReportType = function (id) {
                 var CReport_type = "";
@@ -372,9 +337,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 }
                 return CReport_type;
             }
-
-
-
             //Grid setting mặc định tên 
             $scope.gridOptions = {
                 columnDefs: colCReport,
@@ -444,8 +406,19 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
             }
 
-            var lang = window.localStorage.lang;
 
+            /**************************** FUNCTIONS ************************************************************** */
+
+            $scope.ChangeSubmitType = function () {
+                if ($scope.rp_Submittype.id == 'EVR') {
+                    $scope.demolist = $scope.typelistEVR;
+                    $scope.rp_type = $scope.typelistEVR[0].id;
+                } else if ($scope.rp_Submittype.id == 'FP' || $scope.rp_Submittype.id == 'SF') {
+                    $scope.demolist = $scope.typelist;
+                    $scope.rp_type = $scope.typelist[0].id;
+                }
+                $scope.Search();
+            };
             //search information 
             function SearchList() {
                 var query = {};
@@ -493,6 +466,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     $scope.recordIC.icImprove = data.RpIC_Process;
                     $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
                     $scope.recordIC.icType = data.RpIC_IncidentType;
+                    $scope.recordIC.submittype = data.Rp_SubmitType;
 
                     $scope.listfile = [];
                     data.FileAttached.forEach(element => {
@@ -574,10 +548,10 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             // hàm bật tắt disable nút file chỗ địa điểm  
             function disableFileLocation(value) {
                 if (value == "O") {
-                    $scope.btnFile = false;
+                    // $scope.btnFile = false;
                     $scope.btnFile_AC = false;
                 } else {
-                    $scope.btnFile = true;
+                    // $scope.btnFile = true;
                     $scope.btnFile_AC = true;
                 }
             }
@@ -611,8 +585,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         });
                     })
             };
-
-            //Grid menu
+            /****************************GRID MENU FUNCTIONS********************************************** */
             var gridMenu = [{
                     title: $translate.instant('CreateIC'),
                     action: function () {
@@ -787,7 +760,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                                 });
                             } else if (confirm($translate.instant('Delete_IS_MSG') + ':' + resultRows[0].Rp_ID)) {
                                 deleteById(resultRows[0].Rp_ID);
-                                $scope.Search();
                             }
 
                         } else {
@@ -839,9 +811,6 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     } else $scope.listEmployee = [];
                 })
             };
-
-
-
 
             /**get Information of next Candidate */
 
@@ -964,17 +933,16 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     })
                     /** Change Status to P */
 
-                } //fnchangeStatus
+                } //fnchangeStatus 
             } // fnSavesubmit
 
             CReportService.CountReport(function (data) {
-                $scope.rpCounter_Safe = data[0].count_safe;
-                $scope.rpCounter_Envi = data[0].count_evr;
-                $scope.rpCounter_Fire = data[0].count_fire;
-
-            }, function (error) {
-
-            })
+                $scope.rpCounter = {
+                    Safe : data[0].count_safe,
+                    Envi : data[0].count_evr,
+                    Fire : data[0].count_fire
+                }
+            }, function (error) {})
 
         } //function
     ]) // myapp.controller
