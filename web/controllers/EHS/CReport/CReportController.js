@@ -11,7 +11,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 checker: true
             }
             var lang = window.localStorage.lang || 'EN';
-            
+
             /***************************************************************************** */
 
             /**search comboboxs */
@@ -467,6 +467,11 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
                     $scope.recordIC.icType = data.RpIC_IncidentType;
                     $scope.recordIC.submittype = data.Rp_SubmitType;
+
+                    $scope.recordIC.icAffect = data.RpIC_Affect
+                    $scope.recordIC.TimeNotif = data.RpIC_TimeNotif
+                    $scope.recordIC.ICNotifPersion = data.RpIC_NotifPerson
+                    $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson
 
                     $scope.listfile = [];
                     data.FileAttached.forEach(element => {
@@ -938,9 +943,9 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
 
             CReportService.CountReport(function (data) {
                 $scope.rpCounter = {
-                    Safe : data[0].count_safe,
-                    Envi : data[0].count_evr,
-                    Fire : data[0].count_fire
+                    Safe: data[0].count_safe,
+                    Envi: data[0].count_evr,
+                    Fire: data[0].count_fire
                 }
             }, function (error) {})
 
