@@ -786,7 +786,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
             .when('/CircumstanceReport/ICReport/print/:code', angularAMD.route({
                 templateUrl: "forms/EHS/CReport/ICdetail.html",
                 controller: 'ICReportController',
-                controllerUrl: 'controllers/EHS/CReport/ICReportController',
+                controllerUrl: 'controllers/EHS/CReport/ReportICDetailController',
                 caseInsensitiveMatch: true,
                 resolve: {
                     User: function (AuthenticationLoader) {
@@ -797,7 +797,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
             .when('/CircumstanceReport/ACReport/print/:code', angularAMD.route({
                 templateUrl: "forms/EHS/CReport/ACdetail.html",
                 controller: 'ReportACdetailController',
-                controllerUrl: 'controllers/EHS/CReport/ReportACdetailController',
+                controllerUrl: 'controllers/EHS/CReport/ReportACDetailController',
                 caseInsensitiveMatch: true,
                 resolve: {
                     User: function (AuthenticationLoader) {
