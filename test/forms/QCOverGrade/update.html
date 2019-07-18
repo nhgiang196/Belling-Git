@@ -1,0 +1,100 @@
+<!-- CREATE BY JANG 20190116 -->
+<script>
+    function RYVoucherCheck_update($q,$scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
+        Auth, GateGuest, $translate, LIMSService, $filter) {
+        $translate.refresh();
+        $scope.loading = false;
+        $scope.passOrNot = [
+            { "name": $translate.instant('agree'), "value": "YES" }
+            // , { "name": $translate.instant('notAgree'), "value": "NO" }
+            // , { "name": 'DeleteVoucher', "value": "Cancel" }
+        ];
+        $scope.Save = function (isSubmit) {
+            if (confirm($translate.instant('Return this Voucher to 处理人 ?'))){
+                $q.all([$scope.submit()]).then(function () {
+                $scope.loading = true;  
+                var reminder_parrams = {
+                    voucherID: $scope.VoucherID,
+                    userid: Auth.username,
+                    formkey: ''
+                }
+                debugger;
+                LIMSService.SendReminder(reminder_parrams, function (res) {
+                    if (res.Success) return;
+                }, function (error) {
+                    Notifications.addError({
+                        'status': 'error',
+                        'message': $translate.instant('saveError') + error
+                    });
+                })
+            });
+            }
+                
+
+        }
+    }
+</script>
+
+<div ng-controller="RYVoucherCheck_update">
+    <approval-master vid='{{variable.OverID}}' style="width: 85%"></approval-master>
+    <!-- SHow form -->
+    <div class="container ">
+        <table class="table table-bordered ">
+            <tbody>
+                <tr style="text-align: left">
+                    <td>
+                        <p>一. 不合格狀況及原因分析 TT. không phù hợp và PT nguyên nhân:
+                            <br>{{recod.Reason}}</p>
+                    </td>
+                    <td>
+                        <p>三.改善對策及執行情形 Đối sách cải thiện và tình hình thực hiện:
+                            <br>{{recod.State}}</p>
+
+                    </td>
+                </tr>
+                <tr style="text-align: left">
+                    <td>
+                        <p>二. 不合格品處理方式 Phương pháp xử lý sản phẩm không phù hợp:
+                            <br>{{recod.Solution}} </p>
+                    </td>
+                    <td>
+                        <p>四.防止再發生措施 Biện pháp ngăn ngừa tái phát sinh:
+                            <br>{{recod.Prevention}}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <!-- leader remark show if returned -->
+        <div ng-show="variable.leadercheck_remark">
+            <h3 style="color:red;">
+                {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
+            </h3>
+        </div>
+        <!-- combobox check -->
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+            <div class="col-sm-3">
+                <select class="form-control" history-field="IsPass" form-field name="ISPublish" ng-model="ISPublish"
+                    ng-options="c.value as c.name for c in passOrNot" required> </select>
+            </div>
+        </div>
+        <!-- Candidates -->
+        <div class="row">
+            <div>
+                <h4>{{'NextStep'|translate}}</h4>
+            </div>
+            <div leader-check flow-key="QCOverGrade" user-name="{{username}}" kinds='{{sampleName}}'></div>
+        </div>
+        <!-- submit button -->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="Save()" ng-disabled="form.$invalid||(username=='FEPVNN0033' && (leadercheck_remark == null|| leadercheck_remark=='')) || loading">
+                    {{'SaveSubmit'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

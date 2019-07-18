@@ -1,0 +1,64 @@
+<div style="text-align: center"><legend> <h1>远纺工业（越南）有限公司</h1></legend></div>
+<div style="text-align: center"><legend> <h3>聚合一科分析日报表</h3></legend></div>
+<div>
+    <label id="interval" class="col-sm-8">类型:{{lot_No}} 间隔:{{Interval}} 起始日期: {{DateFrom}} -- {{endTime}}</label>
+    <label class="col-sm-4" style="text-align: center">品技科化验室</label>
+    <button  type="button" class="btn btn-primary" ng-click="exportData()">Export</button>
+</div>
+<div>
+
+    <table  class="table table-bordered span11" id="tableReport" style="margin-top: 20px;font-size: 12px"  >
+        <tr class="header" >
+            <th ng-repeat="header in headers" style="background-color: #b0c4de" >{{header}}</th>
+        </tr>
+        <tr ng-repeat="value in pagedItems[currentPage]" style="text-align: center"
+            ng-style="value.LOT_NO.contains('AVG')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('MAX')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('MIN')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('STDEV')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}">
+
+
+            <td ng-repeat="header in headers"
+                ng-if="!(IsGroupCells(value['LOT_NO'])&&(header=='Grade' || header =='ProdDate'))" width="10px"
+                colspan="{{IsGroupCells(value[header]) ? '3' : '1'}}"
+                ng-style="value[header].contains('*') ? {color:'red'}:{color:none}">{{value[header].replace('*','')}}
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="pagination" >
+        <ul class="pagination" style="display: inline-block">
+            <li   style="display: inline-block">
+                <a href ng-click="prevPage()" ng-disabled="currentPage == 1">« Prev</a>
+            </li>
+            <li  ng-repeat="n in range(pagedItems.length)" style="display: inline-block"
+                 ng-class="{active: n == currentPage}"
+                 ng-click="setPage()">
+                <a href ng-bind="n + 1">0</a>
+            </li>
+            <li ng-disabled="currentPage == pagedItems.length - 1" style="display: inline-block">
+                <a href  ng-click="nextPage()">Next »</a>
+            </li>
+        </ul>
+    </div>
+    <table  class="table table-bordered span11" id="tableReportHidden" style="margin-top: 20px;font-size: 12px;display:none"  >
+        <tr class="header" >
+            <th ng-repeat="header in headers" style="background-color: #b0c4de" >{{header}}</th>
+        </tr>
+        <tr ng-repeat="value in Data" style="text-align: center" ng-style="value.LOT_NO.contains('AVG')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('MAX')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('MIN')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('STDEV')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}">
+            <td ng-repeat="header in headers"
+                ng-if="!(IsGroupCells(value['LOT_NO'])&&(header=='Grade' || header =='ProdDate'))" width="10px"
+                colspan="{{IsGroupCells(value[header]) ? '3' : '1'}}"
+                ng-style="value[header].contains('*') ? {color:'red'}:{color:none}">
+
+                {{value[header].replace('*','')}}
+            </td>
+        </tr>
+
+    </table>
+
+</div>

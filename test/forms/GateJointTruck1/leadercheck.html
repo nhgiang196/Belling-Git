@@ -1,0 +1,154 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    function GateJointTruck_leadercheck($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateGuest, $translate, GateUnJointTruck, GateJointTruck,$resource, uiGridConstants) {
+        $scope.passOrNot = [{
+            "name": $translate.instant('agree'),
+            "value": "YES"
+        }, {"name": $translate.instant('notAgree'), "value": "NO"}];
+        var col = [{
+            field: 'ShippingOrder',
+            displayName: $translate.instant("ShippingOrder"),
+            minWidth: 120,
+            cellTooltip: true
+        },
+            {field: 'Direction', displayName: $translate.instant("Direction"), minWidth: 80, cellTooltip: true},
+            {
+                field: 'MaterialSpc',
+                displayName: $translate.instant("MaterialSpc"),
+                minWidth: 100,
+                cellTooltip: true
+            },
+            {field: 'PRquan', displayName: $translate.instant("PRquan"), minWidth: 100, cellTooltip: true},
+            {field: 'Requan', displayName: $translate.instant("Requan"), minWidth: 100, cellTooltip: true},
+            {field: 'Unit', displayName: $translate.instant("Unit"), minWidth: 100, cellTooltip: true},
+            {field: 'Isprn', displayName: $translate.instant("Isprn"), minWidth: 120, cellTooltip: true},
+            {field: 'Stamp', displayName: $translate.instant("Stamp"), minWidth: 120, cellTooltip: true}
+        ];
+        $scope.gridOptions = {
+            columnDefs: col,
+            data: [],
+            enableColumnResizing: true,
+            enableSorting: true,
+            showGridFooter: false,
+            enableGridMenu: true,
+            exporterMenuPdf: false,
+            enableSelectAll: false,
+            enableRowHeaderSelection: true,
+            enableRowSelection: true,
+            multiSelect: false,
+            paginationPageSizes: [50, 100, 200, 500],
+            paginationPageSize: 50,
+            onRegisterApi: function (gridApi) {
+                $scope.gridApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                    $scope.selectedVoucherid = row.entity.VoucherID;
+                })
+            }
+        };
+        GateJointTruck.JointTruckBasic().jointTruckByVoucherID({voucherid: $routeParams.code}).$promise.then(function (res) {
+            console.log(res)
+            if (res.ShippingOrder == "") {
+                return;
+            }
+            $scope.note = res;
+            $scope.note.ExpectIn = $filter('date')($scope.note.ExpectIn, 'yyyy-MM-dd');
+            $scope.note.ComeTime = $filter('date')($scope.note.ComeTime, 'yyyy-MM-dd');
+            $scope.note.ValidatePeriod = $filter('date')($scope.note.ValidatePeriod, 'yyyy-MM-dd');
+            if (res.ShippingOrder == "") {
+                return;
+            }
+            $scope.gridOptions.data = res.JointTruckItems;
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse})
+        });
+        $scope.savesubmit = function () {
+            $scope.formVariables.push({name: "JWUser", value: "Guard"});
+           // $scope.formVariables.push({name: "leadercheck_result", value: $scope.note.leadercheck_result});
+            $scope.submit();
+        }
+    }
+</script>
+<div ng-controller="GateJointTruck_leadercheck">
+    <div>
+        <legend><h3>{{'FEPVJointTruck'|translate}}--{{'leaderCheck'|translate}}</h3></legend>
+        <form class="form-horizontal" role="form" name="formTruck" novalidate>
+            <div class="col-sm-12" style="padding-top: 20px;">
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th>{{'VoucherID'|translate}}</th>
+                        <td>{{note.VoucherID}}</td>
+                        <th>{{'Models'|translate}}</th>
+                        <td>{{note.VehicleShape}}</td>
+                        </tr>
+                    <tr>
+                        <th>{{'TransferCompany'|translate}}</th>
+                        <td>{{note.TransferCompany}}</td>
+                        <th>{{'VehicleNO'|translate}}</th>
+                        <td>{{note.VehicleNO}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'Driver'|translate}}</th>
+                        <td>{{note.Driver}}</td>
+                        <th>{{'DriverPhone'|translate}}</th>
+                        <td>{{note.DriverPhone}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'ExpectedIn'|translate}}</th>
+                        <td>{{note.ExpectIn}}</td>
+                        <th>{{'ValidTo'|translate}}</th>
+                        <td>{{note.ValidatePeriod}}</td>
+                        </tr>
+                    <tr>
+                        <th>{{'Material'|translate}}</th>
+                        <td>{{note.MaterielType}}</td>
+                        <th>{{'Remark'|translate}}</th>
+                        <td colspan="5">{{note.Remark}}</td>
+                    </tr>
+
+                </table>
+                <H4 style="background-color: #ececec; padding: 5px">{{'ShippingInformation'|translate}}</H4>
+                <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                     ui-grid-resize-columns ui-grid-core ui-grid-exporter></div>
+            </div>
+
+            <H4 style="background-color: #ececec; padding: 5px">{{'leaderCheck'|translate}}</H4>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+
+                <div class="col-sm-3">
+                    <select class="form-control" history-field="IsPass" form-field
+                            name="leadercheck_result"
+                            ng-model="leadercheck_result"
+                            ng-options="c.value as c.name for c in passOrNot"
+                            required> </select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="leadercheck_result=='NO'">
+                <label class="col-sm-2  control-label" style="text-align: left;">{{'DenyReason'|translate}}:</label>
+
+                <div class="col-sm-6">
+                <textarea class="form-control" name="leadercheck_remark" type="text" form-field
+                          history-field="DenyReason" ng-model="leadercheck_remark" field-validate rows="3"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">{{'submit'|translate}}</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

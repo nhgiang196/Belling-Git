@@ -1,0 +1,44 @@
+<style>
+    .tooltip-multiline {
+        height: auto;
+        width: auto;
+    }
+
+    table.ex1 {
+        table-layout: auto;
+    }
+
+    colorfull {
+        background: red;
+    }
+</style>
+<div class="container">
+    <table class="table table-hover" border="1px solid blue" style="table-layout: auto">
+        <thead class="thead-light">
+        <tr>
+            <th style="width: auto;white-space:nowrap;" ng-repeat="headers in header" ng-if="headers!='Status'">{{headers}}</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="value in finalData">
+            <td style="width:auto;white-space:nowrap;" ng-repeat="hder in header" ng-style="value.Status.contains('S') && value.Versions=={{MaxVersion}}  ?{backgroundColor:'#9898e6'}:{backgroundColor:'red'}&&
+                    value.Status.contains('P')?{backgroundColor:'#80bfff'}:{backgroundColor:none}&& value.Status.contains('S')?{backgroundColor:'#ffff66'}:{backgroundColor:none} ">
+                <a style="cursor: hand;cursor: pointer;width: auto" ng-if="value[hder].ValueSpec!=''" ng-click="" tooltip-grade-version="value[hder]">{{value[hder].ValueSpec}}</a>
+                <p ng-if="value[hder].ValueSpec==undefined">{{value[hder]}}</p>
+            </td>
+        </tr>
+
+    </table>
+    <h3>Description</h3>
+    <p>Follow color bellow to know version type: </p>
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <td style="background-color:#ffff66">Last Version</td>
+            <td style="background-color:#9898e6">Curren Version</td>
+            <td style="background-color:#80bfff">Processing Version</td>
+
+        </tr>
+
+        </tbody>
+    </table>
+</div>

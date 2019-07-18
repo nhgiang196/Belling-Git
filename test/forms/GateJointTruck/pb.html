@@ -1,0 +1,11 @@
+<script type="text/javascript">
+    function GateJoingTruck_pb ($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateEngine, $resource, uiGridConstants,IO_BARCODE_TYPES) {
+    $scope.pass=function(){
+        $scope.submit();
+    }
+    }
+</script>
+<div ng-controller="GateJoingTruck_pb">
+    <div>请警卫到MES系统做 pb 单号: {{variable.VoucherID}}</div>
+    <button type="button" class="btn btn-danger" ng-click="pass()">提交 </button>
+</div>

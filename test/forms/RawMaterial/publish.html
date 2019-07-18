@@ -1,0 +1,67 @@
+
+<script>
+    function RYVoucherCheck_publish($scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
+        Auth, GateGuest, $translate, LIMSService, $filter) {
+
+        /** var init */
+        var lang = window.localStorage.lang;
+        var user = Auth.username;
+        var formVariables = [];
+        var historyVariable = [];
+
+        /* scope init */
+        $translate.refresh();
+        $scope.username = user;
+
+        $scope.passOrNot = [
+            { "name": $translate.instant('agree'), "value": "Yes" },
+            { "name": $translate.instant('notAgree'), "value": "No" }
+            // { "name": 'DeleteVoucher', "value": "Cancel" }
+        ];
+        //   if ($scope.isLeader) $scope.passOrNot.push({ "name": $translate.instant('notAgree'), "value": "Yes" })
+
+
+        /* Save submit*/
+        $scope.Save = function () {
+
+            if (!confirm($translate.instant('Agree this Voucher?'))) return;
+            $scope.formVariables.push({ name: "IsPublish", value: $scope.IsPublish });
+            debugger;
+            $scope.submit();
+        }
+    }
+</script>
+
+<div ng-controller="RYVoucherCheck_publish">
+
+    <raw_analysis  vid='{{variable.RawID}}'></raw_analysis>
+    <!-- CHOOSE FORM -->
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <!-- COMBOBOX -->
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+            <div class="col-sm-3">
+                <select class="form-control" history-field="IsPass" form-field name="IsPublish" ng-model="IsPublish"
+                    ng-options="c.value as c.name for c in passOrNot" required> </select>
+            </div>
+        </div>
+
+        <!-- DENY TEXAREA -->
+        <div class="form-group" ng-show="isLeader">
+            <label class="col-sm-2  control-label" style="text-align: left;">*{{'Remark'|translate}}:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="leadercheck_remark" type="text" form-field
+                    history-field="DenyReason" ng-model="leadercheck_remark" field-validate rows="3" />
+                </div>
+        </div>     
+        <!-- BUTTON OF SUBMITTING -->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="Save()" 
+                    ng-disabled="form.$invalid||(isLeader && (leadercheck_remark == null|| leadercheck_remark==''))">
+                    {{'SaveSubmit'|translate}}
+                </button>
+            </div>
+        </div>          
+    </form>
+    </div>

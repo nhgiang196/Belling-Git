@@ -1,0 +1,167 @@
+<style>
+
+    #scrollable-area {
+
+        width: 100%;
+        height: 500px;
+
+        overflow-y: scroll; /* <-- here is what is important*/
+    }
+
+
+
+
+    thead {
+        background: #efefef;
+    }
+    table {
+        width: 100%;
+
+    }
+    table th , table td  {
+
+    }
+</style>
+<div>
+    <form  class="form-horizontal" role="form" novalidate name="form" >
+        <legend><h3>{{'Report Page'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group" >
+            <div class="form-group search-table" style="margin-left:20px">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'From'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="DateFrom" ng-model="DateFrom" date-picker >
+                    </div>
+                    <label class="col-sm-2 control-label">{{'To'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="DateTo" ng-model="DateTo" date-picker >
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" name="sampleName" ng-model="SampleName" ng-change='change_Material(SampleName)'
+                                    ng-options="s.SampleName as s.Description_EN for s in sampleList" required>
+                            </select>
+                        </div>
+                    <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="material" ng-model="Material"
+                                ng-options="c.LOT_NO as c.LOT_NO for c in materialList" required>
+                            <option value="">---All---</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="Line" ng-model="Line">
+                    </div>
+                    <div class="col-sm-2">
+                        <div  class="pull-right">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input name="monthly" ng-change="getMonth(Monthly)" type="checkbox" ng-model="Monthly"> {{'Monthly'|translate}}
+                        </label>
+                        <button  type="button" class="btn btn-primary pull-right" ng-click="Search()">{{'Search'|translate}} </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- <report_detail id="report" ng-show='isVisible'></report_detail> -->
+
+<!--Report Detail Page-->
+<div class="" id="report" ng-show='isVisible'>
+
+    <div class="form-group">
+        <button  type="button" class="btn btn-primary" ng-click="exportData()">Export to Excel</button>
+    </div>
+    <label id="interval" class=" control-label">{{DateFromTo}}</label>
+<div style="margin-left: 0px">
+    <form class="form-inline" >
+        <div class="form-group">
+            <label >Search</label>
+            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+        </div>
+        <div class="pagination header">
+            <ul class="pagination" style="display: inline-block">
+                <li style="display: inline-block">
+                    <a href ng-click="prevPage()" ng-disabled="currentPage == 1">« Prev</a>
+                </li>
+                <li ng-repeat="n in range(pagedItems.length)" style="display: inline-block"
+                    ng-class="{active: n == currentPage}"
+                    ng-click="setPage()">
+                    <a href ng-bind="n + 1">0</a>
+                </li>
+                <li ng-disabled="currentPage == pagedItems.length - 1" style="display: inline-block">
+                    <a href ng-click="nextPage()">Next »</a>
+                </li>
+            </ul>
+        </div>
+    </form>
+
+    <table  class=" table-bordered " id="tableReportHeader" style="margin-right: 20px;margin-bottom: 0px;font-size: 12px" >
+        <thead>
+        <tr>
+            <th style="text-align: center" ng-repeat="header in MasterHeader"  ><b>{{header}}</b></th>
+        </tr>
+        </thead>
+
+    </table>
+    <div id="scrollable-area">
+        <table class="table table-bordered " id="tableReport" style="font-size: 12px" fixed-table-headers="scrollable-area">
+
+<tbody  ng-repeat="value in pagedItems[currentPage] |filter:search" ng-init="parentIndex=$index" >
+
+
+
+    <td  style="text-align: center" ng-repeat="header in MasterHeader" >
+        {{value[header]}}
+    </td>
+
+    <tr ng-repeat-start="detail in getDetailbyLotNO(value['LOT_NO'],value['Line'])" ng-if="$index>0" >
+    <tr ng-if="parentIndex==findLastIndex(value['LOT_NO'],value['Line'])&&$index>0" ng-repeat="sub in subheader"
+        ng-style="sub.contains('AVG')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('MAX')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('MIN')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('SD')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}">
+    <td></td>
+    <td style="text-align: center" colspan="3" style="text-align: center">{{sub}}
+    </td>
+    <td  style="text-align: center" ng-repeat="header in MasterHeader" ng-if="$index>3" >
+        {{detail[sub][header]!=0 ? detail[sub][header]:''}}
+    </td>
+    </tr>
+    <tr ng-if="$index>0"  ng-repeat-end/>
+</tbody>
+
+
+    </table>
+</div>
+    <table  class="table table-bordered span11" id="tableReportHidden" style="margin-top: 20px;font-size: 12px;display:none"  >
+        <tr class="header" >
+            <th ng-repeat="header in headers" style="background-color: #b0c4de" >{{header}}</th>
+        </tr>
+        <tr ng-repeat="value in Data" style="text-align: center" ng-style="value.LOT_NO.contains('AVG')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('MAX')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('MIN')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}&&
+        value.LOT_NO.contains('STDEV')?{backgroundColor:'#fff8dc'}:{backgroundColor:none}">
+            <td ng-repeat="header in headers"
+                ng-if="!(IsGroupCells(value['LOT_NO'])&&(header=='Grade' || header =='ProdDate'))" width="10px"
+                colspan="{{IsGroupCells(value[header]) ? '3' : '1'}}"
+                ng-style="value[header].contains('*') ? {color:'red'}:{color:none}">{{value[header].replace('*','')}}
+            </td>
+        </tr>
+
+    </table>
+</div>
+</div>

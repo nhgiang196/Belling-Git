@@ -1,0 +1,179 @@
+<style>
+    div.fixed {
+
+        position: fixed;
+        top: 9%;
+
+        background-color: #ECE9D8;
+        width: 85%;
+
+
+    }
+    div.gallery  img {
+        position: absolute;
+        left: 26%;
+        top:2.5%;
+        z-index: -1;
+    }
+</style>
+<div class="fixed">
+    <table>
+        <tr>
+
+            <td width="30px">
+                <input style="border-style:None;height:16px;width:16px;" type="image" src="/css/image/firstpage.png"
+                       href ng-click="firstPage()" ng-disabled="currentPage-1 == 0"
+                       ng-style="{opacity: (currentPage-1 == 0 ? '0.3' : '1')}">
+            </td>
+            <td width="30px"><input type="image" src="/css/image/previouspage.png" href ng-click="prevPage()"
+                                    ng-disabled="currentPage-1 == 0"
+                                    ng-style="{opacity: (currentPage-1 == 0 ? '0.3' : '1')}"></td>
+            <td width="30px"><input ng-model="currentPage" type="text" maxlength="8" size="3" id="currentPage"
+                                    title="Current Page" class="aspNetDisabled"
+                                    style="font-family:Verdana;font-size:8pt;" ng-change="checkInputPage()"></td>
+            <td width="10px"><span style="font-family:Verdana;font-size:8pt;"> of</span></td>
+            <td width="30px"><span style="font-family:Verdana;font-size:8pt;">{{range(pagedItems.length).length}}</span>
+            <td>
+
+            <td width="30px"><input type="image" src="/css/image/nextpage.png" href ng-click="nextPage()"
+                                    ng-disabled="currentPage == (range(pagedItems.length).length)"
+                                    ng-style="{opacity: (currentPage == (range(pagedItems.length).length) ? '0.3' : '1')}">
+            </td>
+            <td width="30px"><input type="image" src="/css/image/lastpage.png" href ng-click="lastPage()"
+                                    ng-disabled="currentPage == (range(pagedItems.length).length)"
+                                    ng-style="{opacity: (currentPage == (range(pagedItems.length).length) ? '0.3' : '1')}">
+            </td>
+            <td width="120px"><input ng-model="search" class="form-control" placeholder="Search" ng-bind="1" type="text"
+                                     maxlength="255" size="10" id="search" title="Find Text in Report"
+                                     class="aspNetDisabled" style="font-family:Verdana;font-size:8pt;"></td>
+            <td width="190px">
+                <div class="collapse navbar-collapse bs-navbar-collapse">
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown">
+                            <div style="cursor: pointer"><img href="javascript:void(0)" src="/css/image/SaveExport.png"
+                                                              class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span></img></div>
+
+                            <ul class="dropdown-menu" role="menu">
+
+                                <li>
+
+                                    <a href ng-click="exportData()"> <span
+                                            style="padding-right:3px; padding-top: 3px; display:inline-block;">
+                                <img class="manImg" src="/css/image/Excel.png">
+                                </span><span> {{'Excel'| translate}} </span></a>
+                                    <a href ng-click="ExportWord()"> <span
+                                            style="padding-right:3px; padding-top: 3px; display:inline-block;">
+                                <img class="manImg" src="/css/image/word.png">
+                                </span><span> {{'Word'| translate}} </span></a>
+                                    <!--<a href ng-click="ExportPDF()"> <span style="padding-right:3px; padding-top: 3px; display:inline-block;">-->
+                                    <!--<img class="manImg" src="/css/image/PDF.png">-->
+                                    <!--</span><span> {{'PDF'| translate}} </span></a>-->
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+                        </li>
+
+                    </ul>
+
+
+                </div>
+            </td>
+
+        </tr>
+    </table>
+</div>
+<div class="" id="report" ng-show='isVisible' style="padding-top: 50px">
+
+    <div class="gallery"><img src="http://10.20.46.22/css/image/logoFEPV.png" width="60" height="80"></div>
+    <div style="font-size: x-large; text-align: center;"><b>遠 東 紡 纖 (越南) 有 限 公 司</b></div>
+    <div style="font-size: large; text-align: center"><b>FAR EASTERN POLYTEX (VIETNAM) LIMITED</b></div>
+    <div style="font-size: medium; text-align: center"><b>{{Tittle}}</b></div>
+    <label id="interval" class=" control-label">{{DateFromTo}}</label>
+
+    <div style="margin-left: 0px">
+        <table class="table table-bordered " id="tableReport"
+               style="margin-right: 20px;margin-bottom: 0px;font-size: 12px">
+            <tr>
+                <td style="text-align: center" ng-repeat="header in MasterHeader"><b>{{header}}</b></td>
+            </tr>
+
+            <tbody ng-repeat="value in pagedItems[currentPage-1] |filter:search" ng-init="parentIndex=$index">
+            <td style="text-align: center" ng-repeat="header in MasterHeader">
+                {{value[header]}}
+            </td>
+            <tr ng-repeat-start="detail in getDetailbyLotNO(value['LOT_NO'],value['Line'])"
+                ng-if="$index>0&&Monthly==true">
+            <tr ng-if="parentIndex==findLastIndex(value['LOT_NO'],value['Line'])&&$index>0&&Monthly==true"
+                ng-repeat="sub in subheader"
+                ng-style="sub.contains('AVG')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('MAX')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('MIN')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('SD')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}">
+                <td></td>
+                <td style="text-align: center" colspan="3" style="text-align: center">{{sub}}
+                </td>
+                <td style="text-align: center" ng-repeat="header in MasterHeader" ng-if="$index>3">
+                    {{detail[sub][header]!=0 ? detail[sub][header]:''}}
+                </td>
+            </tr>
+            <tr ng-if="$index>0" ng-repeat-end/>
+            </tbody>
+            <tfoot>
+            <tr ng-if="currentPage == (range(pagedItems.length).length)">
+                <th colspan="{{MasterHeader.length}}" style="text-align: right"><b>ASMXQQR442-01</b></th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+<div class="" id="reporthidden" ng-show='false' style="padding-top: 50px">
+    <div class="gallery"><img src="http://10.20.46.22/css/image/logoFEPV.png" width="60" height="80"></div>
+    <div style="font-size: x-large; text-align: center;"><b>遠 東 紡 纖 (越南) 有 限 公 司</b></div>
+    <div style="font-size: large; text-align: center"><b>FAR EASTERN POLYTEX (VIETNAM) LIMITED</b></div>
+    <div style="font-size: medium; text-align: center"><b>{{Tittle}}</b></div>
+    <label id="intervalhidden" class=" control-label">{{DateFromTo}}</label>
+
+    <div style="margin-left: 0px">
+        <table class="table table-bordered " id="tableReportHidden"
+               style="margin-right: 20px;margin-bottom: 0px;font-size: 12px">
+            <tr>
+                <td style="text-align: center" ng-repeat="header in MasterHeader"><b>{{header}}</b></td>
+            </tr>
+
+            <tbody ng-repeat="value in MasterList |filter:search" ng-init="parentIndex=$index">
+            <td style="text-align: center" ng-repeat="header in MasterHeader">
+                {{value[header]}}
+            </td>
+
+            <tr ng-repeat-start="detail in getDetailbyLotNO(value['LOT_NO'],value['Line'])"
+                ng-if="$index>0&&Monthly==true ">
+            <tr ng-if="parentIndex==findLastIndex(value['LOT_NO'],value['Line'],'hidden')&&$index>0&&Monthly==true"
+                ng-repeat="sub in subheader"
+                ng-style="sub.contains('AVG')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('MAX')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('MIN')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}&&
+       sub.contains('SD')?{backgroundColor:'#fff8dc','font-weight':'bold'}:{backgroundColor:none}">
+                <td></td>
+                <td style="text-align: center" colspan="3" style="text-align: center">{{sub}}
+                </td>
+                <td style="text-align: center" ng-repeat="header in MasterHeader" ng-if="$index>3">
+                    {{detail[sub][header]!=0 ? detail[sub][header]:''}}
+                </td>
+            </tr>
+            <tr ng-if="$index>0" ng-repeat-end/>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="{{MasterHeader.length}}" style="text-align: right"><b>ASMXQQR442-01</b></th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,106 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<div>
+    <div id="newVoucher" style="padding-top: 5px;">
+        <div class="col-sm-12">
+            <!--<ol class="breadcrumb">-->
+
+            <!--<li><a href="#/gate/JointTruck/">{{'FEPVJointTruck'|translate}} {{'Search'|translate}}</a></li>-->
+            <!--<li class="active">{{'FEPVJointTruck'|translate}} {{'View'|translate}}</li>-->
+            <!--</ol>-->
+            <H4 style="background-color: #ececec; padding: 5px">{{'Shipping'|translate}}</H4>
+
+            <form class="form-horizontal" role="form" name="form" novalidate>
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th colspan="2">{{'VoucherID'|translate}}：</th>
+                        <td colspan="4">{{note.VoucherID}}</td>
+
+                        <th colspan="2">{{'Status'|translate}}：</th>
+                        <td colspan="4">{{note.Status}}</td>
+
+                    </tr>
+                    <tr>
+                        <th colspan="2">{{'Models'|translate}}：</th>
+                        <td colspan="4">{{note.VehicleShape}}</td>
+                        <th colspan="2">{{'Material'|translate}}：</th>
+                        <td colspan="4">{{note.MaterielType}}</td>
+                    </tr>
+                    <tr>
+
+                        <th colspan="2">{{'TransferCompany'|translate}}：</th>
+                        <td colspan="4">{{note.TransferCompany}}</td>
+
+                        <th colspan="2">{{'VehicleNO'|translate}}：</th>
+                        <td colspan="4">{{note.VehicleNO}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">{{'Driver'|translate}}：</th>
+                        <td colspan="4">{{note.Driver}}</td>
+                        <th colspan="2">{{'DriverPhone'|translate}}：</th>
+                        <td colspan="4">{{note.DriverPhone}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">{{'ExpectedIn'|translate}}：</th>
+                        <td colspan="4">{{note.ExpectIn}}</td>
+                        <th colspan="2">{{'ValidTo'|translate}}：</th>
+                        <td colspan="4">{{note.ValidatePeriod}}</td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2">{{'ComeTime'|translate}}：</th>
+                        <td colspan="4">{{note.InTime}}</td>
+                        <th colspan="2">{{'OutTime'|translate}}：</th>
+                        <td colspan="4">{{note.OutTime}}</td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2">{{'FirstTime'|translate}}</th>
+                        <td colspan="4">{{note.FirstTime}}</td>
+                        <th colspan="2">{{'FirstWeight'|translate}}</th>
+                        <td colspan="4">{{note.FirstWeight}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">{{'SecondTime'|translate}}</th>
+                        <td colspan="4">{{note.SecondTime}}</td>
+                        <th colspan="2">{{'SecondWeight'|translate}}</th>
+                        <td colspan="4">{{note.SecondWeight}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">{{'Remark'|translate}}：</th>
+                        <td colspan="4">{{note.Remark}}</td>
+                        <th colspan="2">{{'Notice'|translate}}：</th>
+                        <td colspan="4">{{note.Message}}</td>
+
+                    </tr>
+                </table>
+            </form>
+            <form class="form-horizontal" role="form" name="order" novalidate>
+                <div ng-hide="userinfo.Company=='VC'">
+                <H4 style="background-color: #ececec; padding: 5px">{{'ShippingDetail'|translate}}</H4>
+
+
+                </div>
+            </form>
+            <div style=" width: 100%;">
+                <div  id="voucherGridVH" ui-grid="vouchergridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                      ui-grid-resize-columns
+                      ui-grid-core  style="height: 227px;">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

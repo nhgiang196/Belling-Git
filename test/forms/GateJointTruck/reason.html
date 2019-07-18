@@ -1,0 +1,116 @@
+<script type="text/javascript">
+    function GateJointTruck_reason($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateJointTruck, $resource, uiGridConstants, IO_BARCODE_TYPES) {
+        GateJointTruck.JointTruckBasic().jointTruckByVoucherID({voucherid: $scope.variable.VoucherID}).$promise.then(function (res) {
+            console.log(res)
+            if (res.ShippingOrder == "") {
+                return;
+            }
+            $scope.note = res;
+            $scope.note.ExpectIn = $filter('date')($scope.note.ExpectIn, 'yyyy-MM-dd');
+            $scope.note.ComeTime = $filter('date')($scope.note.ComeTime, 'yyyy-MM-dd');
+            $scope.note.ValidatePeriod = $filter('date')($scope.note.ValidatePeriod, 'yyyy-MM-dd');
+            //
+            if (res.Status != "Q" && res.Status != "") {//Q警卫
+
+                //document.getElementById("VehicleShape").disabled = true;
+                //document.getElementById("TransferCompany").disabled = true;
+                document.getElementById("VehicleNO").disabled = true;
+                document.getElementById("Driver").disabled = true;
+                document.getElementById("DriverPhone").disabled = true;
+            }
+
+
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse})
+        });
+        $scope.savesubmit = function () {
+            GateJointTruck.JointTruckBasic().writeJointTruckReason({
+                voucherID: $scope.variable.VoucherID,
+                message: $scope.variable.ReasonTitle,
+                reason: $scope.reason
+            }).$promise.then(function (res) {
+                $scope.submit();
+            }, function (errormessage) {
+                Notifications.addError({'status': 'error', 'message': errormessage});
+            });
+        }
+    }
+</script>
+<div ng-controller="GateJointTruck_reason">
+    <div>
+        <legend><h3>{{'FEPVJointTruck'|translate}}</h3></legend>
+        <form class="form-horizontal" role="form" name="formTruck" novalidate>
+            <div class="col-sm-12" style="padding-top: 20px;">
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th colspan="8" style="text-align: center;background_color:#eee;" class=ng-binding>{{'FEPVJointTruck'|translate}}--{{'ErrorMsg'|translate}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>{{'VoucherID'|translate}}</th>
+                        <td>{{note.VoucherID}}</td>
+                        <th>{{'Models'|translate}}</th>
+                        <td>{{note.VehicleShape}}</td>
+                        <th>{{'TransferCompany'|translate}}</th>
+                        <td>{{note.TransferCompany}}</td>
+                        <th>{{'VehicleNO'|translate}}</th>
+                        <td>{{note.VehicleNO}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'Driver'|translate}}</th>
+                        <td>{{note.Driver}}</td>
+                        <th>{{'DriverPhone'|translate}}</th>
+                        <td>{{note.DriverPhone}}</td>
+                        <th>{{'ExpectedIn'|translate}}</th>
+                        <td>{{note.ExpectIn}}</td>
+                        <th>{{'ValidTo'|translate}}</th>
+                        <td>{{note.ValidatePeriod}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'Material'|translate}}</th>
+                        <td>{{note.MaterielType}}</td>
+                        <th>{{'Remark'|translate}}</th>
+                        <td colspan="5">{{note.Remark}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'FirstTime'|translate}}</th>
+                        <td colspan="3">{{note.FirstTime}}</td>
+                        <th>{{'FirstWeight'|translate}}</th>
+                        <td colspan="3">{{note.FirstWeight}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'SecondTime'|translate}}</th>
+                        <td colspan="3">{{note.SecondTime}}</td>
+                        <th>{{'SecondWeight'|translate}}</th>
+                        <td colspan="3">{{note.SecondWeight}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'ErrorMsg'|translate}}</th>
+                        <td>{{variable.ExceptionType}}</td>
+                        <th>{{'ErrorDetail'|translate}}</th>
+                        <td colspan="5">{{variable.ReasonTitle}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <H4 style="background-color: #ececec; padding: 5px">{{'ErrorReason'|translate}}</H4>
+
+            <div class="form-group">
+                <label class="col-sm-2  control-label" style="text-align: left;">{{'ErrorReason'|translate}}:</label>
+
+                <div class="col-sm-6">
+                <textarea class="form-control" name="reason" type="text" form-field
+                          ng-model="reason" field-validate rows="3"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">{{'sumbit'|translate}}</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

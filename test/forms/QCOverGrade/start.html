@@ -1,0 +1,21 @@
+<script type="text/javascript">
+    function QCOverGrade_start($scope, EngineApi, $http, $timeout, Notifications, $compile,$routeParams, $upload, $filter, Auth, $resource, $translatePartialLoader, $translate, uiGridConstants) {
+     
+        var lang = window.localStorage.lang;
+        $scope.savesubmit = function(){
+            $scope.formVariables.push({name: "EnginerArray", value: ['981023','cassie']});
+            
+            $scope.submit();
+        }
+    }
+    </script>
+<div ng-controller="QCOverGrade_start">
+
+        <label class="col-sm-3 control-label">OVerID</label>
+        <div class="col-sm-2">
+            <input class="form-control" type="text" name="OverID" ng-model="OverID" form-field required/>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-primary btn-sm" ng-click="savesubmit()" ng-disabled="form.$invalid" >Add item</button>
+        </div>
+</div>

@@ -1,0 +1,92 @@
+<style>
+    .Bordernone{
+        background: red;
+    }
+</style>
+<div>
+    <form class="form-horizontal" role="form" novalidate name="form" >
+        <legend><h3>{{'QueryReceive'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table" style="margin-left:20px">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'dateFrom'|translate}}</label>
+                    <div class="col-sm-3">
+                        <input class="form-control" name="DateFrom" ng-model="note.DateFrom" date-picker   >
+
+                    </div>
+                    <label class="col-sm-2 control-label">{{'To'|translate}}</label>
+                    <div class="col-sm-3">
+                        <input class="form-control" name="DateTo" ng-model="note.DateTo" date-picker  >
+
+                    </div>
+
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'TypeName'|translate}}</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" name="TypeID" ng-model="note.TypeID" disabled ng-options=" c.TypeID as c.TypeName for c in CategoryList" required>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="nameSample" ng-model="note.SampleName"
+                                ng-options=" c.SampleName as c.Description_{{lang}} for c in SampleList" required>
+                            <option value="">-- ALL --</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2" >
+                        <button  type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}} </button>
+                    </div>
+                </div>
+               
+            </div>
+
+        </div>
+
+        <div style="width: 100%; margin-top: 20px">
+            <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-core  ui-grid-core ui-grid-exporter ></div>
+        </div>
+
+
+    </form>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table id="myTable" class="table table-bordered" style="margin-bottom: 0px!important;">
+                            <tr id="test" class="header" style="background: #6c9db5; color:#ffffff" >
+                                <th  style="width: 190px;" ng-repeat="header in plansHeader"  >{{header}}</th>
+                            </tr>
+                            <tr ng-repeat="value in plansList">
+                                <td style="width: 190px;"  ng-repeat="header in plansHeader">
+                                    <div  ng-bind-html="value[header]"></div></td>
+                            </tr>
+                            <!--<tr><td>Remark:</td>-->
+                                <!--<td>{{Remark}}</td>-->
+                            <!--</tr>-->
+                        </table>
+                        <table class="table table-bordered">
+                            <tr><td style="width: 174px; font-weight: bold  ">Remark:</td>
+                            <td>{{Remark}}</td>
+                            </tr>
+                        </table>
+                        <!--<div id="Grid1" ui-grid="gridOptions1" class="grid" ui-grid-selection-->
+                             <!--ui-grid-resize-columns-->
+                             <!--ui-grid-core ui-grid-exporter></div>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

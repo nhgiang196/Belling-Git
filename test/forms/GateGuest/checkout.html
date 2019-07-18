@@ -1,0 +1,99 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    function GateGuest_checkOut($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, $translatePartialLoader, $translate,GateGuest) {
+        var lang = window.localStorage.lang;
+        $translatePartialLoader.addPart('GateGuest');
+        $translate.refresh();
+        GateGuest.GuestBasic().getGuest({VoucherID:$scope.variable.VoucherID,Language:lang}).$promise.then(function (res) {
+            console.log()
+            $scope.note = res[0];
+            $scope.note.ExpectIn= $filter('date')($scope.note.ExpectIn, "yyyy-MM-dd");
+            $scope.guestItems = res[0].GuestItems;
+        }, function (errormessage) {
+            Notifications.addError({'status': 'error', 'message': errormessage});
+        });
+
+        $scope.savesubmit = function () {
+
+            $scope.submit();
+        }
+
+        //   ${start_date} ${start_kind}-${start_reason}
+    }
+</script>
+
+
+<div ng-controller="GateGuest_checkOut">
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend><h3>{{'GuestPlan'|translate}}</h3></legend>
+        <H4 style="background-color: #ececec; padding: 5px">{{'Guest'|translate}}</H4>
+        <table  class="table table-bordered" style="table-layout:fixed">
+            <tr>
+                <th>{{'DocNumber'|translate}}:{{note.VoucherID}}</th>
+
+                <th>{{'GuestType'|translate}}:{{note.GuestTypeRemark}}</th>
+
+            </tr>
+            <tr>
+                <th>{{'ExpectIn'|translate}}:{{note.ExpectIn}}</th>
+
+                <th>{{'Region'|translate}}:{{note.RegionRemark}}</th>
+
+            </tr>
+            <tr>
+                <th>{{'Respondent'|translate}}:{{note.Respondent}}</th>
+
+                <th>{{'Name'|translate}}:{{note.RespondentName}}</th>
+
+
+            </tr>
+            <tr>
+                <th>{{'ExtNO'|translate}}:{{note.ExtNO}}</th>
+                <th>{{'Enterprise'|translate}}:{{note.Enterprise}}</th>
+            </tr>
+            <tr>
+
+
+
+                <th  colspan="2">
+                    {{'Content'|translate}}:{{note.Content}}
+                </th>
+            </tr>
+        </table>
+        <H4 style="background-color: #ececec; padding: 5px">{{'GuestDetails'|translate}}</H4>
+        <div class="row">
+            <div class="col-sm-10">
+                <table class="table table-bordered " >
+                    <tr>
+                        <th colspan="3">{{'GuestName'|translate}}</th>
+                        <th colspan="3">{{'GuestIDCard'|translate}}</th>
+                    </tr>
+                    <tr ng-repeat="guestItem in guestItems">
+                        <td title="'Name'" colspan="3">
+                            <span>{{guestItem.GuestName}}</span>
+                        </td>
+                        <td title="'idCard'" colspan="3">
+                            <span>{{guestItem.IdCard}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-10 col-sm-2">
+                <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">{{'submit'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

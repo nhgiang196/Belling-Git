@@ -1,0 +1,74 @@
+<div id="Search" >
+    <form class="form-horizontal" role="form" novalidate name="goodform" ng-if="bpmnloaded==false">
+        <legend><h3>{{'GoodsOutSearch'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group form-table">
+                <div class=" form-group ">
+                    <label class="col-sm-2 control-label">{{'ExpectOut'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateFrom" ng-model="query.dateFrom" date-picker/>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'dateTo'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateTo" ng-model="query.dateTo" date-picker/>
+                    </div>
+                 </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VoucherID" ng-model="query.VoucherID">
+                    </div>
+                    <label class="col-sm-1 control-label">{{'Status'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <select class="form-control" name="status" ng-model="query.Status"
+                                ng-options="c.Status as c.Remark for c in StatusList">
+                            <option value="">-- ALL --</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input name="onlyOwner" type="checkbox" ng-model="query.onlyOwner"> {{'onlyOwner'|translate}}
+                        </label></div>
+
+                    <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-core ui-grid-exporter external-scopes="gridHandlers"></div>
+        </div>
+    </form>
+    <div style="top: 260px; position: fixed; right: 0px;" class="ibx-manage-logo" ng-click="toggleCustom()"  ng-hide="menuBar"> <span class="icon-bar glyphicon glyphicon-play " ></span></div>
+    <div style="top: 60px; position: fixed; right: 0px;" class="pinned col-md-2 "    >
+        <div class="row">
+            <div class="col-md-12"   style="  padding-left:0px;padding-right: 2px; ">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"  style="cursor:pointer;">
+                        <a ng-click="toggleCustom()" class="nav-list"> {{'Menu'|translate}}</a>
+                    </li>
+                    <li style="cursor:pointer;">
+                        <a ng-click="showPng()" class="nav-list"> <i class="icon-bar glyphicon glyphicon-picture"></i>   {{'Flowchart'|translate}}  <span class="badge">图</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-include="'forms/vGateGoodOut/New.html'"></div>
+
+    <div ng-include="'forms/GateGuest/NextTask.html'" ></div>
+    <div ng-if="bpmnloaded==true" style="padding-top: 20px">
+        <div  process-diagram-preview flow-key="{{flowkey}}" />
+        <!-- <div  process-diagram-preview process-definition-id="FlowDefinitionId"></div>-->
+    </div>
+</div>
+
+

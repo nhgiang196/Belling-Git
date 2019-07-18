@@ -1,0 +1,83 @@
+<div>
+    <div>
+        <legend><h3> {{'FEPVUnJointTruck'|translate}}</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <table id="table" class="table table-bordered" style="table-layout:fixed">
+
+                <tr>
+                    <th>{{'VoucherID'|translate}}</th>
+                    <td colspan="3">{{note.VoucherID}}</td>
+                    <th>{{'Models'|translate}}</th>
+                    <td colspan="3">{{note.VehicleTypeRemark}}</td>
+                </tr>
+                <tr>
+                    <th>{{'VehicleNO'|translate}}</th>
+                    <td colspan="3">{{note.VehicleNO}}</td>
+                    <th>{{'Company'|translate}}</th>
+                    <td colspan="3">{{note.Manufacturer}}</td>
+
+                </tr>
+                <tr>
+                    <th>{{"OrderNO"|translate}}</th>
+                    <td colspan="3">{{note.OrderNO}}</td>
+                    <th>{{'Material'|translate}}</th>
+                    <td colspan="3">{{note.Material}}</td>
+                </tr>
+                <tr>
+                    <th>{{'ExpectedIn'|translate}}</th>
+                    <td colspan="3">{{note.ExpectIn}}</td>
+                    <th>{{'ValidTo'|translate}}</th>
+                    <td colspan="3">{{note.ValidatePeriod}}</td>
+                </tr>
+                <tr>
+                    <th>{{'LinkMan'|translate}}</th>
+                    <td colspan="3">{{note.LinkMan}}</td>
+                    <th>{{'LinkPhone'|translate}}</th>
+                    <td colspan="3">{{note.LinkPhone}}</td>
+                </tr>
+                <tr>
+                    <th>{{'StorageNO'|translate}}</th>
+                    <td colspan="7">{{note.StorageNO}}</td>
+                </tr>
+                <tr>
+                    <th>{{'Remark'|translate}}</th>
+                    <td colspan="7">{{note.Remark}}</td>
+                </tr>
+                <tr>
+                    <td colspan="8"></td>
+                </tr>
+                <tr>
+                    <th>{{'InTime'|translate}}</th>
+                    <td colspan="3">{{note.InTime}}</td>
+                    <th>{{'OutTime'|translate}}</th>
+                    <td colspan="3">{{note.OutTime}}</td>
+                </tr>
+                <tr>
+                    <th>{{'FirstTime'|translate}}</th>
+                    <td colspan="3">{{note.FirstTime}}</td>
+                    <th>{{'FirstWeight'|translate}}</th>
+                    <td colspan="3">{{note.FirstWeight}}</td>
+                <tr>
+                    <th>{{'SecondTime'|translate}}</th>
+                    <td colspan="3">{{note.SecondTime}}</td>
+                    <th>{{'SecondWeight'|translate}}</th>
+                    <td colspan="3">{{note.SecondWeight}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div style="top: 90px; position: fixed; right: 0px;" class="pinned col-md-2 ">
+        <div class="row">
+            <div class="col-md-12" style="  padding-left:0px;padding-right: 2px; ">
+                <ul class="nav nav-pills nav-stacked">
+                    <li style="cursor:pointer;" ng-if="processInstanceId.length>0" >
+                        <a href="#/processlog/{{processInstanceId}}" target="_blank"><i
+                                class="icon-bar glyphicon glyphicon-phone-alt"></i> {{'FlowDetail' |translate}} </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

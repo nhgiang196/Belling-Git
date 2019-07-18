@@ -1,0 +1,132 @@
+<style>
+    .search-table {
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .modal-lg {
+        width: 1150px;
+
+    }
+
+    .modal-customs {
+        position: relative;
+        background-color: #ffffff;
+        border: 1px solid #999999;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        outline: none;
+        -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+        background-clip: padding-box;
+        height: 630px;
+    }
+
+    .form-group {
+        margin-bottom: 5px
+    }
+
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        padding: 15px 0px;
+        margin-bottom: 15px;
+    }
+
+
+</style>
+<div>
+    <form class="form-horizontal" role="form" novalidate name="form" ng-show="bpmnloaded==false">
+        <legend><h3>{{'FEPVUnJointTruck'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'CompanyCheckInDate'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateFrom" ng-model="dateFrom" date-picker/>
+                    </div>
+                    <label class="col-sm-1 control-label">{{'dateTo'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" name="dateTo" ng-model="dateTo" date-picker/>
+                    </div>
+
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="VoucherID" ng-model="VoucherID">
+                    </div>
+                    <label class="col-sm-1 control-label">{{'Status'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <select class="form-control" name="status" ng-model="status"
+                                ng-options="c.Status as c.Remark for c in StatusList">
+                            <option value="">-- ALL --</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'Company'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="Manufacturer" ng-model="Manufacturer">
+                    </div>
+                    <label class="col-sm-1 control-label">{{'ContainerNO'|translate}}</label>
+
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="ContainerNO" ng-model="ContainerNO">
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input name="onlyOwner" type="checkbox" ng-model="onlyOwner"> {{'onlyOwner'|translate}}
+                        </label>
+
+                    </div>
+                    <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+        <!--ui-grid-edit ui-grid-row-edit ui-grid-cellNav-->
+        <div style="width: 100%;">
+            <div id="Grid" ui-grid="gridOptions" ui-grid-resize-columns class="grid" ui-grid-selection
+                 ui-grid-pagination
+                 ui-grid-resize-columns
+                 ui-grid-core ui-grid-exporter></div>
+        </div>
+    </form>
+    <div ng-if="bpmnloaded==true" style="padding-top: 20px">
+        <div process-diagram-preview flow-key="{{flowkey}}"/>
+    </div>
+    <!-- <div ng-include="'forms/GateUnJointTruck/createTruckModel.html'"></div> -->
+    <create_unjoint_voucher></create_unjoint_voucher>
+    <create_container></create_container>
+    <guest_user></guest_user>
+    <!-- <div ng-include="'forms/GateGuest/NextTask.html'"></div> -->
+    <!-- <div ng-include="'forms/GateGuest/GuestModelTemplate.html'"></div> -->
+    <div style="top: 60px; position: fixed; right: 0px;" class="pinned col-md-2 ">
+        <div class="row">
+            <div class="col-md-12" style="  padding-left:0px;padding-right: 2px; ">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active" style="cursor:pointer;">
+                        <a class="nav-list"> {{'Menu'|translate}}</a>
+                    </li>
+                    <li style="cursor:pointer;">
+                        <a ng-click="showPng()" class="nav-list"> <i class="icon-bar glyphicon glyphicon-picture"></i>
+                            {{'Flowchart'|translate}} <span class="badge">图</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

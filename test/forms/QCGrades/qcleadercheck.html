@@ -1,0 +1,58 @@
+<script type="text/javascript">
+    function Grade_qcleaderCheck( $scope, EngineApi, $http,Notifications, $compile, $filter, Auth, $resource,Auth,GateGuest,$translate) {
+              var lang = window.localStorage.lang;
+              $translate.refresh();
+              $scope.passOrNot = GateGuest.GetCheckList();
+              $scope.savesubmit = function () {
+                //end workflow process
+                $scope.submit();
+              }
+    }
+</script>
+<div ng-controller="Grade_qcleaderCheck">
+
+        <form class="form-horizontal" role="form" novalidate name="form">
+            <h1>{{'QC Leader Checker'|translate}}</h1>
+            <div show-history-process  voucher-id={{variable.ID}} style="width: 85%"></div>
+                <div class="form-group">
+                        <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" history-field="IsPass" form-field
+                                    name="qcleadercheck"
+                                    ng-model="qcleadercheck"
+                                    ng-options="c.value as c.name for c in passOrNot"
+                                    required> </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="qcleadercheck=='NO'">
+                            <label class="col-sm-2  control-label" style="text-align: left;">*{{'DenyReason'|translate}}:</label>
+                
+                            <div class="col-sm-6">
+                                <textarea class="form-control" name="qcleadercheck_remark" type="text" form-field required=""
+                                          history-field="DenyReason" ng-model="qcleadercheck_remark" field-validate rows="3"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">
+                                    {{'submit'|translate}}
+                                </button>
+                            </div>
+                        </div>
+
+
+        </form>
+    <div style="top: 186px; position: fixed; right: 0px;; " class="pinned col-md-2 ">
+        <div class="row">
+            <div class="col-md-12" style="  padding-left:0px;padding-right: 2px; ">
+                <ul class="nav nav-pills nav-stacked">
+
+                    <li style="cursor:pointer;" ng-if="variable.Version>0">
+                        <a ng-click="showPngg()" class="nav-list"> <i class="icon-bar glyphicon glyphicon-picture"></i>   {{'History'|translate}}  <span class="badge">图</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<style>
+    .pointer {
+        cursor: pointer;
+    }
+
+</style>
+<form class="form-horizontal" role="form" novalidate name="form" >
+    <legend><h3>{{'Grades History'|translate}}</h3></legend>
+
+</form>
+<div ng-if="bpmnloaded==true" style="padding-top: 20px">
+    <div show-history-grades data-test="{{dataTest}}"></div>
+    <div class="modal fade" id="showPropertyDetails" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+         data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="padding-bottom:3px">
+                    <h3>{{'Property Details'|translate}}</h3>
+                    <div>
+                        <div>{{'Property Name'| translate}} : <code style="font-size: 120%;">  {{HeaderName}}</code></div>
+                        <div>{{'Value Spec'| translate}} : <code style="font-size: 120%;">  {{dataLinkClick.ValueSpec}}</code></div>
+                        <div>{{'Max Value'| translate}} : <code style="font-size: 120%;">  {{dataLinkClick.MaxValue}}</code></div>
+                        <div>{{'Min Value'| translate}} : <code style="font-size: 120%;">  {{dataLinkClick.MinValue}}</code></div>
+                        <div>{{'Enable'| translate}} : <code style="font-size: 120%;">  {{dataLinkClick.Enable}}</code></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="modalCancel()">{{'Close'|translate}}</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
+
+<div style="top: 60px; position: fixed; right: 0px;" class="pinned col-md-2 "    >
+    <div class="row">
+        <div class="col-md-12"   style="  padding-left:0px;padding-right: 2px; ">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"  style="cursor:pointer;">
+                    <a class="nav-list"> {{'Menu'|translate}}</a>
+                </li>
+                <li style="cursor:pointer;">
+                    <a ng-click="showPng()" class="nav-list"> <i class="icon-bar glyphicon glyphicon-picture"></i>   {{'History'|translate}}  <span class="badge">图</span></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<style>
+    .table tr {
+        text-align: center;
+        padding: 4px;
+        line-height: 14px;
+        /* font-size:10px; */
+    }
+
+    .PropertySpec {
+        background-color: #cfccff;
+    }
+
+    table {
+        /* width: 1200px; */
+        width: 100%;
+        margin-left: 0px;
+
+        margin: auto;
+        margin-top: 30px !;
+    }
+    thead {
+        background-color:rgb(230, 230, 230);
+    }
+
+    .table-hover tbody tr:hover td,
+    .table-hover tbody tr:hover th {
+        background-color: rgb(223, 246, 253);
+    }
+
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    #page-contain {
+
+        font-size: 14pt;
+        padding-left: 10pt;
+        padding-left: 8pt;
+        font-family: 'Times New Roman', Times, serif;
+        margin: 15px;
+    }
+
+
+    .border {
+        border-collapse: black;
+        border-style: solid;
+        border-width: 0.5px;
+
+    }
+
+    hr {
+        border: 0.5px solid black;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+<div id="page-contain">
+    <p style="text-align:center; font-size:16pt;">
+        遠東紡纖(越南)有限公司 - 化纖廠
+        </br> <span style="font-size:14pt;">CÔNG TY TNHH POLYTEX FAR EASTERN (VN) - XƯỞNG HÓA SỢI</span>
+        </br>品質管制超限通知單({{color.TW}}單)
+        </br><span style="font-size:14pt;">THÔNG BÁO VƯỢT QUÁ GIỚI HẠN CHẤT LƯỢNG KIỂM SOÁT (ĐƠN {{color.VN}})</span>
+    </p>
+
+    <div style="float: right; padding-bottom: 15pt;">
+        列印日期 PrintDate: {{today}} <br>
+        編號 VoucherID: {{UQList[0].VoucherID}}
+
+    </div>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>生產部門 Bộ phận SX: {{vdepart}} </td>
+                <td style="width:50%;">產品編號 Material No: {{UQList[0].LOT_NO}} </td>
+            </tr>
+            <tr>
+                <td>單據日期: {{UQList[0].CreateDate}} </td>
+                <td>生產線別（套別）Line:{{UQList[0].LINE}}</td>
+            </tr>
+            <tr>
+                <td>生產日期: {{UQList[0].BeginDate}} </td>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <p style="margin-top:10px;">
+        取樣試驗結果如下 Kết quả lấy mẫu thử nghiệm như bên dưới: </td>
+    </p>
+    <div>
+        <table style="border:black;" class="table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align:center;" ng-repeat="header in plansHeader">{{ header }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in UQList">
+                    <td style="text-align: center;" ng-repeat="header in plansHeader">
+                        <div ng-bind-html="row[header].replace('$','').replace('#','')"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

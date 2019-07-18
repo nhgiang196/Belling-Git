@@ -1,0 +1,144 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    function GatePtaEgTruck_start($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth, GateEngine, $resource, uiGridConstants) {
+        GateEngine.GatePtgEgTruck().getPtaEgTypes().$promise.then(function (res) {
+            $scope.material = res;
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        GateEngine.GatePtgEgTruck().ptaEgTruckByVoucherID({voucherid: $scope.variable.VoucherID}).$promise.then(function (res) {
+            $scope.note = res;
+            $scope.note.ExpectIn = $filter('date')($scope.note.ExpectIn, 'yyyy-MM-dd');
+            $scope.note.ValidatePeriod = $filter('date')($scope.note.ValidatePeriod, 'yyyy-MM-dd');
+        }, function (errormessage) {
+            Notifications.addError({'status': 'error', 'message': errormessage});
+        });
+
+        $scope.savesubmit = function () {
+            var query = {}
+            query = $scope.note;
+            query.UserID = Auth.username;
+            query.Status = "F";
+            GateEngine.GateJointTruck().isInBlackList({
+                vehicle: $scope.note.VehicleNO,
+                type: "车辆"
+            }).$promise.then(function (res) {
+                        if (res.msg == "") {
+                            GateEngine.SaveGatePtgEgTruck().save(query).$promise.then(function (res) {
+                                var voucherid = res.VoucherID
+                                if (voucherid) {
+                                    $scope.formVariables.push({name: "VoucherID", value: voucherid});
+                                    $scope.formVariables.push({name: "update_result", value: "OK"});
+                                    $scope.historyVariable.push({name: "是否废弃", value: "否"});
+                                    $scope.submit();
+                                }
+                            }, function (errResponse) {
+                                Notifications.addError({'status': 'error', 'message': errResponse});
+                            });
+                        }
+                        else {
+                            Notifications.addError({'status': 'error', 'message': res.msg});
+                        }
+                    }, function (errResponse) {
+                        Notifications.addError({'status': 'error', 'message': errResponse});
+                    });
+        }
+
+
+        $scope.close = function () {
+            var query = {}
+            query = $scope.note;
+            query.UserID = Auth.username;
+            query.Status = "X";
+            GateEngine.SaveGatePtgEgTruck().save(query).$promise.then(function (res) {
+                $scope.formVariables.push({name: "update_result", value: "Cancel"});
+                $scope.historyVariable.push({name: "是否废弃", value: "是"});
+                $scope.submit();
+            }, function (errResponse) {
+                Notifications.addError({'status': 'error', 'message': errResponse});
+            });
+        }
+    }
+</script>
+<div ng-controller="GatePtaEgTruck_start">
+    <div id="newVoucher">
+        <legend><h3>PTA/EG车辆进厂信息</h3></legend>
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <form class="form-horizontal" role="form" name="form" novalidate>
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th colspan="9" style="text-align: center;background_color:#eee;" class=ng-binding>
+                            PTA/EG车辆进厂信息--修改单据
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>单据号</th>
+                        <td colspan="2"><input type="text" class="form-control" name="VoucherID"
+                                               ng-model="note.VoucherID"
+                                               readonly></td>
+                        <th>车号</th>
+                        <td colspan="2"><input type="text" class="form-control" name="VehicleNO"
+                                               ng-model="note.VehicleNO"
+                                               required></td>
+                        <th>厂商</th>
+                        <td colspan="2"><input type="text" class="form-control" name="Manufacturer"
+                                               ng-model="note.Manufacturer"
+                                               required></td>
+                    </tr>
+                    <tr>
+                        <th>订单号</th>
+                        <td colspan="2"><input type="text" class="form-control" name="OrderNO"
+                                               ng-model="note.OrderNO"
+                                               required></td>
+                        <th>物料</th>
+                        <td colspan="2"><select class="form-control" name="PtaEg" ng-model="note.PtaEg"
+                                                history-field="车型"
+                                                ng-options="c.PtaEg as c.PtaEg for c in material" required></select>
+                        </td>
+                        <th>期望进厂日期</th>
+                        <td colspan="2"><input class="form-control" type="text" name="ExpectIn"
+                                               ng-model="note.ExpectIn" date-picker
+                                               history-field="期望进厂日期"  min="0" required/></td>
+
+                    </tr>
+                    <tr>
+                        <th>有效期到</th>
+                        <td colspan="2"><input class="form-control" type="text" name="ValidatePeriod"
+                                               ng-model="note.ValidatePeriod" date-picker
+                                               history-field="有效期到"  min="0" required/></td>
+                        <th>进厂联系人</th>
+                        <td colspan="2"><input class="form-control" name="LinkMan" ng-model="note.LinkMan"
+                                               history-field="进厂联系人" required></td>
+                        <th>联系电话</th>
+                        <td colspan="2"><input type="text" class="form-control" name="LinkPhone"
+                                               ng-model="note.LinkPhone"
+                                               required></td>
+                    </tr>
+                    <tr>
+                        <th>否决原因</th>
+                        <td colspan="8">{{variable.leadercheck_remark}}</td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" style="float: right;margin-right: 150px"
+            ng-click="savesubmit()"
+            ng-disabled="form.$invalid">
+        保存并提交
+    </button>
+    <button type="button" class="btn btn-danger" style="float: right;margin-right: 50px"
+            ng-click="close()"
+            ng-disabled="form.$invalid">
+        废弃
+    </button>
+</div>

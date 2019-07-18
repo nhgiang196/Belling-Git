@@ -1,0 +1,117 @@
+<style>
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 15px 0px;
+        box-shadow: 0px 0px 5px #ccc;
+        margin-bottom: 15px;
+    }
+</style>
+<script type="text/javascript">
+    function GateUnJointTruck_checkoutconfirm($scope, EngineApi, $http, $timeout, Notifications, $upload, $compile, $filter, Auth,$resource, uiGridConstants, GateUnJointTruck, $translate) {
+        var lang = window.localStorage.lang;
+        $scope.passOrNot = [{
+            "name": $translate.instant('agree'),
+            "value": "YES"
+        }, {"name": $translate.instant('notAgree'), "value": "NO"}];
+        GateUnJointTruck.UnJointTruckBasic().unJointTruckByVoucherID({voucherid: $scope.variable.VoucherID}).$promise.then(function (res) {
+            $scope.note = res;
+            $scope.note.ExpectIn = $filter('date')($scope.note.ExpectIn, 'yyyy-MM-dd');
+            $scope.note.ValidatePeriod = $filter('date')($scope.note.ValidatePeriod, 'yyyy-MM-dd');
+            GateUnJointTruck.UnJointTruckBasic().getVehicleTypes({Language:lang,Type:"UnJointTruck"}).$promise.then(function (sharpres) {
+                $scope.note.VehicleTypeRemark = $filter('filter')(sharpres, {"ID": $scope.note.VehicleType})[0].Spec;
+
+            }, function (errResponse) {
+                Notifications.addError({'status': 'error', 'message': errResponse});
+            });
+        }, function (errResponse) {
+            Notifications.addError({'status': 'error', 'message': errResponse});
+        });
+        $scope.savesubmit = function () {
+            $scope.submit();
+        }
+    }
+</script>
+<div ng-controller="GateUnJointTruck_checkoutconfirm">
+    <div id="newVoucher">
+        <div class="col-sm-12" style="padding-top: 20px;">
+            <form class="form-horizontal" role="form" name="form" novalidate>
+                <table id="table" class="table table-bordered" style="table-layout:fixed">
+                    <tr>
+                        <th colspan="6" style="text-align: center;background_color:#eee;" class=ng-binding>
+                            {{'FEPVUnJointTruck'|translate}}--{{"CargoConfirmation"|translate}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>{{'VoucherID'|translate}}</th>
+                        <td colspan="2">{{note.VoucherID}}</td>
+                        <th>{{'Models'|translate}}</th>
+                        <td colspan="2">{{note.VehicleTypeRemark}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'VehicleNO'|translate}}</th>
+                        <td colspan="2">{{note.VehicleNO}}</td>
+                        <th>{{'Company'|translate}}</th>
+                        <td colspan="2">{{note.Manufacturer}}</td>
+
+                    </tr>
+                    <tr>
+                        <th>{{"OrderNO"|translate}}</th>
+                        <td colspan="2">{{note.OrderNO}}</td>
+                        <th>{{'Material'|translate}}</th>
+                        <td colspan="2">{{note.Material}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'ExpectedIn'|translate}}</th>
+                        <td colspan="2">{{note.ExpectIn}}</td>
+                        <th>{{'ValidTo'|translate}}</th>
+                        <td colspan="2">{{note.ValidatePeriod}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'LinkMan'|translate}}</th>
+                        <td colspan="2">{{note.LinkMan}}</td>
+                        <th>{{'LinkPhone'|translate}}</th>
+                        <td colspan="2">{{note.LinkPhone}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'StorageNO'|translate}}</th>
+                        <td colspan="5">{{note.StorageNO}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'Remark'|translate}}</th>
+                        <td colspan="5">{{note.Remark}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
+                    <tr>
+                        <th>{{'InTime'|translate}}</th>
+                        <td colspan="2">{{note.InTime}}</td>
+                        <th>{{'OutTime'|translate}}</th>
+                        <td colspan="2">{{note.OutTime}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'FirstTime'|translate}}</th>
+                        <td colspan="2">{{note.FirstTime}}</td>
+                        <th>{{'FirstWeight'|translate}}</th>
+                        <td colspan="2">{{note.FirstWeight}}</td>
+                    <tr>
+                        <th>{{'SecondTime'|translate}}</th>
+                        <td colspan="2">{{note.SecondTime}}</td>
+                        <th>{{'SecondWeight'|translate}}</th>
+                        <td colspan="2">{{note.SecondWeight}}</td>
+                    </tr>
+
+                </table>
+
+                <div class="form-group">
+                    <div style="float: right;margin-right: 150px">
+                        <button class="btn btn-primary" ng-click="savesubmit()" ng-disabled="form.$invalid">{{'Pass'|translate}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

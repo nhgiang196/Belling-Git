@@ -1,0 +1,92 @@
+<div class="col-sm-12">
+
+    <div class="col-sm-10">
+        <h3>{{'FEPVPtaEgTruck'|translate}}</h3>
+        <table class="table table-bordered" style="table-layout:fixed">
+            <tr>
+                <th>{{'VoucherID'|translate}}：</th>
+                <td>{{note.VoucherID}}</td>
+                <th>{{'VehicleNO'|translate}}：</th>
+                <td>{{note.VehicleNO}}</td>
+                <th>{{'OrderNO'|translate}}：</th>
+                <td>{{note.OrderNO}}</td>
+            </tr>
+            <tr>
+                <th>{{'Material'|translate}}：</th>
+                <td>{{note.PtaEgRemark}}</td>
+                <th>{{'Company'|translate}}：</th>
+                <td>{{note.Manufacturer}}</td>
+                <th>{{'LinkMan'|translate}}：</th>
+                <td>{{note.LinkMan}}</td>
+            </tr>
+            <tr>
+                <th>{{'LinkPhone'|translate}}：</th>
+                <td>{{note.LinkPhone}}</td>
+                <th>{{'ExpectedIn'|translate}}：</th>
+                <td>{{note.ExpectIn}}</td>
+                <th>{{'ValidTo'|translate}}：</th>
+                <td>{{note.ValidatePeriod}}</td>
+            </tr>
+            <tr>
+                <th>{{'Status'|translate}}：</th>
+                <td colspan="3">{{note.StatusRemark}}</td>
+                <th>{{'Stamp'|translate}}：</th>
+                <td >{{note.Stamp}}</td>
+            </tr>
+            <tr>
+                <th>{{'Remark'|translate}}</th>
+                <td colspan="5">{{note.Remark}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-10">
+        <h3>{{'WeightDetail'|translate}}</h3>
+        <table class="table table-bordered" style="table-layout:fixed" ng-repeat="detail in note.PtaEgItems">
+            <tr>
+                <th>{{'VoucherID'|translate}}</th>
+                <td colspan="2">{{detail.VoucherID}}</td>
+                <th>{{'Status'|translate}}</th>
+                <td colspan="2">{{detail.Status}}</td>
+            </tr>
+            <tr>
+                <th>{{'Discharge'|translate}}</th>
+                <td colspan="2">{{detail.Discharge}}</td>
+                <th>{{'Stamp'|translate}}</th>
+                <td colspan="2">{{detail.Stamp}}</td>
+            </tr>
+            <tr>
+                <th>{{'InTime'|translate}}</th>
+                <td colspan="2">{{detail.InTime}}</td>
+                <th>{{'OutTime'|translate}}</th>
+                <td colspan="2">{{detail.OutTime}}</td>
+            </tr>
+            <tr>
+                <th>{{'FirstTime'|translate}}</th>
+                <td colspan="2">{{detail.FirstTime}}</td>
+                <th>{{'FirstWeight'|translate}}</th>
+                <td colspan="2">{{detail.FirstWeight}}</td>
+            </tr>
+            <tr>
+                <th>{{'SecondTime'|translate}}</th>
+                <td colspan="2">{{detail.SecondTime}}</td>
+                <th>{{'SecondWeight'|translate}}</th>
+                <td colspan="2">{{detail.SecondWeight}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+
+<div style="top: 186px; position: fixed; right: 0px;" class="pinned col-md-2 ">
+    <div class="row">
+        <div class="col-md-12" style="  padding-left:0px;padding-right: 2px; ">
+            <ul class="nav nav-pills nav-stacked">
+                <li style="cursor:pointer;">
+                    <a href="#/processlog/{{processInstanceId}}" target="_blank"><i
+                            class="icon-bar glyphicon glyphicon-phone-alt"></i> {{'FlowDetail'|translate}} </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
