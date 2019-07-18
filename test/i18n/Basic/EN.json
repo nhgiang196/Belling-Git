@@ -558,5 +558,6 @@
   "Job":"Undertaking",
   "DayToWork":"Day to work",
   "Age":"Age",
-  "CategoryReport":"Category Of Report"
+  "CategoryReport":"Category Of Report",
+  "IcCategoryReport":"IC category Report (Sub Type)"
 }

@@ -490,7 +490,6 @@
   "Prevent": "Cách ngăn ngừa, phòng tránh",
   "IcProcess" : "Tình hình xử lý sau sự cố",
   "Evaluate": "Đánh giá",
-
   "AccidentReport": "BÁO CÁO TAI NẠN NGOÀI Ý MUỐN",
   "Info": "Thông tin chung",
   "Acdatetime" : "Thời gian xảy ra tai nạn",
@@ -509,7 +508,6 @@
   "Injury": "Quá trình bị thương",
   "CreateIC" : "Tạo báo cáo Sự cố suýt xảy ra",
   "CreateAC": "Tạo báo cáo Tai nạn ngoài ý muốn",
-
   "VeryGood" : "Rất tốt",
   "Good":"Tốt",
   "Medium":"Trung bình",
@@ -519,7 +517,7 @@
   "HS" : "Xưởng hóa sợi",
   "Outside" : "Bên ngoài xưởng",
   "Accident" :"Tai nạn ngoài ý muốn",
-  "Incident": "Sự cố xuýt xảy ra",
+  "Incident": "Sự cố suýt xảy ra",
   "New":"Mới",
   "Modify": " Đã chỉnh sửa ",
   "Pro": "Đang xử lý",
@@ -555,7 +553,7 @@
   "SameEmployee": "Thông tin nhân viên bị trùng lấp",
   "Safety":"An toàn",
   "Environment":" Môi trường",
-  "FireProtection":" Phòng cháy chửa cháy",
+  "FireProtection":"Phòng cháy chữa cháy",
   "PollutionEnvironment":"Sự cố ô nhiễm môi trường",
   "FileValidation_MSG":"Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf, .doc, .docx",
   "FileValidation_IMG_MSG":"Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf",
@@ -566,5 +564,19 @@
   "Job":"Công việc đảm nhận",
   "DayToWork":"Ngày vào làm",
   "Age":"Tuổi",
-  "CategoryReport":"Loại hình sự cố"
+  "CategoryReport":"Loại hình sự cố",
+  "icCategoryReport":"Kiểu loại hình sự cố",
+  "ICAffect":"Mức độ ảnh hưởng",
+  "RpIC_NotifPerson":"Người thực hiện thông báo",
+  "RpIC_ReceivePerson": "Người nhận thông báo",
+  "ICTimeNotif":"Thời gian thông báo sự cố"
+  ,"icType-WasteWater":"Nước thải"
+  ,"icType-Gas":"Khí thải"
+  ,"icType-SolidWaste":"Chất thải rắn"
+  ,"icType-Chemical":"Hóa chất"
+  ,"icType-Other":"Khác"
+  ,"icAffect-Low":"Sự cố môi trường mức độ thấp"
+  ,"icAffect-Medium":"Sự cố môi trường mức độ trung bình"
+  ,"icAffect-High":"Sự cố môi trường mức độ cao"
+
 }
