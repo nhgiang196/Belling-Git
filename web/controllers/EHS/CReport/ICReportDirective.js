@@ -5,20 +5,19 @@ define(['app'], function (app) {
                 restrict: 'E',
                 controller: function ($scope) {
                     var lang = window.localStorage.lang;
-                    $scope.btnFile = true;
+                    $scope.btnFile = false;
                     $scope.btnFile_AC = true;
 
-                    //showBtnFile USE FOR BOTH REPORT
-                    $scope.showBtnFile = function () {
-                        if ($scope.recordIC.icLocation == 'O' || $scope.recordAC.ac_location == 'O') {
-                            $scope.btnFile = false;
-                            $scope.btnFile_AC = false;
+                    // $scope.showBtnFile = function () {
+                    //     if ($scope.recordIC.icLocation == 'O' || $scope.recordAC.ac_location == 'O') {
+                    //         $scope.btnFile = false;
+                    //         $scope.btnFile_AC = false;
 
-                        } else {
-                            $scope.btnFile = true;
-                            $scope.btnFile_AC = true;
-                        }
-                    }
+                    //     } else {
+                    //         $scope.btnFile = true;
+                    //         $scope.btnFile_AC = true;
+                    //     }
+                    // }
 
 
                     // xóa file khỏi QCFiles 
@@ -69,9 +68,10 @@ define(['app'], function (app) {
                             $scope.sub_dpm.forEach(x => {
                                 if (data[0].DepartmentID == x.CostCenter) {
                                     $scope.deptDefault = x;
-                                    $scope.recordIC.ic_SubDeparmentid = x.CostCenter;
-                                    $scope.showDeptInIC = x.CostCenter + " - " + x.Specification;
-                                    // $scope.showFactoryByDept($scope.recordIC.ic_SubDeparmentid);
+                                    
+                                    $scope.recordIC.ic_SubDeparmentid = x.CostCenter; /// WHy??? =.=! 
+                                    $scope.showDeptInIC = x.CostCenter + " - " + x.Specification; //Department
+                                    $scope.CostCenter = x.CostCenter;
                                     var dept_id = $scope.recordIC.ic_SubDeparmentid
                                     if (dept_id == null || dept_id == '') return;
 
@@ -81,7 +81,7 @@ define(['app'], function (app) {
 
                                     $scope.center_dpm.forEach(x => {
                                         if (x.CostCenter == basodau) {
-                                            $scope.recordIC.ic_departmentid = x.CostCenter;
+                                            $scope.recordIC.ic_departmentid = x.CostCenter; // WHy??? =.=! 
                                             $scope.showFactoryInIC = x.Specification;
                                         }
                                     })
@@ -89,6 +89,7 @@ define(['app'], function (app) {
 
                                 }
                             });
+                            console.log('subdepartment', $scope.recordIC.ic_SubDeparmentid);
 
                         }, function (error) {
 
@@ -96,9 +97,6 @@ define(['app'], function (app) {
                     }, function (error) {
 
                     })
-
-
-
                     /**
                      * Init Data to save
                      */
@@ -124,12 +122,11 @@ define(['app'], function (app) {
                                 $scope.lsFile.push(f);
                             })
                         }
-
                         note.Rp_Status = $scope.recordIC.status || '';
                         note.Rp_Type = 'IC';
                         note.RpIC_Group = $scope.recordIC.icGroup || '';;
-                        note.Rp_DepartmentID = $scope.recordIC.ic_departmentid;
-                        note.Rp_SubDepartmentID = $scope.recordIC.ic_SubDeparmentid;
+                        note.Rp_DepartmentID = $scope.CostCenter.slice(0,3);
+                        note.Rp_SubDepartmentID = $scope.CostCenter;
                         note.Rp_DateTime = $scope.recordIC.icDatetime;
                         note.Rp_Location = $scope.recordIC.icLocation;
                         note.Rp_PreventMeasure = $scope.recordIC.icPrevent;
@@ -140,13 +137,18 @@ define(['app'], function (app) {
                         note.RpIC_Damage = $scope.recordIC.icResult;
                         note.RpIC_Process = $scope.recordIC.icImprove;
                         note.RpIC_Evaluate = $scope.recordIC.icEvaluate;
-                        note.RpIC_IncidentType = note.Rp_SubmitType = $scope.recordIC.icType;
+                        note.RpIC_IncidentType = $scope.recordIC.icType;
+                        note.Rp_SubmitType = $scope.recordIC.submittype;
+
+                        note.RpIC_Affect = $scope.recordIC.icAffect;
+                        note.RpIC_TimeNotif = $scope.recordIC.TimeNotif;
+                        note.RpIC_NotifPerson = $scope.recordIC.ICNotifPersion;
+                        note.RpIC_ReceivePerson = $scope.recordIC.ICReceivePerson;
+
                         note.Rp_Date = $scope.recordIC.date || '';
                         note.Rp_Stamp = $scope.recordIC.stamp || '';
                         note.Rp_CreatorID = Auth.username;
-
-                        note.FileAttached = $scope.lsFile; // Add File vào csdl
-
+                        note.FileAttached = $scope.lsFile; //File list
                         return note;
                     }
 
@@ -158,8 +160,9 @@ define(['app'], function (app) {
                                     $scope.ID_IC = res.Data;
                                     $scope.formVariables.push({
                                         name: 'Rp_ID',
-                                        value: $scope.ID_IC //chosen
+                                        value: $scope.ID_IC //??
                                     });
+                                    S
                                     $scope.SubmitAndChangeStatus($scope.ID_IC);
                                     $scope.btnSub = false;
                                     $('#my-modal').modal('hide');
@@ -208,7 +211,7 @@ define(['app'], function (app) {
                     var nofile = false;
 
                     $scope.SaveICReport = function () {
-                        debugger;
+                        
                         var note = saveInitDataIC();
                         if (count == 0 && $scope.recordIC.icLocation == "O") {
                             $scope.nofileLoc();
@@ -248,7 +251,7 @@ define(['app'], function (app) {
                         $scope.lsFile = [];
                         $scope.Search();
                         $scope.ID_IC = "";
-                        $scope.btnFile = true;
+                        // $scope.btnFile = true;
                         $scope.listfile_loc_ic = false;
                         $scope.listfile_process_ic = false;
                     }

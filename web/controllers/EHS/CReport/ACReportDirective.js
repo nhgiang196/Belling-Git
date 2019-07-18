@@ -254,20 +254,20 @@ define(['app'], function (app) {
                     $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
                     $scope.showEmployeeName = function (emp_id) {
-                        debugger;
-                        $scope.employees.forEach(x => {
-                            if (x.EmployeeID == emp_id) {
-                                $scope.emp_name = x.Contractor_Victim_Name;
-                            }
-                        })
+                        if ($scope.employees)
+                            $scope.employees.forEach(x => {
+                                if (x.EmployeeID == emp_id) {
+                                    $scope.emp_name = x.Contractor_Victim_Name;
+                                }
+                            })
+                        if ($scope.listEmployee)
+                            $scope.listEmployee.forEach(x => {
+                                if (x.EmployeeID == emp_id) {
+                                    $scope.emp_name = x.Name;
 
-                        $scope.listEmployee.forEach(x => {
-                            if (x.EmployeeID == emp_id) {
-                                $scope.emp_name = x.Name;
+                                }
 
-                            }
-
-                        })
+                            })
                         return $scope.emp_name;
                     };
 

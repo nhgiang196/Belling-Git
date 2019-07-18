@@ -2,7 +2,6 @@
     .title {
         width: 101%;
         background-color: #ececec;
-
         padding: 5px 0px 5px 10px;
         border: 1px solid #ececec;
         border-radius: 6px;
@@ -52,6 +51,10 @@
     a:hover {
         cursor: pointer;
     }
+
+    .EVRform {
+        color: rgb(179, 110, 0);
+    }
 </style>
 <h3 class="text-center">{{'IncidentReport'|translate}}</h3>
 
@@ -63,16 +66,17 @@
         <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}</label>
         <div class="col-sm-10">
             <!-- <select style="width:100%" ui-select2 ng-model="recordIC.ic_SubDeparmentid"
-                                name="ic_SubDeparmentid" >
-                                <option ng-selected="true">
-                                        {{deptDefault.CostCenter}} - {{deptDefault.Specification|translate}}</option>
-                            </select> -->
+                                    name="ic_SubDeparmentid" >
+                                    <option ng-selected="true">
+                                            {{deptDefault.CostCenter}} - {{deptDefault.Specification|translate}}</option>
+                                </select> -->
             <input type="text" ng-model="showDeptInIC" style="width: 100%; height: 26px;" class="form-control" readonly>
         </div>
 
 
 
-    </div> <!-- end of form-group frm-mrg -->
+    </div>
+    <!-- end of form-group frm-mrg -->
 
     <div class=" form-group frm-mrg" style="margin-top:20px;">
         <label class="col-sm-2 control-label ctr-lb">* {{'Factory'|translate}}</label>
@@ -87,28 +91,77 @@
         </div>
 
 
-    </div> <!-- end of form-group frm-mrg -->
-
-    <div class=" form-group frm-mrg " style="margin-top:20px;">
-        <label class="col-sm-2 control-label ctr-lb">* {{'IncidentType'|translate}}</label>
+    </div>
+    <!-- end of form-group frm-mrg -->
+    <div class=" form-group frm-mrg ">
+        <label class="col-sm-2 control-label ctr-lb">* {{'CategoryReport'|translate}}</label>
         <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordIC.icType" name="recordIC.icType" required>
+            <select style="width:100%" ui-select2 ng-model="recordIC.submittype" name="recordIC.submittype" require>
                 <option ng-repeat='item in SubmitTypelist' value="{{item.id}}">{{item.name | translate}}
                 </option>
             </select>
         </div>
+        <div ng-if="recordIC.submittype=='EVR'" class="EVRform">
+            <label class="col-sm-2 control-label ctr-lb">* {{'icCategoryReport'|translate}}</label>
+            <div class="col-sm-4">
+                <select ng-if="!icType_CheckOther" style="width:100%" ui-select2 ng-model="recordIC.icType"
+                    name="recordIC.icType" required>
+                    <option value="WasteWater"> {{'icType-WasteWater' | translate}} </option>
+                    <option value="Gas"> {{'icType-Gas' | translate}} </option>
+                    <option value="SolidWaste"> {{'icType-SolidWaste' | translate}} </option>
+                    <option value="Chemical"> {{'icType-Chemical'| translate}} </option>
+                </select>
+                <input type="text" class="form-control" ng-if="icType_CheckOther" ng-model="recordIC.icType">
+                <span>Other <input type="checkbox" ng-model="icType_CheckOther" ng-change="recordIC.icType=''"></span>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Iclocation'|translate}}</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-change="showBtnFile()" ng-model="recordIC.icLocation"
-                name="recordIC.icLocation" required>
-                <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}
-                </option>
-            </select>
+            </div>
         </div>
-    </div> <!-- end of form-group frm-mrg -->
 
-    <div class="form-group frm-mrg">
+
+    </div>
+    <!-- end of form-group frm-mrg -->
+
+
+    <!-- end of form-group frm-mrg -->
+    <div class="form-group frm-mrg EVRform" ng-if="recordIC.submittype=='EVR'">
+        <label class="col-sm-2 control-label ctr-lb">* {{'RpIC_NotifPerson'|translate}}</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" ng-model="recordIC.ICNotifPersion" name="ICNotifPersion">
+        </div>
+        <label class="col-sm-2 control-label ctr-lb">* {{'RpIC_ReceivePerson'|translate}}</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" ng-model="recordIC.ICReceivePerson" name="ICReceivePerson">
+        </div>
+    </div>
+    <!-- end of form-group frm-mrg -->
+
+    <div class=" form-group frm-mrg EVRform" ng-if="recordIC.submittype=='EVR'">
+
+        <label class="col-sm-2 control-label ctr-lb">* {{'ICTimeNotif'|translate}} </label>
+        <div class="col-sm-4">
+            <div class='input-group date'>
+                <input type='text' id="time-prc-ic" class="form-control" date-picker time="Y-m-d H:i"
+                    name="recordIC.TimeNotif" ng-model="recordIC.TimeNotif" required />
+                <span class="input-group-addon">
+                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ic'></label>
+                </span>
+            </div>
+        </div>
+        <div ng-if="recordIC.submittype=='EVR'" class="EVRform">
+            <label class="col-sm-2 control-label ctr-lb">* {{'ICAffect'|translate}}</label>
+            <div class="col-sm-4">
+                <select style="width:100%" ui-select2 ng-model="recordIC.icAffect" name="recordIC.icAffect" required>
+                    <option value="Low">{{'icAffect-Low' | translate}}   </option>
+                    <option value="Medium">{{'icAffect-Medium' | translate}}   </option>
+                    <option value="High">{{'icAffect-High' | translate}}   </option>
+                </select>
+
+            </div>
+        </div>
+
+    </div>
+    <div class=" form-group frm-mrg ">
+
         <label class="col-sm-2 control-label ctr-lb">* {{'Icdatetime'|translate}} </label>
         <div class="col-sm-4">
             <div class='input-group date'>
@@ -120,13 +173,19 @@
             </div>
         </div>
 
-
-        <label class="col-sm-2 control-label ctr-lb"></label>
+        <label class="col-sm-2 control-label ctr-lb">* {{'Iclocation'|translate}}</label>
         <div class="col-sm-4">
+            <select style="width:100%" ui-select2 ng-model="recordIC.icLocation"
+                name="recordIC.icLocation" required>
+                <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}
+                </option>
+            </select>
+
             <input type="file" ng-file-select="UploadFileHSE($files, 'Rp_Location')" id="file_location_ic"
                 style="display:none !important" multiple accept="image/*">
-            <button id="btn_file_location_ic" class="btn btn-info" style="display:inline-block;" type="button"
-                ng-disabled="btnFile" ng-model='btnFile' ng-click="btnfile('file_location_ic','file_name_location_ic')">
+            <button style="margin-top: 10px;" id="btn_file_location_ic" class="btn btn-info"
+                style="display:inline-block;" type="button" ng-disabled="btnFile" ng-model='btnFile'
+                ng-click="btnfile('file_location_ic','file_name_location_ic')">
                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
             </button>
 
@@ -137,16 +196,20 @@
                 style="margin-top:10px; width:100%">
                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Location'">
                     <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
-                    <td><a ng-click="removeFile($index)">
+                    <td>
+                        <a ng-click="removeFile($index)">
                             <span class="glyphicon glyphicon-remove" style="color: red; margin-top:66%;"></span>
                         </a>
                     </td>
                 </tr>
             </table>
 
-        </div>
 
-    </div> <!-- end of form-group frm-mrg -->
+        </div>
+    </div>
+    <!-- end of form-group frm-mrg -->
+
+
 
     <div class="form-group frm-mrg">
         <label class="col-sm-2 control-label ctr-lb" style="margin-top: 1%;">*
@@ -154,7 +217,7 @@
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="5" name="recordIC.icProcess"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordIC.icProcess">
-                            </textarea>
+                                </textarea>
             <input type="file" ng-file-select="UploadFileHSE($files, 'Rp_Description')" id="file_process_ic"
                 style="display:none !important" multiple>
             <button id="btn_file_process_ic" class="btn btn-info" style="display:inline-block;" type="button"
@@ -171,7 +234,8 @@
                 style="margin-top:10px;">
                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Description'">
                     <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
-                    <td><a ng-click="removeFile($index)">
+                    <td>
+                        <a ng-click="removeFile($index)">
                             <span class="glyphicon glyphicon-remove" style="color: red; margin-top:66%;"></span>
                         </a>
                     </td>
@@ -191,74 +255,88 @@
                 <textarea class="form-control" rows="4" type="text" name="recordIC.icDr_reason"
                     ng-model="recordIC.icDr_reason" />
                 </div>
-                        </div><!-- end of form-group frm-mrg -->
+        </div>
+        <!-- end of form-group frm-mrg -->
 
-                        <div class="form-group frm-mrg">
-                            <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Idr_reason'|translate}} </label>
-                            <div class="col-sm-8 rm-padding-left">
-                                <textarea class="form-control" rows="4" type="text" name="recordIC.icIdr_reason" ng-model="recordIC.icIdr_reason" />
-                            </div>
-                        </div><!-- end of form-group frm-mrg -->
-                        
-                        <div class="form-group frm-mrg">
-                            <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Basic'|translate}} </label>
-                            <div class="col-sm-8 rm-padding-left">
-                                <textarea class="form-control" rows="4" type="text" name="recordIC.icBasic" ng-model="recordIC.icBasic" />
-                            </div>
-                        </div><!-- end of form-group frm-mrg -->
+        <div class="form-group frm-mrg">
+            <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Idr_reason'|translate}} </label>
+            <div class="col-sm-8 rm-padding-left">
+                <textarea class="form-control" rows="4" type="text" name="recordIC.icIdr_reason" ng-model="recordIC.icIdr_reason" />
+            </div>
+        </div>
+        <!-- end of form-group frm-mrg -->
 
-                    </div><!-- end of col-sm-6 -->
-                    
-                    <div class="col-sm-6">
+        <div class="form-group frm-mrg">
+            <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Basic'|translate}} </label>
+            <div class="col-sm-8 rm-padding-left">
+                <textarea class="form-control" rows="4" type="text" name="recordIC.icBasic" ng-model="recordIC.icBasic" />
+            </div>
+        </div>
+        <!-- end of form-group frm-mrg -->
 
-                        <div class="form-group frm-mrg">
-                            <label class="col-sm-4 control-label ctr-lb">* {{'Result'|translate}}</label>
-                            <div class="col-sm-8 rm-padding-right">
-                                <textarea class="form-control" rows="4" type="text" name="recordIC.icResult" ng-model="recordIC.icResult" />
-                            </div>
-                        </div><!-- end of form-group frm-mrg -->
+    </div>
+    <!-- end of col-sm-6 -->
 
-                        <div class="form-group frm-mrg">
-                            <label class="col-sm-4 control-label ctr-lb">* {{'IcProcess'|translate}}</label>
-                            <div class="col-sm-8 rm-padding-right">
-                                <textarea class="form-control" rows="4" type="text" name="recordIC.icImprove" ng-model="recordIC.icImprove" />
-                            </div>
-                        </div><!-- end of form-group frm-mrg -->
-                        
-                        <div class="form-group frm-mrg">
-                            <label class="col-sm-4 control-label ctr-lb">* {{'Prevent'|translate}}</label>
-                            <div class="col-sm-8 rm-padding-right">
-                                <textarea class="form-control" rows="4" type="text" name="recordIC.icPrevent" ng-model="recordIC.icPrevent" />
-                            </div>
-                        </div><!-- end of form-group frm-mrg -->
+    <div class="col-sm-6">
 
-                    </div><!-- end of col-sm-6 -->
+        <div class="form-group frm-mrg">
+            <label class="col-sm-4 control-label ctr-lb">* {{'Result'|translate}}</label>
+            <div class="col-sm-8 rm-padding-right">
+                <textarea class="form-control" rows="4" type="text" name="recordIC.icResult" ng-model="recordIC.icResult" />
+            </div>
+        </div>
+        <!-- end of form-group frm-mrg -->
 
-                    <div class="form-group frm-mrg">
-                        <label class="col-sm-2 control-label ctr-lb">* {{'Evaluate'|translate}} </label>
-                        <div class="col-sm-4">
-                            <select style="width:100%"  ui-select2 ng-model="recordIC.icEvaluate" name="icEvaluate" required>
-                                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}} </option>
-                            </select>
-                        </div>
-                    </div><!-- end of col-sm-6 -->
+        <div class="form-group frm-mrg">
+            <label class="col-sm-4 control-label ctr-lb">* {{'IcProcess'|translate}}</label>
+            <div class="col-sm-8 rm-padding-right">
+                <textarea class="form-control" rows="4" type="text" name="recordIC.icImprove" ng-model="recordIC.icImprove" />
+            </div>
 
-                    
 
-                </form> <!-- end of form -->
+        </div>
+        <!-- end of form-group frm-mrg -->
 
-                <div ng-if="show.checker">
-                    <H4 class="title">{{'NextStep' | translate}} </H4>
-                    <div style="margin-top:10px; margin-left:5px;" ng-repeat="leader in leaderlist">
-                        <span show-checker user-name={{leader.Person}}></span>
-                    </div>
+        <div class="form-group frm-mrg">
+            <label class="col-sm-4 control-label ctr-lb">* {{'Prevent'|translate}}</label>
+            <div class="col-sm-8 rm-padding-right">
+                <textarea class="form-control" rows="4" type="text" name="recordIC.icPrevent" ng-model="recordIC.icPrevent" />
+            </div>
+        </div>
+        <!-- end of form-group frm-mrg -->
 
-                </div>
-                <div class="modal-footer" >
-                    <label ng-if="!show.submitbutton" style="color: #FF0000;float: left" class="ng-binding">
-                        **VUI LÒNG NHẤN LƯU TRƯỚC KHI SUBMIT ĐỂ ĐƠN ĐƯỢC LƯU**</label>
-                    <button id="btnSaveIC" type="button" class="btn btn-warning btn-ct-ac" ng-click="SaveICReport()" ng-disabled="icform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'Save'|translate}} </button>
-                    <button ng-if="show.submitbutton"  id="btnSaveSubmitIC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordIC.rp_id)" ng-disabled="icform.$invalid" ><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
-                    <button  ng-if="show.submitbutton" type="button" class="btn btn-default btn-ct-ac" ng-click="resetIC()" data-dismiss="modal"><i class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
-                </div> <!-- end of modal-footer-->
-            
+    </div>
+    <!-- end of col-sm-6 -->
+
+    <div class="form-group frm-mrg">
+        <label class="col-sm-2 control-label ctr-lb">* {{'Evaluate'|translate}} </label>
+        <div class="col-sm-4">
+            <select style="width:100%" ui-select2 ng-model="recordIC.icEvaluate" name="icEvaluate" required>
+                                    <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}} </option>
+                                </select>
+        </div>
+    </div>
+    <!-- end of col-sm-6 -->
+
+
+
+</form>
+<!-- end of form -->
+
+<div ng-if="show.checker">
+    <H4 class="title">{{'NextStep' | translate}} </H4>
+    <div style="margin-top:10px; margin-left:5px;" ng-repeat="leader in leaderlist">
+        <span show-checker user-name={{leader.Person}}></span>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <label ng-if="!show.submitbutton" style="color: #FF0000;float: left" class="ng-binding">
+                            **VUI LÒNG NHẤN LƯU TRƯỚC KHI SUBMIT ĐỂ ĐƠN ĐƯỢC LƯU**</label>
+    <button id="btnSaveIC" type="button" class="btn btn-warning btn-ct-ac" ng-click="SaveICReport()" ng-disabled="icform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'Save'|translate}} </button>
+    <button ng-if="show.submitbutton" id="btnSaveSubmitIC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordIC.rp_id)" ng-disabled="icform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
+    <button ng-if="show.submitbutton" type="button" class="btn btn-default btn-ct-ac" ng-click="resetIC()" data-dismiss="modal"><i class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
+</div>
+<hr>
+
+<!-- end of modal-footer-->
