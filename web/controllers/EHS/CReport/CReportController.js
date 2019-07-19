@@ -1,7 +1,8 @@
 define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/CReport/ICReportDirective', 'angular'], function (myapp, angular) {
     myapp.controller('CReportController', ['GateGuest', '$upload', '$filter', 'Notifications', 'Auth', 'EngineApi', 'CReportService', 'InfolistService', '$translate', '$q', '$scope', '$timeout',
         function (GateGuest, $upload, $filter, Notifications, Auth, EngineApi, CReportService, InfolistService, $translate, $q, $scope, $timeout) {
-            
+            $scope.recordAC = {};
+            $scope.recordIC = {};
             $scope.flowkey = 'HW-User';
             $scope.onlyOwner = true;
             $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
@@ -38,8 +39,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
             $scope.rp_Submittype = $scope.SubmitTypelist[0]; //set default search param
             $scope.rp_type = $scope.typelist[0].id; //set default search param
             /**********************************GRID -UI DEFINITION*********************************************************/
-            var colCReport = [
-                {
+            var colCReport = [{
                     field: 'Rp_ID',
                     width: 130,
                     minWidth: 30,
@@ -229,7 +229,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     $scope.gridOptions.data = data;
                 }, function (error) {});
             };
-           
+
             // hàm bật tắt disable nút file chỗ địa điểm  
             function disableFileLocation(value) {
                 if (value == "O") {
@@ -269,7 +269,21 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     })
             };
             /****************************GRID MENU FUNCTIONS********************************************** */
-            var gridMenu = [{
+            var gridMenu = [
+
+                {
+                    title: $translate.instant('CreateIC_EVR'),
+                    action: function () {
+                        $scope.rp_type = $scope.typelist[1].id // 0;
+                        $scope.status = 'N';
+                        $('#my-modal').modal('show');
+                        $scope.resetIC();
+                        $scope.recordIC.submittype = 'EVR';
+                    },
+                    order: 1
+                },
+
+                {
                     title: $translate.instant('CreateIC'),
                     action: function () {
                         $scope.rp_type = $scope.typelist[1].id;
@@ -279,6 +293,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     },
                     order: 1
                 },
+
                 {
                     title: $translate.instant('CreateAC'),
                     action: function () {
@@ -290,16 +305,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     },
                     order: 2
                 },
-                {
-                    title: $translate.instant('CreateEVR'),
-                    action: function () {
-                        $scope.rp_type = $scope.typelist[1].id // 0;
-                        $scope.status = 'N';
-                        $('#my-modal').modal('show');
-                        $scope.resetIC();
-                    },
-                    order: 2
-                },
+
                 {
                     title: $translate.instant('Update'),
                     action: function () {
@@ -470,9 +476,10 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     order: 6
                 },
             ];
-            
+
             /**get Information of next Candidate */
             getGateCheck(null);
+
             function getGateCheck(CReportType) {
                 $scope.checkList = [];
                 $scope.leaderlist = [];

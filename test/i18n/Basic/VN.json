@@ -507,6 +507,7 @@
   "AcProcess": "Cách xử lý",
   "Injury": "Quá trình bị thương",
   "CreateIC": "Tạo báo cáo Sự cố suýt xảy ra",
+  "CreateIC_EVR": "Tạo báo cáo Sự cố môi trường",
   "CreateAC": "Tạo báo cáo Tai nạn ngoài ý muốn",
   "VeryGood": "Rất tốt",
   "Good": "Tốt",
@@ -579,4 +580,5 @@
   "RpIC_Affect-Medium": "Sự cố môi trường mức độ trung bình",
   "RpIC_Affect-High": "Sự cố môi trường mức độ cao",
   "AffectRange": "Phạm vi ảnh hưởng của sự cố"
+  ,"IncidentReport_EVR": "BÁO CÁO SỰ CỐ MÔI TRƯỜNG"
 }

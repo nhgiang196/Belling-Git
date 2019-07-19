@@ -5,7 +5,7 @@ define(['app'], function (app) {
                 restrict: 'E',
                 controller: function ($scope) {
                     // xóa file tình hình bị thương khỏi QCFiles 
-                    $scope.recordAC = {};
+                    
                     $scope.ACTypelist = InfolistService.Infolist('ACType');
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
 
@@ -142,7 +142,7 @@ define(['app'], function (app) {
 
                     function saveInitDataAC() {
                         var note = {};
-                        var count = 0;
+                        $scope.count = 0;
                         note.Rp_ID = $scope.recordAC.rp_id || '';
                         note.Rp_Date = $scope.recordAC.date || '';
                         note.Rp_Stamp = $scope.recordAC.stamp || '';
@@ -164,7 +164,7 @@ define(['app'], function (app) {
 
                         $scope.lsFile = [];
                         if ($scope.listfile.length > 0) {
-                            count++;
+                            $scope.count++;
 
                             $scope.listfile.forEach(element => {
                                 var f = {};
@@ -252,7 +252,7 @@ define(['app'], function (app) {
                         if ($scope.employees.length != 0) {
                             $scope.mySwitch = false;
                             var note = saveInitDataAC();
-                            if (count == 0 && $scope.recordAC.ac_location == "O") {
+                            if ($scope.count == 0 && $scope.recordAC.ac_location == "O") {
                                 $scope.nofileLoc();
                                 nofile = true;
                             }

@@ -56,9 +56,10 @@
         color: rgb(179, 110, 0);
     }
 </style>
-<h3 class="text-center">{{'IncidentReport'|translate}}</h3>
+<h3 class="text-center" ng-if="!IsEVR">{{'IncidentReport'|translate}}</h3>
+<h3 class="text-center" ng-if="IsEVR">{{'IncidentReport_EVR'|translate}}</h3>
 
-<H4 class="title">{{'Incident_info'|translate}} - {{recordIC.rp_id}}</H4>
+<H4 class="title">{{'Incident_info'|translate}} / {{recordIC.rp_id}}</H4>
 <form class="form-horizontal model-form " name="icform">
     <label class="col-sm-12 control-label ctr-lb" style="text-align: left;">*
         {{'IcUnit'|translate}}:</label>
@@ -111,7 +112,7 @@
                     <option ng-repeat="item in IncidentTypeList" value="{{item.id}}"> {{'RpIC_IncidentType-'+ item.id | translate}}  </option>
                 </select>
                 <input type="text" class="form-control" ng-if="icType_CheckOther" ng-model="recordIC.icType">
-                <span>Other <input type="checkbox" ng-model="icType_CheckOther" ng-change="recordIC.icType=''"></span>
+                <span>Other <input type="checkbox" ng-model="icType_CheckOther" ></span>
 
             </div>
         </div>

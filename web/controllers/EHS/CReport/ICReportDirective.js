@@ -1,29 +1,28 @@
 define(['app'], function (app) {
-    app.directive('createIcReport', ['CReportService', 'InfolistService', 'Auth',
-        function (CReportService, InfolistService, Auth) {
+    app.directive('createIcReport', ['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate',
+        function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate) {
             return {
                 restrict: 'E',
-                controller: function ($scope) {
-                    $scope.recordIC = {};
+                controller: function ($scope, $element, $attrs) {
+
                     var lang = window.localStorage.lang;
                     $scope.IncidentTypeList = InfolistService.Infolist('IncidentType'); // IC only
-                    // $scope.$watch("recordIC.submittype", function (val) {
-                    //     debugger;
-                    //     if (val == 'EVR') $scope.IsEVR = true
-                    //     else IsEVR = false;
-                    //     // ng-change="IsEVR= recordIC.submittype=='EVR'? true: false;"
-                    // })
-
+                    $scope.$watch("recordIC.submittype", function (val) {
+                        debugger;
+                        if (val == 'EVR') $scope.IsEVR = true
+                        else IsEVR = false;
+                        // ng-change="IsEVR= recordIC.submittype=='EVR'? true: false;"
+                    })
                     /** * Init Data to save */
                     function saveInitDataIC() { //function before add/update data
                         var note = {};
-                        var count = 0;
+                        $scope.count = 0;
                         note.Rp_ID = $scope.recordIC.rp_id || '';
                         $scope.lsFile = [];
                         if ($scope.listfile.length > 0) {
                             $scope.listfile.forEach(element => {
                                 if (element.col == "Rp_Location")
-                                    count++;
+                                    $scope.count++;
                                 var f = {};
                                 f.File_ID = element.name;
                                 f.ColumnName = element.col;
@@ -115,7 +114,7 @@ define(['app'], function (app) {
                     $scope.SaveICReport = function () { //function for saving/submitting
                         var note = saveInitDataIC();
                         var nofile = false;
-                        if (count == 0 && $scope.recordIC.icLocation == "O") {
+                        if ($scope.count == 0 && $scope.recordIC.icLocation == "O") {
                             $scope.nofileLoc();
                             nofile = true;
                         }
@@ -153,6 +152,7 @@ define(['app'], function (app) {
                         $scope.lsFile = [];
                         $scope.Search();
                         $scope.ID_IC = "";
+                        $scope.IsEVR = false;
                         // $scope.btnFile = true;
                         $scope.listfile_loc_ic = false;
                         $scope.listfile_process_ic = false;
@@ -349,7 +349,7 @@ define(['app'], function (app) {
                             $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
                             $scope.recordIC.submittype = data.Rp_SubmitType;
                             if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
-                            ;
+                                $scope.icType_CheckOther = true;
                             $scope.recordIC.icType = data.RpIC_IncidentType;
                             $scope.recordIC.icAffect = data.RpIC_Affect;
                             $scope.recordIC.icAffectRange = data.RpIC_AffectRange;
