@@ -96,20 +96,19 @@
     <div class=" form-group frm-mrg ">
         <label class="col-sm-2 control-label ctr-lb">* {{'CategoryReport'|translate}}</label>
         <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordIC.submittype" name="recordIC.submittype" require>
+            <select style="width:100%" ui-select2 ng-model="recordIC.submittype" name="recordIC.submittype" 
+            ng-change="IsEVR= recordIC.submittype=='EVR'? true: false;"
+            require>
                 <option ng-repeat='item in SubmitTypelist' value="{{item.id}}">{{item.name | translate}}
                 </option>
             </select>
         </div>
-        <div ng-if="recordIC.submittype=='EVR'" class="EVRform">
+        <div ng-if="IsEVR" class="EVRform">
             <label class="col-sm-2 control-label ctr-lb">* {{'icCategoryReport'|translate}}</label>
             <div class="col-sm-4">
                 <select ng-if="!icType_CheckOther" style="width:100%" ui-select2 ng-model="recordIC.icType"
                     name="recordIC.icType" required>
-                    <option value="WasteWater"> {{'icType-WasteWater' | translate}} </option>
-                    <option value="Gas"> {{'icType-Gas' | translate}} </option>
-                    <option value="SolidWaste"> {{'icType-SolidWaste' | translate}} </option>
-                    <option value="Chemical"> {{'icType-Chemical'| translate}} </option>
+                    <option ng-repeat="item in IncidentTypeList" value="{{item.id}}"> {{'RpIC_IncidentType-'+ item.id | translate}}  </option>
                 </select>
                 <input type="text" class="form-control" ng-if="icType_CheckOther" ng-model="recordIC.icType">
                 <span>Other <input type="checkbox" ng-model="icType_CheckOther" ng-change="recordIC.icType=''"></span>
@@ -123,7 +122,7 @@
 
 
     <!-- end of form-group frm-mrg -->
-    <div class="form-group frm-mrg EVRform" ng-if="recordIC.submittype=='EVR'">
+    <div class="form-group frm-mrg EVRform" ng-if="IsEVR ">
         <label class="col-sm-2 control-label ctr-lb">* {{'RpIC_NotifPerson'|translate}}</label>
         <div class="col-sm-4">
             <input type="text" class="form-control" ng-model="recordIC.ICNotifPersion" name="ICNotifPersion">
@@ -135,7 +134,7 @@
     </div>
     <!-- end of form-group frm-mrg -->
 
-    <div class=" form-group frm-mrg EVRform" ng-if="recordIC.submittype=='EVR'">
+    <div class=" form-group frm-mrg EVRform" ng-if="IsEVR">
 
         <label class="col-sm-2 control-label ctr-lb">* {{'ICTimeNotif'|translate}} </label>
         <div class="col-sm-4">
@@ -147,13 +146,13 @@
                 </span>
             </div>
         </div>
-        <div ng-if="recordIC.submittype=='EVR'" class="EVRform">
+        <div ng-if="IsEVR" class="EVRform">
             <label class="col-sm-2 control-label ctr-lb">* {{'ICAffect'|translate}}</label>
             <div class="col-sm-4">
                 <select style="width:100%" ui-select2 ng-model="recordIC.icAffect" name="recordIC.icAffect" required>
-                    <option value="Low">{{'icAffect-Low' | translate}}   </option>
-                    <option value="Medium">{{'icAffect-Medium' | translate}}   </option>
-                    <option value="High">{{'icAffect-High' | translate}}   </option>
+                    <option value="Low">{{'RpIC_Affect-Low' | translate}} </option>
+                    <option value="Medium">{{'RpIC_Affect-Medium' | translate}} </option>
+                    <option value="High">{{'RpIC_Affect-High' | translate}} </option>
                 </select>
 
             </div>
@@ -175,8 +174,7 @@
 
         <label class="col-sm-2 control-label ctr-lb">* {{'Iclocation'|translate}}</label>
         <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordIC.icLocation"
-                name="recordIC.icLocation" required>
+            <select style="width:100%" ui-select2 ng-model="recordIC.icLocation" name="recordIC.icLocation" required>
                 <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}
                 </option>
             </select>
@@ -211,6 +209,15 @@
 
 
 
+    <div class="form-group frm-mrg EVRform" ng-if="IsEVR">
+        <label class="col-sm-2 control-label ctr-lb" style="margin-top: 1%;">*
+            {{'AffectRange'|translate}}</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" type="text" rows="3" name="recordIC.icAffectRange"
+                style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordIC.icAffectRange">
+                                </textarea>
+        </div>
+    </div>
     <div class="form-group frm-mrg">
         <label class="col-sm-2 control-label ctr-lb" style="margin-top: 1%;">*
             {{'Description'|translate}}</label>
@@ -308,13 +315,15 @@
     </div>
     <!-- end of col-sm-6 -->
 
-    <div class="form-group frm-mrg">
+    <div class="form-group frm-mrg"  ng-if="!IsEVR">
         <label class="col-sm-2 control-label ctr-lb">* {{'Evaluate'|translate}} </label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordIC.icEvaluate" name="icEvaluate" required>
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}} </option>
                                 </select>
         </div>
+    </div>
+    <div class="form-group frm-mrg">
     </div>
     <!-- end of col-sm-6 -->
 

@@ -4,258 +4,29 @@
         Auth, GateGuest, $translate, CReportService, InfolistService, $filter, $q, $timeout, $upload) {
 
         /***************************************** INIT **************************************************/
-        $scope.recordIC = {}; //for IC directive enity
-        $scope.recordAC = {}; //for AC Directive enity
-        $scope.listfile = []; // list of general files
-        $scope.listfileAC = []; // list of injury files
-        $scope.status = 'M'; //this form only for Modified
-        $scope.mySwitch = true; //Enable File UPload at Rp_Location
+        $scope.status = 'MP'; //this form only for Modified Submit
         $scope.ISReceive = 'Yes'; //default submit choose
         var lang = window.localStorage.lang || 'EN';
-        var lang = window.localStorage.lang;
-        $scope.username = Auth.username;
-        $scope.recod = {};
+        $scope.username = Auth.username; // parram for sending checkers
         $translate.refresh();
-
-
-        // report type combobox
-        $scope.typelist = [{
-                id: 'all',
-                name: $translate.instant('All')
-            },
-            {
-                id: '0',
-                name: $translate.instant('Incident')
-            },
-            {
-                id: '1',
-                name: $translate.instant('Accident')
-            }
-        ];
-        //status combobox
-        $scope.statuslist = InfolistService.Infolist('status');
-        //evaluate combobox
-        $scope.evaluatelist = InfolistService.Infolist('evaluate');
-        // location combobox
-        $scope.locationlist = InfolistService.Infolist('location');
-        // AC type combobox
-        $scope.ACTypelist = InfolistService.Infolist('ACType');
-        // Submit type combobox
-        $scope.SubmitTypelist = InfolistService.Infolist('SubmitType');
-        $scope.rp_Submittype = $scope.SubmitTypelist[0];
-
-
-        //------------------------NOTIFICATION GROUP----------------------------------
-        $scope.save_msg = function () {
-            $timeout(function () {
-                Notifications.addMessage({
-                    'status': 'information',
-                    'message': $translate.instant('Save_Success_MSG')
-                });
-            }, 200);
-        }
-
-        $scope.nofileLoc = function () {
-            $timeout(function () {
-                Notifications.addError({
-                    'status': 'error',
-                    'message': $translate.instant('File_Location')
-                });
-            }, 200);
-        }
-
-        $scope.update_msg = function () {
-            $timeout(function () {
-                Notifications.addMessage({
-                    'status': 'information',
-                    'message': $translate.instant('Update_Success_MSG')
-                });
-            }, 300);
-        }
-
-        $scope.ac_details_msg = function () {
-            Notifications.addMessage({
-                'status': 'information',
-                'message': $translate.instant('ACDetails_Msg')
-            });
-        }
-
-        $scope.submit_success_msg = function () {
-            $timeout(function () {
-                Notifications.addMessage({
-                    'status': 'info',
-                    'message': $translate.instant('Submit_Success_MSG')
-                });
-            }, 300);
-        }
-
-        $scope.save_error_msg = function () {
-            $timeout(function () {
-                Notifications.addMessage({
-                    'status': 'error',
-                    'message': $translate.instant('Msg_Save')
-                });
-            }, 300);
-        }
-
-        $scope.update_error_msg = function () {
-            $timeout(function () {
-                Notifications.addMessage({
-                    'status': 'error',
-                    'message': $translate.instant('UpdateError')
-                });
-            }, 300);
-        }
-
-        $scope.same_employee_msg = function () {
-            $timeout(function () {
-                Notifications.addMessage({
-                    'status': 'error',
-                    'message': $translate.instant('SameEmployee')
-                });
-            }, 300);
-        }
-
+        $scope.statuslist = InfolistService.Infolist('status'); //search param list ??
+        $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list ??
+        $scope.loading = false; // button disabled after press once
         /***************************************** FUNCTIONS **************************************************/
-        /* Upload file functions*/
-        $scope.btnfile = function (id, filename) {
-            var filein = document.querySelector("#" + id);
-            var filename = document.querySelector("#" + filename);
-            filein.click();
-        }
-        $scope.UploadFileHSE = function ($files, _colName) {
-
-            $upload.upload({
-                url: '/Waste/files/Upload',
-                method: "POST",
-                file: $files
-            }).progress(function (evt) {
-
-            }).then(function (res) {
-
-                res.data.forEach(x => {
-                    var chuthuong = x.toLowerCase();
-                    var dt = {
-                        name: x,
-                        col: _colName
-                    };
-                    if (_colName == 'Injury_Description')
-                        if (chuthuong.includes(".doc") || chuthuong.includes(".docx") || chuthuong
-                            .includes(".pdf") || chuthuong.includes(".jpg") || chuthuong.includes(
-                                ".jpeg") || chuthuong.includes(".png"))
-                            $scope.listfileAC.push(dt);
-                        else {
-                            $timeout(function () {
-                                Notifications.addMessage({
-                                    'status': 'info',
-                                    'message': $translate.instant(
-                                        'FileValidation_MSG')
-                                });
-                            }, 300);
-
-                            var namefile = {
-                                fname: x
-                            };
-
-                            CReportService.DeleteFile(namefile, res);
-                        }
-                    else if (_colName == 'Rp_Description')
-                        if (chuthuong.includes(".doc") || chuthuong.includes(".docx") || chuthuong
-                            .includes(".pdf") || chuthuong.includes(".jpg") || chuthuong.includes(
-                                ".jpeg") || chuthuong.includes(".png"))
-                            $scope.listfile.push($scope.dt);
-                        else {
-                            $timeout(function () {
-                                Notifications.addMessage({
-                                    'status': 'info',
-                                    'message': $translate.instant(
-                                        'FileValidation_MSG')
-                                });
-                            }, 300);
-
-                            var namefile = {
-                                fname: x
-                            };
-                            CReportService.DeleteFile(namefile, res);
-                        }
-                    else
-                    if (chuthuong.includes(".jpg") || chuthuong.includes(".jpeg") || chuthuong
-                        .includes(".png") || chuthuong.includes(".pdf"))
-                        $scope.listfile.push(dt);
-                    else {
-
-                        $timeout(function () {
-                            Notifications.addMessage({
-                                'status': 'info',
-                                'message': $translate.instant(
-                                    'FileValidation_IMG_MSG')
-                            });
-                        }, 300);
-
-                        var namefile = {
-                            fname: x
-                        };
-                        CReportService.DeleteFile(namefile, res);
-                    }
-                })
-
-            })
-        }
-
         $scope.passOrNot = [{
                 "name": $translate.instant('Update'),
-                "value": "UPDATE"
+                "value": "UPDATE" //BPMN value
             },
             {
                 "name": $translate.instant('Delete'),
-                "value": "DELETE"
+                "value": "DELETE" //BPMN value
             }
-            // { "name": 'DeleteVoucher', "value": "Cancel" }
         ];
-
-        $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
-        $scope.loading = false;
-        /*Submit button*/
-
-
-        function saveInitData() {
-            var note = {};
-            note.userID = Auth.username;
-            note.voucherID = $scope.VoucherID || '';
-            note.reason = $scope.recod.Reason || '';
-            note.solution = $scope.recod.Solution || '';
-            note.prevention = $scope.recod.Prevention || '';
-            note.remark = $scope.leadercheck_remark || '';
-            note.status = $scope.recod.Status || '';
-            note.state = $scope.recod.State || '';
-            return note;
-        }
-        /**
-         * Update status by updateByID
-         */
-        $scope.Submit = function (isSubmit) {
-            if (!confirm("Submit this Report?")) return;
-            if ($scope.checkList.length <= 0) {
-                Notifications.addError({
-                    'status': 'error',
-                    'message': 'Don\'t get leader'
-                });
-                return;
-            }
-            // $scope.formVariables.push({
-            //     name: 'Rp_ID',
-            //     value: $scope.variable.Rp_ID //chosen
-            // });
-            $scope.submit();
-            // var data = saveInitData();
-        }
-        $scope.recordIC = {};
-        $scope.recordAC = {};
-
+        // $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
 
         LoadDetail();
 
-        function LoadDetail() {
+        function LoadDetail() { // loaddetail
             CReportService.FindByID({
                 Rp_ID: $scope.variable.Rp_ID
             }, function (data) {
@@ -280,6 +51,12 @@
                 $scope.recordIC.icImprove = data.RpIC_Process;
                 $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
                 $scope.recordIC.icType = data.RpIC_IncidentType;
+
+                $scope.recordIC.icAffect = data.RpIC_Affect;
+                $scope.recordIC.icAffectRange = data.RpIC_AffectRange;
+                $scope.recordIC.TimeNotif = data.RpIC_TimeNotif;
+                $scope.recordIC.ICNotifPersion = data.RpIC_NotifPerson;
+                $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson;
 
                 $scope.listfile = [];
 
@@ -339,34 +116,36 @@
                 });
             })
         }
-
-        //Choose SubDepartment to show Employees 
-        $scope.showEmployeeList = function (dept_id) {
-            if (dept_id == null || dept_id == '') return;
-            CReportService.GetEmployee({
-                DepartmentID: dept_id
-            }, function (res) {
-                if (res.length > 0) {
-                    $scope.listEmployee = res;
-                } else $scope.listEmployee = [];
-            })
-        };
+        $scope.Submit = function (isSubmit) {
+            $scope.loading = true;
+            if (!confirm("Submit this Report?")) return;
+            if ($scope.checkList.length <= 0) {
+                Notifications.addError({
+                    'status': 'error',
+                    'message': 'Don\'t get leader'
+                });
+                return;
+            }
+            // $scope.formVariables.push({
+            //     name: 'Rp_ID',
+            //     value: $scope.variable.Rp_ID //chosen
+            // });
+            $scope.submit();
+            // var data = saveInitData();
+        }
 
 
     }
 </script>
 <div ng-controller="RYVoucherCheck">
     <!-- REPORT DIRECTIVE -->
-    <!-- <approval-master vid='{{variable.OverID}}' style="width: 85%"></approval-master> -->
-    <!-- <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report> -->
     <div ng-show="IsIC">
         <create_ic_report></create_ic_report>
     </div>
-    <div ng-if="!IsIC">
+    <div ng-show="!IsIC">
         <create_ac_report></create_ac_report>
     </div>
 
-    <!-- CHOOSE FORM -->
     <form class="form-horizontal" role="form" novalidate name="form">
         <!-- RECEVEIVE AND PROCESS FORM -->
 
@@ -381,7 +160,7 @@
 
         <!-- leader remark show if returned -->
         <div>
-            <h3 style="color:red;">
+            <h3 style="color:red;" ng-if="variable.leadercheck_remark">
                 {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
             </h3>
         </div>

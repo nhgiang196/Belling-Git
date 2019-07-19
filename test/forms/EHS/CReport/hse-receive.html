@@ -1,6 +1,6 @@
 <!-- D:\nhgiang\p\WebBeling-Git\test\forms\CReport\recieve.html -->
 <h1>
-leader hse check report
+    leader hse check report
 
 </h1>
 <script>
@@ -10,7 +10,7 @@ leader hse check report
 
 
         var lang = window.localStorage.lang;
-        
+
         $scope.username = Auth.username;
         $scope.recod = {};
         $translate.refresh();
@@ -75,7 +75,7 @@ leader hse check report
          * Update status by updateByID
          */
         $scope.Save = function (isSubmit) {
-
+            $scope.loading = true;
             SaveBpmn();
             // var data = saveInitData();
 

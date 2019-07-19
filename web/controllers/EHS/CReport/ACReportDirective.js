@@ -1,10 +1,13 @@
 define(['app'], function (app) {
-    app.directive('createAcReport', ['CReportService', 'Auth',
-        function (CReportService, Auth) {
+    app.directive('createAcReport', ['CReportService', 'InfolistService', 'Auth',
+        function (CReportService, InfolistService, Auth) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
                     // xóa file tình hình bị thương khỏi QCFiles 
+                    $scope.recordAC = {};
+                    $scope.ACTypelist = InfolistService.Infolist('ACType');
+                    $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
 
                     $scope.removeFileInjury = function (index) {
                         var namefile = {
@@ -22,7 +25,6 @@ define(['app'], function (app) {
                                 console.log(error);
                             })
                     }
-
                     // Lấy nạn nhân trong list employees để chỉnh sửa
                     $scope.getEmployee = function (index) {
                         $scope.gd.EmployeeID = $scope.employees[index].EmployeeID;
@@ -78,11 +80,69 @@ define(['app'], function (app) {
                         $scope.employees.splice(index, 1);
                     };
 
-                    var count = 0;
+
+                    // Lấy dữ liệu lên modalAC để chỉnh sửa
+                    $scope.loadACDetail = function (id) {
+                        CReportService.FindByID({
+                            Rp_ID: id
+                        }, function (data) {
+                            $scope.recordAC.rp_id = data.Rp_ID;
+                            $scope.recordAC.ac_subdepartment = data.Rp_SubDepartmentID;
+                            $scope.recordAC.ac_type = data.Rp_Type;
+                            $scope.recordAC.ac_datetime = data.Rp_DateTime;
+                            $scope.recordAC.ac_location = data.Rp_Location;
+                            $scope.recordAC.ac_prevent = data.Rp_PreventMeasure;
+                            $scope.recordAC.ac_improvesoft = data.RpAC_ImproveSoftware;
+                            $scope.recordAC.ac_improvehard = data.RpAC_ImproveHardware;
+                            $scope.recordAC.ac_datecomp = data.RpAC_DateComplete;
+                            $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
+                            $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
+                            $scope.recordAC.submittype = data.Rp_SubmitType;
+
+                            $scope.employees = [];
+                            $scope.showEmployeeList(data.Rp_SubDepartmentID);
+                            data.AccidentDetail.forEach(element => {
+                                var x = {};
+                                x.Injury_Description = element.Injury_Description;
+                                x.Rp_ID = element.Rp_ID;
+                                x.Treatment_Result = element.Treatment_Result;
+                                x.Witness_info = element.Witness_info;
+                                x.EmployeeID = element.EmployeeID;
+                                x.Contractor_Victim_Name = element.Contractor_Victim_Name;
+                                x.Contractor_Victim_Sex = element.Contractor_Victim_Sex;
+                                x.Contractor_Victim_Age = element.Contractor_Victim_Age;
+                                x.Contractor_Name = element.Contractor_Name;
+                                x.Contractor_Victim_DateWork = element.Contractor_Victim_DateWork;
+                                x.Contractor_Victim_Work = element.Contractor_Victim_Work;
+                                $scope.employees.push(x);
+                            })
+
+                            $scope.listfile = [];
+                            $scope.injury = [];
+                            data.FileAttached.forEach(element => {
+                                if (element.ColumnName == "Rp_Location") {
+                                    var x = {};
+                                    x.Rp_ID = element.Rp_ID;
+                                    x.name = element.File_ID;
+                                    x.col = element.ColumnName;
+                                    $scope.listfile.push(x);
+                                } else {
+                                    var x = {};
+                                    x.Rp_ID = element.Rp_ID;
+                                    x.name = element.File_ID;
+                                    x.empID = element.Profile_ID;
+                                    x.col = element.ColumnName;
+                                    $scope.injury.push(x);
+                                }
+                            })
+                        }, function (error) {
+
+                        })
+                    };
 
                     function saveInitDataAC() {
                         var note = {};
-                        count = 0;
+                        var count = 0;
                         note.Rp_ID = $scope.recordAC.rp_id || '';
                         note.Rp_Date = $scope.recordAC.date || '';
                         note.Rp_Stamp = $scope.recordAC.stamp || '';
@@ -132,10 +192,7 @@ define(['app'], function (app) {
                         return note;
                     }
 
-                    /**
-                     * Update status by updateByID
-                     */
-                    function updateByID_AC(data) {
+                    function updateByID_AC(data) { // Update status by updateByID
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {
                                     if ($scope.btnSub) {
@@ -160,7 +217,7 @@ define(['app'], function (app) {
                     /**
                      * Save 
                      */
-                    function SaveAC(data) {
+                    function SaveAC(data) { //save data
                         CReportService.Create(data, function (res) {
                             console.log(res)
 
@@ -190,13 +247,8 @@ define(['app'], function (app) {
 
                     }
 
-
-                    /**
-                     * save submit 
-                     */
-
-                    var nofile = false;
-                    $scope.SaveACReport = function () {
+                    $scope.SaveACReport = function () { //main submitting /saving function
+                        var nofile = false;
                         if ($scope.employees.length != 0) {
                             $scope.mySwitch = false;
                             var note = saveInitDataAC();
@@ -270,6 +322,23 @@ define(['app'], function (app) {
                             })
                         return $scope.emp_name;
                     };
+
+                    //Choose SubDepartment to show Employees 
+                    $scope.showEmployeeList = function (dept_id) {
+                        $scope.gd = {};
+                        $scope.employees = [];
+                        if (dept_id == null || dept_id == '') return;
+                        CReportService.GetEmployee({
+                            DepartmentID: dept_id
+                        }, function (res) {
+                            if (res.length > 0) {
+                                $scope.listEmployee = res;
+                                console.log($scope.listEmployee);
+                            } else $scope.listEmployee = [];
+                        })
+                    };
+
+
 
                 },
 

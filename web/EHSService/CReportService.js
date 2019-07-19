@@ -447,6 +447,22 @@ define(['app', 'angular'], function (app, angular) {
                         ];
                         return SubmitTypelist;
                         break;
+                    case 'IncidentType':
+
+                        return [{
+                                id: 'WasteWater',
+                            },
+                            {
+                                id: 'Gas',
+                            },
+                            {
+                                id: 'SolidWaste',
+                            },
+                            {
+                                id: 'Chemical',
+                            }
+                        ];;
+                        break;
 
                 }
             }

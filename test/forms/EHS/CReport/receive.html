@@ -82,7 +82,7 @@
          * Update status by updateByID
          */
         $scope.Save = function (isSubmit) {
-
+            $scope.loading = true;
             SaveBpmn();
             // var data = saveInitData();
 
@@ -97,8 +97,6 @@
     <!-- CHOOSE FORM -->
     <form class="form-horizontal" role="form" novalidate name="form">
         <!-- RECEVEIVE AND PROCESS FORM -->
-
-
         <div class="form-group">
             <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
             <div class="col-sm-4">
@@ -111,7 +109,7 @@
             <label class="col-sm-2  control-label">*{{'DenyReason'|translate}}:</label>
             <div class="col-sm-6">
                 <textarea class="form-control" name="leadercheck_remark" type="text" form-field
-                    history-field="DenyReason" ng-model="leadercheck_remark" rows="3" />
+                    history-field="DenyReason" ng-model="leadercheck_remark" rows="3" required />
                 </div>
         </div>
 
