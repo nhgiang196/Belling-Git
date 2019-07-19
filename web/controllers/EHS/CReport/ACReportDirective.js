@@ -268,6 +268,9 @@ define(['app'], function (app) {
                                         $scope.resetAC();
                                         break;
                                     case 'M':
+                                        updateByID_AC(note);
+                                        break;
+                                    case 'MP':
                                         note.Rp_Status = 'P';
                                         updateByID_AC(note);
                                         break;

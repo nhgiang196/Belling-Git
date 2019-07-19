@@ -278,6 +278,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                         $scope.status = 'N';
                         $('#my-modal').modal('show');
                         $scope.resetIC();
+                        
                         $scope.recordIC.submittype = 'EVR';
                     },
                     order: 1
@@ -307,7 +308,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 },
 
                 {
-                    title: $translate.instant('Update'),
+                    title: '📝 '+ $translate.instant('Update'),
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
                         if (resultRows.length == 1) {
@@ -416,7 +417,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     order: 4
                 },
                 {
-                    title: $translate.instant('Delete'),
+                    title: '❌ '+ $translate.instant('Delete'),
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows();
                         if (resultRows.length == 1) {
@@ -453,7 +454,7 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                     order: 5
                 },
                 {
-                    title: $translate.instant('InProcess'),
+                    title:'🧾 ' + $translate.instant('InProcess'),
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows();
                         if (resultRows.length == 1) {

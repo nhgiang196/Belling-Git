@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('createIcReport', ['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate',
-        function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate) {
+    app.directive('createIcReport', ['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate','$upload',
+        function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate, $upload,) {
             return {
                 restrict: 'E',
                 controller: function ($scope, $element, $attrs) {
@@ -69,7 +69,6 @@ define(['app'], function (app) {
                                         name: 'Rp_ID',
                                         value: $scope.ID_IC //??
                                     });
-                                    S
                                     $scope.SubmitAndChangeStatus($scope.ID_IC);
                                     $scope.btnSub = false;
                                     $('#my-modal').modal('hide');
