@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('receiveReport', ['CReportService', 'InfolistService', 'Auth', '$filter', '$routeParams',
-        function (CReportService, InfolistService, Auth, $filter, $routeParams) {
+    app.directive('receiveReport', ['CReportService', 'InfolistService', 'Auth', '$filter', '$routeParams', '$translate',
+        function (CReportService, InfolistService, Auth, $filter, $routeParams, $translate) {
             return {
                 restrict: 'AEC',
                 link: function (scope, element, attrs) {
@@ -13,9 +13,18 @@ define(['app'], function (app) {
                         Rp_ID: _Rp_ID
                     }, function (data) {
                         console.log("return data:", data);
+
+
+                        if (InfolistService.Infolist('IncidentType').find(x=>x.id==data.Header[0].RpIC_IncidentType)!=undefined)
+                            data.Header[0].RpIC_IncidentType = $translate.instant('RpIC_IncidentType-' + data.Header[0].RpIC_IncidentType);
+
                         scope.ReportDetail = data.Header[0];
                         scope.FileAttached = data.File;
                         scope.InjuryDetail = data.Detail;
+
+
+
+
 
                         // evaluate combobox
                         var evaluatelist = InfolistService.Infolist('evaluate');
