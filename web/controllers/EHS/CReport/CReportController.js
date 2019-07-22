@@ -369,17 +369,35 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 Rp_ID: resultRows[0].Rp_ID
                             }, function (data) {
 
-                                $scope.ImprovementRecord = data;
-                                data.FileAttached.forEach(element => {
-                                    var x = {};
-                                    x.Rp_ID = element.Rp_ID;
-                                    x.name = element.File_ID;
-                                    x.col = element.ColumnName;
-                                    $scope.listfile.push(x);
-                                })
+                                if (new Date(data.RpAC_DateComplete) >= new Date()) {
+
+                                    $scope.ImprovementRecord = data;
+                                    data.FileAttached.forEach(element => {
+                                        var x = {};
+                                        x.Rp_ID = element.Rp_ID;
+                                        x.name = element.File_ID;
+                                        x.col = element.ColumnName;
+                                        $scope.listfile.push(x);
+                                    })
+                                    $('#modal_Improvement').modal('show');
+
+                                } else {
+
+                                    $timeout(function () {
+                                        Notifications.addError({
+                                            'status': 'error',
+                                            'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete.toString())
+                                        });
+                                    }, 300);
 
 
-                                $('#modal_Improvement').modal('show');
+
+                                }
+
+
+
+
+
                             }, function (error) {});
 
 
