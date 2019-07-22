@@ -81,8 +81,8 @@ exports.GetQCOverGrade =(req,res)=>{
 }
 exports.Get_CReportHSE_ID =(req,res)=>{
     var query={}
-    console.log(req.query.OverID);
-    if(!req.query.OverID){
+    console.log(req.query.Rp_ID);
+    if(!req.query.Rp_ID){
         res.send(500,"The Voucher Not Exist!")
     }
     query.activityId ='startevent1';
