@@ -3,13 +3,38 @@
         $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
         Auth, GateGuest, $translate, CReportService, $filter, $q) {
         var lang = window.localStorage.lang;
-        // $scope.$watch('checkList', function (val) {
-        //     if (val !== undefined && val !== null) {
-        //         if ($scope.ReportDetail.Rp_Type == 'IC')
-        //             $scope.checkList.splice(0, 0, 'FEPV000559');
-        //             $scope.leaderlist.splice(0, 0, {$$hashKey: "",Person: "FEPV000559"});
-        //     }
-        // })
+        $scope.$watch('checkList', function (val) {
+            if (val !== undefined && val !== null) {
+                if ($scope.ReportDetail.Rp_SubmitType == 'EVR') {
+                    $scope.checkList.splice(0, 1, 'FEPV000096');
+                    $scope.leaderlist.splice(0, 1, {
+                        $$hashKey: "",
+                        Person: "FEPV000096"
+                    });
+                }
+                if ($scope.ReportDetail.Rp_SubmitType == 'SF') {
+                    $scope.checkList.splice(0, 1, 'FEPV000559');
+                    $scope.leaderlist.splice(0, 1, {
+                        $$hashKey: "",
+                        Person: "FEPV000559"
+                    });
+                }
+                if ($scope.ReportDetail.Rp_SubmitType == 'FP') {
+                    $scope.checkList.splice(0, 1, 'FEPV000944');
+                    $scope.leaderlist.splice(0, 1, {
+                        $$hashKey: "",
+                        Person: "FEPV000944"
+                    });
+                }
+
+
+
+
+
+
+
+            }
+        })
         $translate.refresh();
         $scope.passOrNot = [{
                 "name": $translate.instant('agree'),

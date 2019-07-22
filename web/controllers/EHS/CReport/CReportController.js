@@ -364,6 +364,24 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.ReportDetail = {};
                         $scope.listfile = [];
                         if (resultRows.length == 1) {
+                            if (resultRows[0].Rp_CreatorID != Auth.username) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Update_onlyowner_MSG')
+                                });
+                                return;
+                            }
+
+                            if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
+                                {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('IC Wont Work')
+                                    });
+                                    return;
+                                }
+                            }
+
                             $scope.ReportDetail.Rp_ID = resultRows[0].Rp_ID
                             CReportService.FindByID({
                                 Rp_ID: resultRows[0].Rp_ID
