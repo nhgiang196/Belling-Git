@@ -512,11 +512,11 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                 $scope.formVariables = [];
                 var historyVariable = [];
                 /**Check if user have permission to submit */
-                EngineApi.getTcodeLink().get({
-                    userid: Auth.username,
-                    tcode: $scope.flowkey
-                }, function (linkres) {
-                    if (linkres.IsSuccess) {
+                // EngineApi.getTcodeLink().get({
+                //     userid: Auth.username,
+                //     tcode: $scope.flowkey
+                // }, function (linkres) {
+                //     if (linkres.IsSuccess) {
                         $scope.formVariables.push({
                             name: 'Receive_Users',
                             value: $scope.checkList
@@ -542,8 +542,8 @@ define(['myapp', 'controllers/EHS/CReport/ACReportDirective', 'controllers/EHS/C
                                 $scope.SubmitAndChangeStatus(Rp_ID);
                             }
                         }
-                    } else alert("You don't have permission!")
-                });
+                    // } else alert("You don't have permission!")
+                // });
                 $scope.SubmitAndChangeStatus = function (Rp_ID) {
                     /**Submit to BPMN */
                     CReportService.SubmitBPM($scope.formVariables, historyVariable, '', function (res, message) {

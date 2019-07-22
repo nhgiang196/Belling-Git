@@ -5,26 +5,65 @@ define(['app'], function (app) {
                 restrict: 'E',
                 controller: function ($scope) {
                     // xóa file tình hình bị thương khỏi QCFiles 
-                    
+
                     $scope.ACTypelist = InfolistService.Infolist('ACType');
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
 
-                    $scope.removeFileInjury = function (index) {
-                        var namefile = {
-                            fname: $scope.listfileAC[index].name
-                        };
+                    /**
+                     *reset data function
+                     */
+                    $scope.resetAC = function () {
+                        $scope.mySwitch = false;
+                        $scope.listfileAC = [];
+                        $scope.recordAC = {};
+                        $scope.gd = {};
+                        $scope.employees = [];
+                        $scope.Search();
+                        $scope.listfile = [];
+                        $scope.lsFile = [];
+                        $scope.injury = [];
+                        $scope.ID_AC = "";
+                        $scope.btnFile_AC = true;
+                        $scope.listfile_loc_ac = false;
+                        $scope.listfile_process_ac = false;
+                    };
 
-                        $scope.listfileAC.splice(index, 1);
 
-                        CReportService.DeleteFile(namefile, function (res) {
-                                if (res.Success) {
-                                    console.log(res.Success);
+                    $scope.showEmployeeName = function (emp_id) {
+                        if ($scope.employees)
+                            $scope.employees.forEach(x => {
+                                if (x.EmployeeID == emp_id) {
+                                    $scope.emp_name = x.Contractor_Victim_Name;
                                 }
-                            },
-                            function (error) {
-                                console.log(error);
                             })
-                    }
+                        if ($scope.listEmployee)
+                            $scope.listEmployee.forEach(x => {
+                                if (x.EmployeeID == emp_id) {
+                                    $scope.emp_name = x.Name;
+
+                                }
+
+                            })
+                        return $scope.emp_name;
+                    };
+
+
+                    $scope.showEmployeeList = function (dept_id) {
+                        $scope.gd = {};
+                        $scope.employees = [];
+                        if (dept_id == null || dept_id == '') return;
+                        CReportService.GetEmployee({
+                            DepartmentID: dept_id
+                        }, function (res) {
+                            if (res.length > 0) {
+                                $scope.listEmployee = res;
+                                console.log($scope.listEmployee);
+                            } else $scope.listEmployee = [];
+                        })
+                    };
+
+
+
                     // Lấy nạn nhân trong list employees để chỉnh sửa
                     $scope.getEmployee = function (index) {
                         $scope.gd.EmployeeID = $scope.employees[index].EmployeeID;
@@ -47,38 +86,7 @@ define(['app'], function (app) {
 
                         $scope.employees.splice(index, 1);
                     };
-                    //Add employee in param table (AccidentDetail)
-                    $scope.addEmployee = function () {
-                        debugger;
-                        if ($scope.gd != null || $scope.gd != {}) {
-                            $scope.employees.forEach(x => {
-                                if ($scope.gd.EmployeeID == x.EmployeeID) {
-                                    $scope.same_employee_msg();
-                                    return;
-                                }
-                            })
-                            $scope.gd.Rp_ID = $scope.recordAC.rp_id || '';
-                            if ($scope.listfileAC.length > 0) {
-                                $scope.listfileAC.forEach(x => {
-                                    var y = {};
-                                    y.name = x.name;
-                                    y.col = x.col;
-                                    y.empID = $scope.gd.EmployeeID;
-                                    $scope.injury.push(y);
-                                })
-                            }
 
-                            $scope.employees.push($scope.gd);
-
-                            $scope.gd = {};
-                            $scope.listfileAC = [];
-                        }
-                    };
-
-                    // delete nạn nhân trong list employees
-                    $scope.deleteEmployee = function (index) {
-                        $scope.employees.splice(index, 1);
-                    };
 
 
                     // Lấy dữ liệu lên modalAC để chỉnh sửa
@@ -139,6 +147,42 @@ define(['app'], function (app) {
 
                         })
                     };
+
+
+
+                    //Add employee in param table (AccidentDetail)
+                    $scope.addEmployee = function () {
+                        debugger;
+                        if ($scope.gd != null || $scope.gd != {}) {
+                            $scope.employees.forEach(x => {
+                                if ($scope.gd.EmployeeID == x.EmployeeID) {
+                                    $scope.same_employee_msg();
+                                    return;
+                                }
+                            })
+                            $scope.gd.Rp_ID = $scope.recordAC.rp_id || '';
+                            if ($scope.listfileAC.length > 0) {
+                                $scope.listfileAC.forEach(x => {
+                                    var y = {};
+                                    y.name = x.name;
+                                    y.col = x.col;
+                                    y.empID = $scope.gd.EmployeeID;
+                                    $scope.injury.push(y);
+                                })
+                            }
+
+                            $scope.employees.push($scope.gd);
+
+                            $scope.gd = {};
+                            $scope.listfileAC = [];
+                        }
+                    };
+
+                    // delete nạn nhân trong list employees
+                    $scope.deleteEmployee = function (index) {
+                        $scope.employees.splice(index, 1);
+                    };
+
 
                     function saveInitDataAC() {
                         var note = {};
@@ -287,59 +331,31 @@ define(['app'], function (app) {
 
                     };
 
-                    /**
-                     *reset data function
-                     */
-                    $scope.resetAC = function () {
-                        $scope.mySwitch = false;
-                        $scope.listfileAC = [];
-                        $scope.recordAC = {};
-                        $scope.gd = {};
-                        $scope.employees = [];
-                        $scope.Search();
-                        $scope.listfile = [];
-                        $scope.lsFile = [];
-                        $scope.injury = [];
-                        $scope.ID_AC = "";
-                        $scope.btnFile_AC = true;
-                        $scope.listfile_loc_ac = false;
-                        $scope.listfile_process_ac = false;
-                    };
 
                     $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
-                    $scope.showEmployeeName = function (emp_id) {
-                        if ($scope.employees)
-                            $scope.employees.forEach(x => {
-                                if (x.EmployeeID == emp_id) {
-                                    $scope.emp_name = x.Contractor_Victim_Name;
-                                }
-                            })
-                        if ($scope.listEmployee)
-                            $scope.listEmployee.forEach(x => {
-                                if (x.EmployeeID == emp_id) {
-                                    $scope.emp_name = x.Name;
 
-                                }
 
+                    $scope.removeFileInjury = function (index) {
+                        var namefile = {
+                            fname: $scope.listfileAC[index].name
+                        };
+
+                        $scope.listfileAC.splice(index, 1);
+
+                        CReportService.DeleteFile(namefile, function (res) {
+                                if (res.Success) {
+                                    console.log(res.Success);
+                                }
+                            },
+                            function (error) {
+                                console.log(error);
                             })
-                        return $scope.emp_name;
-                    };
+                    }
+
+
 
                     //Choose SubDepartment to show Employees 
-                    $scope.showEmployeeList = function (dept_id) {
-                        $scope.gd = {};
-                        $scope.employees = [];
-                        if (dept_id == null || dept_id == '') return;
-                        CReportService.GetEmployee({
-                            DepartmentID: dept_id
-                        }, function (res) {
-                            if (res.length > 0) {
-                                $scope.listEmployee = res;
-                                console.log($scope.listEmployee);
-                            } else $scope.listEmployee = [];
-                        })
-                    };
 
 
 
