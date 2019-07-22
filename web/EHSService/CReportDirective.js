@@ -4,46 +4,46 @@ define(['app'], function (app) {
             return {
                 restrict: 'AEC',
                 link: function (scope, element, attrs) {
-                    /**Init scope*/
                     scope.today = $filter('date')(new Date(), "yyyy-MM-dd");
                     scope.ReportDetail = [];
                     scope.UserName = Auth.username;
-                    var _Rp_ID = $routeParams.Rp_ID ? $routeParams.Rp_ID : attrs.rpId
-                    CReportService.GetInfoBasic.GetDetailReport({
-                        Rp_ID: _Rp_ID
-                    }, function (data) {
-                        console.log("return data:", data);
+                    var _Rp_ID = $routeParams.Rp_ID ? $routeParams.Rp_ID : attrs.rpId;
+                    if (!_Rp_ID)
+                        console.log('No rp_ID to show');
+                    else
+                        CReportService.GetInfoBasic.GetDetailReport({
+                            Rp_ID: _Rp_ID
+                        }, function (data) {
+                            console.log("return data:", data);
 
 
-                        if (InfolistService.Infolist('IncidentType').find(x=>x.id==data.Header[0].RpIC_IncidentType)!=undefined)
-                            data.Header[0].RpIC_IncidentType = $translate.instant('RpIC_IncidentType-' + data.Header[0].RpIC_IncidentType);
+                            if (InfolistService.Infolist('IncidentType').find(x => x.id == data.Header[0].RpIC_IncidentType) != undefined)
+                                data.Header[0].RpIC_IncidentType = $translate.instant('RpIC_IncidentType-' + data.Header[0].RpIC_IncidentType);
 
-                        scope.ReportDetail = data.Header[0];
-                        scope.FileAttached = data.File;
-                        scope.InjuryDetail = data.Detail;
-
-
+                            scope.ReportDetail = data.Header[0];
+                            scope.FileAttached = data.File;
+                            scope.InjuryDetail = data.Detail;
 
 
+                            // evaluate combobox
+                            var evaluatelist = InfolistService.Infolist('evaluate');
+                            // location combobox
+                            var locationlist = InfolistService.Infolist('location');
+                            // incident type combobox
+                            var submittypelist = InfolistService.Infolist('SubmitType');
+                            if (data.Header[0].Rp_SubmitType == 'EVR') {} else {
+                                if (data.Header[0].Rp_Type == 'IC') {
+                                    scope.ReportDetail.RpIC_IncidentType = submittypelist.find(item => item.id === data.Header[0].RpIC_IncidentType).name;
+                                    scope.ReportDetail.RpIC_Evaluate = evaluatelist.find(item => item.id === data.Header[0].RpIC_Evaluate).name;
+                                } else {
 
-                        // evaluate combobox
-                        var evaluatelist = InfolistService.Infolist('evaluate');
-                        // location combobox
-                        var locationlist = InfolistService.Infolist('location');
-                        // incident type combobox
-                        var submittypelist = InfolistService.Infolist('SubmitType');
+                                    scope.ReportDetail.RpAC_ResultHardware = evaluatelist.find(item => item.id === data.Header[0].RpAC_ResultHardware).name;
+                                    scope.ReportDetail.RpAC_ResultSoftware = evaluatelist.find(item => item.id === data.Header[0].RpAC_ResultSoftware).name;
+                                }
 
-                        scope.ReportDetail.Rp_Location = locationlist.find(item => item.id === scope.ReportDetail.Rp_Location).name;
-                        if (scope.ReportDetail.Rp_Type == 'IC') {
-                            scope.ReportDetail.RpIC_Evaluate = evaluatelist.find(item => item.id === scope.ReportDetail.RpIC_Evaluate).name;
-                            scope.ReportDetail.RpIC_IncidentType = submittypelist.find(item => item.id === scope.ReportDetail.RpIC_IncidentType).name;
-                        } else {
-                            scope.ReportDetail.RpAC_ResultHardware = evaluatelist.find(item => item.id === scope.ReportDetail.RpAC_ResultHardware).name;
-                            scope.ReportDetail.RpAC_ResultSoftware = evaluatelist.find(item => item.id === scope.ReportDetail.RpAC_ResultSoftware).name;
-                        }
+                            }
 
-
-                    });
+                        });
 
 
 

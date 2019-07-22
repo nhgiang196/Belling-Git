@@ -10,6 +10,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 submitbutton: true,
                 checker: true
             }
+            // $scope.ImprovementRecord = {};
             var lang = window.localStorage.lang || 'EN';
             /***************************************************************************** */
             /**search comboboxs */
@@ -33,7 +34,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 id: '2',
                 name: $translate.instant('PollutionEnvironment')
             }];
-            $scope.demolist = $scope.typelist; //EVR or others??
+            $scope.demolist = $scope.typelist; //list for EVR or others. Depend on submit_type
             $scope.statuslist = InfolistService.Infolist('status'); //search param list
             $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
             $scope.rp_Submittype = $scope.SubmitTypelist[0]; //set default search param
@@ -46,6 +47,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     displayName: $translate.instant('ReportID'),
                     cellTooltip: true,
                     cellTemplate: "<a  ng-click='grid.appScope.GetLink(row)' style='cursor:pointer;display: block;height: 80%;overflow: hidden;padding: 5px;' target='_blank'>{{COL_FIELD}}</a>"
+
                 },
                 {
                     field: 'Rp_Status',
@@ -53,7 +55,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     width: 100,
                     minWidth: 10,
                     cellTooltip: true,
-                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportStatus(row.entity.Rp_Status)}}</span>'
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Rp_Status)}}</span>'
                 },
                 {
                     field: 'Rp_Date',
@@ -67,14 +69,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     minWidth: 150,
                     displayName: $translate.instant('Department'),
                     cellTooltip: true,
-                    cellTemplate: '<span class="grid_cell_ct">{{row.entity.DepartmentName}} {{row.entity.Contractor_Name}}</span>'
                 },
                 {
                     field: 'Rp_Type',
                     minWidth: 120,
                     displayName: $translate.instant('ReportType'),
                     cellTooltip: true,
-                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportType(row.entity.Rp_Type)}}</span>'
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Rp_Type)}}</span>'
                 },
                 {
                     field: 'Rp_DateTime',
@@ -87,7 +88,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     minWidth: 150,
                     displayName: $translate.instant('Iclocation'),
                     cellTooltip: true,
-                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getCReportLocation(row.entity.Rp_Location)}}</span>'
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Rp_Location)}}</span>'
                 },
                 {
                     field: 'EmployeeID',
@@ -100,7 +101,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     minWidth: 150,
                     displayName: $translate.instant('EmployeeName'),
                     cellTooltip: true,
-                    cellTemplate: '<span class="grid_cell_ct">{{row.entity.Name}} {{row.entity.Contractor_Victim_Name}}</span>'
                 },
                 {
                     field: 'Rp_CreatorID',
@@ -109,25 +109,16 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     cellTooltip: true
                 }
             ];
-            $scope.getCReportStatus = function (id) {
-                var status = $scope.statuslist.find(item => item.id === id).name;
-                status = $translate.instant(status);
-                return status;
-            }
-            $scope.getCReportLocation = function (id) {
-                var location = $scope.locationlist.find(item => item.id === id).name;
-                location = $translate.instant(location);
-                return location;
-            }
-            $scope.getCReportType = function (id) {
-                var CReport_type = "";
-                if (id == "IC") {
-                    CReport_type = $translate.instant("Incident");
-                } else {
-                    CReport_type = $scope.ACTypelist.find(item => item.id === id).name;
-                    CReport_type = $translate.instant(CReport_type);
+            $scope.getTranslatedCol = function (colname, id) {
+                switch (colname) {
+                    case 'Rp_Status':
+                        return $translate.instant($scope.statuslist.find(item => item.id === id).name);
+                    case 'Rp_Location':
+                        return $translate.instant($scope.locationlist.find(item => item.id === id).name);
+                    case 'Rp_Type':
+                        if (id == "IC") return $translate.instant("Incident");
+                        return $translate.instant($scope.ACTypelist.find(item => item.id === id).name);
                 }
-                return CReport_type;
             }
             //Grid setting mặc định tên 
             $scope.gridOptions = {
@@ -150,6 +141,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 useExternalPagination: true,
                 enablePagination: true,
                 enablePaginationControls: true,
+                exporterFieldCallback: function (grid, row, col, value) {
+                    if (['Rp_Status', 'Rp_Location', 'Rp_Type'].indexOf(col.name) >= 0) {
+                        if (value != undefined) value = $scope.getTranslatedCol(col.name, value);
+                    }
+                    return value;
+                },
                 onRegisterApi: function (gridApi) {
                     $scope.gridApi = gridApi;
                     EngineApi.getTcodeLink().get({
@@ -235,10 +232,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
             function disableFileLocation(value) {
                 if (value == "O") {
                     // $scope.btnFile = false;
-                    $scope.btnFile_AC = false;
+                    // $scope.btnFile_AC = false;
                 } else {
                     // $scope.btnFile = true;
-                    $scope.btnFile_AC = true;
+                    // $scope.btnFile_AC = true;
                 }
             }
             // delete
@@ -311,67 +308,45 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 {
                     title: '📝 ' + $translate.instant('Update'),
                     action: function () {
+                        $scope.status = 'M'; //Set update Status
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
                         if (resultRows.length == 1) {
-                            //UPDATE BÁO CÁO SỰ CỐ
-                            if (resultRows[0].Rp_Type == "IC") {
+
+                            if (resultRows[0].Rp_CreatorID != Auth.username) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Update_onlyowner_MSG')
+                                });
+                                return;
+                            } else if (resultRows[0].Rp_Status == 'P') {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Update_Processing_MSG')
+                                });
+                                return;
+                            } else if (resultRows[0].Rp_Status == 'X') {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Update_Deleted_MSG')
+                                });
+                                return;
+                            } else if (resultRows[0].Rp_Status == 'S') {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('Update_Signed_MSG')
+                                });
+                                return;
+                            }
+                            // disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
+                            if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
                                 $scope.rp_type = '0';
-                                $scope.status = 'M'; //Set update Status
-                                if (resultRows[0].Rp_CreatorID != Auth.username) {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_onlyowner_MSG')
-                                    });
-                                } else if (resultRows[0].Rp_Status == 'P') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_Processing_MSG')
-                                    });
-                                } else if (resultRows[0].Rp_Status == 'X') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_Deleted_MSG')
-                                    });
-                                } else if (resultRows[0].Rp_Status == 'S') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_Signed_MSG')
-                                    });
-                                } else {
-                                    disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
-                                    $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
-                                    $('#my-modal').modal('show');
-                                }
-                                //UPDATE BÁO CÁO TAI NẠN
-                            } else {
+                                $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
+                                $('#my-modal').modal('show');
+                            } else { //UPDATE BÁO CÁO TAI NẠN
                                 $scope.mySwitch = true; // disable 
-                                $scope.status = 'M'; //Set update Status
                                 $scope.rp_type = '1';
-                                if (resultRows[0].Rp_CreatorID != Auth.username) {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_onlyowner_MSG')
-                                    });
-                                } else if (resultRows[0].Rp_Status == 'P') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_Processing_MSG')
-                                    });
-                                } else if (resultRows[0].Rp_Status == 'X') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_Deleted_MSG')
-                                    });
-                                } else if (resultRows[0].Rp_Status == 'S') {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('Update_Signed_MSG')
-                                    });
-                                } else {
-                                    disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
-                                    $scope.loadACDetail(resultRows[0].Rp_ID); //load modal ACReportDirective
-                                    $('#myModal').modal('show');
-                                }
+                                $scope.loadACDetail(resultRows[0].Rp_ID); //load modal ACReportDirective
+                                $('#myModal').modal('show');
                             }
                         } else {
                             Notifications.addError({
@@ -383,15 +358,32 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     order: 3
                 },
                 {
-                    title: '👨🏻‍🚒 ' + $translate.instant('Update Improvement'),
+                    title: '👨🏻‍🚒 ' + $translate.instant('Update_Improvement'),
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
+                        $scope.ReportDetail = {};
+                        $scope.listfile = [];
                         if (resultRows.length == 1) {
-                            //UPDATE BÁO CÁO SỰ CỐ
+                            $scope.ReportDetail.Rp_ID = resultRows[0].Rp_ID
+                            CReportService.FindByID({
+                                Rp_ID: resultRows[0].Rp_ID
+                            }, function (data) {
 
-                            // disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
-                            // $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
-                            $('modal_Improvement').modal('show');
+                                $scope.ImprovementRecord = data;
+                                data.FileAttached.forEach(element => {
+                                    var x = {};
+                                    x.Rp_ID = element.Rp_ID;
+                                    x.name = element.File_ID;
+                                    x.col = element.ColumnName;
+                                    $scope.listfile.push(x);
+                                })
+
+
+                                $('#modal_Improvement').modal('show');
+                            }, function (error) {});
+
+
+
                         } else {
                             Notifications.addError({
                                 'status': 'error',
@@ -609,8 +601,37 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 })
                 /** Change Status to P */
             } //fnchangeStatus 
+            $scope.btnImprovementSave = function (myrecord) {
+                var templsFile = [];
+                if ($scope.listfile.length > 0) {
+                    $scope.listfile.forEach(element => {
+                        templsFile.push({
+                            File_ID: element.name,
+                            ColumnName: element.col,
+                            Rp_ID: myrecord.Rp_ID
+                        });
+                    })
+                }
+                myrecord.FileAttached = templsFile; //File list
+                console.log(myrecord);
+                CReportService.GetInfoBasic.Update(myrecord, function (res) {
+                        if (res.Success) {
+                            $('#modal_Improvement').modal('hide');
+                            $scope.update_msg();
+                        } else {
+                            $scope.update_error_msg();
+                        }
+                    },
+                    function (error) {
+                        $scope.update_error_msg(error);
+                    })
 
 
+
+
+
+
+            }
             CReportService.CountReport(function (data) {
                 $scope.rpCounter = {
                     Safe: data[0].count_safe,

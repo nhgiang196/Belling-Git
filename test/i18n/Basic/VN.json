@@ -496,7 +496,7 @@
   "Improvesoft": "Biện pháp cải thiện phần mềm",
   "Aclocation": "Địa điểm xảy ra tai nạn",
   "Rp_type": "Loại tai nạn",
-  "Datecomp": "Thời gian hoàn thành cải thiện",
+  "DateOfImprovementComplete": "Thời gian hoàn thành cải thiện",
   "Victim_info": "Thông tin nạn nhân",
   "Witness_info": "Danh tính người chứng kiến hoặc người có quan hệ với nạn nhân (Người ngoài xưởng xin ghi rõ cách thức liên hệ)",
   "Edit": "Sửa",
@@ -582,7 +582,8 @@
   "AffectRange": "Phạm vi ảnh hưởng của sự cố"
   ,"IncidentReport_EVR": "BÁO CÁO SỰ CỐ MÔI TRƯỜNG"
   ,"StatusPW": "Wait for updating"
-  ,"Update Improvement":"Cập nhật bằng chứng cải thiện"
+  ,"Update_Improvement":"Cập nhật bằng chứng cải thiện"
+  ,"ImprovementInformation":"Nội dung cải thiện"
   
   
 }

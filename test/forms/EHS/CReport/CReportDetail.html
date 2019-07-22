@@ -1,7 +1,13 @@
 <style>
+    @font-face {
+        font-family: 'DFKai-SB';
+        src: url('/vendor/fonts/kaiu.ttf') ;
+    }
+
     #page-contain {
         font-size: 15pt;
         font-family: 'Times New Roman', 'DFKai-SB';
+
     }
 
     page {
@@ -151,31 +157,34 @@
         <table style="border:black; margin: 10px;" class="table-bordered table-hover">
             <thead>
                 <tr>
-                    <th style="text-align:center;"> Họ tên 姓名 : </th>
-                    <th style="text-align:center;"> Giới tính 性別 :</th>
-                    <th style="text-align:center;"> Tuổi 年齡 : 歲
-                    <th style="text-align:center;"> Mã nhân viên 工號 : </th>
-                    <th style="text-align:center;"> Đơn vị 單位: </th>
-                    <th style="text-align:center;"> Công việc đảm nhận 擔任工作 :</th>
-                    <th style="text-align:center;"> Ngày vào làm 進廠日期 :</th>
+                    <th style="text-align:center;"> Mã nhân viên <br>工號: </th>
+                    <th style="text-align:center;"> Họ tên <br>姓名: </th>
+                    <th style="text-align:center;"> Giới tính <br>性別:</th>
+                    <th style="text-align:center;"> Tuổi <br>年齡 歲:
+
+                    <th style="text-align:center;"> Đơn vị <br>單位: </th>
+                    <th style="text-align:center;"> Công việc đảm nhận <br>擔任工作:</th>
+                    <th style="text-align:center;"> Ngày vào làm <br>進廠日期:</th>
                     <!-- <th style="text-align:center;" ng-repeat="header in InjuryDetail[0]">{{ header }}</th> -->
                 </tr>
             </thead>
             <tbody>
                 <tr ng-if="InjuryDetail[0].Contractor_Name === null" ng-repeat="Injuries in InjuryDetail">
+                    <td> {{Injuries.EmployeeID}} </td>
                     <td> {{Injuries.Name}} </td>
                     <td> {{Injuries.Sex}} </td>
                     <td> {{Injuries.Age}} </td>
-                    <td> {{Injuries.EmployeeID}} </td>
+
                     <td> {{Injuries.Specification}} </td>
                     <td> {{Injuries.PositionName}} </td>
                     <td> {{Injuries.Hiring | date:  'yyyy-MM-dd' }} </td>
                 </tr>
                 <tr ng-if="InjuryDetail[0].Contractor_Name !== null" ng-repeat="Injuries in InjuryDetail">
+                    <td> {{Injuries.EmployeeID}} </td>
                     <td> {{Injuries.Contractor_Victim_Name}} </td>
                     <td> {{Injuries.Contractor_Victim_Sex}} </td>
                     <td> {{Injuries.Contractor_Victim_Age}} </td>
-                    <td> {{Injuries.EmployeeID}} </td>
+
                     <td> {{Injuries.Contractor_Name}} </td>
                     <td> {{Injuries.Contractor_Victim_Work}} </td>
                     <td> {{Injuries.Contractor_Victim_DateWork | date:  'yyyy-MM-dd' }} </td>
@@ -221,10 +230,10 @@
             6.0 Tình hình xử lý sau khi bị thương 受傷後處理情形:
             <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify;"
                 ng-repeat="person in InjuryDetail">
-                ({{person.Name}}){{person.Treatment_Result}}</p>
+                ({{person.Name}}) {{person.Treatment_Result}}</p>
             <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify;"
                 ng-repeat="person in InjuryDetail">
-                ({{person.Contractor_Victim_Name}}){{person.Treatment_Result}}</p>
+                ({{person.Contractor_Victim_Name}}) {{person.Treatment_Result}}</p>
         </div>
         <div class="col-lg-12 col-sm-12">
             7.0 Làm thế nào để ngăn ngừa tai nạn tương tự 如何防止同樣事故發生 :
