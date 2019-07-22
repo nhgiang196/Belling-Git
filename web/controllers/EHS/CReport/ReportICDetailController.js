@@ -30,9 +30,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
             var lang = window.localStorage.lang; //language
             loadDetail();
             console.log($scope.ICdetail);
+
             function loadDetail() {
                 // var deferred = $q.defer();
-                CReportService.FindIC({ Rp_ID: $scope.Rp_ID }, function (data) {
+                CReportService.FindIC({
+                    Rp_ID: $scope.Rp_ID
+                }, function (data) {
                     $scope.ICdetail = data.Table0[0];
                     $scope.ICfile_Description = [];
                     $scope.ICfile_Location = [];
@@ -60,6 +63,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             }
 
 
-        }])
+        }
+    ])
 
 })

@@ -45,14 +45,20 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $q.all([loadDetail()]).then(function (result) {
                 console.log(result);
             }, function (error) {
-                Notifications.addError({ 'status': 'Failed', 'message': 'Loading failed: ' + error });
+                Notifications.addError({
+                    'status': 'Failed',
+                    'message': 'Loading failed: ' + error
+                });
             });
 
 
             //lấy báo cáo phần chung 
             function loadDetail() {
                 var deferred = $q.defer();
-                CReportService.GetAccidentDetail({ Rp_ID: $scope.Rp_ID, Other: other }, function (data) {
+                CReportService.GetAccidentDetail({
+                    Rp_ID: $scope.Rp_ID,
+                    Other: other
+                }, function (data) {
                     //  $scope.ACdetail = data.Table0;
                     if (other == 1) {
 
@@ -87,7 +93,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.AC = {};
                         $scope.ACdetail = [];
                         for (x = 0; x < data.Table0.length; x++) {
-                            $scope.AC.Hiring  = moment(data.Table0[x].Contractor_Victim_DateWork).format('DD/MM/YYYY');
+                            $scope.AC.Hiring = moment(data.Table0[x].Contractor_Victim_DateWork).format('DD/MM/YYYY');
                             $scope.AC.EmployeeID = data.Table0[x].EmployeeID;
                             $scope.AC.Name = data.Table0[x].Contractor_Victim_Name;
                             $scope.AC.sex = data.Table0[x].Contractor_Victim_Sex;
@@ -105,16 +111,16 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     }
 
                     $scope.ACfile_Injury_Description = [];
-                        $scope.ACfile_Location = [];
-                        data.Table1.forEach(
-                            function (element) {
-                                if (element.ColumnName == 'Rp_Location') {
-                                    $scope.ACfile_Location.push(element);
-                                } else if (element.ColumnName == 'Injury_Description') {
-                                    $scope.ACfile_Injury_Description.push(element);
-                                }
+                    $scope.ACfile_Location = [];
+                    data.Table1.forEach(
+                        function (element) {
+                            if (element.ColumnName == 'Rp_Location') {
+                                $scope.ACfile_Location.push(element);
+                            } else if (element.ColumnName == 'Injury_Description') {
+                                $scope.ACfile_Injury_Description.push(element);
                             }
-                        );
+                        }
+                    );
 
                     $scope.RpAC_ImproveSoftware = data.Table0[0].RpAC_ImproveSoftware;
                     $scope.RpAC_ImproveHardware = data.Table0[0].RpAC_ImproveHardware;
@@ -137,7 +143,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
 
 
-        }])
+        }
+    ])
 })
 
 // EmployeeID	Rp_ID	Injury_Description	Witness_info	Treatment_Result	Contractor_Victim_Sex	Contractor_Victim_Name	Contractor_Victim_Age	Contractor_Name	Contractor_Victim_DateWork	Contractor_Victim_Work
