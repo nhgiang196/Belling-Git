@@ -7,6 +7,7 @@ define(['app'], function (app) {
                     // xóa file tình hình bị thương khỏi QCFiles 
                     $scope.ACTypelist = InfolistService.Infolist('ACType');
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
+                    $scope.btnFile_AC = false;
                     /**
                      *reset data function
                      */
@@ -17,11 +18,10 @@ define(['app'], function (app) {
                         $scope.gd = {};
                         $scope.employees = [];
                         $scope.Search();
-                        $scope.listfile = [];
-                        $scope.lsFile = [];
-                        $scope.injury = [];
-                        $scope.ID_AC = "";
-                        $scope.btnFile_AC = true;
+                        $scope.listfile = []; // default list file (not accident detail)
+                        $scope.injury = []; //list for showing in table injuries people
+                        $scope.ID_AC = ""; //= res.data ???
+                        // $scope.btnFile_AC = true;
                         $scope.listfile_loc_ac = false;
                         $scope.listfile_process_ac = false;
                     };
@@ -125,12 +125,10 @@ define(['app'], function (app) {
                                     $scope.injury.push(x);
                                 }
                             })
-                        }, function (error) {
-                        })
+                        }, function (error) {})
                     };
                     //Add employee in param table (AccidentDetail)
                     $scope.addEmployee = function () {
-                        debugger;
                         if ($scope.gd != null || $scope.gd != {}) {
                             $scope.employees.forEach(x => {
                                 if ($scope.gd.EmployeeID == x.EmployeeID) {
@@ -157,6 +155,7 @@ define(['app'], function (app) {
                     $scope.deleteEmployee = function (index) {
                         $scope.employees.splice(index, 1);
                     };
+
                     function saveInitDataAC() {
                         var note = {};
                         $scope.count = 0;
@@ -177,7 +176,7 @@ define(['app'], function (app) {
                         note.Rp_SubmitType = $scope.recordAC.submittype;
                         note.Rp_CreatorID = Auth.username;
                         note.AccidentDetail = $scope.employees;
-                        $scope.lsFile = [];
+                        var lsFile = [];
                         if ($scope.listfile.length > 0) {
                             $scope.count++;
                             $scope.listfile.forEach(element => {
@@ -185,7 +184,7 @@ define(['app'], function (app) {
                                 f.File_ID = element.name;
                                 f.ColumnName = element.col;
                                 f.Rp_ID = $scope.recordAC.rp_id || '';
-                                $scope.lsFile.push(f);
+                                lsFile.push(f);
                             })
                         }
                         if ($scope.injury.length > 0) {
@@ -195,13 +194,14 @@ define(['app'], function (app) {
                                 f.ColumnName = element.col;
                                 f.Profile_ID = element.empID;
                                 f.Rp_ID = $scope.recordAC.rp_id || '';
-                                $scope.lsFile.push(f);
+                                lsFile.push(f);
                                 f = {};
                             })
                         }
-                        note.FileAttached = $scope.lsFile; // Add File vào csdl
+                        note.FileAttached = lsFile; // Add File vào csdl
                         return note;
                     }
+
                     function updateByID_AC(data) { // Update status by updateByID
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {

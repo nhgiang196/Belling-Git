@@ -8,7 +8,7 @@ define(['app'], function (app) {
                     var lang = window.localStorage.lang;
                     $scope.IncidentTypeList = InfolistService.Infolist('IncidentType'); // IC only
                     $scope.$watch("recordIC.submittype", function (val) {
-                        debugger;
+
                         if (val == 'EVR') $scope.IsEVR = true
                         else IsEVR = false;
                         // ng-change="IsEVR= recordIC.submittype=='EVR'? true: false;"
@@ -18,7 +18,7 @@ define(['app'], function (app) {
                         var note = {};
                         $scope.count = 0;
                         note.Rp_ID = $scope.recordIC.rp_id || '';
-                        $scope.lsFile = [];
+                        var lsFile = [];
                         if ($scope.listfile.length > 0) {
                             $scope.listfile.forEach(element => {
                                 if (element.col == "Rp_Location")
@@ -27,7 +27,7 @@ define(['app'], function (app) {
                                 f.File_ID = element.name;
                                 f.ColumnName = element.col;
                                 f.Rp_ID = $scope.recordIC.rp_id || '';
-                                $scope.lsFile.push(f);
+                                lsFile.push(f);
                             })
                         }
                         note.Rp_Status = $scope.recordIC.status || '';
@@ -55,7 +55,7 @@ define(['app'], function (app) {
                         note.Rp_Date = $scope.recordIC.date || '';
                         note.Rp_Stamp = $scope.recordIC.stamp || '';
                         note.Rp_CreatorID = Auth.username;
-                        note.FileAttached = $scope.lsFile; //File list
+                        note.FileAttached = lsFile; //File list
                         return note;
                     }
 
@@ -148,7 +148,6 @@ define(['app'], function (app) {
                     $scope.resetIC = function () { //reset modal
                         $scope.recordIC = {};
                         $scope.listfile = [];
-                        $scope.lsFile = [];
                         $scope.Search();
                         $scope.ID_IC = "";
                         $scope.IsEVR = false;
@@ -160,105 +159,59 @@ define(['app'], function (app) {
                     /* general-  THIS FOLLOWING PART IS USED BY ITSELF OR FROM OTHER DIRECTIVE                    */
                     /**********************************************************************************************/
                     $scope.btnFile = false;
-                    $scope.btnFile_AC = true;
-                    $scope.btnfile = function (id, filename) {
-                        var filein = document.querySelector("#" + id);
-                        var filename = document.querySelector("#" + filename);
 
-                        filein.click();
+                    $scope.btnfile = function (id, filename) {
+                        $('#'+id).click();
+                        // var filein = document.querySelector("#" + id);
+                        // var filename = document.querySelector("#" + filename);
+                        // filein.click();
                     }
                     //*** UPload file */
                     $scope.listfile = [];
                     $scope.UploadFileHSE = function ($files, _colName) {
+                        debugger;
                         $upload.upload({
                             url: '/Waste/files/Upload',
                             method: "POST",
                             file: $files
-                        }).progress(function (evt) {
-
-                        }).then(function (res) {
-
+                        }).progress(function (evt) {}).then(function (res) {
                             res.data.forEach(x => {
                                 var chuthuong = x.toLowerCase();
                                 var dt = {
                                     name: x,
                                     col: _colName
                                 };
-                                if (_colName == 'Injury_Description')
-                                    if (chuthuong.includes(".doc") || chuthuong.includes(".docx") || chuthuong.includes(".pdf") || chuthuong.includes(".jpg") || chuthuong.includes(".jpeg") || chuthuong.includes(".png"))
+                                
+                                if (chuthuong.includes(".doc") ||
+                                    chuthuong.includes(".docx") ||
+                                    chuthuong.includes(".pdf") ||
+                                    chuthuong.includes(".jpg") ||
+                                    chuthuong.includes(".jpeg") ||
+                                    chuthuong.includes(".png")) {
+
+                                    if (_colName == 'Injury_Description')
                                         $scope.listfileAC.push(dt);
-                                    else {
-                                        $timeout(function () {
-                                            Notifications.addMessage({
-                                                'status': 'info',
-                                                'message': $translate.instant('FileValidation_MSG')
-                                            });
-                                        }, 300);
-
-                                        var namefile = {
-                                            fname: x
-                                        };
-
-                                        CReportService.DeleteFile(namefile, function (res) {
-                                                if (res.Success) {
-                                                    console.log(res.Success);
-                                                }
-                                            },
-                                            function (error) {
-                                                console.log(error);
-                                            })
-                                    }
-                                else if (_colName == 'Rp_Description')
-                                    if (chuthuong.includes(".doc") || chuthuong.includes(".docx") || chuthuong.includes(".pdf") || chuthuong.includes(".jpg") || chuthuong.includes(".jpeg") || chuthuong.includes(".png"))
+                                    else
                                         $scope.listfile.push(dt);
-                                    else {
-                                        $timeout(function () {
-                                            Notifications.addMessage({
-                                                'status': 'info',
-                                                'message': $translate.instant('FileValidation_MSG')
-                                            });
-                                        }, 300);
-
-                                        var namefile = {
-                                            fname: x
-                                        };
-
-                                        CReportService.DeleteFile(namefile, function (res) {
-                                                if (res.Success) {
-                                                    console.log(res.Success);
-                                                }
-                                            },
-                                            function (error) {
-                                                console.log(error);
-                                            })
-                                    }
-                                else
-                                if (chuthuong.includes(".jpg") || chuthuong.includes(".jpeg") || chuthuong.includes(".png") || chuthuong.includes(".pdf"))
-                                    $scope.listfile.push(dt);
-                                else {
-
+                                } else {
                                     $timeout(function () {
                                         Notifications.addMessage({
                                             'status': 'info',
-                                            'message': $translate.instant('FileValidation_IMG_MSG')
+                                            'message': $translate.instant('FileValidation_MSG')
                                         });
                                     }, 300);
-
-                                    var namefile = {
-                                        fname: x
-                                    };
-
-                                    CReportService.DeleteFile(namefile, function (res) {
+                                    CReportService.DeleteFile({
+                                            fname: x
+                                        }, function (res) {
                                             if (res.Success) {
-                                                console.log(res.Success);
+                                                console.log('Wrong type of file', res.Success);
                                             }
                                         },
                                         function (error) {
                                             console.log(error);
                                         })
+                                    return;
                                 }
-
-
 
                             })
 
@@ -318,14 +271,14 @@ define(['app'], function (app) {
                             fname: $scope.listfile[index].name
                         };
                         $scope.listfile.splice(index, 1);
-                        CReportService.DeleteFile(namefile, function (res) {
-                                if (res.Success) {
-                                    console.log(res.Success);
-                                }
-                            },
-                            function (error) {
-                                console.log(error);
-                            })
+                        // CReportService.DeleteFile(namefile, function (res) {
+                        //         if (res.Success) {
+                        //             console.log(res.Success);
+                        //         }
+                        //     },
+                        //     function (error) {
+                        //         console.log(error);
+                        //     })
                     }
                     // Lấy dữ liệu lên modalIC để chỉnh sửa
                     $scope.loadICDetail = function (id) {
@@ -418,11 +371,11 @@ define(['app'], function (app) {
                             });
                         }, 300);
                     }
-                    $scope.update_error_msg = function () {
+                    $scope.update_error_msg = function (err) {
                         $timeout(function () {
                             Notifications.addMessage({
                                 'status': 'error',
-                                'message': $translate.instant('UpdateError')
+                                'message': $translate.instant('UpdateError') + err
                             });
                         }, 300);
                     }
