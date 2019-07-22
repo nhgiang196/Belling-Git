@@ -5,10 +5,8 @@ define(['app'], function (app) {
                 restrict: 'E',
                 controller: function ($scope) {
                     // xóa file tình hình bị thương khỏi QCFiles 
-
                     $scope.ACTypelist = InfolistService.Infolist('ACType');
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
-
                     /**
                      *reset data function
                      */
@@ -27,8 +25,6 @@ define(['app'], function (app) {
                         $scope.listfile_loc_ac = false;
                         $scope.listfile_process_ac = false;
                     };
-
-
                     $scope.showEmployeeName = function (emp_id) {
                         if ($scope.employees)
                             $scope.employees.forEach(x => {
@@ -40,14 +36,10 @@ define(['app'], function (app) {
                             $scope.listEmployee.forEach(x => {
                                 if (x.EmployeeID == emp_id) {
                                     $scope.emp_name = x.Name;
-
                                 }
-
                             })
                         return $scope.emp_name;
                     };
-
-
                     $scope.showEmployeeList = function (dept_id) {
                         $scope.gd = {};
                         $scope.employees = [];
@@ -61,9 +53,6 @@ define(['app'], function (app) {
                             } else $scope.listEmployee = [];
                         })
                     };
-
-
-
                     // Lấy nạn nhân trong list employees để chỉnh sửa
                     $scope.getEmployee = function (index) {
                         $scope.gd.EmployeeID = $scope.employees[index].EmployeeID;
@@ -76,19 +65,14 @@ define(['app'], function (app) {
                         $scope.gd.Contractor_Name = $scope.employees[index].Contractor_Name;
                         $scope.gd.Contractor_Victim_DateWork = $scope.employees[index].Contractor_Victim_DateWork;
                         $scope.gd.Contractor_Victim_Work = $scope.employees[index].Contractor_Victim_Work;
-
                         for (i = $scope.injury.length - 1; i >= 0; i--) {
                             if ($scope.injury[i].empID == $scope.gd.EmployeeID) {
                                 $scope.listfileAC.push($scope.injury[i]);
                                 $scope.injury.splice(i, 1);
                             }
                         }
-
                         $scope.employees.splice(index, 1);
                     };
-
-
-
                     // Lấy dữ liệu lên modalAC để chỉnh sửa
                     $scope.loadACDetail = function (id) {
                         CReportService.FindByID({
@@ -106,7 +90,6 @@ define(['app'], function (app) {
                             $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
                             $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
                             $scope.recordAC.submittype = data.Rp_SubmitType;
-
                             $scope.employees = [];
                             $scope.showEmployeeList(data.Rp_SubDepartmentID);
                             data.AccidentDetail.forEach(element => {
@@ -124,7 +107,6 @@ define(['app'], function (app) {
                                 x.Contractor_Victim_Work = element.Contractor_Victim_Work;
                                 $scope.employees.push(x);
                             })
-
                             $scope.listfile = [];
                             $scope.injury = [];
                             data.FileAttached.forEach(element => {
@@ -144,12 +126,8 @@ define(['app'], function (app) {
                                 }
                             })
                         }, function (error) {
-
                         })
                     };
-
-
-
                     //Add employee in param table (AccidentDetail)
                     $scope.addEmployee = function () {
                         debugger;
@@ -170,20 +148,15 @@ define(['app'], function (app) {
                                     $scope.injury.push(y);
                                 })
                             }
-
                             $scope.employees.push($scope.gd);
-
                             $scope.gd = {};
                             $scope.listfileAC = [];
                         }
                     };
-
                     // delete nạn nhân trong list employees
                     $scope.deleteEmployee = function (index) {
                         $scope.employees.splice(index, 1);
                     };
-
-
                     function saveInitDataAC() {
                         var note = {};
                         $scope.count = 0;
@@ -203,13 +176,10 @@ define(['app'], function (app) {
                         note.RpAC_ResultHardware = $scope.recordAC.ac_resulthard;
                         note.Rp_SubmitType = $scope.recordAC.submittype;
                         note.Rp_CreatorID = Auth.username;
-
                         note.AccidentDetail = $scope.employees;
-
                         $scope.lsFile = [];
                         if ($scope.listfile.length > 0) {
                             $scope.count++;
-
                             $scope.listfile.forEach(element => {
                                 var f = {};
                                 f.File_ID = element.name;
@@ -218,7 +188,6 @@ define(['app'], function (app) {
                                 $scope.lsFile.push(f);
                             })
                         }
-
                         if ($scope.injury.length > 0) {
                             $scope.injury.forEach(element => {
                                 var f = {};
@@ -230,12 +199,9 @@ define(['app'], function (app) {
                                 f = {};
                             })
                         }
-
                         note.FileAttached = $scope.lsFile; // Add File vào csdl
-
                         return note;
                     }
-
                     function updateByID_AC(data) { // Update status by updateByID
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {
@@ -257,14 +223,12 @@ define(['app'], function (app) {
                                 $scope.update_error_msg();
                             })
                     }
-
                     /**
                      * Save 
                      */
                     function SaveAC(data) { //save data
                         CReportService.Create(data, function (res) {
                             console.log(res)
-
                             if (res.Success) {
                                 if ($scope.btnSub) {
                                     $scope.ID_AC = res.Data;
@@ -288,9 +252,7 @@ define(['app'], function (app) {
                         }, function (error) {
                             $scope.save_error_msg();
                         })
-
                     }
-
                     $scope.SaveACReport = function () { //main submitting /saving function
                         var nofile = false;
                         if ($scope.employees.length != 0) {
@@ -300,7 +262,6 @@ define(['app'], function (app) {
                                 $scope.nofileLoc();
                                 nofile = true;
                             }
-
                             if (nofile) {
                                 nofile = false;
                                 return;
@@ -328,21 +289,14 @@ define(['app'], function (app) {
                         } else {
                             $scope.ac_details_msg();
                         }
-
                     };
-
-
                     $scope.emp_name = "";
                     //show tên nhân viên theo mã nhân viên
-
-
                     $scope.removeFileInjury = function (index) {
                         var namefile = {
                             fname: $scope.listfileAC[index].name
                         };
-
                         $scope.listfileAC.splice(index, 1);
-
                         CReportService.DeleteFile(namefile, function (res) {
                                 if (res.Success) {
                                     console.log(res.Success);
@@ -352,15 +306,8 @@ define(['app'], function (app) {
                                 console.log(error);
                             })
                     }
-
-
-
                     //Choose SubDepartment to show Employees 
-
-
-
                 },
-
                 templateUrl: './forms/EHS/CReport/createACReport.html'
             }
         }

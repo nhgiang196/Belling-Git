@@ -399,18 +399,22 @@ define(['app', 'angular'], function (app, angular) {
 
                     case 'status':
                         var statuslist = [{
-                            id: 'D',
-                            name: 'Draft'
-                        }, {
-                            id: 'P',
-                            name: 'Processing'
-                        }, {
-                            id: 'S',
-                            name: 'Signed'
-                        }, {
-                            id: 'X',
-                            name: 'StatusX'
-                        }];
+                                id: 'D',
+                                name: 'Draft'
+                            }, {
+                                id: 'P',
+                                name: 'Processing'
+                            }, {
+                                id: 'S',
+                                name: 'Signed'
+                            }, {
+                                id: 'X',
+                                name: 'StatusX'
+                            }, {
+                                id: 'PW',
+                                name: 'StatusPW'
+                            }
+                        ];
                         return statuslist;
                         break;
 

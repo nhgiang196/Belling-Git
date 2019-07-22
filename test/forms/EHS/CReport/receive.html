@@ -1,11 +1,7 @@
-<!-- D:\nhgiang\p\WebBeling-Git\test\forms\CReport\recieve.html -->
-
 <script>
-    function RYVoucherCheck(
+    function HSE_receiveController(
         $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
         Auth, GateGuest, $translate, CReportService, $filter, $q) {
-
-            
         var lang = window.localStorage.lang;
         // $scope.$watch('checkList', function (val) {
         //     if (val !== undefined && val !== null) {
@@ -14,7 +10,6 @@
         //             $scope.leaderlist.splice(0, 0, {$$hashKey: "",Person: "FEPV000559"});
         //     }
         // })
-        $scope.recod = {};
         $translate.refresh();
         $scope.passOrNot = [{
                 "name": $translate.instant('agree'),
@@ -28,68 +23,72 @@
         ];
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
+        $scope.Save = function (isSubmit) {
+            $scope.loading = true;
+            debugger;
+            if ($scope.ISReceive == 'NO') {
+                CReportService.SubmitStatus({
+                        Rp_ID: $scope.variable.Rp_ID, //chosen
+                        Rp_Status: 'PW'
+                    }, function (res) {
+                        if (res.Success) {
+                            SaveBpmn();
+                        }
+                    },
+                    function (err) {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': 'UPdate status Error' + err
+                        });
+                    }
+                ); //end changestatusservice
+            } //end if
+            else SaveBpmn();
+
+        } //save
+
 
         function SaveBpmn() {
-            // if ($scope.checkList.length <= 0) {
-            //     Notifications.addError({
-            //         'status': 'error',
-            //         'message': 'Don\'t get leader'
-            //     });
-            //     return;
-            // }
-
-
+            if ($scope.checkList.length <= 0) {
+                Notifications.addError({
+                    'status': 'error',
+                    'message': 'Don\'t get leader'
+                });
+                return;
+            }
             $scope.formVariables.push({
                 name: 'Receive_HSE_Users',
                 value: $scope.checkList
             });
+            $scope.formVariables.push({
+                name: 'Rp_ID',
+                value: $scope.variable.Rp_ID //chosen
+            });
 
-            $scope.submit();
-            // $q.all([$scope.submit()]).then(function () {
-            //     $scope.loading = true;
-            //     var reminder_parrams = {
-            //         voucherID: $scope.VoucherID,
-            //         userid: Auth.username,
-            //         formkey: 'leadercheck'
-            //     }
-            //     debugger;
-            //     LIMSService.SendReminder(reminder_parrams, function (res) {
-            //         if (res.Success) return;
-            //     }, function (error) {
-            //         Notifications.addError({
-            //             'status': 'error',
-            //             'message': $translate.instant('saveError') + error
-            //         });
-            //     })
-            // });
+            $q.all([$scope.submit()]).then(function () {
+                // var reminder_parrams = {
+                //     voucherID: $scope.VoucherID,
+                //     userid: Auth.username,
+                //     formkey: 'leadercheck'
+                // }
+                // debugger;
+                // LIMSService.SendReminder(reminder_parrams, function (res) {
+                //     if (res.Success) return;
+                // }, function (error) {
+                //     Notifications.addError({
+                //         'status': 'error',
+                //         'message': $translate.instant('saveError') + error
+                //     });
+                // })
+            });
 
-
-        }
-
-        function saveInitData() {
-            var note = {};
-            note.userID = Auth.username;
-            note.voucherID = $scope.VoucherID || '';
-            note.reason = $scope.recod.Reason || '';
-            note.solution = $scope.recod.Solution || '';
-            note.prevention = $scope.recod.Prevention || '';
-            note.remark = $scope.leadercheck_remark || '';
-            note.status = $scope.recod.Status || '';
-            note.state = $scope.recod.State || '';
-            return note;
-        }
-        /**
-         * Update status by updateByID
-         */
-        $scope.Save = function (isSubmit) {
-            $scope.loading = true;
-            SaveBpmn();
-            // var data = saveInitData();
 
         }
+
+
     }
 </script>
-<div ng-controller="RYVoucherCheck">
+<div ng-controller="HSE_receiveController">
     <!-- REPORT DIRECTIVE -->
     <!-- <approval-master vid='{{variable.OverID}}' style="width: 85%"></approval-master> -->
     <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report>

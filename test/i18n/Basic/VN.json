@@ -119,7 +119,7 @@
   "Save": "Lưu",
   "Save_Success_MSG": "Lưu thành công",
   "Search": "Tra cứu",
-  "Select_ONE_MSG": "Chỉ có thể chọn một",
+  "Select_ONE_MSG": "Chọn một dòng trước khi thực hiện thao tác này",
   "Select_MSG": "Vui lòng chọn đơn mà bạn muốn chỉnh sửa",
   "Signout": "Đăng xuất",
   "SpecialAgree": "Trình ký đặc biệt",
@@ -581,4 +581,8 @@
   "RpIC_Affect-High": "Sự cố môi trường mức độ cao",
   "AffectRange": "Phạm vi ảnh hưởng của sự cố"
   ,"IncidentReport_EVR": "BÁO CÁO SỰ CỐ MÔI TRƯỜNG"
+  ,"StatusPW": "Wait for updating"
+  ,"Update Improvement":"Cập nhật bằng chứng cải thiện"
+  
+  
 }

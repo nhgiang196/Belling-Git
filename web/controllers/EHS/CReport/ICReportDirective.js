@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('createIcReport', ['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate','$upload',
-        function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate, $upload,) {
+    app.directive('createIcReport', ['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate', '$upload',
+        function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate, $upload, ) {
             return {
                 restrict: 'E',
                 controller: function ($scope, $element, $attrs) {
@@ -156,8 +156,9 @@ define(['app'], function (app) {
                         $scope.listfile_loc_ic = false;
                         $scope.listfile_process_ic = false;
                     }
-                    /***********************************************************************************************/
-                    /** general-  THIS FOLLOWING PART IS USED BY ITSELF OR FROM OTHER DIRECTIVE */
+                    /**********************************************************************************************/
+                    /* general-  THIS FOLLOWING PART IS USED BY ITSELF OR FROM OTHER DIRECTIVE                    */
+                    /**********************************************************************************************/
                     $scope.btnFile = false;
                     $scope.btnFile_AC = true;
                     $scope.btnfile = function (id, filename) {
@@ -433,8 +434,6 @@ define(['app'], function (app) {
                             });
                         }, 300);
                     }
-
-
 
                     // $scope.showBtnFile = function () {
                     //     if ($scope.recordIC.icLocation == 'O' || $scope.recordAC.ac_location == 'O') {
