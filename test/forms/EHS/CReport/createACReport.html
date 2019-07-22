@@ -2,21 +2,21 @@
     #table-wrapper {
         position: relative;
     }
-    
+
     #table-scroll {
         height: 150px;
         overflow: auto;
         margin-top: 20px;
     }
-    
+
     #table-wrapper table {
         width: 100%;
     }
-    
+
     #table-wrapper table * {
         color: black;
     }
-    
+
     #table-wrapper table thead th .text {
         position: absolute;
         top: -20px;
@@ -24,7 +24,7 @@
         height: 20px;
         width: 35%;
     }
-    
+
     .title {
         width: 101%;
         background-color: #ececec;
@@ -32,35 +32,35 @@
         border: 1px solid #ececec;
         border-radius: 6px;
     }
-    
+
     .calender {
         color: grey;
         font-size: 29px;
     }
-    
+
     .calender:hover {
         cursor: pointer;
     }
-    
+
     .btn-ct-ac {
         font-weight: bold;
         font-family: tahoma;
     }
-    
+
     .ctr-lb {
         padding-top: 0px !important;
     }
-    
+
     .my-custom-scrollbar {
         position: relative;
         height: 117px;
         overflow: auto;
     }
-    
+
     .table-wrapper-scroll-y {
         display: block;
     }
-    
+
     a:hover {
         cursor: pointer;
     }
@@ -86,7 +86,8 @@
         <label class="col-sm-2 control-label ctr-lb">* {{'Acdatetime'|translate}} : </label>
         <div class="col-sm-4">
             <div class='input-group date'>
-                <input type='text' id="time-prc-ac" class="form-control" date-picker time="Y-m-d H:i" max="0" name="ac_datetime" ng-model="recordAC.ac_datetime" required />
+                <input type='text' id="time-prc-ac" class="form-control" date-picker time="Y-m-d H:i" max="0"
+                    name="ac_datetime" ng-model="recordAC.ac_datetime" required />
                 <span class="input-group-addon">
                     <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ac'></label>
                 </span>
@@ -95,7 +96,8 @@
 
         <label class="col-sm-2 control-label ctr-lb">* {{'Improvesoft'|translate}} : </label>
         <div class="col-sm-4">
-            <textarea class="form-control" type="text" name="ac_improvesoft" ng-model="recordAC.ac_improvesoft"></textarea>
+            <textarea class="form-control" type="text" name="ac_improvesoft"
+                ng-model="recordAC.ac_improvesoft"></textarea>
 
         </div>
     </div>
@@ -123,14 +125,19 @@
     <div class="form-group">
         <label class="col-sm-2 control-label ctr-lb"></label>
         <div class="col-sm-4">
-            <input type="file" ng-file-select="UploadFileHSE($files,'Rp_Location')" id="file_location_ac" style="display:none !important" multiple accept="image/*">
-            <button id="btn_file_location_ac" class="btn btn-info" style="display:inline-block;" type="button" ng-disabled="btnFile_AC" ng-model='btnFile_AC' ng-click="btnfile('file_location_ac','file_name_location_ac')">
+            <input type="file" ng-file-select="UploadFileHSE($files,'Rp_Location')" id="file_location_ac"
+                style="display:none !important" multiple accept="image/*">
+            <button id="btn_file_location_ac" class="btn btn-info" style="display:inline-block;" type="button"
+                ng-disabled="btnFile_AC"
+                ng-click="btnfile('file_location_ac','file_name_location_ac')">
                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
             </button>
             <span><input type="checkbox" ng-model="listfile_loc_ac" style="vertical-align: text-top;">
                 {{'ShowFile'|translate}}</span>
 
-            <table ng-show="listfile_loc_ac" class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:10px;">
+            <table ng-show="listfile_loc_ac"
+                class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
+                style="margin-top:10px;">
                 <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_Location'">
                     <td><a href="/{{step.name}}" target="_blank">{{step.name}}</a></td>
                     <td>
@@ -145,7 +152,8 @@
 
         <label class="col-sm-2 control-label ctr-lb">* {{'Improvehard'|translate}}:</label>
         <div class="col-sm-4">
-            <textarea class="form-control" type="text" name="ac_improvehard" ng-model="recordAC.ac_improvehard "></textarea>
+            <textarea class="form-control" type="text" name="ac_improvehard"
+                ng-model="recordAC.ac_improvehard "></textarea>
         </div>
     </div>
     <!-- end of form-group -->
@@ -175,10 +183,11 @@
             <textarea class="form-control" type="text" name="ac_prevent" ng-model="recordAC.ac_prevent"></textarea>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Datecomp'|translate}}:</label>
+        <label class="col-sm-2 control-label ctr-lb">* {{'DateOfImprovementComplete'|translate}}:</label>
         <div class="col-sm-4">
             <div class='input-group date'>
-                <input class="form-control" id="time-cpl" type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp" date-picker min="0" required />
+                <input class="form-control" id="time-cpl" type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp"
+                    date-picker min="0" required />
                 <span class="input-group-addon">
                     <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-cpl'></label>
                 </span>
@@ -198,7 +207,8 @@
     <div class="form-group" style="margin-bottom:20px; margin-top:20px;">
         <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
         <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="mySwitch">
+            <select style="width:100%" ui-select2 ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
+                ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="mySwitch">
                 <option value=""></option>
                 <option value="{{deptDefault.CostCenter}}">
                     {{deptDefault.CostCenter}} - {{deptDefault.Specification|translate}}</option>
@@ -208,7 +218,7 @@
             </select>
         </div>
     </div>
-
+    <hr>
     <div ng-if="recordAC.ac_subdepartment=='Other'" ng-init="on=true">
         <div class="form-group">
             <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeName' | translate}}: </label>
@@ -248,7 +258,8 @@
             </div>
             <label class="col-sm-2 control-label ctr-lb">* {{'DayToWork' | translate}}: </label>
             <div class='input-group date col-ls-4 col-sm-4'>
-                <input type='text' id="DATE" class="form-control" date-picker max="0" name="DATE" ng-model="gd.Contractor_Victim_DateWork" ng-required="on" />
+                <input type='text' id="DATE" class="form-control" date-picker max="0" name="DATE"
+                    ng-model="gd.Contractor_Victim_DateWork" ng-required="on" />
                 <span class="input-group-addon">
                     <label class="glyphicon glyphicon-calendar" style="color: grey" for='DATE'></label>
                 </span>
@@ -256,7 +267,7 @@
         </div>
     </div>
 
-    <hr>
+
 
     <div class="form-group">
         <div ng-if="recordAC.ac_subdepartment!='Other'">
@@ -277,7 +288,8 @@
 
         <label class="col-sm-2 control-label ctr-lb">* {{'Ac_treatment'|translate}}: </label>
         <div class="col-sm-4">
-            <textarea class="form-control" type="text" name="ac_treatment" ng-model="gd.Treatment_Result" required></textarea>
+            <textarea class="form-control" type="text" name="ac_treatment" ng-model="gd.Treatment_Result"
+                required></textarea>
         </div>
     </div>
     <!-- end of form-group -->
@@ -285,7 +297,8 @@
     <div class="form-group">
         <label class="col-sm-2 control-label ctr-lb">* {{'Injurydetail'|translate}} : </label>
         <div class="col-sm-4">
-            <textarea class="form-control" type="text" rows="3" name="ac_injury" ng-model="gd.Injury_Description" required></textarea>
+            <textarea class="form-control" type="text" rows="3" name="ac_injury" ng-model="gd.Injury_Description"
+                required></textarea>
         </div>
 
         <label class="col-sm-6 control-label ctr-lb">{{'Witness_info'|translate}}:</label>
@@ -298,14 +311,18 @@
     <div class="form-group">
         <label class="col-sm-2 control-label ctr-lb"> </label>
         <div class="col-sm-4">
-            <input type="file" ng-file-select="UploadFileHSE($files,'Injury_Description')" id="file_process_ac" style="display:none !important" multiple>
-            <button id="btn_file_process_ac" class="btn btn-info" style="display:inline-block;" type="button" ng-click="btnfile('file_process_ac','file_name_process_ac')">
+            <input type="file" ng-file-select="UploadFileHSE($files,'Injury_Description')" id="file_process_ac"
+                style="display:none !important" multiple>
+            <button id="btn_file_process_ac" class="btn btn-info" style="display:inline-block;" type="button"
+                ng-click="btnfile('file_process_ac','file_name_process_ac')">
                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
             </button>
             <span><input type="checkbox" ng-model="listfile_process_ac" style="vertical-align: text-top;">
                 {{'ShowFile'|translate}}</span>
 
-            <table ng-show="listfile_process_ac" class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:10px;">
+            <table ng-show="listfile_process_ac"
+                class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
+                style="margin-top:10px;">
                 <tr ng-repeat="step in listfileAC">
                     <td><a href="/{{step.name}}" target="_blank">{{step.name}}</a></td>
                     <td>
@@ -319,7 +336,8 @@
         </div>
 
         <div class="col-sm-6" style="text-align: right;">
-            <button id="btnSaveSubmit" type="button" class="btn btn-primary" ng-disabled="formdetail.$invalid" ng-click="addEmployee()">
+            <button id="btnSaveSubmit" type="button" class="btn btn-primary" ng-disabled="formdetail.$invalid"
+                ng-click="addEmployee()">
                 {{'Add'|translate}}
             </button>
         </div>
@@ -378,11 +396,15 @@
 
     <label ng-if="!show.submitbutton" style="color: #FF0000;float: left" class="ng-binding">**VUI LÒNG NHẤN LƯU TRƯỚC
         KHI SUBMIT ĐỂ ĐƠN ĐƯỢC LƯU**</label>
-    <button id="btnSaveAC" type="button" class="btn btn-warning btn-ct-ac" ng-click="SaveACReport(); btnSave_Clicked = true;" ng-disabled="acform.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i>
+    <button id="btnSaveAC" type="button" class="btn btn-warning btn-ct-ac"
+        ng-click="SaveACReport(); btnSave_Clicked = true;" ng-disabled="acform.$invalid"><i
+            class="glyphicon glyphicon-floppy-disk"></i>
         {{'saveSubmit'|translate}}</button>
-    <button ng-if="show.submitbutton" id="btnSaveSubmitAC" type="button" class="btn btn-primary btn-ct-ac" ng-click="SaveSubmitCReport(recordAC.rp_id)" ng-disabled="acform.$invalid"><i
+    <button ng-if="show.submitbutton" id="btnSaveSubmitAC" type="button" class="btn btn-primary btn-ct-ac"
+        ng-click="SaveSubmitCReport(recordAC.rp_id)" ng-disabled="acform.$invalid"><i
             class="glyphicon glyphicon-floppy-disk"></i> {{'submit'|translate}} </button>
-    <button ng-if="show.submitbutton" type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal" ng-click="resetAC()"><i class="glyphicon glyphicon-remove"
+    <button ng-if="show.submitbutton" type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal"
+        ng-click="resetAC()"><i class="glyphicon glyphicon-remove"
             style="color: grey; vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
 </div>
 <!-- end of modal-footer-->
