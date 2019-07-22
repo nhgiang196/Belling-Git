@@ -25,7 +25,6 @@
         $scope.loading = false;
         $scope.Save = function (isSubmit) {
             $scope.loading = true;
-            debugger;
             if ($scope.ISReceive == 'NO') {
                 CReportService.SubmitStatus({
                         Rp_ID: $scope.variable.Rp_ID, //chosen
@@ -71,7 +70,6 @@
                 //     userid: Auth.username,
                 //     formkey: 'leadercheck'
                 // }
-                // debugger;
                 // LIMSService.SendReminder(reminder_parrams, function (res) {
                 //     if (res.Success) return;
                 // }, function (error) {
