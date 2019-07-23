@@ -161,7 +161,7 @@ define(['app'], function (app) {
                     $scope.btnFile = false;
 
                     $scope.btnfile = function (id, filename) {
-                        $('#'+id).click();
+                        $('#' + id).click();
                         // var filein = document.querySelector("#" + id);
                         // var filename = document.querySelector("#" + filename);
                         // filein.click();
@@ -169,53 +169,91 @@ define(['app'], function (app) {
                     //*** UPload file */
                     $scope.listfile = [];
                     $scope.UploadFileHSE = function ($files, _colName) {
-                        debugger;
-                        $upload.upload({
-                            url: '/Waste/files/Upload',
-                            method: "POST",
-                            file: $files
-                        }).progress(function (evt) {}).then(function (res) {
-                            res.data.forEach(x => {
-                                var chuthuong = x.toLowerCase();
-                                var dt = {
-                                    name: x,
-                                    col: _colName
-                                };
-                                
-                                if (chuthuong.includes(".doc") ||
-                                    chuthuong.includes(".docx") ||
-                                    chuthuong.includes(".pdf") ||
-                                    chuthuong.includes(".jpg") ||
-                                    chuthuong.includes(".jpeg") ||
-                                    chuthuong.includes(".png")) {
+                                         
+                        var isValidFile = checkFileLimited($files,3,3);
+                        if (!isValidFile.success) {
+                            alert(isValidFile.message)
+                        } else {
+                            $upload.upload({
+                                url: '/Waste/files/Upload',
+                                method: "POST",
+                                file: $files
+                            }).progress(function (evt) {}).then(function (res) {
+                                res.data.forEach(x => {
+                                    var chuthuong = x.toLowerCase();
+                                    var dt = {
+                                        name: x,
+                                        col: _colName
+                                    };
 
-                                    if (_colName == 'Injury_Description')
-                                        $scope.listfileAC.push(dt);
-                                    else
-                                        $scope.listfile.push(dt);
-                                } else {
-                                    $timeout(function () {
-                                        Notifications.addMessage({
-                                            'status': 'info',
-                                            'message': $translate.instant('FileValidation_MSG')
-                                        });
-                                    }, 300);
-                                    CReportService.DeleteFile({
-                                            fname: x
-                                        }, function (res) {
-                                            if (res.Success) {
-                                                console.log('Wrong type of file', res.Success);
-                                            }
-                                        },
-                                        function (error) {
-                                            console.log(error);
-                                        })
-                                    return;
-                                }
+                                    if (chuthuong.includes(".doc") ||
+                                        chuthuong.includes(".docx") ||
+                                        chuthuong.includes(".pdf") ||
+                                        chuthuong.includes(".jpg") ||
+                                        chuthuong.includes(".jpeg") ||
+                                        chuthuong.includes(".png")) {
+
+                                        if (_colName == 'Injury_Description')
+                                            $scope.listfileAC.push(dt);
+                                        else
+                                            $scope.listfile.push(dt);
+                                    } else {
+                                        $timeout(function () {
+                                            Notifications.addMessage({
+                                                'status': 'info',
+                                                'message': $translate.instant('FileValidation_MSG')
+                                            });
+                                        }, 300);
+                                        CReportService.DeleteFile({
+                                                fname: x
+                                            }, function (res) {
+                                                if (res.Success) {
+                                                    console.log('Wrong type of file', res.Success);
+                                                }
+                                            },
+                                            function (error) {
+                                                console.log(error);
+                                            })
+                                        return;
+                                    }
+
+                                })
 
                             })
+                        }
+                    }
 
-                        })
+                    /**
+                     * Create by Isaac 2019-07-23
+                     * @param {file In Upload} $files get all files when Upload
+                     * @param {*} maximumSize 
+                     * @param {number of TotalFiles} totalFile 
+                     */
+
+                    function checkFileLimited($files, maximumSize, totalFile)
+                    {
+                       const fileCount = $files.length;
+                       const maximumFileSize = maximumSize * 1024*1024 // 3MB
+                       var objectResult ={
+                           success :true,
+                           message:"Upload Completed!"
+                       };
+                       //check file exist in list
+                       var listOfFiles = (($scope.listfileAC.length +fileCount) > maximumSize || ($scope.listfile.length+ fileCount) >maximumSize)? true:false;
+                       if(fileCount > totalFile || listOfFiles)
+                       {
+                           objectResult.success =false;
+                           objectResult.message =`Your number of files over ${totalFile}`;
+                       }
+                       else{                         
+                           $files.forEach(item=>{
+                                if(item.size > maximumFileSize){
+                                    objectResult.success =false;
+                                    objectResult.message =`Your file upload over ${maximumSize}MB\n Please uploade another file!`;
+                                }  
+                           })
+                       }
+                       return objectResult;
                     }
                     // GetBasic ------------ USE FOR BOTH REPORT
                     var subdepartment = {
