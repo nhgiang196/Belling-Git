@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('receiveReport', ['CReportService', 'InfolistService', 'Auth', '$filter', '$routeParams', '$translate',
-        function (CReportService, InfolistService, Auth, $filter, $routeParams, $translate) {
+    app.directive('receiveReport', ['CReportService', 'InfolistService', 'Auth', '$filter', '$routeParams', '$translate','EngineApi',
+        function (CReportService, InfolistService, Auth, $filter, $routeParams, $translate,EngineApi) {
             return {
                 restrict: 'AEC',
                 link: function (scope, element, attrs) {
@@ -10,7 +10,8 @@ define(['app'], function (app) {
                     var _Rp_ID = $routeParams.Rp_ID ? $routeParams.Rp_ID : attrs.rpId;
                     if (!_Rp_ID)
                         console.log('No rp_ID to show');
-                    else
+                    else { //else get data and receivers
+                        /**Get Data*/
                         CReportService.GetInfoBasic.GetDetailReport({
                             Rp_ID: _Rp_ID
                         }, function (data) {
@@ -44,6 +45,52 @@ define(['app'], function (app) {
                             }
 
                         });
+
+                        /**Get Receiver*/
+                        CReportService.CReportHSEPID().get({
+                            Rp_ID: _Rp_ID
+                        }).$promise.then(function (res) {
+                            console.log(res);
+                            if (res) {
+                                EngineApi.getProcessLogs.getList({
+                                    "id": res.ProcessInstanceId,
+                                    "cId": ""
+                                }, function (data) {
+                                    console.log('getdata!', data);
+                                    console.log(data[0].Logs);
+                                    data.forEach(function (value, index) {
+                                        if (index >= 1)
+                                            data[0].Logs.push.apply(data[0].Logs, data[index].Logs)
+                                    })
+                                    var receiver = {};
+                                    var taf = TAFFY(data[0].Logs);
+                                    receiver[0] = taf({TaskName: "起始表单"}).first(); //initiator
+                                    receiver[1] = taf({TaskName: "Leader check C-Report"}).start(2).first();    
+                                    receiver[2] = taf({TaskName: "Leader check C-Report"}).start(1).first();    
+                                    receiver[3] = taf({TaskName: "Leader HSE check C-Report"}).start(3).first();
+                                    receiver[4] = taf({TaskName: "Leader HSE check C-Report"}).start(2).first();
+                                    receiver[5] = taf({TaskName: "Leader HSE check C-Report"}).start(1).first();
+                                    if (receiver[2].UserId == receiver[1].UserId) receiver[2]=null;
+                                    if (receiver[5].UserId == receiver[4].UserId) receiver[5]=null;
+                                    if (receiver[4].UserId == receiver[3].UserId) receiver[4]=null;
+                                    scope.receiver = receiver;
+                                    console.log('receiver: ',receiver);
+                                })
+
+
+                            }
+                        }, function (err) {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': err.data
+                            });
+                        })
+
+
+
+                    }
+
+
 
 
 
