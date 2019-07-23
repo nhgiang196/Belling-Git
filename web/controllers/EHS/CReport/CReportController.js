@@ -1,20 +1,20 @@
 define(['myapp', 'angular'], function (myapp, angular) {
     myapp.controller('CReportController', ['GateGuest', '$upload', '$filter', 'Notifications', 'Auth', 'EngineApi', 'CReportService', 'InfolistService', '$translate', '$q', '$scope', '$timeout',
         function (GateGuest, $upload, $filter, Notifications, Auth, EngineApi, CReportService, InfolistService, $translate, $q, $scope, $timeout) {
-            $scope.recordAC = {};
-            $scope.recordIC = {};
-            $scope.flowkey = 'HW-User';
-            $scope.onlyOwner = true;
+            $scope.recordAC = {}; //record for AC directive
+            $scope.recordIC = {}; //record for IC directive
+            $scope.flowkey = 'HW-User'; //flow key for access this module 
+            $scope.onlyOwner = true; //check box of Onwer
             $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
-            $scope.show = {
+            $scope.show = { //show  signal
                 submitbutton: true,
                 checker: true
             }
-            // $scope.ImprovementRecord = {};
             var lang = window.localStorage.lang || 'EN';
+            // $scope.ImprovementRecord = {};
             /***************************************************************************** */
             /**search comboboxs */
-            $scope.typelist = [{
+            $scope.typelist = [{ //list for RP_Type combobox
                 id: 'all',
                 name: $translate.instant('All')
             }, {
@@ -24,7 +24,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 id: '1',
                 name: $translate.instant('Accident')
             }];
-            $scope.typelistEVR = [{
+            $scope.typelistEVR = [{ //list for submittype combobox
                 id: 'all',
                 name: $translate.instant('All')
             }, {
@@ -109,7 +109,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     cellTooltip: true
                 }
             ];
-            $scope.getTranslatedCol = function (colname, id) {
+            $scope.getTranslatedCol = function (colname, id) { //translated column
                 switch (colname) {
                     case 'Rp_Status':
                         return $translate.instant($scope.statuslist.find(item => item.id === id).name);
@@ -120,8 +120,37 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         return $translate.instant($scope.ACTypelist.find(item => item.id === id).name);
                 }
             }
-            //Grid setting mặc định tên 
-            $scope.gridOptions = {
+
+            $scope.GetLink = function (data) { //Getlink để hiện báo cáo
+                var employee_id = data.entity.EmployeeID;
+                var id = data.entity.Rp_ID;
+                var ReportType = data.entity.Rp_Type;
+                CReportService.GetDepartment_RP({
+                    Rp_ID: id
+                }, function (res) {
+                    if (res.Success) {
+                        var other_depart = res.Data;
+                        if (ReportType != 'IC') {
+                            console.log(id);
+                            if (other_depart == "Other") {
+                                var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
+                                window.open(href);
+                            } else {
+                                var href = '#/CircumstanceReport/ACReport/print/' + id;
+                                window.open(href);
+                            }
+                        } else {
+                            console.log(id);
+                            var href = '#/CircumstanceReport/ICReport/print/' + id;
+                            window.open(href);
+                        }
+                    }
+                });
+            }
+
+
+
+            $scope.gridOptions = { //Grid setting mặc định tên 
                 columnDefs: colCReport,
                 data: [],
                 enableColumnResizing: true,
@@ -167,33 +196,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
             };
             /**************************** FUNCTIONS ************************************************************** */
-            //Getlink để hiện báo cáo
-            $scope.GetLink = function (data) {
-                var employee_id = data.entity.EmployeeID;
-                var id = data.entity.Rp_ID;
-                var ReportType = data.entity.Rp_Type;
-                CReportService.GetDepartment_RP({
-                    Rp_ID: id
-                }, function (res) {
-                    if (res.Success) {
-                        var other_depart = res.Data;
-                        if (ReportType != 'IC') {
-                            console.log(id);
-                            if (other_depart == "Other") {
-                                var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
-                                window.open(href);
-                            } else {
-                                var href = '#/CircumstanceReport/ACReport/print/' + id;
-                                window.open(href);
-                            }
-                        } else {
-                            console.log(id);
-                            var href = '#/CircumstanceReport/ICReport/print/' + id;
-                            window.open(href);
-                        }
-                    }
-                });
-            }
+
             $scope.ChangeSubmitType = function () {
                 if ($scope.rp_Submittype.id == 'EVR') {
                     $scope.demolist = $scope.typelistEVR;
@@ -204,8 +207,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
                 $scope.Search();
             };
-            //search information 
-            function SearchList() {
+
+            function SearchList() { //search information 
                 var query = {};
                 query.startdate = $scope.dateFrom || '';
                 query.enddate = $scope.dateTo || '';
@@ -220,26 +223,18 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 } else query.uid = '';
                 return query;
             };
-            //search function()
-            $scope.Search = function () {
+
+            $scope.Search = function () { //search function()
                 var query = SearchList();
                 CReportService.SearchCReport(query, function (data) {
                     $scope.gridOptions.data = data;
                 }, function (error) {});
             };
 
-            // hàm bật tắt disable nút file chỗ địa điểm  
-            function disableFileLocation(value) {
-                if (value == "O") {
-                    // $scope.btnFile = false;
-                    // $scope.btnFile_AC = false;
-                } else {
-                    // $scope.btnFile = true;
-                    // $scope.btnFile_AC = true;
-                }
-            }
-            // delete
-            function deleteById(id) {
+
+
+
+            function deleteById(id) { // delete
                 var data = {
                     Rp_ID: id
                 };
@@ -337,7 +332,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 });
                                 return;
                             }
-                            // disableFileLocation(resultRows[0].Rp_Location); // bật tắt disable nút file chỗ địa điểm  
+                            // var value = resultRows[0].Rp_Location; // bật tắt disable nút file chỗ địa điểm  
+                            //     if (value == "O") {
+                            //         // $scope.btnFile = false;
+                            //         // $scope.btnFile_AC = false;
+                            //     } else {
+                            //         // $scope.btnFile = true;
+                            //         // $scope.btnFile_AC = true;
                             if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
                                 $scope.rp_type = '0';
                                 $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
@@ -536,7 +537,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 GateGuest.GetGateCheckers().getCheckers({
                     owner: Auth.username,
                     flowkey: 'CReportHSE',
-                    Kinds: '',
+                    Kinds: 'initiator',
                     CheckDate: NaN
                 }, function (leaderlist) {
                     if (leaderlist.length > 0) {
@@ -557,7 +558,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 })
             }
             /**Save Submit */
-            $scope.SaveSubmitCReport = function (Rp_ID) {
+            $scope.SaveSubmitCReport = function (Rp_ID) { // fnSavesubmit
                 $scope.formVariables = [];
                 $scope.historyVariable = [];
                 /**Check if user have permission to submit */
@@ -594,8 +595,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 // } else alert("You don't have permission!")
                 // });
 
-            } // fnSavesubmit
-            $scope.SubmitAndChangeStatus = function (Rp_ID) {
+            }
+            $scope.SubmitAndChangeStatus = function (Rp_ID) { //fnchangeStatus 
                 /**Submit to BPMN */
                 CReportService.SubmitBPM($scope.formVariables, $scope.historyVariable, '', function (res, message) {
                     if (message) {
@@ -636,8 +637,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     }
                 })
                 /** Change Status to P */
-            } //fnchangeStatus 
-            $scope.btnImprovementSave = function (myrecord) {
+            }
+            $scope.btnImprovementSave = function (myrecord) { //Improvement Save button functions
                 var templsFile = [];
                 if ($scope.listfile.length > 0) {
                     $scope.listfile.forEach(element => {
@@ -668,7 +669,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
 
             }
-            CReportService.CountReport(function (data) {
+
+            CReportService.CountReport(function (data) { //count number of every type report
                 $scope.rpCounter = {
                     Safe: data[0].count_safe,
                     Envi: data[0].count_evr,
