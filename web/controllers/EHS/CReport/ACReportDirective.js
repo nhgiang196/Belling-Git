@@ -9,7 +9,7 @@ define(['app'], function (app) {
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
                     $scope.btnFile_AC = false;
                     $scope.injury = []; //list for showing in table injuries people
-                    
+
 
                     /**
                      *reset data function
@@ -276,6 +276,7 @@ define(['app'], function (app) {
                                         $scope.resetAC();
                                         break;
                                     case 'M':
+                                        note.Rp_Status = 'D';
                                         updateByID_AC(note);
                                         break;
                                     case 'MP':

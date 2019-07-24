@@ -40,7 +40,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.rp_Submittype = $scope.SubmitTypelist[0]; //set default search param
             $scope.rp_type = $scope.typelist[0].id; //set default search param
             /**********************************GRID -UI DEFINITION*********************************************************/
-            var colCReport = [{
+            var col = [{
                     field: 'Rp_ID',
                     width: 130,
                     minWidth: 30,
@@ -104,7 +104,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 },
                 {
                     field: 'Rp_CreatorID',
-                    minWidth: 70,
+                    minWidth: 150,
                     displayName: $translate.instant('Creator'),
                     cellTooltip: true
                 }
@@ -151,7 +151,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
 
             $scope.gridOptions = { //Grid setting mặc định tên 
-                columnDefs: colCReport,
+                columnDefs: col,
                 data: [],
                 enableFiltering: true,
                 enableColumnResizing: true,

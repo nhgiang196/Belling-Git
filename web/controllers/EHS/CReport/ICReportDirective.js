@@ -7,7 +7,7 @@ define(['app'], function (app) {
 
                     var lang = window.localStorage.lang;
                     $scope.IncidentTypeList = InfolistService.Infolist('IncidentType'); // IC only
-                    
+
                     $scope.$watch("recordIC.submittype", function (val) {
 
                         if (val == 'EVR') $scope.IsEVR = true
@@ -129,6 +129,7 @@ define(['app'], function (app) {
                                     $scope.resetIC();
                                     break;
                                 case 'M':
+                                    note.Rp_Status = 'D';
                                     updateByID_IC(note);
                                     break;
                                 case 'MP':
@@ -170,8 +171,8 @@ define(['app'], function (app) {
                     //*** UPload file */
                     $scope.listfile = [];
                     $scope.UploadFileHSE = function ($files, _colName) {
-                                         
-                        var isValidFile = checkFileLimited($files,3,3);
+
+                        var isValidFile = checkFileLimited($files, 3, 3);
                         if (!isValidFile.success) {
                             alert(isValidFile.message)
                         } else {
@@ -231,30 +232,27 @@ define(['app'], function (app) {
                      * @param {number of TotalFiles} totalFile 
                      */
 
-                    function checkFileLimited($files, maximumSize, totalFile)
-                    {
-                       const fileCount = $files.length;
-                       const maximumFileSize = maximumSize * 1024*1024 // 3MB
-                       var objectResult ={
-                           success :true,
-                           message:"Upload Completed!"
-                       };
-                       //check file exist in list
-                       var listOfFiles = (($scope.listfileAC.length +fileCount) > maximumSize || ($scope.listfile.length+ fileCount) >maximumSize)? true:false;
-                       if(fileCount > totalFile || listOfFiles)
-                       {
-                           objectResult.success =false;
-                           objectResult.message =`Your number of files over ${totalFile}`;
-                       }
-                       else{                         
-                           $files.forEach(item=>{
-                                if(item.size > maximumFileSize){
-                                    objectResult.success =false;
-                                    objectResult.message =`Your file upload over ${maximumSize}MB\n Please uploade another file!`;
-                                }  
-                           })
-                       }
-                       return objectResult;
+                    function checkFileLimited($files, maximumSize, totalFile) {
+                        const fileCount = $files.length;
+                        const maximumFileSize = maximumSize * 1024 * 1024 // 3MB
+                        var objectResult = {
+                            success: true,
+                            message: "Upload Completed!"
+                        };
+                        //check file exist in list
+                        var listOfFiles = (($scope.listfileAC.length + fileCount) > maximumSize || ($scope.listfile.length + fileCount) > maximumSize) ? true : false;
+                        if (fileCount > totalFile || listOfFiles) {
+                            objectResult.success = false;
+                            objectResult.message = `Your number of files over ${totalFile}`;
+                        } else {
+                            $files.forEach(item => {
+                                if (item.size > maximumFileSize) {
+                                    objectResult.success = false;
+                                    objectResult.message = `Your file upload over ${maximumSize}MB\n Please uploade another file!`;
+                                }
+                            })
+                        }
+                        return objectResult;
                     }
                     // GetBasic ------------ USE FOR BOTH REPORT
                     var subdepartment = {
