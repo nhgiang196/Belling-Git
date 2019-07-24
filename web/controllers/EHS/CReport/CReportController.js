@@ -47,7 +47,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     displayName: $translate.instant('ReportID'),
                     cellTooltip: true,
                     cellTemplate: "<a  ng-click='grid.appScope.GetLink(row)' style='cursor:pointer;display: block;height: 80%;overflow: hidden;padding: 5px;' target='_blank'>{{COL_FIELD}}</a>"
-
+                    ,enableFiltering: true,
                 },
                 {
                     field: 'Rp_Status',
@@ -153,6 +153,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.gridOptions = { //Grid setting mặc định tên 
                 columnDefs: colCReport,
                 data: [],
+                enableFiltering: true,
                 enableColumnResizing: true,
                 enableFullRowSelection: true,
                 enableSorting: true,
@@ -671,11 +672,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             }
 
             CReportService.CountReport(function (data) { //count number of every type report
-                $scope.rpCounter = {
-                    Safe: data[0].count_safe,
-                    Envi: data[0].count_evr,
-                    Fire: data[0].count_fire
-                }
+                $scope.rpCounter = data[0];
             }, function (error) {})
         } //function
     ]) // myapp.controller
