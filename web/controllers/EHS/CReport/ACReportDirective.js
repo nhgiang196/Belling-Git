@@ -8,6 +8,7 @@ define(['app'], function (app) {
                     $scope.ACTypelist = InfolistService.Infolist('ACType');
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
                     $scope.btnFile_AC = false;
+                    $scope.injury = []; //list for showing in table injuries people
                     
 
                     /**

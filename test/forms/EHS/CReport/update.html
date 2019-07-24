@@ -6,9 +6,10 @@
         /***************************************** INIT **************************************************/
         $scope.recordAC = {};
         $scope.recordIC = {};
+        $scope.mySwitch = true; // bật tắt input Bộ phận trong AC khi sửa
         $scope.status = 'MP'; //this form only for Modified Submit
         $scope.ISReceive = 'Yes'; //default submit choose
-        $scope.injury = []; //list for showing in table injuries people
+
         var lang = window.localStorage.lang || 'EN';
         $scope.username = Auth.username; // parram for sending checkers
         $translate.refresh();
@@ -62,7 +63,7 @@
                     $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson;
 
                 } else {
-                    
+
                     $scope.IsIC = false;
                     $scope.listfile = [];
 
@@ -78,6 +79,7 @@
                     $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
                     $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
                     $scope.recordAC.submittype = data.Rp_SubmitType;
+
 
                     $scope.employees = [];
                     $scope.gd = {};
@@ -100,7 +102,7 @@
 
                 }
                 $scope.injury = [];
-                
+
                 data.FileAttached.forEach(element => {
                     if (element.Profile_ID == null) {
                         var x = {};
@@ -125,6 +127,22 @@
                 });
             })
         }
+
+        $scope.showEmployeeList = function (dept_id) {
+            $scope.gd = {};
+            $scope.employees = [];
+            if (dept_id == null || dept_id == '') return;
+            CReportService.GetEmployee({
+                DepartmentID: dept_id
+            }, function (res) {
+                if (res.length > 0) {
+                    $scope.listEmployee = res;
+                    console.log($scope.listEmployee);
+                } else $scope.listEmployee = [];
+            })
+        };
+
+
         $scope.Submit = function (isSubmit) {
             $scope.loading = true;
             if (!confirm("Submit this Report?")) return;
@@ -135,8 +153,8 @@
                 });
                 return;
             }
-           
-            
+
+
             $scope.submit();
             // var data = saveInitData();
         }
