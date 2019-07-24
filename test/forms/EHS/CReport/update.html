@@ -1,210 +1,210 @@
 <script>
-    function HSE_updateController(
-        $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
-        Auth, GateGuest, $translate, CReportService, InfolistService, $filter, $q, $upload) {
-
-        /***************************************** INIT **************************************************/
-        $scope.recordAC = {};
-        $scope.recordIC = {};
-        $scope.mySwitch = true; // bật tắt input Bộ phận trong AC khi sửa
-        $scope.status = 'MP'; //this form only for Modified Submit
-        $scope.ISReceive = 'Yes'; //default submit choose
-
-        var lang = window.localStorage.lang || 'EN';
-        $scope.username = Auth.username; // parram for sending checkers
-        $translate.refresh();
-        $scope.statuslist = InfolistService.Infolist('status'); //search param list ??
-        $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list ??
-        $scope.loading = false; // button disabled after press once
-        /***************************************** FUNCTIONS **************************************************/
-        $scope.passOrNot = [{
-                "name": $translate.instant('Update'),
-                "value": "UPDATE" //BPMN value
-            },
-            {
-                "name": $translate.instant('Delete'),
-                "value": "DELETE" //BPMN value
-            }
-        ];
-        // $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
-
-        LoadDetail();
-
-        function LoadDetail() { // loaddetail
-            CReportService.FindByID({
-                Rp_ID: $scope.variable.Rp_ID
-            }, function (data) {
-
-                if (data.Rp_Type == "IC") {
-                    $scope.IsIC = true;
-                    $scope.recordIC.rp_id = data.Rp_ID;
-                    $scope.recordIC.icGroup = data.RpIC_Group;
-                    $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
-                    $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
-                    $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
-                    $scope.recordIC.icDatetime = data.Rp_DateTime;
-                    $scope.recordIC.icLocation = data.Rp_Location;
-                    $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
-                    $scope.recordIC.icProcess = data.RpIC_Description;
-                    $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
-                    $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
-                    $scope.recordIC.icBasic = data.RpIC_BasicReason;
-                    $scope.recordIC.icResult = data.RpIC_Damage;
-                    $scope.recordIC.icImprove = data.RpIC_Process;
-                    $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
-                    $scope.recordIC.icType = data.RpIC_IncidentType;
-                    $scope.recordIC.submittype = data.Rp_SubmitType;
-                    if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
-                        $scope.icType_CheckOther = true;
-                    $scope.recordIC.icAffect = data.RpIC_Affect;
-                    $scope.recordIC.icAffectRange = data.RpIC_AffectRange;
-                    $scope.recordIC.TimeNotif = data.RpIC_TimeNotif;
-                    $scope.recordIC.ICNotifPersion = data.RpIC_NotifPerson;
-                    $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson;
-
-                } else {
-
-                    $scope.IsIC = false;
-                    $scope.listfile = [];
-
-                    $scope.recordAC.rp_id = data.Rp_ID;
-                    $scope.recordAC.ac_subdepartment = data.Rp_SubDepartmentID;
-                    $scope.recordAC.ac_type = data.Rp_Type;
-                    $scope.recordAC.ac_datetime = data.Rp_DateTime;
-                    $scope.recordAC.ac_location = data.Rp_Location;
-                    $scope.recordAC.ac_prevent = data.Rp_PreventMeasure;
-                    $scope.recordAC.ac_improvesoft = data.RpAC_ImproveSoftware;
-                    $scope.recordAC.ac_improvehard = data.RpAC_ImproveHardware;
-                    $scope.recordAC.ac_datecomp = data.RpAC_DateComplete;
-                    $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
-                    $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
-                    $scope.recordAC.submittype = data.Rp_SubmitType;
-
-
-                    $scope.employees = [];
-                    $scope.gd = {};
-                    $scope.showEmployeeList(data.Rp_SubDepartmentID);
-                    data.AccidentDetail.forEach(element => {
-                        var x = {};
-                        x.Injury_Description = element.Injury_Description;
-                        x.Rp_ID = element.Rp_ID;
-                        x.Treatment_Result = element.Treatment_Result;
-                        x.Witness_info = element.Witness_info;
-                        x.EmployeeID = element.EmployeeID;
-                        x.Contractor_Victim_Name = element.Contractor_Victim_Name;
-                        x.Contractor_Victim_Sex = element.Contractor_Victim_Sex;
-                        x.Contractor_Victim_Age = element.Contractor_Victim_Age;
-                        x.Contractor_Name = element.Contractor_Name;
-                        x.Contractor_Victim_DateWork = element.Contractor_Victim_DateWork;
-                        x.Contractor_Victim_Work = element.Contractor_Victim_Work;
-                        $scope.employees.push(x);
-                    })
-
+        function HSE_updateController(
+            $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
+            Auth, GateGuest, $translate, CReportService, InfolistService, $filter, $q, $upload) {
+    
+            /***************************************** INIT **************************************************/
+            $scope.recordAC = {};
+            $scope.recordIC = {};
+            $scope.mySwitch = true; // bật tắt input Bộ phận trong AC khi sửa
+            $scope.status = 'MP'; //this form only for Modified Submit
+            $scope.ISReceive = 'Yes'; //default submit choose
+    
+            var lang = window.localStorage.lang || 'EN';
+            $scope.username = Auth.username; // parram for sending checkers
+            $translate.refresh();
+            $scope.statuslist = InfolistService.Infolist('status'); //search param list ??
+            $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list ??
+            $scope.loading = false; // button disabled after press once
+            /***************************************** FUNCTIONS **************************************************/
+            $scope.passOrNot = [{
+                    "name": $translate.instant('Update'),
+                    "value": "UPDATE" //BPMN value
+                },
+                {
+                    "name": $translate.instant('Delete'),
+                    "value": "DELETE" //BPMN value
                 }
-                $scope.injury = [];
-
-                data.FileAttached.forEach(element => {
-                    if (element.Profile_ID == null) {
-                        var x = {};
-                        x.Rp_ID = element.Rp_ID;
-                        x.name = element.File_ID;
-                        x.col = element.ColumnName;
-                        $scope.listfile.push(x);
+            ];
+            // $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
+    
+            LoadDetail();
+    
+            function LoadDetail() { // loaddetail
+                CReportService.FindByID({
+                    Rp_ID: $scope.variable.Rp_ID
+                }, function (data) {
+    
+                    if (data.Rp_Type == "IC") {
+                        $scope.IsIC = true;
+                        $scope.recordIC.rp_id = data.Rp_ID;
+                        $scope.recordIC.icGroup = data.RpIC_Group;
+                        $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
+                        $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
+                        $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
+                        $scope.recordIC.icDatetime = data.Rp_DateTime;
+                        $scope.recordIC.icLocation = data.Rp_Location;
+                        $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
+                        $scope.recordIC.icProcess = data.RpIC_Description;
+                        $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
+                        $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
+                        $scope.recordIC.icBasic = data.RpIC_BasicReason;
+                        $scope.recordIC.icResult = data.RpIC_Damage;
+                        $scope.recordIC.icImprove = data.RpIC_Process;
+                        $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
+                        $scope.recordIC.icType = data.RpIC_IncidentType;
+                        $scope.recordIC.submittype = data.Rp_SubmitType;
+                        if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
+                            $scope.icType_CheckOther = true;
+                        $scope.recordIC.icAffect = data.RpIC_Affect;
+                        $scope.recordIC.icAffectRange = data.RpIC_AffectRange;
+                        $scope.recordIC.TimeNotif = data.RpIC_TimeNotif;
+                        $scope.recordIC.ICNotifPersion = data.RpIC_NotifPerson;
+                        $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson;
+    
                     } else {
-                        var x = {};
-                        x.Rp_ID = element.Rp_ID;
-                        x.name = element.File_ID;
-                        x.empID = element.Profile_ID;
-                        x.col = element.ColumnName;
-                        $scope.injury.push(x);
+    
+                        $scope.IsIC = false;
+                        $scope.listfile = [];
+    
+                        $scope.recordAC.rp_id = data.Rp_ID;
+                        $scope.recordAC.ac_subdepartment = data.Rp_SubDepartmentID;
+                        $scope.recordAC.ac_type = data.Rp_Type;
+                        $scope.recordAC.ac_datetime = data.Rp_DateTime;
+                        $scope.recordAC.ac_location = data.Rp_Location;
+                        $scope.recordAC.ac_prevent = data.Rp_PreventMeasure;
+                        $scope.recordAC.ac_improvesoft = data.RpAC_ImproveSoftware;
+                        $scope.recordAC.ac_improvehard = data.RpAC_ImproveHardware;
+                        $scope.recordAC.ac_datecomp = data.RpAC_DateComplete;
+                        $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
+                        $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
+                        $scope.recordAC.submittype = data.Rp_SubmitType;
+    
+    
+                        $scope.employees = [];
+                        $scope.gd = {};
+                        $scope.showEmployeeList(data.Rp_SubDepartmentID);
+                        data.AccidentDetail.forEach(element => {
+                            var x = {};
+                            x.Injury_Description = element.Injury_Description;
+                            x.Rp_ID = element.Rp_ID;
+                            x.Treatment_Result = element.Treatment_Result;
+                            x.Witness_info = element.Witness_info;
+                            x.EmployeeID = element.EmployeeID;
+                            x.Contractor_Victim_Name = element.Contractor_Victim_Name;
+                            x.Contractor_Victim_Sex = element.Contractor_Victim_Sex;
+                            x.Contractor_Victim_Age = element.Contractor_Victim_Age;
+                            x.Contractor_Name = element.Contractor_Name;
+                            x.Contractor_Victim_DateWork = element.Contractor_Victim_DateWork;
+                            x.Contractor_Victim_Work = element.Contractor_Victim_Work;
+                            $scope.employees.push(x);
+                        })
+    
                     }
-                });
-
-            }, function (error) {
-                Notifications.addError({
-                    'status': 'error',
-                    'message': res.Message
-                });
-            })
-        }
-
-        $scope.showEmployeeList = function (dept_id) {
-            $scope.gd = {};
-            $scope.employees = [];
-            if (dept_id == null || dept_id == '') return;
-            CReportService.GetEmployee({
-                DepartmentID: dept_id
-            }, function (res) {
-                if (res.length > 0) {
-                    $scope.listEmployee = res;
-                    console.log($scope.listEmployee);
-                } else $scope.listEmployee = [];
-            })
-        };
-
-
-        $scope.Submit = function (isSubmit) {
-            $scope.loading = true;
-            if (!confirm("Submit this Report?")) return;
-            if ($scope.checkList.length <= 0) {
-                Notifications.addError({
-                    'status': 'error',
-                    'message': 'Don\'t get leader'
-                });
-                return;
+                    $scope.injury = [];
+    
+                    data.FileAttached.forEach(element => {
+                        if (element.Profile_ID == null) {
+                            var x = {};
+                            x.Rp_ID = element.Rp_ID;
+                            x.name = element.File_ID;
+                            x.col = element.ColumnName;
+                            $scope.listfile.push(x);
+                        } else {
+                            var x = {};
+                            x.Rp_ID = element.Rp_ID;
+                            x.name = element.File_ID;
+                            x.empID = element.Profile_ID;
+                            x.col = element.ColumnName;
+                            $scope.injury.push(x);
+                        }
+                    });
+    
+                }, function (error) {
+                    Notifications.addError({
+                        'status': 'error',
+                        'message': res.Message
+                    });
+                })
             }
-
-
-            $scope.submit();
-            // var data = saveInitData();
+    
+            $scope.showEmployeeList = function (dept_id) {
+                $scope.gd = {};
+                $scope.employees = [];
+                if (dept_id == null || dept_id == '') return;
+                CReportService.GetEmployee({
+                    DepartmentID: dept_id
+                }, function (res) {
+                    if (res.length > 0) {
+                        $scope.listEmployee = res;
+                        console.log($scope.listEmployee);
+                    } else $scope.listEmployee = [];
+                })
+            };
+    
+    
+            $scope.Submit = function (isSubmit) {
+                $scope.loading = true;
+                if (!confirm("Submit this Report?")) return;
+                // if ($scope.checkList.length <= 0) {
+                //     Notifications.addError({
+                //         'status': 'error',
+                //         'message': 'Don\'t get leader'
+                //     });
+                //     return;
+                // }
+    
+    
+                $scope.submit();
+                // var data = saveInitData();
+            }
+    
+    
         }
-
-
-    }
-</script>
-<div ng-controller="HSE_updateController">
-    <!-- REPORT DIRECTIVE -->
-    <div ng-show="IsIC">
-        <create_ic_report></create_ic_report>
-    </div>
-    <div ng-show="!IsIC">
-        <create_ac_report></create_ac_report>
-    </div>
-
-    <form class="form-horizontal" role="form" novalidate name="form">
-        <!-- RECEVEIVE AND PROCESS FORM -->
-
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
-            <div class="col-sm-3">
-                <select class="form-control" history-field="UpdateCommand" form-field name="UpdateCommand"
-                    ng-model="UpdateCommand" ng-options="c.value as c.name for c in passOrNot" required> </select>
+    </script>
+    <div ng-controller="HSE_updateController">
+        <!-- REPORT DIRECTIVE -->
+        <div ng-show="IsIC">
+            <create_ic_report></create_ic_report>
+        </div>
+        <div ng-show="!IsIC">
+            <create_ac_report></create_ac_report>
+        </div>
+    
+        <form class="form-horizontal" role="form" novalidate name="form">
+            <!-- RECEVEIVE AND PROCESS FORM -->
+    
+    
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
+                <div class="col-sm-3">
+                    <select class="form-control" history-field="UpdateCommand" form-field name="UpdateCommand"
+                        ng-model="UpdateCommand" ng-options="c.value as c.name for c in passOrNot" required> </select>
+                </div>
             </div>
-        </div>
-
-        <!-- leader remark show if returned -->
-        <div>
-            <h3 style="color:red;" ng-if="variable.leadercheck_remark">
-                {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
-            </h3>
-        </div>
-        <!-- NEXT CANDIDATE -->
-        <div class="row">
+    
+            <!-- leader remark show if returned -->
             <div>
-                <h4>{{'NextStep'|translate}}</h4>
+                <h3 style="color:red;" ng-if="variable.leadercheck_remark">
+                    {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
+                </h3>
             </div>
-            <div leader-check flow-key="CReportHSE" user-name="{{username}}"></div>
-        </div>
-
-        <!-- BUTTON OF SUBMITTING -->
-        <div class="form-group" ng-hide="recod.Status=='K'">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-primary" ng-click="Submit(true)"
-                    ng-disabled="form.$invalid||disableSubmit||loading||!btnSave_Clicked">
-                    {{'Submit'|translate}}
-                </button>
+            <!-- NEXT CANDIDATE -->
+            <div class="row">
+                <div>
+                    <h4>{{'NextStep'|translate}}</h4>
+                </div>
+                <div leader-check flow-key="CReportHSE" user-name="{{username}}"></div>
             </div>
-        </div>
-    </form>
-</div>
+    
+            <!-- BUTTON OF SUBMITTING -->
+            <div class="form-group" ng-hide="recod.Status=='K'">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-click="Submit(true)"
+                        ng-disabled="form.$invalid||disableSubmit||loading||!btnSave_Clicked">
+                        {{'Submit'|translate}}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>

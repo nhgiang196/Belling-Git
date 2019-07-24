@@ -24,7 +24,7 @@
             $scope.loading = true;
             if ($scope.ISPublish == 'NO') {
                 CReportService.SubmitStatus({
-                        Rp_ID: Rp_ID,
+                        Rp_ID: $scope.variable.Rp_ID, //chosen
                         Rp_Status: 'PW'
                     },
                     function (res) {

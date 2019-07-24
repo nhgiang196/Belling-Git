@@ -28,7 +28,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
             $scope.ICdetail = {};
             var lang = window.localStorage.lang; //language
-            loadDetail();
+            // loadDetail();
             console.log($scope.ICdetail);
 
             function loadDetail() {

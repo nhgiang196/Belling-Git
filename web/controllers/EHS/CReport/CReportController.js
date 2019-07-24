@@ -183,7 +183,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         'userid': Auth.username,
                         'tcode': $scope.flowkey
                     }, function (linkres) {
-                        if (linkres.IsSuccess) {
+                        if (true) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
                     });
