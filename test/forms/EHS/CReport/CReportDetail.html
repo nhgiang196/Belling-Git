@@ -44,7 +44,7 @@
             </Strong>
         </div>
         <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
-            填報日期 Ngày tháng: {{ReportDetail.Rp_Date | date : 'yyyy-MM-dd'}}
+            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   </u>年<u>  </u><u> </u>月<u>  </u><u> </u>日  
         </div>
     </div>
     <!--end of header-->
@@ -148,7 +148,7 @@
             </h4>
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align: right;">
-            填表日期 Ngày tháng : {{ReportDetail.Rp_Date | date : 'yyyy-MM-dd'}}
+            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   </u>年<u>  </u><u> </u>月<u>  </u><u> </u>日  
         </div>
     </div>
     <!--end off header-->
@@ -294,16 +294,11 @@
     <div class="header">
         <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
             CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
-            遠東紡纖（越南）有限公司
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg col-mrg" style="text-align: center; margin-top:3% ">
-            <Strong> BÁO CÁO SỰ CỐ MÔI TRƯỜNG<br> 環境事故報告書
-            </Strong>
+            <br> 遠東紡纖（越南）有限公司
+            <br> <Strong> BÁO CÁO SỰ CỐ MÔI TRƯỜNG <br> 環境事故報告書 </Strong>
         </div>
         <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
-            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   _ _</u>年<u>  </u><u>_</u>月<u>  </u><u>_</u>日  
+            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   </u>年<u>  </u><u> </u>月<u>  </u><u> </u>日  
         </div>
     </div>
     <div class="body">
@@ -333,14 +328,14 @@
             <br>Người nhận thông báo授信人 ：{{ReportDetail.RpIC_NotifPerson}}
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
-            5. Địa điểm xảy ra sự cố 事故地點 {{ReportDetail.Rp_Location |translate}}
+            5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location |translate}}
             <br>
             <div style=" text-align: justify; padding-bottom: 3%;">
                 <a href="/{{item.File_ID}}" target="_blank"
                     ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}"
                     style=" display:block;">{{item.File_ID}}</a>
             </div>
-            事故發生經過 Diễn biến sự cố (請詳細說明 Thuyết minh chi tiết):
+            Diễn biến sự cố 事故發生經過 (Thuyết minh chi tiết 請詳細說明):
             <p style=" text-align: justify;">{{ReportDetail.RpIC_Description}}</p>
             <a href="/{{item.File_ID}}" target="_blank"
                 ng-repeat="item in FileAttached | filter:{ColumnName: 'Injury_Description'}"
@@ -401,7 +396,7 @@
         </div>
         <div class="col-sm-12 col-lg-12" style="margin-top:2%; text-align:justify;">
             Bản này chia làm hai bản, một bản do bộ phận bị tai nạn lưu, một bản do bộ phận ATVSMT lưu.
-            本表一式兩份，一份由事故單位自存，一份送安衛環單位存查。
+            <br>本表一式兩份，一份由事故單位自存，一份送安衛環單位存查。
         </div>
     </div>
 </page>

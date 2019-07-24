@@ -8,6 +8,7 @@
         $scope.recordIC = {};
         $scope.status = 'MP'; //this form only for Modified Submit
         $scope.ISReceive = 'Yes'; //default submit choose
+        $scope.injury = []; //list for showing in table injuries people
         var lang = window.localStorage.lang || 'EN';
         $scope.username = Auth.username; // parram for sending checkers
         $translate.refresh();
