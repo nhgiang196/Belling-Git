@@ -672,7 +672,9 @@ define(['myapp', 'angular'], function (myapp, angular) {
             }
 
             CReportService.CountReport(function (data) { //count number of every type report
-                $scope.rpCounter = data[0];
+                var c  = $scope.rpCounter = data[0];
+                $scope.rpCounter.sumPending = c.pending_fp + c.pending_sf + c.pending_evr
+                $scope.rpCounter.sumSubmited = c.count_fp + c.count_sf + c.count_evr 
             }, function (error) {})
         } //function
     ]) // myapp.controller
