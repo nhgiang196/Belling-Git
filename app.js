@@ -26,10 +26,14 @@ var SysReqLog = require('./models/replog.js');
 var fs = require('fs');
 var basicService = require('./routes/basicRoute');
 
+
+
+
 //加载静态页面
 app.use(express.static('./web'));
 app.use(express.static('./test'));
 app.use(express.static('D:/QCFiles'));// Set for QCFiles in Server Directory
+
 
 //超时时间
 app.use(express.responseTime());
@@ -39,7 +43,6 @@ app.use(express.errorHandler());
 app.use(express.cookieParser());
 app.use(express.session({secret: 'SEKR37'}));
 //
-
 app.use(function (req, res, next) {
     var url = req.originalUrl;
     console.log(url);
@@ -99,94 +102,13 @@ app.use(function (req, res, next) {
                 }
              }
             
-     }
-           
- 
-   
+     }            
         next();
 
 
     //访问的日志记录下来
 
 });
-
-
-
-/*var filter = function (req, res, next) {
-    console.log("------------filter------------");
-    //是否有权限 访问这个API
-    try {
-        var sysReqLog = new SysReqLog({
-            URL:  req.originalUrl,
-            UserID:req.session['username'],
-            PathName: URL.parse(req.url).pathname,
-            Action:req.method,
-            IP:req.connection.remoteAddress,
-            B:new Date(),
-            E:"",
-            Paramenters:URL.parse(req.url).query,
-            Result:"",
-            Extra:""
-
-        });
-        sysReqLog.save(function (err) {
-            if (err) {
-                console.log(err);
-                return res.send(500, err);
-            } else {
-                next();
-            }
-
-        });
-    }catch(e){
-        res.send(500,e);
-    }
-
-};*/
-var Filter= require('./appservice/Filter');
-var filterAuth = function (req, res, next) {
-    console.log("Filter");
-
-    next();
-   /* try {
-        var sysReqLog = new SysReqLog({
-            URL:  req.originalUrl,
-            UserID:req.session['username'],
-            PathName: URL.parse(req.url).pathname,
-            Action:req.method,
-            IP:req.connection.remoteAddress,
-            B:new Date(),
-            E:"",
-            Paramenters:URL.parse(req.url).query,
-            Result:"",
-            Extra:""
-
-        });
-        Filter.DBSQLConnection(config);
-        Filter.AuthPower("",URL.parse(req.url).pathname,function(result,err){
-            if(err){
-                console.log("NO AUTH");
-                return res.send(500, err);
-            }else {
-                console.log("-------save start--------")
-                sysReqLog.save(function (err) {
-                    if (err) {
-                        console.log(err);
-                        return res.send(500, err);
-                    } else {
-                        console.log("-------save end--------")
-                        next();
-                    }
-
-                });
-            }
-        })
-
-    }catch(e){
-        console.log(e);
-        res.send(500,e);
-    }*/
-}
 
 /*app.use(filterAuth);*/
 app.post('/authorize/logout', function(req, res){
@@ -219,14 +141,15 @@ app.get('/authorize/isLogin',function(req,res){
 
 //authorize  test used
 app.post('/authorize/login',express.bodyParser(),function(req,res){
-    var username = req.body.username,
-        password = req.body.password;
+    var username = req.body.username;
+     var   password = req.body.password;
     //var   url = config.bpmrest+'Auth/login' ;
     var url = config.hrrest + 'api/HSSE/ValidateUser?username=' + username + '&password=' + password;
     console.log(url);
     request(url,function(e,r,b){
         console.log(e );
         if (!e && r.statusCode == 200) {
+          
             req.session['username'] = username;
             req.session['password'] = password;
             var userinfo=    JSON.parse(b);
@@ -297,7 +220,7 @@ app.post('/authorize/loginCode',express.bodyParser(),function(req,res){
                     res.send({username:userinfo.UserId,nickname:userinfo.UserName,email:req.session['email']});
                     return;
                 }else{
-                    res.send(401, 'Please re-login ,CAS  Wrong code:' + code);
+                    res.send(401, 'CAS  Wrong code:' + code);
                     return;
                 }
 
@@ -330,7 +253,7 @@ app.all('/bpm/api/*', function(req, res){
     });
 });
 
-
+/* OA  PIPE*/
 
 app.all('/ehs/gate/*', function(req, res){
     var x = request(config.hrrest+ req.url.replace('/ehs/gate/','api/Gate/'));
@@ -345,17 +268,13 @@ app.all('/LIMS/*', function(req, res){
     x.pipe(res);
     req.pipe(x);
 });
-/**
-Create By Isaac 08-11-2018
-*/
 app.all('/Waste/*', function(req, res){
     var x = request(config.ehshost+ req.url.replace('/Waste/','api/EHS/'));
-	  console.log(config.ehshost+ req.url.replace('/Waste/','api/EHS/'));
+    console.log(config.ehshost+ req.url.replace('/Waste/','api/EHS/'));
     x.pipe(res);
     req.pipe(x);
 });
-
-var server = http.createServer(app).listen("80",function(){
+var server = http.createServer(app).listen("843",function(){
     console.log('server start');
 });
 
