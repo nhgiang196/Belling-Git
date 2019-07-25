@@ -280,7 +280,7 @@ define(['app'], function (app) {
                         CReportService.GetDataDepartment(employeeid, function (data) {
                             $scope.sub_dpm.forEach(x => {
                                 if (data[0].DepartmentID == x.CostCenter) {
-                                    debugger;
+                                    
                                     $scope.deptDefault = x;
                                     $scope.recordIC.ic_SubDeparmentid = x.CostCenter; /// WHy??? =.=! 
                                     $scope.showDeptInIC = x.CostCenter + " - " + x.Specification; //Department
