@@ -13,23 +13,28 @@ define(['app', 'bpmn'], function (app) {
                 scope.header = {};
                 scope.finalData = {};
                 var mydata = JSON.parse(attrs.test);
-                LIMSService.gradeVersion.HistoryGrade({
+                LIMSService.gradeVersion.HistoryOfGradeVersion({
                     sampleName: mydata.sampleName,
                     lotNo: mydata.lotNo,
                     grades: mydata.grades
                 }).$promise.then(function (res) {
-                    scope.header = res.Header;
-                    scope.header.splice(scope.header.indexOf('Status'), 1);
-                    scope.finalData = res.Item;
-                    console.log(res);
-                    var maxVersion = [];
-                    for (var i = 0; i < res.Item.length; i++) {
-                        maxVersion = res.Item[i].Versions;
-                        if (res.Item[i].Status == 'P') {
-                            maxVersion = maxVersion - 1;
+                    var headers = [];
+                    if (res.length > 0) {
+                        for (var key in res[0]) {
+                            if (['Status'].indexOf(key) < 0 && key.indexOf(['$'])<0)
+                                headers.push(key);
                         }
+                        scope.header = headers;
+                        scope.MaxVersion = TAFFY(res)({ Status: 'S' }).max('Version');
+                        scope.finalData = res;
+                        console.log(res);
+                        console.log(scope.MaxVersion);
                     }
-                    scope.MaxVersion = (Math.max(maxVersion));
+                    else
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': 'There is no data'
+                        });
                 });
             },
             templateUrl: '/forms/QCGrades/gradeHistory.html'
@@ -247,5 +252,12 @@ define(['app', 'bpmn'], function (app) {
 
     ]);
 
-    
+
+
+
+
+
+
+
+
 });
