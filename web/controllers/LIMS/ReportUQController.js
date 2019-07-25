@@ -41,9 +41,9 @@ define(['myapp', 'angular'], function (myapp) {
                     }
                 });
             }
-            // setTimeout(function () {
-            //     window.print();
-            // }, 1500);
+            setTimeout(function () {
+                window.print();
+            }, 1500);
             /** Information from MongoDB . Get who receive the voucher and approved it */
             $scope.GetInformation = function (voucherID) {
                 LIMSService.QCOverGradePID().get({ OverID: voucherID }).$promise.then(function (res) {
@@ -122,9 +122,9 @@ define(['myapp', 'angular'], function (myapp) {
                 }
             };
             /**Auto  printing */
-            // setTimeout(function () {
-            //     window.print();
-            // }, 1000);
+            setTimeout(function () {
+                window.print();
+            }, 1000);
         }
     ]);
 });
