@@ -1,0 +1,399 @@
+<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#my-modal">Modal</button> -->
+<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Modal1</button> -->
+<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ACdetail_Modal">Modal1</button> -->
+
+<style>
+    input[type=checkbox] {
+        transform: scale(1.5);
+    }
+
+    .ibx-manage-logo {
+        height: 42px;
+        border: 1px solid #D6D6D6;
+        border-right: none;
+        background-color: #959595;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+
+    .modal-lg {
+        /* width: 900px; */
+        width: 80%
+    }
+
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        padding: 15px 0px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin: 5px 0 0 0 !important;
+
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    li ul {
+        display: none;
+        border: 1px solid #000000;
+        margin-left: -3px;
+    }
+
+    .form-control {
+        height: 34px;
+    }
+
+    .grid_cell_ct {
+        width: 100%;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 5px;
+    }
+</style>
+
+<form class="form-horizontal" role="form" novalidate name="form" style="padding-top:30px ">
+    <legend>
+        <h3>{{'Circumstance Report'|translate}}</h3>
+    </legend>
+
+    <div class=" form-group">
+
+        <div class="col-sm-8 form-group search-table">
+
+            <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">{{'CategoryReport' | translate}}</label>
+                <div class="col-lg-4 col-sm-4">
+                    <select class="form-control" ng-model="rp_Submittype"
+                        ng-options="subtype.name | translate for subtype in SubmitTypelist track by subtype.id"
+                        ng-change="ChangeSubmitType()">
+                    </select>
+                </div>
+
+                <label class="col-sm-2 control-label">{{'From'|translate}}</label>
+                <div class="col-sm-4">
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" id="time-search-from" name="dateFrom"
+                            ng-model="dateFrom" date-picker />
+                        <span class="input-group-addon">
+                            <label class="glyphicon glyphicon-calendar" style="color: grey"
+                                for="time-search-from"></label>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'ReportType'|translate}}</label>
+                <div class="col-sm-4">
+                    <select class="form-control" ng-model="rp_type" ng-change="Search()" required>
+                        <option style="padding-left: 5px;" ng-repeat="item in demolist" value="{{item.id}}">
+                            {{item.name}}</option>
+                    </select>
+                </div>
+
+                <label class="col-sm-2 control-label">{{'To'|translate}}</label>
+                <div class="col-sm-4">
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" id="time-search-to" name="dateTo" style="height: 34px;"
+                            ng-model="dateTo" date-picker />
+                        <span class="input-group-addon">
+                            <label class="glyphicon glyphicon-calendar" style="color: grey"
+                                for='time-search-to'></label>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'ReportID'|translate}}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="rp_id">
+                </div>
+
+                <div class="col-sm-4 col-sm-push-2">
+                    <label>
+                        <input name="onlyOwnerReport" type="checkbox" ng-model="onlyOwner">
+                        {{'onlyOwnerReport'|translate}}
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'Status'|translate}}</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="status" ng-model="s_status">
+                        <option ng-selected="true" value="">{{'All'|translate}}</option>
+                        <option ng-repeat="item in statuslist" value="{{item.id}}">{{item.name | translate}}</option>
+
+                    </select>
+                </div>
+
+                <div class="col-sm-1 col-sm-push-2">
+                    <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
+                    </button>
+                </div>
+            </div>
+
+        </div> <!-- end of search table -->
+
+        <div class="col-sm-2 form-group">
+            <ul class="list-group">
+                <li class="list-group-item" style="background:powderblue;">
+                    <p class="nav-list bg-secondary" style="margin-bottom: 0px;"> {{ 'Pending' | translate }}
+                        <span class="badge" style="background-color:#428bca"> {{rpCounter.sumPending }}</span>
+                    </p>
+                </li>
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;"> {{ 'Safety' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.pending_sf}}</span>
+                    </p>
+                </li>
+
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;">
+                        {{ 'Environment' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.pending_evr}}</span>
+                    </p>
+                </li>
+
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;">
+                        {{ 'FireProtection' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.pending_fp}}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-2 form-group">
+            <ul class="list-group">
+                <li class="list-group-item" style="background:lightgreen;">
+                    <p class="nav-list bg-secondary" style="margin-bottom: 0px;"> {{ 'Signed' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.sumSubmited }}</span>
+
+                    </p>
+                </li>
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;"> {{ 'Safety' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.count_sf}}</span>
+                    </p>
+                </li>
+
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;">
+                        {{ 'Environment' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.count_evr}}</span>
+                    </p>
+                </li>
+
+                <li class="list-group-item">
+                    <p class="nav-list" style="margin-bottom: 0px;">
+                        {{ 'FireProtection' | translate }}
+                        <span class="badge" style="background-color:#428bca">{{rpCounter.count_fp}}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+
+    </div> <!-- end of col-sm-12 -->
+
+    <div style="width: 100%;">
+        <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination ui-grid-resize-columns
+            ui-grid-core ui-grid-exporter></div>
+    </div>
+
+    <div class="modal fade" id="my-modal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content" style="padding: 5px;">
+
+                <div class="modal-body" style="padding-bottom:3px">
+                    <create_ic_report></create_ic_report>
+                </div> <!-- end of modal-body -->
+            </div> <!-- end of modal-content -->
+        </div> <!-- end of modal-dialog -->
+    </div> <!-- end of modal -->
+
+
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content" style="padding: 5px;">
+
+                <div class="modal-body" style="padding-bottom:3px">
+                    <create_ac_report></create_ac_report>
+
+                </div> <!-- end of modal-body -->
+            </div> <!-- end of modal-content -->
+        </div> <!-- end of modal-dialog -->
+    </div> <!-- end of modal-->
+
+    <div class="modal fade" id="modal_Improvement" role="dialog" aria-labelledby="myLargeModalLabel"
+        data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content" style="padding: 5px;">
+
+                <div class="modal-body" style="padding-bottom:3px">
+                    <h3 class="text-center">{{'Update_Improvement'|translate}}</h3>
+
+                    <H4 class="title">{{'ImprovementInformation'|translate}} / {{ReportDetail.Rp_ID}}</H4>
+                    <form class="form-horizontal model-form " name="icform">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label ctr-lb">* {{'DateOfImprovementComplete'|translate}} :
+                            </label>
+                            <div class="col-sm-4">
+                                <span style="color:red; font-size: 120%">
+                                    {{ImprovementRecord.RpAC_DateComplete|date:'yyyy-MM-dd HH:mm'}} </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label ctr-lb">* {{'Improvesoft'|translate}} : </label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" type="text" name="ac_improvesoft"
+                                    ng-model="ImprovementRecord.RpAC_ImproveSoftware"></textarea>
+
+                                <input type="file" ng-file-select="UploadFileHSE($files, 'RpAC_ImproveSoftware')"
+                                    id="file_process_ic1" style="display:none !important" multiple>
+
+                                <button class="btn btn-info" style="display:inline-block;" type="button"
+                                    ng-click="btnfile('file_process_ic1')">
+                                    <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
+                                </button>
+                                <label><input type="checkbox" ng-model="showImproveSoftList"
+                                        style="vertical-align: text-top;">
+                                    {{'ShowFile'|translate}}</label>
+
+                            </div>
+
+                            <div class="col-sm-6 col-sm-push-2">
+                                <table ng-show="showImproveSoftList"
+                                    class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
+                                    style="margin-top:10px;">
+                                    <tr ng-repeat="step in listfile" ng-show="step.col == 'RpAC_ImproveSoftware'">
+                                        <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
+                                        <td>
+                                            <a ng-click="removeFile($index)">
+                                                <span class="glyphicon glyphicon-remove"
+                                                    style="color: red; margin-top:66%;"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <!-- RpAC_ImproveHardware	 -->
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label ctr-lb">* {{'Improvesoft'|translate}} : </label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" type="text" name="ac_improvesoft"
+                                    ng-model="ImprovementRecord.RpAC_ImproveHardware"></textarea>
+
+                                <input type="file" ng-file-select="UploadFileHSE($files, 'RpAC_ImproveHardware')"
+                                    id="file_process_ic2" style="display:none !important" multiple>
+                                <button class="btn btn-info" style="display:inline-block;" type="button"
+                                    ng-click="btnfile('file_process_ic2')">
+                                    <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
+                                </button>
+                                <label><input type="checkbox" ng-model="showImproveHardList"
+                                        style="vertical-align: text-top;">
+                                    {{'ShowFile'|translate}}</label>
+
+                            </div>
+
+                            <div class="col-sm-6 col-sm-push-2">
+                                <table ng-show="showImproveHardList"
+                                    class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
+                                    style="margin-top:10px;">
+                                    <tr ng-repeat="step in listfile" ng-show="step.col == 'RpAC_ImproveHardware'">
+                                        <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
+                                        <td>
+                                            <a ng-click="removeFile($index)">
+                                                <span class="glyphicon glyphicon-remove"
+                                                    style="color: red; margin-top:66%;"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <!-- RpAC_ImproveHardware	 -->
+
+
+                        </div>
+                        <!-- <div class="form-group">
+                            <my-delfile></my-delfile>
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <div class="col-sm-12">
+                                <table>
+                                    <tr>
+                                        <td >
+                                            <div class="my-file-preview-frame">
+                                                <img ng-src='/api/cmis/showfile?filename=dde7bf3711c7d959235bdc931b7442c6&mimetype=pdf'
+                                                    width='150px' height='150px' />
+
+                                                <div>
+                                                    <div class="btn btn-danger btn-xs"
+                                                        ng-click="deletefile(file.DocId,$index)">
+                                                        <i class="glyphicon glyphicon-remove"></i>{{'Delete'|translate}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div> -->
+
+                    </form>
+                    <div class="modal-footer">
+                        <button id="btnSaveImprovement" type="button" class="btn btn-warning btn-ct-ac"
+                            ng-click="btnImprovementSave(ImprovementRecord)">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>
+                            {{'Save'|translate}} </button>
+
+
+                        <button type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal"><i
+                                class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i>
+                            {{'Close'|translate}}</button>
+                    </div>
+                    <hr>
+                    <H4 class="title">{{'ReportDetail'|translate}}</H4>
+                    <receive-report ng-if='ReportDetail.Rp_ID!=undefined' Rp_ID='{{ReportDetail.Rp_ID}}'
+                        style="width: 100%"></receive-report>
+
+
+
+
+                </div> <!-- end of modal-body -->
+
+            </div> <!-- end of modal-content -->
+        </div> <!-- end of modal-dialog -->
+    </div> <!-- end of modal-->
+
+
+
+</form>
+<hr>
+<h3>{{'Flowchart'|translate}}</h3>
+<hr>
+
+<div style="padding-top: 20px; text-align: center">
+    <div process-diagram-preview flow-key="CReportHSE"></div>
+</div>

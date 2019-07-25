@@ -1,0 +1,50 @@
+<div>
+    <form class="form-horizontal" role="form" novalidate name="form" >
+        <legend><h3>{{'SSPDAY'|translate}}</h3></legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table" style="margin-left:20px">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'From'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="DateFrom" ng-model="DateFrom" date-picker >
+                    </div>
+                    <label class="col-sm-2 control-label">{{'To'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="DateFrom" ng-model="DateTo" date-picker >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="material" ng-model="Material"
+                                ng-options="c.LOT_NO as c.MaterialNo for c in materialList" required>
+                            <option value="">---All---</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label">{{'Interval'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="Interval" ng-model="Interval">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="Line" ng-model="Line">
+                    </div>
+                    <div class="col-sm-2">
+                        <div  class="pull-right">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input name="monthly" ng-change="getMonth(Monthly)" type="checkbox" ng-model="Monthly"> {{'Monthly'|translate}}
+                        </label>
+                        <button  type="button" class="btn btn-primary pull-right" ng-click="Search()">{{'Search'|translate}} </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

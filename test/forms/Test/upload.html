@@ -1,0 +1,38 @@
+<form class="form-horizontal" role="form" novalidate name="form">
+    <div>
+        this is a form
+        <input type="file"  ng-file-select="onFileSelect($files,5242880)">
+        <div>
+            <table>
+                <tr ng-repeat="file in files">
+
+                    <td>{{file.OldName}}</td>
+                    <td>  <button  ng-click="showreformpic(file.DocId,file.FileType)" class="btn-xs btn btn-primary">{{file.Name}}</button></td>
+                    <td><a ng-href="/api/cmis/downfile?filename={{file.DocId}}&mimetype={{file.FileType}}"  target="_blank">下载</a></td>
+                    <td><button  ng-click="deletefile(file.DocId,$index)" class="btn-xs btn btn-primary">删除</button></td>
+                    <td> <img ng-src='/api/cmis/downfile?filename={{file.DocId}}&mimetype={{file.FileType}}' width='150px' height='150px'
+                         style="margin-left: 10px"/></td>
+                    <!--  <td>
+
+
+                      </td>-->
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</form>
+<div class="modal fade" id="afterModal">
+    <div class="modal-dialog" role="document" style="width: 600px; height: 500px">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img ng-src="{{imageUrl}}" width="100%" height="100%"  style="margin: 0 auto">
+
+                <div>
+                    <a href="{{imageUrl}}" target="_blank">下载</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<style>
+    #page-contain {
+        font-size: 12pt !important;
+        font-family: 'Times New Roman', 'DFKai-SB';
+    }
+
+
+
+
+
+
+    .navbar,
+    footer {
+        display: none;
+    }
+
+
+    #bottom-footer {
+        display: none;
+    }
+
+    body {
+        background: rgb(204, 204, 204);
+        padding: 0;
+    }
+
+    .container,
+    .row {
+        padding: 0;
+    }
+
+    @media print {
+        html,
+        body {
+
+            margin: 0;
+            padding: 0 !important;
+        }
+
+        .container {
+            width: auto;
+
+            padding-top: 0 !important;
+        }
+
+        .footer-page {
+            position: fixed;
+        }
+
+
+        table {
+            page-break-inside: avoid;
+        }
+
+        tr {
+
+            page-break-after: auto
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        html,
+        body,
+        page {
+            margin: 0;
+            box-shadow: 0;
+        }
+
+
+        .divFooter {
+            display: block;
+            position: fixed;
+            bottom: 0px;
+            width: 84%;
+            margin-top: 5px;
+            border-bottom: none;
+        }
+
+
+    }
+
+
+
+    .col-mrg {
+        margin-bottom: 2%;
+    }
+
+    .container {
+        padding-top: 0px !important;
+    }
+</style>
+
+<receive-report Rp_ID='{{Rp_ID}}'></receive-report>

@@ -1,0 +1,23 @@
+
+    .modal-lg {
+        width: 900px;
+    }
+    .form-table {
+        width: 100%;
+        display: inline-block;
+        padding: 15px 0px;
+        margin-bottom: 15px;
+    }
+    .form-group {
+        margin-bottom: 5px
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    li ul {
+        display: none;
+        border: 1px solid #000000;
+        margin-left: -3px;
+    }
