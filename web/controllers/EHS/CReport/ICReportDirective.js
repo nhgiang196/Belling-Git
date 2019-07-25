@@ -172,7 +172,7 @@ define(['app'], function (app) {
                     $scope.listfile = [];
                     $scope.UploadFileHSE = function ($files, _colName) {
 
-                        var isValidFile = checkFileLimited($files, 3, 3);
+                        var isValidFile = checkFileLimited($files, _colName, 3, 3);
                         if (!isValidFile.success) {
                             alert(isValidFile.message)
                         } else {
@@ -232,7 +232,7 @@ define(['app'], function (app) {
                      * @param {number of TotalFiles} totalFile 
                      */
 
-                    function checkFileLimited($files, maximumSize, totalFile) {
+                    function checkFileLimited($files, colname, maximumSize, totalFile) {
                         const fileCount = $files.length;
                         const maximumFileSize = maximumSize * 1024 * 1024 // 3MB
                         var objectResult = {
@@ -240,7 +240,8 @@ define(['app'], function (app) {
                             message: "Upload Completed!"
                         };
                         //check file exist in list
-                        var listOfFiles = (($scope.listfileAC.length + fileCount) > maximumSize || ($scope.listfile.length + fileCount) > maximumSize) ? true : false;
+                        var listOfFiles =   (($scope.listfileAC.length + fileCount) > maximumSize 
+                                        ||  ($scope.listfile.filter(x=>x.col=== colname).length + fileCount) > maximumSize) ? true : false;
                         if (fileCount > totalFile || listOfFiles) {
                             objectResult.success = false;
                             objectResult.message = `Your number of files over ${totalFile}`;

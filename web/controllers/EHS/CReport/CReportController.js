@@ -218,6 +218,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 query.SubmitType = $scope.rp_Submittype.id || '';
                 query.ReportType = $scope.rp_type || '';
                 query.Lang = lang;
+                query.searchmode = '';
                 // chỉ xem báo cáo của tôi
                 if ($scope.onlyOwner == true) {
                     query.uid = Auth.username;
