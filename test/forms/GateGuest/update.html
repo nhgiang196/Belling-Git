@@ -3,7 +3,7 @@
         $translatePartialLoader.addPart('GateGuest');
         $translate.refresh();
         var lang = window.localStorage.lang;
-        var array =[];
+        var array = [];
 
         GateGuest.GuestBasic().getGuest({
             VoucherID: $scope.variable.VoucherID,
@@ -11,10 +11,12 @@
         }).$promise.then(function (res) {
 
                     $scope.note = res[0];
-                    $scope.note.ExpectIn = $scope.note.ExpectIn.substring(0, 10);//$filter('date')( $scope.variable.GuestType, "yyyy-MM-dd");
+                    $scope.note.ExpectIn =$filter('date')(new Date($scope.note.ExpectIn),"yyyy-MM-dd hh:mm") ;//$filter('date')( $scope.variable.GuestType, "yyyy-MM-dd");
+                    $scope.note.ExpectOutTime=moment($scope.note.ExpectIn).add(1, 'days').format('YYYY-MM-DD');
+
                     $scope.guestItems = res[0].GuestItems;
-                    if(res[0].GuestItems){
-                    array=res[0].GuestItems;
+                    if (res[0].GuestItems) {
+                        array = res[0].GuestItems;
                     }
                 }, function (errormessage) {
                     Notifications.addError({'status': 'error', 'message': errormessage});
@@ -55,14 +57,36 @@
                 }
             }
         });
+        $scope.$watch("note.ExpectIn", function (n) {
+
+            if ($filter('date')(new Date($scope.note.ExpectIn), "yyyy-MM-dd") < $filter('date')(new Date(), "yyyy-MM-dd")) {
+                Notifications.addError({
+                    'status': 'error',
+                    'message': $translate.instant("ErrorUnjointTruckDate")
+                });
+
+                $scope.$apply();
+
+
+
+            } else {
+                if (n !== undefined && $scope.note.ExpectIn !== null) {
+                    $scope.note.ExpectOutTime=moment($scope.note.ExpectIn).add(1, 'days').format('YYYY-MM-DD hh:mm');
+                    $scope.$apply();
+                }
+
+
+            }
+
+        })
 
 
         $scope.addGuestItem = function () {
             if ($scope.newName != null && $scope.newidCard != null) {
 
-		array.push({GuestName: $scope.newName, IdCard: $scope.newidCard, CardNO: $scope.newCardNO});
+                array.push({GuestName: $scope.newName, IdCard: $scope.newidCard, CardNO: $scope.newCardNO});
 
-		$scope.guestItems=array;
+                $scope.guestItems = array;
                 $scope.newName = $scope.newidCard = $scope.newCardNO = null;
             }
         };
@@ -74,7 +98,7 @@
             var index = 0;
             var done = false;
             var loop = {
-                next: function() {
+                next: function () {
                     if (done) {
                         return;
                     }
@@ -88,11 +112,11 @@
                     }
                 },
 
-                iteration: function() {
+                iteration: function () {
                     return index - 1;
                 },
 
-                break: function() {
+                break: function () {
                     done = true;
                     callback();
                 }
@@ -100,6 +124,7 @@
             loop.next();
             return loop;
         }
+
         var saveInit = function (type) {
             var dateObj = {};
             var note = $scope.note;
@@ -116,16 +141,21 @@
             note.UserID = Auth.username;
             note.Status = "F";
             note.GuestItems = $scope.guestItems;
-            note.Region=$scope.note.Region;
+            note.Region = $scope.note.Region;
             dateObj.note = note;
             return dateObj;
         };
         $scope.savesubmit = function () {
+
             var leaderLists = [];
             var dateObj = saveInit();
             var outputdate = moment($scope.note.ExpectIn).add(1, 'days').format('YYYY-MM-DD');
-            var kinds = $scope.note.Region +"|"+ $scope.note.GuestType ;
-            console.log('Region: '+ kinds)
+            var kinds = $scope.note.Region + "|" + $scope.note.GuestType;
+           if(new Date($scope.note.ExpectIn)<new Date($filter('date')(new Date(), "yyyy-MM-dd"))){
+               Notifications.addError({'status': 'error', 'message': 'Expect in date have to equal or greater than current date'});
+               return;
+           }
+            console.log('Region: ' + kinds);
             GateGuest.GetGateCheckers().getCheckers({
                 owner: Auth.username,
                 fLowKey: "FEPVGateGuest",
@@ -137,10 +167,10 @@
                         for (var i = 0; i < res.length; i++) {
                             leaderList[i] = res[i].Person;
                         }
-                        console.log('RESSSSSS: '+ leaderList[0]);
+                        console.log('RESSSSSS: ' + leaderList[0]);
                         if (leaderList.length <= 0 && dateObj.confirm != "NO") {
                             Notifications.addError({'status': 'error', 'message': $translate.instant('leaderError')});
-                            return
+
                         } else {
 
                             GateGuest.SaveGuest().save(dateObj.note).$promise.then(function (res) {
@@ -270,11 +300,13 @@
                     <input class="form-control" type="text" name="ExpectOutTime"
                            ng-model="note.ExpectOutTime"
                            date-picker time="Y-m-d H:i"
-                           history-field="GoodsExpectOut" form-field>
+                           history-field="GoodsExpectOut" form-field min="0">
                 </div>
                 <label class="col-sm-3 control-label">{{'VehicleNO'|translate}}</label>
+
                 <div class="col-sm-2">
-                    <input class="form-control" type="text" name="VehicleNo" ng-model="note.VehicleNo" history-field="VehicleNO" form-field>
+                    <input class="form-control" type="text" name="VehicleNo" ng-model="note.VehicleNo"
+                           history-field="VehicleNO" form-field>
                 </div>
             </div>
             <div class=" form-group ">
@@ -352,9 +384,11 @@
 
         <div class="form-group">
             <div class="col-sm-offset-9 col-sm-3">
-                <button type="button" class="btn btn-danger" style="margin-right: 30px"  ng-click="close()" >{{'Delete'|translate}}</button>
+                <button type="button" class="btn btn-danger" style="margin-right: 30px" ng-click="close()">
+                    {{'Delete'|translate}}
+                </button>
 
-                <button type="button" class="btn btn-primary" ng-click="savesubmit()"
+                <button type="button"  class="btn btn-primary" ng-click="savesubmit()"
                         ng-disabled="form.$invalid||!guestItems.length">{{'submit'|translate}}
                 </button>
             </div>
@@ -370,8 +404,12 @@
 
                 <div>
                     <div ng-if="showMessageModal!=''">
-                        <h3><img src="/css/image/warn.png" style="width: 25px;height: 25px; padding-bottom: 5px">{{'Warning'|translate}}</h3>
-                    <p ><mark>{{'messageGateGuest'|translate}} </mark></p>
+                        <h3><img src="/css/image/warn.png" style="width: 25px;height: 25px; padding-bottom: 5px">{{'Warning'|translate}}
+                        </h3>
+
+                        <p>
+                            <mark>{{'messageGateGuest'|translate}}</mark>
+                        </p>
                     </div>
                     <div style="border-top: 1px solid #e5e5e5"></div>
                     <h3>{{'NextStep'|translate}}</h3>
@@ -388,7 +426,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" ng-click="modalSubmit()">{{'OK'|translate}}</button>
-                    <button type="button" class="btn btn-default" ng-click="modalCancelUpdate()">{{'Cancel'|translate}}</button>
+                    <button type="button" class="btn btn-default" ng-click="modalCancelUpdate()">
+                        {{'Cancel'|translate}}
+                    </button>
 
                 </div>
             </div>
@@ -397,7 +437,8 @@
         <!-- /.modal-dialog -->
     </div>
 </div>
-<div class="modal fade" id="nextModalGateGuestupdate" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
+<div class="modal fade" id="nextModalGateGuestupdate" role="dialog" aria-labelledby="myLargeModalLabel"
+     data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -420,7 +461,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" ng-click="modalSubmit()">{{'OK'|translate}}</button>
-                    <button type="button" class="btn btn-default" ng-click="modalCancelUpdate()">{{'Cancel'|translate}}</button>
+                    <button type="button" class="btn btn-default" ng-click="modalCancelUpdate()">
+                        {{'Cancel'|translate}}
+                    </button>
 
                 </div>
             </div>

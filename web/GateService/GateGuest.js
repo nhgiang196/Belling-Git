@@ -16,8 +16,8 @@ define( ['app','angular'],function(app,angular){
                 getEmail: {method:'GET', params:{operation:"getEmailbyUserID" },isArray:true},
                 getIDByName:{method:'GET',params:{operation:"EmployeeInfo"},isArray:true},//根据姓名得到员工信息
                 getGuestInfo:{method:'GET', params:{operation:"getGuestInfo" },isArray:true},
-                checkUserBelongDyeing:{method:'GET', params:{operation:"checkUserBelongDyeing" },isArray:true}
-
+                checkUserBelongDyeing:{method:'GET', params:{operation:"checkUserBelongDyeing" },isArray:true},
+                getQCOverGrade :{method:'GET', params:{operation:"getGuestInfo" },isArray:true},
             });
 
 

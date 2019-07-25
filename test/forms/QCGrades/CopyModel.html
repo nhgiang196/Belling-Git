@@ -1,5 +1,5 @@
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
-     data-keyboard="false">
+    data-keyboard="false">
     <div class="modal-dialog modal-lg " style="width: 80%">
         <div class="modal-content">
             <div class="modal-body customModal" style="padding-bottom:3px">
@@ -16,8 +16,8 @@
                                             <label class="control-label">{{'SampleName'|translate}}:</label>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input class="form-control" type="text" name="SampleDes"
-                                                   ng-model="SampleDes" readonly disabled/>
+                                            <input class="form-control" type="text" name="SampleDes" ng-model="SampleDes"
+                                                readonly disabled />
                                         </div>
                                         <div class="col-sm-2" style="margin-left: 50px">
                                             <label type="text" class="control-label">{{'Material'|translate}}:</label>
@@ -25,9 +25,8 @@
                                         <div class="col-sm-3" style="margin-left: 5px">
 
                                             <select class="form-control" name="material" ng-model="note.Material"
-                                                    ng-disabled="!isCopy"
-                                                    ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList"
-                                                    required>
+                                                ng-disabled="!isCopy" ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList"
+                                                required>
                                             </select>
                                         </div>
                                     </div>
@@ -36,19 +35,16 @@
                                             <label style="font-size: 100%;" class=" text-danger control-label">{{'Grade'|translate}}:</label>
                                         </div>
                                         <div class="col-sm-3">
-                                            <select name="gradeVersion" ng-model="new.Grade"
-                                                    style="width: 100%;height: 32px" required
-
-                                                    ng-options="c as c.Grade for c in gradesList"/>
+                                            <select name="gradeVersion" ng-model="new.Grade" style="width: 100%;height: 32px"
+                                                required ng-options="c as c.Grade for c in gradesList" />
 
                                         </div>
                                         <div class="col-sm-2" style="margin-left: 55px">
                                             <label type="text" class="text-danger control-label">{{'ValidDate'|translate}}:</label>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input class="form-control" style="cursor: hand;cursor: pointer;"
-                                                   id="Validate" min="0" ng-model="new.ValidDate" date-picker
-                                                   time="Y-m-d H:i" required ng-readonly="new.ValidDate!=''"/>
+                                            <input class="form-control" style="cursor: hand;cursor: pointer;" id="Validate"
+                                                ng-model="new.ValidDate" date-picker time="Y-m-d H:i" required />
 
                                         </div>
                                     </div>
@@ -60,127 +56,134 @@
 
                         <table class="table table-condensed">
                             <thead>
-                            <tr>
-                                <th><label style="font-size: 100%;" class="text-danger control-label">{{'PropertyName'|translate}}</label>
-                                </th>
-                                <th style=" width: 100px">{{'Is Judge'|translate}}</th>
-                                <th>{{'Prec'|translate}}</th>
-                                <th>{{'Lower'|translate}}</th>
-                                <th>{{'Upper'|translate}}</th>
-                                <th>{{'ValueSpec'|translate}}</th>
-                                <th></th>
-                            </tr>
+                                <tr>
+                                    <th><label style="font-size: 100%;" class="text-danger control-label">{{'PropertyName'|translate}}</label>
+                                    </th>
+                                    <th style=" width: 100px">{{'Is Judge'|translate}}</th>
+                                    <th>{{'Prec'|translate}}</th>
+                                    <th>{{'Lower'|translate}}</th>
+                                    <th>{{'Upper'|translate}}</th>
+                                    <th>{{'ValueSpec'|translate}}</th>
+                                    <th></th>
+                                </tr>
                             </thead>
 
                             <tbody>
-                            <tr>
-                                <td><select style="height: 32px;width: 200px" name="PropertyName"
-                                            ng-model="new.Property"
+                                <tr>
+                                    <td><select style="height: 32px;width: 200px" name="PropertyName" ng-model="new.Property"
                                             ng-options="c as c.PropertyName for c in Attribute">
 
-                                </select>
-                                </td>
-                                <td><input style="width: 70%" type="checkbox"
-                                           ng-disabled="formGrades.$invalid||new.Property==''||new.Property==undefined"
-                                           ng-model="new.IsJudge"></td>
-                                <td><input style="width: 40%;height: 32px" type="text" maxlength="1" limit-number
-                                           number-only ng-model="new.Prec" ng-maxlength="1"></td>
-                                <td>
-                                    <div>
-                                        <input type="checkbox"
-                                               ng-disabled="formGrades.$invalid||new.Property==''||new.Property==undefined"
-                                               ng-model="new.lower" name="lower" ng-change="Caculated('min')">
+                                        </select>
+                                    </td>
+                                    <td><input style="width: 70%" type="checkbox" ng-disabled="formGrades.$invalid||new.Property==''||new.Property==undefined"
+                                            ng-model="new.IsJudge"></td>
+                                    <td><input style="width: 40%;height: 32px" type="text" maxlength="1" limit-number
+                                            number-only ng-model="new.Prec" ng-maxlength="1"></td>
+                                    <td>
+                                        <div>
+                                            <input type="checkbox" ng-disabled="formGrades.$invalid||new.Property==''||new.Property==undefined"
+                                                ng-model="new.lower" name="lower" ng-change="Caculated('min')">
 
-                                        <input style="width: 40%;height: 32px; margin-left: 10px" type="text"
-                                               number-only ng-model="new.lowerVal"/>
-                                    </div>
+                                            <input style="width: 40%;height: 32px; margin-left: 10px" type="text"
+                                                number-only ng-model="new.lowerVal" />
+                                        </div>
 
-                                </td>
-                                <td>
-                                    <div>
-                                        <input type="checkbox"
-                                               ng-disabled="formGrades.$invalid||new.Property==''||new.Property==undefined"
-                                               ng-model="new.upper" name="upper" ng-change="Caculated('max')">
-                                        <input style="width: 40%;height: 32px; margin-left: 10px" type="text"
-                                               number-only ng-model="new.upperVal"/>
-                                    </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input type="checkbox" ng-disabled="formGrades.$invalid||new.Property==''||new.Property==undefined"
+                                                ng-model="new.upper" name="upper" ng-change="Caculated('max')">
+                                            <input style="width: 40%;height: 32px; margin-left: 10px" type="text"
+                                                number-only ng-model="new.upperVal" />
+                                        </div>
 
-                                </td>
-                                <td>
-                                    <div>
-                                        <input style=" height: 32px" type="text" id="ValueSpec" ng-model="new.ValueSpec"
-                                               ng-disabled="new.upperVal!=''||new.lowerVal!=''">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input style=" height: 32px" type="text" id="ValueSpec" ng-model="new.ValueSpec"
+                                                ng-disabled="new.upperVal!=''||new.lowerVal!=''">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
 
-                                        <button style="" type="button" id="btnAdd" class="btn btn-primary"
-                                                ng-click="CreateVoucher()" ng-disabled="formGrades.$invalid
+                                            <button style="" type="button" id="btnAdd" class="btn btn-primary" ng-click="CreateVoucher()"
+                                                ng-disabled="formGrades.$invalid
                                             ||new.Grade==undefined||new.Property==''||new.Property==undefined||new.ValueSpec==''||new.ValueSpec==undefined">
-                                            {{'Add'|translate}}
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                                {{'Add'|translate}}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
 
                             </tbody>
                         </table>
 
                         <table class="table table-condensed">
                             <thead>
-                            <tr>
-                                <th>{{'PropertyName'|translate}}</th>
-                                <th>{{'Grade'|translate}}</th>
-                                <th>{{'Is Judge'|translate}}</th>
-                                <th>{{'ValidDate'|translate}}</th>
-                                <th>{{'Prec'|translate}}</th>
-                                <th>{{'Min'|translate}}</th>
-                                <th>{{'Max'|translate}}</th>
-                                <th>{{'ValueSpec'|translate}}</th>
-                                <th>{{'Delete'|translate}}</th>
+                                <tr>
+                                    <th>{{'PropertyName'|translate}}</th>
+                                    <th>{{'Grade'|translate}}</th>
+                                    <th>{{'Is Judge'|translate}}</th>
+                                    <th>{{'ValidDate'|translate}}</th>
+                                    <th>{{'Prec'|translate}}</th>
+                                    <th>{{'Min'|translate}}</th>
+                                    <th>{{'Max'|translate}}</th>
+                                    <th>{{'ValueSpec'|translate}}</th>
+                                    <th >{{'Delete'|translate}}</th>
 
-                            </tr>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="x in materials">
-                                <td><a ng-click="editItem($index)">{{x.PropertyName}}</a></td>
-                                <td>{{x.Grade}}</td>
-                                <td><input style="width: 70%" type="checkbox" ng-checked="{{x.Enable}}" disabled>
-                                </td>
-                                <td>{{x.ValidDate}}</td>
-                                <td>{{x.Prec}}</td>
-                                <td>{{x.MinValue}}</td>
-                                <td>{{x.MaxValue}}</td>
-                                <td>{{x.ValueSpec}}</td>
-                                <td><a ng-click="deleteMaterialsItem($index)"
-                                       class="btn-xs btn btn-danger">{{'Delete'|translate}}</a>
-                                </td>
-                            </tr>
+                                <tr ng-repeat="x in materials">
+                                    <td><a ng-click="editItem($index)">{{x.PropertyName}}</a></td>
+                                    <td>{{x.Grade}}</td>
+                                    <td><input style="width: 70%" type="checkbox" ng-checked="{{x.Enable}}" ng-click="isCheck($index)" >
+                                    </td>
+                                    <td>{{x.ValidDate}}</td>
+                                    <td>{{x.Prec}}</td>
+                                    <td>{{x.MinValue}}</td>
+                                    <td>{{x.MaxValue}}</td>
+                                    <td>{{x.ValueSpec}}</td>
+                                    <td><a ng-click="deleteMaterialsItem($index)" class="btn-xs btn btn-danger" >{{'Delete'|translate}}</a>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-                        <div><h4>{{'NextStep'|translate}}</h4></div>
+                        <div class="row">
+                            <div class="col-sm-3" >
+                                <label class="control-label">{{'Reason'|translate}}:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <textarea name="remark" id="remark" ng-show="isShow" class="form-control" cols="20" rows="3" ng-model="note.remark"></textarea>
+                            </div>
+
+                        </div>
+                        <div>
+                            <h4>{{'NextStep'|translate}}</h4>
+                        </div>
                         <div leader-check flow-key="QCGrades" user-name="{{username}}"></div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <div ng-if="!IsModify">
-                    <button id="btnSaveDraft" type="button" class="btn btn-primary"
-                            ng-click="SaveDraft()" ng-disabled="formGrades.$invalid || !materials.length>0">
+                    <button id="btnSaveUpdate" ng-show="isShow" type="button" class="btn btn-primary" ng-click="fnSaveStatus()" ng-disabled="formGrades.$invalid || !materials.length>0">
+                            {{'saveUpdate'|translate}}
+                    </button >
+                    <button id="btnSaveDraft" ng-show ="!isShow" type="button" class="btn btn-primary" ng-click="SaveDraft()" ng-disabled="formGrades.$invalid || !materials.length>0">
                         {{'saveDraft'|translate}}
-                    </button>
-                    <button id="btnSaveSubmit" type="button" class="btn btn-primary"
-                            ng-click="submit()" ng-disabled="formGrades.$invalid || !materials.length>0 ">
+                    </button >
+                    <button id="btnSaveSubmit" ng-show ="!isShow" type="button" class="btn btn-primary" ng-click="submit()" ng-disabled="formGrades.$invalid || !materials.length>0 ">
                         {{'saveSubmit'|translate}}
                     </button>
-                    <button type="button" class="btn btn-default" ng-click="Close()" data-dismiss="modal">
+                    <button type="button"  class="btn btn-default" ng-click="Close()" data-dismiss="modal">
                         {{'Close'|translate}}
-                    </button>
+                    </button >
                 </div>
                 <div ng-if="IsModify">
-                    <button id="btnSaveSubmitModify" type="button" class="btn btn-primary"
-                            ng-click="submitModify()" ng-disabled="formGrades.$invalid || !materials.length>0 ">
+                    <button id="btnSaveSubmitModify" type="button" class="btn btn-primary" ng-click="submitModify()"
+                        ng-disabled="formGrades.$invalid || !materials.length>0 ">
                         {{'saveSubmit'|translate}}
                     </button>
                     <button type="button" class="btn btn-default" ng-click="Close()" data-dismiss="modal">

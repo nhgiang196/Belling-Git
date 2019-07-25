@@ -1707,11 +1707,11 @@
 					if (!options.scrollMonth) {
 						return true;
 					}
-					if (event.deltaY < 0) {
-						_xdsoft_datetime.nextMonth();
-					} else {
-						_xdsoft_datetime.prevMonth();
-					}
+					// if (event.deltaY < 0) {
+					// 	_xdsoft_datetime.nextMonth();
+					// } else {
+					// 	_xdsoft_datetime.prevMonth();
+					// }
 					return false;
 				});
 

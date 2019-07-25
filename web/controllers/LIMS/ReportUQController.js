@@ -41,9 +41,9 @@ define(['myapp', 'angular'], function (myapp) {
                     }
                 });
             }
-            // setTimeout(function () {
-            //     window.print();
-            // }, 1500);
+            setTimeout(function () {
+                window.print();
+            }, 1500);
             /** Information from MongoDB . Get who receive the voucher and approved it */
             $scope.GetInformation = function (voucherID) {
                 LIMSService.QCOverGradePID().get({ OverID: voucherID }).$promise.then(function (res) {
@@ -52,10 +52,6 @@ define(['myapp', 'angular'], function (myapp) {
                         EngineApi.getProcessLogs.getList({ "id": res.ProcessInstanceId, "cId": "" }, function (data) {
 
                             console.log(data[0].Logs);
-                            data.forEach(function(value,index){
-                                if (index>=1) 
-                                    data[0].Logs.push.apply(data[0].Logs,data[index].Logs)
-                            });
                             var receiver = [];
                             var taf = TAFFY(data[0].Logs);
                             receiver[0] = taf({ TaskName: "起始表单" }).first(); //initiator
@@ -122,9 +118,9 @@ define(['myapp', 'angular'], function (myapp) {
                 }
             };
             /**Auto  printing */
-            // setTimeout(function () {
-            //     window.print();
-            // }, 1000);
+            setTimeout(function () {
+                window.print();
+            }, 1000);
         }
     ]);
 });

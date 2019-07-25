@@ -64,7 +64,7 @@ define(['myapp', 'controllers/EHS/Waste/Directive/CompanyDirective', 'angular'],
                 {
                     field: 'Remark',
                     displayName: $translate.instant('Remark'),
-                    maxWidth: 80,
+                    minWidth: 50,
                     cellTooltip: true,
                     //cellTemplate: '<a href="#/gate/Visitor/{{COL_FIELD}}" style="padding:5px;display:block; cursor:pointer" target="_blank">{{COL_FIELD}}</a>'
                 },

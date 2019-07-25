@@ -279,8 +279,8 @@ define(['app', 'angular'], function(app, angular) {
                             //  Notifications.addMessage({'status': 'information', 'message': "保存成功:"+ reportid });
                             startflowid(voucherid);
                            // $rootScope.recod.start_voucherid = voucherid;
+                            $('#myGuestModal').modal('hide');
                             Notifications.addMessage({ 'status': 'information', 'message': $translate.instant('Submit Success') });
-                            $rootScope.Close();
                             return;
 
 
@@ -402,7 +402,7 @@ define(['app', 'angular'], function(app, angular) {
             return loop;
         }
 
-        EngineApi.getStart().start({"id":'FEPVGateGuest:2:0ea00cd8-5711-11e7-b52d-0050568c52b5'},function(res){
+        EngineApi.getStart().start({"id":'FEPVGateGuest:3:11adc7dc-4f32-11e7-9368-0050568c22a6'},function(res){
             if(res.message){
                 Notifications.addError({'status': 'error', 'message': res.message });
                 return ;

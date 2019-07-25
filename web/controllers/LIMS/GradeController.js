@@ -75,15 +75,15 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                 $scope.note.status = 'S';
             });
 
-            var q_category = {userid: Auth.username, Language: $scope.lang};
+            var q_category = { userid: Auth.username, Language: $scope.lang };
             LIMSBasic.GetCategorys(q_category, function (data) {
-                console.log(data)
+                console.log(data);
                 $scope.CategoryList = data;
             });
             //UI for query
             $scope.$watch('TypeID', function (n) {
                 if (n != null) {
-                    var q_sample = {userid: Auth.username, TypeID: $scope.TypeID};
+                    var q_sample = { userid: Auth.username, TypeID: $scope.TypeID };
                     LIMSBasic.GetSamplesByCategory(q_sample, function (data) {
                         console.log(data)
                         $scope.SampleList = data;
@@ -106,8 +106,8 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                         sampleName: $scope.note.SampleName,
                         query: '0'
                     }, function (res) {
-                        if(res.length ==0){
-                            $scope.note.Material= '';
+                        if (res.length == 0) {
+                            $scope.note.Material = '';
                         }
                         $scope.materialList = res;
                         console.log(res);
@@ -131,10 +131,11 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
 
 
             });
+
             // Query function
             $scope.Search = function (status) {
-                var query = {};
-                if ($scope.Sample == undefined || $scope.Sample == '') {
+                $scope.isSearchComplete = false;
+                if ($scope.Sample == null || $scope.Sample == '') {
                     Notifications.addError({
                         'status': 'error',
                         'message': 'Please choose SampleName'
@@ -150,27 +151,34 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                         return;
                     }
                 }
+                /** Get data */
                 $scope.gridOptions.data = [];
-                query.sampleName = $scope.Sample.SampleName;
-                query.lotNo = $scope.note.Material;
-                query.status = status != undefined && status != '' ? status : $scope.note.status;
+                var query = {
+                    sampleName: $scope.Sample.SampleName,
+                    lotNo: $scope.note.Material,
+                    status: status != undefined && status != '' ? status : $scope.note.status
+                };
                 $scope.note.status = query.status;
                 query.grades = '';
-                LIMSService.gradeVersion.getNewestGrade(query).$promise.then(function (res) {
-                    $scope.gridOptions.data = res;
+                LIMSService.gradeVersion.getNewestGrade(query).$promise.then(function (res) { //this function return data and Newestgrade at the same time
                     if (res.length > 0) {
+                        $scope.isSearchComplete = true;
+                        /** HisttoryData to HistoryDirective (prepare) */
                         $scope.ID = res[0]['ID'];
                         $scope.status = res[0]['Status'];
-                        if (query.status == 'P'||query.status == 'S') {
+                        if (query.status == 'P' || query.status == 'S') {
                             $scope.HisttoryData = {
                                 'sampleName': $scope.Sample.SampleName,
                                 'lotNo': $scope.note.Material,
                                 'grades': res[0].Grades
                             };
                         }
+                        /**Grid-ui add data */
+                        $scope.gridOptions.data = res;
                     }
-                    $scope.gridOptions.data = res;
+
                 }, function (errormessage) {
+                    $scope.isSearchComplete =false;
                     Notifications.addError({
                         'status': 'error',
                         'message': errormessage
@@ -259,6 +267,11 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                 displayName: $translate.instant('ValidTODate'),
                 minWidth: 100,
                 cellTooltip: true
+            }, {
+                field: 'Remark',
+                displayName: $translate.instant('Remark'),
+                minWidth: 100,
+                cellTooltip: true
             }
 
             ];
@@ -270,8 +283,9 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
             var gridMenu = [{
                 title: $translate.instant('Version_create'),
                 action: function ($event) {
+                    $scope.isShow = false;
                     clearModal();
-                    if ($scope.SampleDes && $scope.note.Material ) {
+                    if ($scope.SampleDes && $scope.note.Material) {
                         $scope.isCopy = true;
                         $scope.IsModify = false;
                         $('#myModal').modal('show');
@@ -288,6 +302,7 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                 action: function ($event) {
                     clearModal();
                     $scope.IsModify = false;
+                    $scope.isShow = false;
                     var copy = {};
                     copy.sampleName = $scope.Sample.SampleName;
                     copy.lotNo = $scope.note.Material;
@@ -306,7 +321,7 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                                 }
                             });
                             $('#myModal').modal('show');
-                            $scope.new.ValidDate =  $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+                            $scope.new.ValidDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
                             $scope.materials = res;
                         }, function (errResponse) {
                             Notifications.addError({
@@ -320,51 +335,73 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
             }, {
                 title: $translate.instant('Version_modify'),
                 action: function ($event) {
-                    clearModal();
-                    if ($scope.gridOptions.data.length > 0) {
-                        var id = $scope.gridOptions.data[0].ID;
-                        $scope.IsModify = false;
-                        $scope.isCopy = true;
-                        LIMSService.gradeVersion.GetGradeProcessing({
-                            id: id
-                        }).$promise.then(function (res) {
-                            if (res.Status == 'N') {
-                                console.log(res);
-                                if (res.Grades.length > 0) {
-                                    for (var i = 0; i < res.Grades.length; i++) {
-                                        res.Grades[i].ValidDate = $filter('date')(new Date(res.Grades[i].ValidDate), 'yyyy-MM-dd hh:mm:ss');
-                                        res.Grades[i].MaxValue = res.Grades[i].MaxValue == '' ? '' : roundDown(res.Grades[i].MaxValue, res.Grades[i].Prec);
-                                        res.Grades[i].MinValue = res.Grades[i].MinValue == '' ? '' : roundDown(res.Grades[i].MinValue, res.Grades[i].Prec);
-                                        res.Grades[i].Enable = res.Grades[i].Enable.toLowerCase().trim();
+                    console.log($scope.username);
+                    var params = {
+                        UserID: $scope.username
+                    }
+                    LIMSService.CanUpdateGrades(params, (res) => {
+                        clearModal();
+                        if (res[0].Result == 0) {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': 'Only modify voucher draft '
+                            });
+                        }
+                        else {
+                            if ($scope.gridOptions.data.length > 0) {
+                                var id = $scope.gridOptions.data[0].ID;
+                                $scope.ID = id;
+                                $scope.IsModify = false;
+                                $scope.isCopy = true;
+
+                                LIMSService.gradeVersion.GetGradeProcessing({
+                                    id: id
+                                }).$promise.then(function (res) {
+                                    if (res.Status === 'N' || res.Status === 'S') {
+
+                                        $scope.isShow = (res.Status === 'S' ? true : false);//Create by Isaac 07-11-2018
+
+                                        console.log(res);
+                                        if (res.Grades.length > 0) {
+                                            for (var i = 0; i < res.Grades.length; i++) {
+                                                res.Grades[i].ValidDate = $filter('date')(new Date(res.Grades[i].ValidDate), 'yyyy-MM-dd hh:mm:ss');
+                                                res.Grades[i].MaxValue = res.Grades[i].MaxValue == '' ? '' : roundDown(res.Grades[i].MaxValue, res.Grades[i].Prec);
+                                                res.Grades[i].MinValue = res.Grades[i].MinValue == '' ? '' : roundDown(res.Grades[i].MinValue, res.Grades[i].Prec);
+                                                res.Grades[i].Enable = res.Grades[i].Enable.toLowerCase().trim();
+                                            }
+                                        }
+                                        $scope.materials = res.Grades;
+                                        angular.forEach($scope.gradesList, function (value) {
+                                            if (value.Grade === res.Grades[0].Grade) {
+                                                $scope.new.Grade = value;
+                                            }
+                                        });
+                                        $scope.new.ValidDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+                                        $('#myModal').modal('show');
+                                    } else {
+                                        Notifications.addError({
+                                            'status': 'error',
+                                            'message': 'Only modify voucher draft '
+                                        });
                                     }
-                                }
-                                $scope.materials = res.Grades;
-                                angular.forEach($scope.gradesList, function (value) {
-                                    if (value.Grade === res.Grades[0].Grade) {
-                                        $scope.new.Grade = value;
-                                    }
+                                }, function (errormessage) {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': errormessage
+                                    });
                                 });
-                                $scope.new.ValidDate =  $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
-                                $('#myModal').modal('show');
+
                             } else {
                                 Notifications.addError({
                                     'status': 'error',
-                                    'message': 'Only modify voucher draft '
+                                    'message': 'Please select one row '
                                 });
                             }
-                        }, function (errormessage) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': errormessage
-                            });
-                        });
+                        }
+                    })
 
-                    } else {
-                        Notifications.addError({
-                            'status': 'error',
-                            'message': 'Please select one row '
-                        });
-                    }
+
+
                 },
                 order: 3
             }, {
@@ -429,13 +466,14 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                             }
                         });
                         $scope.IsModify = true;
+                        $scope.isShow = false;
                         $('#myModal').modal('show');
                         if (res.length > 0) {
                             for (var i = 0; i < res.length; i++) {
                                 res[i].ValidDate = $filter('date')(new Date(res[i].ValidDate), 'yyyy-MM-dd hh:mm:ss');
                             }
                         }
-                        $scope.new.ValidDate =  $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+                        $scope.new.ValidDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
                         $scope.materials = res;
 
                     }, function (errResponse) {
@@ -545,6 +583,7 @@ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function 
                 $scope.new.upper = false;
                 $scope.new.lower = false;
                 $scope.materials = [];
+                $scope.note.remark = '';
 
             }
 

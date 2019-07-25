@@ -133,7 +133,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/Lims/ReportAnalysis', angularAMD.route({
-                templateUrl: "forms/FEPVLims/QueryIncomingAnalysis.html",
+                templateUrl: "forms/FEPVLims/ReportAnalysis.html",
                 controller: 'ReportAnalysisController',
                 controllerUrl: 'controllers/LIMS/ReportAnalysisController',
                 caseInsensitiveMatch: true,
@@ -144,7 +144,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/Lims/ReportAnalysis/PrintAnalysisReport/:code', angularAMD.route({
-                templateUrl: "forms/FEPVLims/QueryIncomingAnalysis_Report.html",
+                templateUrl: "forms/FEPVLims/ReportAnalysis_Print.html",
                 controller: 'RawMaterialAnalysisReport',
                 controllerUrl: 'controllers/LIMS/ReportAnalysisController',
                 caseInsensitiveMatch: true,
@@ -717,7 +717,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/waste/Company', angularAMD.route({
-                templateUrl: "forms/EHS/Company/search.html",
+                templateUrl: "forms/EHS/Company/searchCompany.html",
                 controller: 'CompanyController',
                 controllerUrl: 'controllers/EHS/Waste/CompanyController',
                 caseInsensitiveMatch: true,
@@ -728,7 +728,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/waste/Method', angularAMD.route({
-                templateUrl: "forms/EHS/Method/search.html",
+                templateUrl: "forms/EHS/Method/searchMethod.html",
                 controller: 'MethodProcessController',
                 controllerUrl: 'controllers/EHS/Waste/MethodProcessController',
                 caseInsensitiveMatch: true,
@@ -750,7 +750,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/waste/WasteItem', angularAMD.route({
-                templateUrl: "forms/EHS/WasteItem/search.html",
+                templateUrl: "forms/EHS/WasteItem/searchWasteItem.html",
                 controller: 'WasteItemController',
                 controllerUrl: 'controllers/EHS/Waste/WasteItemController',
                 caseInsensitiveMatch: true,
@@ -761,9 +761,43 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/waste/Voucher', angularAMD.route({
-                templateUrl: "forms/EHS/Voucher/search.html",
+                templateUrl: "forms/EHS/Voucher/searchVoucher.html",
                 controller: 'VoucherController',
                 controllerUrl: 'controllers/EHS/Waste/VoucherController',
+                caseInsensitiveMatch: true,
+                resolve: {
+                    User: function (AuthenticationLoader) {
+                        return AuthenticationLoader();
+                    }
+                }
+            }))
+            .when('/CircumstanceReport', angularAMD.route({ //route
+                
+                templateUrl: "forms/EHS/CReport/searchCRerport.html",
+                controller: 'CReportController',
+                controllerUrl: 'controllers/EHS/CReport/CReportController',
+                caseInsensitiveMatch: true,
+                resolve: {
+                    User: function (AuthenticationLoader) {
+                        return AuthenticationLoader();
+                    }
+                }
+            }))
+            .when('/CircumstanceReport/ICReport/print/:code', angularAMD.route({
+                templateUrl: "forms/EHS/CReport/ICdetail.html",
+                controller: 'ICReportController',
+                controllerUrl: 'controllers/EHS/CReport/ReportICDetailController',
+                caseInsensitiveMatch: true,
+                resolve: {
+                    User: function (AuthenticationLoader) {
+                        return AuthenticationLoader();
+                    }
+                }
+            }))
+            .when('/CircumstanceReport/ACReport/print/:code', angularAMD.route({
+                templateUrl: "forms/EHS/CReport/ACdetail.html",
+                controller: 'ReportACdetailController',
+                controllerUrl: 'controllers/EHS/CReport/ReportACDetailController',
                 caseInsensitiveMatch: true,
                 resolve: {
                     User: function (AuthenticationLoader) {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created Common Truck ,it can by Container ,input creating
  * it can add guest when create  plan finished
  *
@@ -414,12 +414,7 @@ define(['myapp', 'controllers/Gate/UnJointTruckContianer', 'controllers/Gate/UnJ
                             return;
                         }
                         $('#myGuestModal').modal('show');
-						
-						var str = 	new Date(resultRows[0].ExpectIn.replace( /(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3"))
-
-						var ExpectIn =   $filter('date')(new Date(str),'yyyy-MM-dd');
-
-                        $scope.SetGuest(ExpectIn, resultRows[0].VehicleNO,
+                        $scope.SetGuest(resultRows[0].ExpectIn, resultRows[0].VehicleNO,
                             resultRows[0].LinkPhone, resultRows[0].Manufacturer);
                     },
                     order: 4,
@@ -536,12 +531,12 @@ define(['myapp', 'controllers/Gate/UnJointTruckContianer', 'controllers/Gate/UnJ
                 });
                 return deferred.promise;
             }
-			
+
             $scope.SetGuest = function (ExpectIn, VehicleNO, LinkPhone, Manufacturer) {
                 $scope.recod.start_code = Auth.username;
                 $scope.guestItems.length = 0;
                 $scope.recod.start_date = ExpectIn;
-                $scope.recod.ExpectOutTime = $filter('date')(new Date(ExpectIn),'yyyy-MM-dd 17:00');
+                $scope.recod.ExpectOutTime = $filter('date')(new Date(ExpectIn), 'yyyy-MM-dd 17:00');
                 $scope.recod.VehicleNo = VehicleNO;
                 $scope.recod.start_phone = LinkPhone;
                 $scope.recod.start_company = Manufacturer;
@@ -606,7 +601,7 @@ define(['myapp', 'controllers/Gate/UnJointTruckContianer', 'controllers/Gate/UnJ
                     query.dateFrom = $scope.dateFrom || '';
                     query.dateTo = $scope.dateTo || '';
                     query.VehicleType = '';
-					query.containerNO=$scope.ContainerNO || '';
+                    query.containerNO=$scope.ContainerNO || '';
                 }
 
                 return query;

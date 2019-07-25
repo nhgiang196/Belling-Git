@@ -15,8 +15,8 @@
         $translate.refresh();
         $scope.username = user;
         $scope.isLeader = $scope.variable.QCManagerList[2].indexOf(user) > -1 ? false : true;
-
-        // ["FEPVNN0081", "FEPVNN0090"].indexOf(user) > -1 ? true : false; //柯建成 & 谢志君
+        
+            // ["FEPVNN0081", "FEPVNN0090"].indexOf(user) > -1 ? true : false; //柯建成 & 谢志君
         // $scope.isLeader =
         //     ["FEPVNN0184", "FEPVNN0082", "FEPVNN0186", "FEPVNN0033"].indexOf(user) > -1 ? true : false; // 黃大千 趙明華  李思源 林憲宏
         $scope.passOrNot =
@@ -39,7 +39,7 @@
             /* publish */
             note.remark = ($scope.isLeader && $scope.ISPublish === 'YES') ?
                 $scope.leadercheck_remark : $scope.recod.Remark; //only Leader can write remark
-            note.status = (!$scope.isLeader && $scope.ISPublish === 'YES') ?
+            note.status = ($scope.isInitiator && $scope.ISPublish === 'YES') ?
                 'S' : ($scope.recod.Status); //only Initiator can publish
 
             return note;
@@ -82,14 +82,14 @@
             }
         }
         function SubmitAndRemind() {
+            debugger;
             $q.all([$scope.submit()]).then(function () {
-                $scope.loading = true;
+                $scope.loading = true;  
                 var reminder_parrams = {
                     voucherID: $scope.VoucherID,
                     userid: Auth.username,
                     formkey: 'publish'
                 }
-                debugger;
                 LIMSService.SendReminder(reminder_parrams, function (res) {
                     if (res.Success) return;
                 }, function (error) {

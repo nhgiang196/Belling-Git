@@ -11,6 +11,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     var formVariables = [];
                     var historyVariable = [];
                     $scope.materials = [];
+                    $scope.VersionValidDate= moment(new Date()).add(-7, 'days').format('YYYY-MM-DD');
+                    console.log($scope.VersionValidDate);
                     function roundDown(number, decimals) {
 
                         if (number == '') {
@@ -117,6 +119,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             }
                         }
                     };
+                    //Change Status Only
+                    $scope.isCheck = (index) => {
+                        var item = $scope.materials[index];
+                        item.Enable = (item.Enable == 'false' ? true:false);
+                    }
                     $scope.$watch('new.Prec', function (n) {
                         if (n !== undefined && $scope.new.lower == true && $scope.new.upper == true) {
                             if ($scope.new.lowerVal != '' && $scope.new.upperVal != '' && $scope.new.lowerVal != undefined && $scope.new.upperVal != undefined) {
@@ -473,6 +480,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             propery.Prec = materials[i].Prec;
                             propery.PropertyName = materials[i].PropertyName;
                             propery.ValueSpec = materials[i].ValueSpec;
+                            propery.Remark =$scope.note.remark;
                             grade.GradesDto.push(propery);
                         }
                         grade.LOT_NO = $scope.note.Material;
@@ -503,7 +511,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     'message': err
                                 });
                             }
-                        })
+                        });                       
 
                     };
                     function save(callback) {
@@ -519,6 +527,27 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         }, function (errormessage) {
                             callback('', errormessage);
                         });
+                    }
+                $scope.fnSaveStatus=()=>
+                    {
+                        var params = paraData('');
+                       params.ID = $scope.ID;
+                        LIMSService.UpdateCurrentGradeStatus(params,(res)=>{
+                            if (res[0] >0) {
+                                Notifications.addMessage({
+                                    'status': 'info',
+                                    'message': 'Update Status Success'
+                                });
+                                $scope.Search('S');
+                                $('#myModal').modal('hide');
+                            } else {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': err
+                                });
+                            }
+                            console.log(res);
+                        })
                     }
 
                 },

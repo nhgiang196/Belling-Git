@@ -9,7 +9,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
         function ($scope, EngineApi, $http, IO_BARCODE_TYPES, Notifications, $upload, $compile, $filter, Auth, GateGuest, $resource, $routeParams, Forms, $location, GateGoodsOut, $translate) {
      //       $scope.dateFrom = $filter('date')(new Date(), "yyyy-MM-dd");
             $scope.date = $filter('date')(new Date(), "yyyy-MM-dd");
-            var lang = window.localStorage.lang||'EN';
+            var lang = window.localStorage.lang;
             $scope.VoucherID = $routeParams.code;
             $scope.details = {};
             $scope.guestItems = [];

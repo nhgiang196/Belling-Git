@@ -101,6 +101,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
             };
             $scope.deleteWord=function(n){
+                if ( confirm('Delete this?'))
                 if(n) {
                     DictionaryApi.DeleteWords().delete({ID: n}).$promise.then(function (res) {
                         Notifications.addError({'status': 'info', 'message': "删除成功"});

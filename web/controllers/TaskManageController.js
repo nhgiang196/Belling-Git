@@ -5,31 +5,31 @@ define( ['myapp','angular','bpmn'],function(myapp,angular,Bpmn){
     myapp.controller("TaskManageController",['$scope','$http','$compile','$routeParams','$resource','$location','Forms','EngineApi','User','Notifications',
         function($scope,$http,$compile,$routeParams,$resource,$location,Forms,EngineApi,User,Notifications){
 
-        $scope.StopPId=function(){
+            $scope.StopPId=function(){
 
-          /*  $http.put( "/bpm/api/default/bpm-rest-api/process-instance/"+$scope.pid+"/suspended", { "suspended" : true
+                /*  $http.put( "/bpm/api/default/bpm-rest-api/process-instance/"+$scope.pid+"/suspended", { "suspended" : true
                }).success(function (response) {
                 console.log(response)
                 }).error(function (data, status) {
                         Notifications.addError({'status': 'error', 'message': "暂停失败：" + status + data});
                 });*/
 
-        }
-        $scope.QueryPIdTask=function(){
-            if(User=="cassie"){
-                if($scope.pid){
+            }
+            $scope.QueryPIdTask=function(){
+                if(User=="cassie"){
+                    if($scope.pid){
                         if(confirm("确定查询这个流程进程吗？")) {
                             EngineApi.getTasks().query({"processInstanceId": $scope.pid,"sortBy": "created", "sortOrder": "desc"}).$promise.then(function (tasklist) {
                                 $scope.usertasklist = tasklist;
                             });
                       
                         }
-                 }
-                 else{
-                    Notifications.addError({'status': 'error', 'message': "PID is NULL"});
-                 }
+                    }
+                    else{
+                        Notifications.addError({'status': 'error', 'message': "PID is NULL"});
+                    }
+                }
             }
-        }
             $scope.username="";
             $scope.deletePid=function(){
                 if(User=="cassie"){
@@ -82,8 +82,8 @@ define( ['myapp','angular','bpmn'],function(myapp,angular,Bpmn){
             // bpm/api/default/bpm-rest-api/task?processInstanceId=2c0869ee-8100-11e5-b5b1-005056a100e8
             //在分配给那个
             $scope.AssigneeTask=function(taskid){
-                    console.log(taskid);
-               if(User=="cassie") {
+                console.log(taskid);
+                if(User=="cassie") {
                     if ($scope.username) {
                         if (confirm("确定重新分配这个任务吗？")) {
                             EngineApi.getTasks().assignee({
@@ -101,24 +101,22 @@ define( ['myapp','angular','bpmn'],function(myapp,angular,Bpmn){
                     } else {
                         Notifications.addError({'status': 'error', 'message': "请输入分配的工号"});
                     }
-              }else{
+                }else{
                     Notifications.addError({'status': 'error', 'message': "你没有权限"});
                 }
             }
-        $scope.querytask=function(){
-            if($scope.taskuserid) {
-                loadData($scope.taskuserid, function (res) {
-                    $scope.usertasklist = res;
-                })
-            }else{
-                Notifications.addError({'status': 'error', 'message': "请输入工号"});
+            $scope.querytask=function(){
+                if($scope.taskuserid) {
+                    loadData($scope.taskuserid, function (res) {
+                        $scope.usertasklist = res;
+                    })
+                }else{
+                    Notifications.addError({'status': 'error', 'message': "请输入工号"});
+                }
             }
-        }
 
             function loadData(userid,callback) {
-
                 var tasklist = new Array();
-
                 console.log(userid);
                 EngineApi.getProxyUser().get({'userid': userid}).$promise.then(function (leavers) {
                     console.log(leavers);
@@ -154,7 +152,7 @@ define( ['myapp','angular','bpmn'],function(myapp,angular,Bpmn){
                                     tasklist.push(candilist[i]);
                                 }
                                 console.log(tasklist);
-                              callback(tasklist);
+                                callback(tasklist);
                             });
                         });
                     }
