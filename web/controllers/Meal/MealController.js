@@ -184,9 +184,12 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
             $scope.DepartmentID = '';
             $scope.Total = 0;
             $scope.exportExel = {};
-            $scope.showall = true;
+            
             var dataongrid = {};
-
+			$scope.typeofRegionPerson= ['Vietnamese','Foreigner'];
+			 $scope.model = {};
+			$scope.model.selectType = 'Vietnamese';
+			
 
             var file = '';
             $scope.onFileSelect = function ($files) {
@@ -214,6 +217,11 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                     displayName: $translate.instant('Specification'),
                     minWidth: 105,
                     cellTooltip: true
+                }
+				,
+                {
+                    field: 'Breakfast', displayName: $translate.instant('Breakfast'), minWidth: 10, cellTooltip: true,
+                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,' + '\'B\'' + ')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
                 },
                 {
                     field: 'Lunch', displayName: $translate.instant('Lunch'), minWidth: 10, cellTooltip: true,
@@ -354,11 +362,11 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 $scope.Total = 0;
 
                 var query = {};
-                if ($scope.showall == true) {
-                    query.IncludeOTUser = 'False';
+                if ($scope.model.selectType == 'Vietnamese') {
+                    query.IncludeOTUser = 'True';
                 }
                 else {
-                    query.IncludeOTUser = 'True';
+                    query.IncludeOTUser = 'False';
                 }
                 query.UserID = Auth.username;
                 query.DepartmentID = $scope.note.Department || '';
@@ -392,11 +400,11 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
             $scope.getVoucher = function (obj, Type) {
                 $('#myModal').modal('show');
                 var paras = {};
-                if ($scope.showall == true) {
-                    paras.IncludeOTUser = 'False';
+                if ($scope.model.selectType == 'Vietnamese') {
+                    paras.IncludeOTUser = 'True';
                 }
                 else {
-                    paras.IncludeOTUser = 'True';
+                    paras.IncludeOTUser = 'False';
                 }
                 paras.UserID = Auth.username;
                 paras.DepartmentID = obj.entity.DepartmentID;
@@ -428,12 +436,12 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                     else {
                         $scope.deptID = $scope.note.Department;
                     }
-                    if ($scope.showall == true) {
-                        $scope.IncludeOTUser = 'False';
-                    }
-                    else {
-                        $scope.IncludeOTUser = 'True';
-                    }
+					if ($scope.model.selectType == 'Vietnamese') {
+						$scope.IncludeOTUser = 'True';
+					}
+					else {
+						$scope.IncludeOTUser = 'False';
+					}
 
                     //    return $scope.note.Department;
                     var href = '#/gate/MealDetails/' + $scope.dateFrom + '/' + $scope.dateTo + '/' + $scope.deptID + '/' + $scope.IncludeOTUser;
@@ -446,12 +454,12 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 order: 2,
                 action: function ($event) {
                     var paras = {};
-                    if ($scope.showall == true) {
-                        paras.IncludeOTUser = 'False';
-                    }
-                    else {
-                        paras.IncludeOTUser = 'True';
-                    }
+                    if ($scope.model.selectType == 'Vietnamese') {
+						paras.IncludeOTUser = 'True';
+					}
+					else {
+						paras.IncludeOTUser = 'False';
+					}
                     paras.UserID = Auth.username;
                     paras.DepartmentID = '';
                     paras.DateE = $scope.dateTo;

@@ -51,30 +51,36 @@ define(['app', 'bpmn'], function (app, Bpmn) {
             //  transclude: true,
             // scope: false,
             link: function ($scope, element, attrs) {
+
+
                 $scope.Candidates = {};
-                if (attrs['showCandidate']) {
-                    var ss = JSON.parse(attrs['showCandidate']);
+                if (attrs["showCandidate"]) {
+                    var ss = JSON.parse(attrs["showCandidate"]);
+
                     var ProcessName = ss.processDefinitionId.split(":")[0];
                     console.log('TEST: ' + ProcessName);
                     console.log('id: ' + ss.id);
                     EngineApi.getTasks().identitylinks({id: ss.id}).$promise.then(function (ress) {
                         $scope.Candidates = ress;
                         console.log('KKKKKKKKKK: ' + ress[0].userId);
+
                         asyncLoop(ress.length, function (loop) {
                             var i = loop.iteration();
+
+
                             EngineApi.GetByName().get({
                                 userid: ress[i].userId,
                                 ProcessName: ProcessName
                             }).$promise.then(function (res) {
-                                console.log('TEST_TEST_TEST: ' + $scope.Candidates[i].ProxyUser);
-                                if (res.length > 0) {
-                                    $scope.Candidates[i].ProxyUser = res[0].ProxyUserId;
                                     console.log('TEST_TEST_TEST: ' + $scope.Candidates[i].ProxyUser);
-                                }
-                                loop.next();
-                            }, function (errResponse) {
+                                    if (res.length > 0) {
+                                        $scope.Candidates[i].ProxyUser = res[0].ProxyUserId;
+                                        console.log('TEST_TEST_TEST: ' + $scope.Candidates[i].ProxyUser);
+                                    }
+                                    loop.next();
+                                }, function (errResponse) {
 
-                            })
+                                })
                         }, function () {
 
                         });
@@ -253,7 +259,6 @@ define(['app', 'bpmn'], function (app, Bpmn) {
                     step: $attrs.step || 60,
                     format: format,
                     closeOnDateSelect: true,
-                  
                     validateOnBlur: true,
                     minDate: $attrs.min || false,
                     maxDate: $attrs.max || false,
@@ -324,7 +329,6 @@ define(['app', 'bpmn'], function (app, Bpmn) {
             templateUrl: '../TemplateViews/ShowUsersTemplate.html'
         }
     }]);
-
     app.directive('leaderCheck', ['$resource', 'EngineApi', 'Auth', 'GateGuest', '$compile',
         function ($resource, EngineApi, Auth, GateGuest) {
             return {
@@ -372,6 +376,4 @@ define(['app', 'bpmn'], function (app, Bpmn) {
                 templateUrl: '../TemplateViews/ShowLeaderTemplate.html'
             }
         }]);
-
-    
 });

@@ -116,7 +116,10 @@ define(['myapp', 'angular', 'jquery', 'jszip'], function (myapp, angular, jquery
                                 if (data.contains('*ValueSpec')) {
                                     return 'ValueSpec';
                                 }
-                             
+                                if (data.contains('Z')) { /*MAX MIN AVG STD*/
+                                    return data.substring(1);
+                                }
+
                                 var rest = data.match(/\w*-\w*.pdf/);//Get string filename
                                 var value = data.split(/@\w*-\w*.pdf/gm);
 

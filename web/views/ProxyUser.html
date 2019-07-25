@@ -14,9 +14,9 @@
         <th>流程名</th>
         <th>流程KEY</th>
         <th>代理人</th>
-        <th><button ng-click="delete('')" class="btn btn-danger btn-xs"> {{'cancelproxytask'|translate}} </button>
+        <th><button ng-click="delete('')" class="btn btn-danger btn-xs">取消所有代理</button>
 
-            <button type="button" class="btn btn-primary btn-xs" ng-click="paraFunc.createPara()">{{'Agentsettings'|translate}}</button></th>
+            <button type="button" class="btn btn-primary btn-xs" ng-click="paraFunc.createPara()">设置代理人</button></th>
     </tr>
     <tr ng-repeat="i in list">
 
@@ -27,7 +27,7 @@
         <td>{{i.Description}} --{{i.EnglishName}}</td>
         <td>{{i.id}}</td>
         <th>{{i.ProxyUserId}}</th>
-        <th><button ng-click="delete(i.id)" ng-if="i.ProxyUserId.length>0" class="btn btn-danger btn-xs">{{'Remove'|translate}} </button>
+        <th><button ng-click="delete(i.id)" ng-if="i.ProxyUserId.length>0" class="btn btn-danger btn-xs">取消代理</button>
 
         </th>
 

@@ -136,7 +136,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     field: 'ExpectOut',
                     displayName: $translate.instant('GoodsExpectOut'),
                     minWidth: 105,
-                  
+                    
                     cellTooltip: true
                 },
                 {

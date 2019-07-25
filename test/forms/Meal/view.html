@@ -1,41 +1,41 @@
 <div>
     <h2 style="text-align: center;">CÔNG TY POLYTEX FAR EASTERN VIETNAM</h2>
     <h4 style="text-align: center;">THỐNG KÊ KHẨU PHẦN ĂN THEO BỘ PHẬN</h4>
+
     <form class="form-horizontal" role="form" name="form" novalidate>
         <div style="text-align:center"><label>(From: {{dateFrom}}-To: {{dateTo}})</label></div>
 
-    <table class="table table-condensed" style="width: 800px;margin: auto">
-        <tr >
-            <th>{{'Department'|translate}}</th>
-            <th>{{'Specification'|translate}}</th>
-            <th style="text-align: right">{{'Lunch'|translate}}</th>
-            <th style="text-align: right">{{'Dinner'|translate}}</th>
-            <th style="text-align: right">{{'Night'|translate}}</th>
-            <th style="text-align: right">{{'Total'|translate}}</th>
-        </tr>
-        <tr ng-repeat="x in note"  >
-            <td>{{ x.DepartmentID }}</td>
-            <td>{{ x.Specification }}</td>
-            <td style="text-align: right">{{x.Lunch}}</td>
-            <td style="text-align: right">{{x.Dinner}}</td>
-            <td style="text-align: right">{{x.Night}}</td>
-            <td style="text-align: right">{{x.Total}}</td>
-
-        </tr>
-    </table>
-        <table class=" table table-condensed  " style="width: 800px;margin: auto;">
-            <thead>
-            </thead>
-            <tbody>
+        <table class="table table-condensed" style="width: 800px;margin: auto">
             <tr>
-                <td style=" font-weight: bold;width: 54%">Total:</td>
-                <td style="width:10%;font-weight: bold;text-align: center">{{Lunch}}</td>
-                <td style="width:10%;font-weight: bold;text-align: right">{{Dinner}}</td>
-                <td style="width:10%;font-weight: bold;text-align: right">{{Night}}</td>
-                <td style="width:10%;font-weight: bold;text-align: right" >{{Total}}</td>
+                <th style="width: 10%">{{'Department'|translate}}</th>
+                <th style="width: 60%">{{'Specification'|translate}}</th>
+				<th style="text-align: right;width: 6%">{{'Breakfast'|translate}}</th>
+                <th style="text-align: right;width: 6%">{{'Lunch'|translate}}</th>
+                <th style="text-align: right;width: 6%">{{'Dinner'|translate}}</th>
+                <th style="text-align: right;width: 6%">{{'Night'|translate}}</th>
+                <th style="text-align: right;width: 6%">{{'Total'|translate}}</th>
             </tr>
-            </tbody>
+            <tr ng-repeat="x in note">
+                <td style="width: 10%">{{ x.DepartmentID }}</td>
+                <td style="width: 60%">{{ x.Specification }}</td>
+				<td style="text-align: center;width: 6%">{{x.Breakfast}}</td>
+                <td style="text-align: center;width: 6%">{{x.Lunch}}</td>
+                <td style="text-align: center;width: 6%">{{x.Dinner}}</td>
+                <td style="text-align: center;width: 6%">{{x.Night}}</td>
+                <td style="text-align: center;width: 6%">{{x.Total}}</td>
+
+            </tr>
+			 <tr>
+			  <td style="width: 10%">Total:</td>
+                <td style=" font-weight: bold;width: 60%"></td>
+				<td style="width:6%;font-weight: bold;text-align: center">{{Breakfast||''}}</td>
+                <td style="width:6%;font-weight: bold;text-align: center">{{Lunch||''}}</td>
+                <td style="width:6%;font-weight: bold;text-align: center">{{Dinner||''}}</td>
+                <td style="width:6%;font-weight: bold;text-align: center">{{Night ||''}}</td>
+                <td style="width:6%;font-weight: bold;text-align: center">{{Total}}</td>
+            </tr>
         </table>
+       
 
     </form>
     <div id="container"></div>
