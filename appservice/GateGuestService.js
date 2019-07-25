@@ -17,4 +17,5 @@ module.exports = function(app,request,config,express) {
     app.get('/ehs/ContractorCancel/PID', GateRoute.getContractorCancelByEmployer)
     app.get('/lims/QCGrades/PID', GateRoute.GetQCGrades);
     app.get('/lims/QCOverGrade/PID', GateRoute.GetQCOverGrade);
+    app.get('/hse/CReportHSE/PID', GateRoute.Get_CReportHSE_ID);
 }

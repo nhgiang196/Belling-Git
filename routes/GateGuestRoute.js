@@ -15,6 +15,7 @@ var process_FEPVConInfoCancel = require('./../models/Process_FEPVConInfoCancel.j
 var process_GateContractorInfo = require('./../models/Process_GateContractorInfo.js');
 var process_QCGrades = require('./../models/Process_QCGrades.js');
 var process_QCOverGrade = require('./../models/Process_QCOverGrade.js');
+var process_CReportHSE = require('./../models/Process_CReportHSE.js');
 exports.DBSQLConnection = function (config) {
     console.log("-Connection--")
     conn = {
@@ -62,6 +63,31 @@ exports.GetQCOverGrade =(req,res)=>{
     query.activityId ='StartEvent_2';
     query.OverID =req.query.OverID;
     process_QCOverGrade.find(query,(err,dbdata)=>{
+        debugger;
+        if(err){
+            log.debug(err);
+            res.send(500,err)
+        }
+        else{
+            var data ={}
+            if(dbdata[0]){
+                data.ProcessInstanceId =dbdata[0].ProcessInstanceId;
+                return res.json(data);
+            }else{
+                res.send(500,"There is no any history process!");
+            }
+        }
+    })
+}
+exports.Get_CReportHSE_ID =(req,res)=>{
+    var query={}
+    console.log(req.query.Rp_ID);
+    if(!req.query.Rp_ID){
+        res.send(500,"The Voucher Not Exist!")
+    }
+    query.activityId ='startevent1';
+    query.Rp_ID =req.query.Rp_ID;
+    process_CReportHSE.find(query,(err,dbdata)=>{
         debugger;
         if(err){
             log.debug(err);
