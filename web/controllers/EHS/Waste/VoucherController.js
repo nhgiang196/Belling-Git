@@ -372,7 +372,7 @@ define(['myapp', 'controllers/EHS/Waste/Directive/VoucherDirective', 'angular', 
                     $scope.recod.comp_id = resultRows
                     $scope.status = 'M'; //Set update Status
                     if (resultRows.length == 1) {
-                        if (resultRows[0].Status != 'X' && (resultRows[0].Status != 'M' || resultRows[0].UserID == 'FEPV001026' ) ) {
+                        if (resultRows[0].Status != 'X' && (resultRows[0].Status != 'M' || Auth.username=='cassie')) {
                             if (resultRows[0].UserID == Auth.username) {
                                 $scope.gd = {};
                                 var querypromise = loadVoucherDetail(resultRows[0].VoucherID);

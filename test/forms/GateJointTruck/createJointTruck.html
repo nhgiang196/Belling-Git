@@ -8,18 +8,18 @@
                 <div>
                     <form class="form-horizontal model-form " name="form">
                         <div class=" form-group ">
-
+                          
                             <label class="col-sm-2 control-label">
-                                <code>{{userinfo.Company}}</code>
+                                    <code>{{userinfo.Company}}</code>
                                 {{'VoucherID'|translate}}</label>
 
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="VoucherID"
                                        ng-model="note.VoucherID"
                                        readonly>
-
+                                       
                             </div>
-
+                            
                             <label class="col-sm-2 control-label">*{{'Models'|translate}}</label>
 
                             <div class="col-sm-4">
@@ -79,15 +79,15 @@
                             <div  class="col-sm-4">
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="ValidatePeriod"  id="ValidatePeriod"
-                                           ng-change="selecteddateValidatePeriod()"
-                                           ng-model="note.ValidatePeriod" date-picker
-                                           min={{note.ExpectIn}} required ng-disabled="IsReady" />
+                                       ng-change="selecteddateValidatePeriod()"
+                                       ng-model="note.ValidatePeriod" date-picker
+                                       min={{note.ExpectIn}} required ng-disabled="IsReady" />
                                     <span class="input-group-addon" ng-show="IsReady">
                                       <input type="checkbox"  ng-model='Validatetype' ng-click="updateSelection($event)"  >
                                     </span>
-
-                                </div><!-- /input-group -->
-
+                                  
+                                  </div><!-- /input-group -->
+                              
                             </div>
                         </div>
                         <div class=" form-group ">
@@ -110,33 +110,33 @@
                         </div>
                     </form>
                     <div ng-hide="userinfo.Company=='VH'">
-                        <H4 style="background-color: #ececec; padding: 5px">{{'ShippingInformation'|translate}}</H4>
+                    <H4 style="background-color: #ececec; padding: 5px">{{'ShippingInformation'|translate}}</H4>
 
-                        <form class="form-horizontal" role="form" name="order" novalidate>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">{{'KindOfBill'|translate}}</label>
-                                <div class="col-sm-2">
-                                    <select class="form-control"
-                                            name="ShippingOrder" ng-model="Trantype"
-                                            ng-options="c.value as c.name for c in trantypes"
-                                            required></select>
-                                </div>
-                                <label class="col-sm-2 control-label">*{{'ShippingOrder'|translate}}</label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control"
-                                           name="ShippingOrder" ng-model="ShippingOrder"  ng-keydown="ngkeyDown($event)" ng-change="ShippingOrder = (ShippingOrder | uppercase)" required>
-                                </div>
-                                <div class="col-sm-4">
-                                    <button type="button" class="btn btn-primary" ng-click="saveSO()"
-                                            ng-disabled="order.$invalid" >{{'Add'|translate}}
-                                    </button>
-                                    <button type="button" class="btn btn-danger" ng-click="delOrder()">
-                                        {{'Remove'|translate}}
-                                    </button>
-                                </div>
+                    <form class="form-horizontal" role="form" name="order" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{'KindOfBill'|translate}}</label>
+                            <div class="col-sm-2">
+                                <select class="form-control"
+                                        name="ShippingOrder" ng-model="Trantype"
+                                        ng-options="c.value as c.name for c in trantypes"
+                                        required></select>
                             </div>
+                            <label class="col-sm-2 control-label">*{{'ShippingOrder'|translate}}</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control"
+                                       name="ShippingOrder" ng-model="ShippingOrder"  ng-keydown="ngkeyDown($event)" ng-change="ShippingOrder = (ShippingOrder | uppercase)" required>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-primary" ng-click="saveSO()"
+                                        ng-disabled="order.$invalid" >{{'Add'|translate}}
+                                </button>
+                                <button type="button" class="btn btn-danger" ng-click="delOrder()">
+                                    {{'Remove'|translate}}
+                                </button>
+                            </div>
+                        </div>
                         </form>
-
+                        
                     </div>
                     <div ng-hide="userinfo.Company=='VC'">
                         <H4 style="background-color: #ececec; padding: 5px">{{'ShippingInformation'|translate}}</H4>
@@ -145,10 +145,10 @@
                             <div class="form-group">
                                 <!--<label class="col-sm-2 control-label">{{'KindOfBill'|translate}}</label>-->
                                 <!--<div class="col-sm-2">-->
-                                <!--<select class="form-control"-->
-                                <!--name="ShippingOrder" ng-model="Trantype"-->
-                                <!--ng-options="c.value as c.name for c in trantypes"-->
-                                <!--required></select>-->
+                                    <!--<select class="form-control"-->
+                                            <!--name="ShippingOrder" ng-model="Trantype"-->
+                                            <!--ng-options="c.value as c.name for c in trantypes"-->
+                                            <!--required></select>-->
                                 <!--</div>-->
                                 <label class="col-sm-2 control-label">*{{'DeliveryOrder'|translate}}</label>
                                 <div class="col-sm-2">
@@ -165,17 +165,15 @@
                                 </div>
                             </div>
                         </form>
-                        <div style=" width: 100%;">
-
-                        </div>
+                        
                     </div>
                     <div style=" width: 100%;">
                         <div id="voucherGrid" ui-grid="vouchergridOptions" class="grid" ui-grid-selection ui-grid-pagination
-                             ui-grid-resize-columns
-                             ui-grid-core  style="height: 227px;">
-
+                        ui-grid-resize-columns
+                        ui-grid-core  style="height: 227px;">
+                            
                         </div>
-                    </div>
+                   </div>
                 </div>
             </div>
             <div class="modal-footer">

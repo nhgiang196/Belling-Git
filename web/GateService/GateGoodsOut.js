@@ -16,8 +16,7 @@ define( ['app','angular'],function(app,angular){
                 canOutIn:{method:'GET',params:{operation:"CanOutIn5X8"}},
                 getGoodsByItemID:{method:'GET',params:{operation:"GetGoodsByItemID"},isArray:true},
                 saveGoodsBackItemStatus:{method:'POST',params:{operation:"SaveGoodsBackItemStatus"}},
-                GetGood:{method:'GET',params:{operation:"GoodsByVoucherID"}},
-                saveWorkFlowLogs:{method: 'POST',params:{operation:"SaveWorkFlowLogs"}}
+                GetGood:{method:'GET',params:{operation:"GoodsByVoucherID"}}
             });
             this.saveGoodOut =  $resource("/ehs/gate/Goods/SaveGoodsInfo",{},{
                 complete:{method:'POST'}

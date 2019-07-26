@@ -21,7 +21,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 VoucherService.GetVoucher({ VoucherID: $scope.VoucherID }, function (data) {
                     $scope.voucher = data[0];
                     $scope.date1 = moment(data[0].DateOut).format('DD/MM/YYYY');
-                    $scope.date2 = 'ngày '+ moment(data[0].DateOut).format("DD") + ' tháng ' +moment(data[0].DateOut).format("MM")+ ' năm '+ moment(data[0].DateOut).format("YYYY");
+                    $scope.date2 = 'ngày ' + moment(data[0].DateOut).format("DD") + ' tháng ' + moment(data[0].DateOut).format("MM") + ' năm ' + moment(data[0].DateOut).format("YYYY");
                 }, function (error) {
                     deferred.reject(error);
                 })
@@ -44,11 +44,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 document.body.innerHTML = originalContents;
                 printContents.reject();
             }
-            
+
             $('.container').css({ 'padding-top': '0px' });
             $(document).ready(function () {
                 setTimeout(function () {
-                    window.print(); 
+                    window.print();
                 }, 500);
             })
 

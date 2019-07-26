@@ -114,7 +114,7 @@ define(['myapp', 'angular'], function (myapp,angular) {
                                 return;
                             }
                         }
-                        var promise= getShippingOrders(pageStatus,$scope.ShippingOrder,$scope.Trantype,$scope.MaterielType||'',$scope.userinfo.Company)
+                        var promise= getShippingOrders(pageStatus,$scope.ShippingOrder,$scope.Trantype,$scope.note.MaterielType||'',$scope.userinfo.Company)
                       
                         promise.then(function(res){
                             var so = {};

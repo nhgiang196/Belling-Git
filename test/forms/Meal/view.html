@@ -8,17 +8,17 @@
         <tr >
             <th>{{'Department'|translate}}</th>
             <th>{{'Specification'|translate}}</th>
+            <th>{{'Breakfast'}}</th>
             <th style="text-align: right">{{'Lunch'|translate}}</th>
             <th style="text-align: right">{{'Dinner'|translate}}</th>
-            <th style="text-align: right">{{'Night'|translate}}</th>
             <th style="text-align: right">{{'Total'|translate}}</th>
         </tr>
         <tr ng-repeat="x in note"  >
             <td>{{ x.DepartmentID }}</td>
             <td>{{ x.Specification }}</td>
+            <td>{{x.Breakfast}}</td>
             <td style="text-align: right">{{x.Lunch}}</td>
             <td style="text-align: right">{{x.Dinner}}</td>
-            <td style="text-align: right">{{x.Night}}</td>
             <td style="text-align: right">{{x.Total}}</td>
 
         </tr>
@@ -31,7 +31,6 @@
                 <td style=" font-weight: bold;width: 54%">Total:</td>
                 <td style="width:10%;font-weight: bold;text-align: center">{{Lunch}}</td>
                 <td style="width:10%;font-weight: bold;text-align: right">{{Dinner}}</td>
-                <td style="width:10%;font-weight: bold;text-align: right">{{Night}}</td>
                 <td style="width:10%;font-weight: bold;text-align: right" >{{Total}}</td>
             </tr>
             </tbody>

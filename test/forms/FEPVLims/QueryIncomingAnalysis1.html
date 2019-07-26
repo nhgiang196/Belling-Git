@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="vendor/datatables/datatables.min.css">
+
+<style>
+
+    .table th, .table td {
+        padding: 4px;
+        line-height: 14px;
+        font-size:10px;
+    }
+    .PropertySpec{
+        background-color: #cfccff;
+    }
+    footer{
+        display: none;
+    }
+    .table{
+
+        width: 1200px;
+        margin-left: 0px;
+        margin: auto;
+        margin-top: 30px!;
+    }
+    .table-bordered tbody tr:nth-child(odd) td {
+        background-color: #F2FAFE;
+    }
+    .form-group{     margin-bottom: 5px}
+    .Inrange{
+        color: #37c678;
+    }
+    .Overrange{
+        color: red!important;
+    }
+    .greenyellow{
+        background: red!important;
+        color: #000000;
+    }
+    .glyphicon-file{
+        color:#000000;
+    }
+
+
+
+</style>
+<div id="demo" class="collapse in">
+    <form class="form-horizontal" role="form" novalidate name="form">
+        <legend>
+            <h2>Report Incoming Analysis</h2>
+        </legend>
+        <div class="col-sm-12 form-group">
+            <div class="form-group search-table" style="margin-left:20px">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'From'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="DateFrom" ng-model="DateFrom" date-picker>
+                    </div>
+                    <label class="col-sm-2 control-label">{{'To'|translate}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" name="DateTo" ng-model="DateTo" date-picker>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'TypeName'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="TypeID" ng-model="note.TypeID" ng-options=" c.TypeID as c.TypeName for c in CategoryList | filter:myFilter"
+                                required>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="nameSample" ng-model="note.SampleName" ng-options=" c.SampleName as c.Description_EN for c in SampleList">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'VoucherType'|translate}}</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="TypeID" ng-model="note.VoucherType">
+                            <option value="">ALL</option>
+                            <option value="S">A</option>
+                            <option value="SP">B</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary" ng-click="Search()" ng-disabled="form.$invalid">{{'Search'|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+<!--Report Detail Page-->
+<div style="left:0px;position:absolute;" class="table table-responsive">
+    <table id="data" class="table  table-bordered table-responsive table-hover" cellspacing="0"></table>
+</div>

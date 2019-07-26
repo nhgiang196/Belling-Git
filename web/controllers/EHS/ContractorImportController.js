@@ -1,7 +1,7 @@
 /**
  * Created by wangyanyan on 2017/4/7.
  */
-define(['myapp', 'angular','xlsx'], function(myapp, angular) {
+define(['myapp', 'angular'], function(myapp, angular) {
     myapp.directive('uploadFile', [function() {
         return {
             link: function(scope, element, attributes) {
@@ -44,7 +44,7 @@ define(['myapp', 'angular','xlsx'], function(myapp, angular) {
                 Notifications.addError({'status': 'error', 'message': errResponse});
             });
             $scope.parseText = function(data) {
-                var workbook = XLSX.read(data, {type: 'binary',cellDates:true});
+                var workbook = XLSX.read(data, {type: 'binary'});
                 var sheet_name_list = workbook.SheetNames;
                 sheet_name_list.forEach(function(y) { /* iterate through sheets */
                     var worksheet = workbook.Sheets[y];

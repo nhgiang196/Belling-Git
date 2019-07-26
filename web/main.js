@@ -44,8 +44,7 @@
             'jszip': 'vendor/datatables/jszip.min',
             'buttons.flash': 'vendor/datatables/buttons.flash.min',
             'dataTables.bootstrap': 'vendor/datatables/dataTables.bootstrap.min',
-            'dataTables.rowGroup': 'https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min',
-            'socketio': 'vendor/socket.io/socket.io'
+            'dataTables.rowGroup': 'https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min'
         },
         //加载非规范的模块
         shim: {
@@ -84,9 +83,7 @@
             'jszip': { deps: ['jquery'] },
             'buttons.flash': { deps: ['jquery'] },
             'dataTables.bootstrap': { deps: ['jquery'] },
-            'dataTables.rowGroup': { deps: ['jquery'] },
-            'socketio': { deps: ['angular', 'jquery'] }
-
+            'dataTables.rowGroup': { deps: ['jquery'] }
         },
         waitSeconds: 0,
         deps: ['myapp'],
@@ -104,7 +101,6 @@
         'angular-translate', 'angular-translate-loader-static-files', 'angular-translate-loader-partial', 'angularAMD', 'io-barcode',
         'xlsxfull', 'xlsxexport', 'myapp', 'datatables.net', 'datatables.net-bs', 'datatables.net-buttons',
         'datatables.net-print', 'button.html5', 'pdfmake', 'vfs-fonts', 'jszip', 'buttons.flash', 'dataTables.bootstrap', 'dataTables.rowGroup'
-        ,'socketio',
     ], function (uploadshim, bpmn, angular, taffydb) {
         console.log("bootstrap");
         // angular.bootstrap(document, ["tasklist"]);//ng-app

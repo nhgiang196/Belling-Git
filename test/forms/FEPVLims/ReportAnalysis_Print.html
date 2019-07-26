@@ -194,6 +194,7 @@
     #bottom-footer {
         display: none;
     }
+
     #page-contain {
         font-size: 14px;
         padding-left: 10pt;
@@ -226,6 +227,14 @@
     <p id="myfooter" style="text-align:right;">5VACQQR020-01</p>
 </div>
 
+<div class="row" ng-show="enableSubmit">
+    <button class="btn btn-primary pull-right" ng-disabled="qual==undefined" ng-click="SubmitVoucher()" >{{'Submit'|translate}}
+    </button>
+    <div>
+        <h4>{{'NextStep'|translate}}</h4>
+    </div>
+    <div style="margin-bottom:10px" ng-repeat="leader in leaderlist">
+        <span show-checker user-name={{leader.Person}}></span>
+    </div>
 
-<button class="btn btn-primary pull-right" ng-disabled="qual==undefined" ng-click="SubmitVoucher()" ng-show="enableSubmit">{{'Submit'|translate}}
-</button>
+</div>

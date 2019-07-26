@@ -34,6 +34,7 @@ app.use(express.static('./web'));
 app.use(express.static('./test'));
 app.use(express.static('D:/QCFiles'));// Set for QCFiles in Server Directory
 
+
 //超时时间
 app.use(express.responseTime());
 //错误

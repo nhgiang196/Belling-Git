@@ -77,7 +77,7 @@ define( ['app','angular'],function(app,angular){
                     callback([],"It 's not Get EHS Checker")
                 } else {
                     console.log('jdkfjlkgjsf: '+checkres[0].Person)
-                    //callback(checkres[0].Person,"")
+                    callback(checkres[0].Person,"")
 
                 }
             })

@@ -30,7 +30,7 @@ define( ['app','angular'],function(app,angular){
                 login: { method: 'POST', params : {operation: "login" }}
             })
 
-            //工号的得到姓名 api GetEmployeeInfo
+            //工号的得到姓名
             var employeeurl="/ehs/employeeInfo/:userid"
             this.getMember=  $resource(employeeurl, { userid: "@userid"} , {
                 get : { method: 'GET'}

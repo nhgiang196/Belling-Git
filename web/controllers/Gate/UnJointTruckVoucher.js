@@ -46,7 +46,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         query.Status = Status;
                         query.UserID = Auth.username;
                         query.OrderNO = $scope.note.OrderNO || '';
-                        query.ImportBatch== $scope.note.OrderNO || "";
                         GateUnJointTruck.SaveUnJointTruck().save(query).$promise.then(function (res) {
                             var voucherid = res.VoucherID;
                             if (voucherid) {
@@ -153,7 +152,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 'VoucherID': $scope.note.VoucherID,
                                 'VehicleNO': $scope.note.VehicleNO||'',
                                 'Container': $scope.note.NewContainerNO||'',
-                                'Remark': $scope.note.Remark + Auth.username||'Modify by '+ Auth.username +' at:  '+ $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss')
+                                'Remark': $scope.note.Remark +'---' +Auth.username||'Modify by '+ Auth.username +' at:  '+ $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss')
                             }, {}).$promise.then(function () {
                                     $('#myEditContainer').modal('hide');
                                     $scope.note = {};

@@ -181,7 +181,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                             historyVariable.push({name: "ConQua_Employer", value: $scope.projects.Employer});
                                             getFlowDefinitionId($scope.flowkey, function (FlowDefinitionId) {
                                                 if (FlowDefinitionId) {
-                                                    //  Notifications.addMessage({'status': 'information', 'message': "保存成功:"+ reportid });
+                                                      Notifications.addMessage({'status': 'information', 'message': "保存成功:" });
                                                     startflowid(FlowDefinitionId, $scope.projects.EmployerId);
                                                 } else {
                                                     Notifications.addError({'status': 'error', 'message': "Process definition error"});

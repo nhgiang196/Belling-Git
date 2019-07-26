@@ -14,11 +14,11 @@
         ];
         $scope.ISReceive = 'YES';
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
-        $scope.loading = false;
+
         var formVariables = [];
         var historyVariable = [];
         function SaveBpmn() {
-            debugger;
+            $scope.loading = false;
             if ($scope.checkList.length <= 0) {
                 Notifications.addError({
                     'status': 'error',
@@ -29,7 +29,6 @@
             $scope.formVariables.push({ name: 'QCManagerList', value: $scope.checkList });
 
             $q.all([$scope.submit()]).then(function () {
-                $scope.loading = true;
                 var reminder_parrams = {
                     voucherID: $scope.VoucherID,
                     userid: Auth.username,
@@ -60,12 +59,10 @@
             note.state = $scope.recod.State || '';
             return note;
         }
-        /**
-         * Update status by updateByID
-         */
         $scope.Save = function (isSubmit) {
 
             var data = saveInitData();
+            $scope.loading = true;
             LIMSService.UpdateRYVoucher(data, function (res, message) {
                 if (res.Success) {
                     if (isSubmit) {
@@ -132,7 +129,7 @@
             <label class="col-sm-2  control-label">*{{'DenyReason'|translate}}:</label>
             <div class="col-sm-6">
                 <textarea class="form-control" name="leadercheck_remark" type="text" form-field
-                    history-field="DenyReason" ng-model="leadercheck_remark" rows="3" />
+                    history-field="LeaderRemark" ng-model="leadercheck_remark" rows="3" />
                 </div>
         </div>
         <!-- leader remark show if returned -->

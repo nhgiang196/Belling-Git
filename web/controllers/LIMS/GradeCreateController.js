@@ -1,560 +1,592 @@
-define(['myapp', 'angular'], function (myapp, angular) {
-    myapp.directive('createGrades', ['$filter', '$http',
-        '$routeParams', '$resource', '$location', '$interval',
-        'Notifications', 'Forms', 'Auth', 'EngineApi', '$translate', '$q', 'LIMSService',
-        function ($filter, $http, $routeParams,
-                  $resource, $location, $interval, Notifications, Forms, Auth,
-                  EngineApi, $translate, $q, LIMSService) {
-            return {
-                restrict: 'AEC',
-                controller: function ($scope) {
-                    var formVariables = [];
-                    var historyVariable = [];
-                    $scope.materials = [];
-                    $scope.VersionValidDate= moment(new Date()).add(-7, 'days').format('YYYY-MM-DD');
-                    console.log($scope.VersionValidDate);
-                    function roundDown(number, decimals) {
+/**
+ * Created by phkhoi on 2017-11-04.
+ *
+ /*eslint-env jquery*/
+ define(['myapp', 'angular', 'controllers/LIMS/GradeCreateController'], function (myapp, angular) {
+    myapp.controller('GradeController', ['$scope', '$filter', '$compile', '$routeParams', '$resource', '$location', 'i18nService',
+        'Notifications', 'Auth', 'uiGridConstants', '$translatePartialLoader', '$translate', 'LIMSService', 'LIMSBasic', 'EngineApi', '$routeParams',
+        function ($scope, $filter, $compile, $routeParams, $resource, $location, i18nService, Notifications, Auth, uiGridConstants,
+            $translatePartialLoader, $translate, LIMSService, LIMSBasic, EngineApi) {
+            $scope.flowkey = 'QCGrades';
+            $scope.lang = window.localStorage.lang || 'EN';
+            $scope.new = {};
+            $scope.checkList = {};
+            $scope.new.lower = false;
+            $scope.new.upper = false;
+            $scope.new.IsJudge = false;
+            $scope.new.ValueSpec = '';
+            $scope.new.lowerVal = '';
+            $scope.new.upperVal = '';
+            $scope.new.ValidDate = '';
+            $scope.note = {};
+            $scope.addnew = [];
+            $scope.materials = [];
+            $scope.qcGrades = [];
+            $scope.username = Auth.username;
+            $scope.HisttoryData = {};
+            $scope.bpmnloaded = false;
+            $scope.bpmnloadedHistory = false;
+            $scope.bpmnloadedFlow = false;
 
-                        if (number == '') {
-                            return 0;
-                        } else {
-                            return (Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals));
-                        }
+            $scope.showPng = function (status) {
+                if (status == 'history') {
+                    $scope.bpmnloadedFlow = false;
+                    if ($scope.bpmnloadedHistory == true) {
+                        $scope.bpmnloadedHistory = false;
+                        $scope.bpmnloaded = false;
+                    } else {
+                        $scope.bpmnloadedHistory = true;
+                        $scope.bpmnloaded = true;
 
                     }
-
-                    $scope.Caculated = function (atts) {
-                        if (atts == 'min') {
-                            if ($scope.new.lower == false) {
-                                if ($scope.new.upper == true) {
-                                    $scope.new.lowerVal = '';
-                                    if ($scope.new.upperVal != '' && $scope.new.upperVal != undefined) {
-                                        $scope.new.ValueSpec = '≦' + roundDown($scope.new.upperVal, $scope.new.Prec);
-                                        document.getElementById('btnAdd').disabled = false;
-                                        return;
-                                    }
-                                }
-                            }
-                            if ($scope.new.upper == false && $scope.new.lower == false && $scope.new.Property != '') {
-                                $scope.new.ValueSpec = '';
-                                $scope.new.lowerVal = '';
-                                document.getElementById('btnAdd').disabled = false;
-                                return;
-                            }
-                            if ($scope.new.upper == false && $scope.new.lower == false && $scope.new.Property == '') {
-                                $scope.new.ValueSpec = '';
-                                document.getElementById('btnAdd').disabled = true;
-                                return;
-                            }
-
-                        }
-                        if (atts == 'max') {
-                            if ($scope.new.upper == false) {
-                                if ($scope.new.lower == true) {
-                                    $scope.new.upperVal = '';
-                                    if ($scope.new.lowerVal != '' && $scope.new.lowerVal != undefined) {
-                                        $scope.new.ValueSpec = '≧' + roundDown($scope.new.lowerVal, $scope.new.Prec);
-                                        document.getElementById('btnAdd').disabled = false;
-                                        return;
-                                    }
-
-                                }
-
-                            }
-                            if ($scope.new.upper == false && $scope.new.lower == false && $scope.new.Property != '') {
-                                $scope.new.ValueSpec = '';
-                                $scope.new.upperVal = '';
-                                document.getElementById('btnAdd').disabled = false;
-                                return;
-                            }
-                            if ($scope.new.upper == false && $scope.new.lower == false && $scope.new.Property == '') {
-                                $scope.new.ValueSpec = '';
-                                document.getElementById('btnAdd').disabled = true;
-                                return;
-                            }
-
-                        }
-                        if ($scope.new.lower && $scope.new.upper) {
-                            $scope.new.ValueSpec = '';
-                            if ($scope.new.lowerVal != '' && $scope.new.upperVal != '' && $scope.new.lowerVal != undefined && $scope.new.upperVal != undefined) {
-                                if (Math.floor($scope.new.lowerVal * 100) > Math.floor($scope.new.upperVal * 100)) {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': 'Lower value have to lower than Upper value'
-                                    });
-                                    document.getElementById('btnAdd').disabled = true;
-                                    $scope.new.ValueSpec = '';
-
-                                } else {
-
-                                    $scope.new.ValueSpec = roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) + (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed( $scope.new.Prec) / 2, $scope.new.Prec) + '±' + roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) - (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed( $scope.new.Prec) / 2, $scope.new.Prec);
-                                    document.getElementById('ValueSpec').disabled = true;
-                                    document.getElementById('btnAdd').disabled = false;
-                                }
-
-                            } else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
-
-                            }
-                        }
-                        else if ($scope.new.lower && !$scope.new.upper) {
-                            if ($scope.new.lowerVal != '' && $scope.new.lowerVal != undefined) {
-                                $scope.new.ValueSpec = '≧' + roundDown($scope.new.lowerVal, $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            } else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
-
-                            }
-                        }
-                        else if (!$scope.new.lower && $scope.new.upper) {
-                            if ($scope.new.upperVal != '' && $scope.new.upperVal != undefined) {
-                                $scope.new.ValueSpec = '≦' + roundDown($scope.new.upperVal, $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            } else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
-
-                            }
-                        }
-                    };
-                    //Change Status Only
-                    $scope.isCheck = (index) => {
-                        var item = $scope.materials[index];
-                        item.Enable = (item.Enable == 'false' ? true:false);
+                }
+                if (status == 'flow') {
+                    $scope.bpmnloadedHistory = false;
+                    if ($scope.bpmnloadedFlow == true) {
+                        $scope.bpmnloadedFlow = false;
+                        $scope.bpmnloaded = false;
+                    } else {
+                        $scope.bpmnloadedFlow = true;
+                        $scope.bpmnloaded = true;
                     }
-                    $scope.$watch('new.Prec', function (n) {
-                        if (n !== undefined && $scope.new.lower == true && $scope.new.upper == true) {
-                            if ($scope.new.lowerVal != '' && $scope.new.upperVal != '' && $scope.new.lowerVal != undefined && $scope.new.upperVal != undefined) {
-                                $scope.new.ValueSpec = roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) + (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed( $scope.new.Prec) / 2, $scope.new.Prec) + '±' + roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) - (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed( $scope.new.Prec) / 2, $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-                        }
-                        if (n !== undefined && $scope.new.lower != true && $scope.new.upper == true) {
-                            if ($scope.new.upperVal != '' && $scope.new.upperVal != undefined) {
-                                $scope.new.ValueSpec = '≦' + roundDown($scope.new.upperVal, $scope.new.Prec).toFixed( $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-                        }
-                        if (n !== undefined && $scope.new.lower == true && $scope.new.upper != true) {
-                            if ($scope.new.lowerVal != '' && $scope.new.lowerVal != undefined) {
-                                $scope.new.ValueSpec = '≧' + roundDown($scope.new.lowerVal, $scope.new.Prec).toFixed( $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-                        }
+                }
+
+            };
+            // History menu bar.
+            $scope.menuBar = true;
+            $scope.bindform = true;
+            $scope.toggleCustom = function () {
+                //   alert("0o");
+                $scope.menuBar = $scope.menuBar === false ? true : false;
+                $(".pinned").toggle(function () {
+                    $(this).addClass("highlight");
+                    $(this).next().fadeOut(1000);
+                }, function () {
+                    $(this).removeClass("highlight");
+                    $(this).next("div .content").fadeIn(1000);
+                });
+            };
+
+            LIMSBasic.GetStatus({
+                ctype: 'Grade',
+                lang: $scope.lang
+            }, function (data) {
+                $scope.StatusList = data;
+                $scope.note.status = 'S';
+            });
+
+            var q_category = { userid: Auth.username, Language: $scope.lang };
+            LIMSBasic.GetCategorys(q_category, function (data) {
+                console.log(data);
+                $scope.CategoryList = data;
+            });
+            //UI for query
+            $scope.$watch('TypeID', function (n) {
+                if (n != null) {
+                    var q_sample = { userid: Auth.username, TypeID: $scope.TypeID };
+                    LIMSBasic.GetSamplesByCategory(q_sample, function (data) {
+                        console.log(data)
+                        $scope.SampleList = data;
                     });
-                    $scope.$watch('new.lowerVal', function (n) {
-                        if (n !== undefined && $scope.new.lower == true && $scope.new.upper == false) {
-                            if (n != '') {
-                                $scope.new.ValueSpec = '≧' + roundDown($scope.new.lowerVal, $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-                            else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
+                }
+            });
 
-                            }
-                        }
-                        else if (n !== undefined && $scope.new.lower == true && $scope.new.upper == true) {
-                            if (n != '') {
-                                if ($scope.new.lowerVal != '' && $scope.new.lowerVal != undefined) {
-                                    if (Math.floor($scope.new.lowerVal * 100) > Math.floor($scope.new.upperVal * 100)) {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': 'Lower value have to lower than Upper value'
-                                        });
-                                        document.getElementById('btnAdd').disabled = true;
-                                        $scope.new.ValueSpec = '';
-
-                                    } else {
-
-                                        $scope.new.ValueSpec = roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) + (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed( $scope.new.Prec) / 2, $scope.new.Prec) + '±' + roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) - (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed( $scope.new.Prec) / 2, $scope.new.Prec);
-                                        document.getElementById('btnAdd').disabled = false;
-                                    }
-                                }
-
-                            } else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
-
-                            }
-
-                        } else {
-                            if (n != '') {
-                                if ($scope.new.lowerVal == '') {
-                                    document.getElementById('btnAdd').disabled = false;
-                                } else {
-                                    document.getElementById('btnAdd').disabled = true;
-                                }
-                            }
-                            if (n == '' && $scope.new.Property == '') {
-                                document.getElementById('btnAdd').disabled = true;
-                            }
-                            if (n == '' && $scope.new.Property != undefined) {
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-
-
-                        }
+            $scope.$watch('Sample', function (n) {
+                if (n !== undefined) {
+                    $scope.SampleDes = n["Description_" + $scope.lang];
+                    //  $scope.MaterialDes= n["Description_"+$scope.lang];
+                    $scope.note.SampleName = n.SampleName;
+                    LIMSService.gradeVersion.GetGrade({
+                        sampleName: $scope.note.SampleName
+                    }, function (dataReturn) {
+                        $scope.gradesList = dataReturn;
                     });
-                    $scope.$watch('new.upperVal', function (n) {
-                        if (n !== undefined && $scope.new.upper == true && $scope.new.lower == false) {
-                            if (n != '') {
-                                $scope.new.ValueSpec = '≦' + roundDown($scope.new.upperVal, $scope.new.Prec);
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-                            else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
-
-                            }
+                    LIMSBasic.GetMaterial({
+                        userid: Auth.username,
+                        sampleName: $scope.note.SampleName,
+                        query: '0'
+                    }, function (res) {
+                        if (res.length == 0) {
+                            $scope.note.Material = '';
                         }
-                        else if (n !== undefined && $scope.new.lower == true && $scope.new.upper == true) {
-                            if (n != '') {
-                                if ($scope.new.lowerVal != '' && $scope.new.lowerVal != undefined) {
-                                    if (Math.floor($scope.new.lowerVal * 100) > Math.floor($scope.new.upperVal * 100)) {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': 'Lower value have to lower than Upper value'
-                                        });
-                                        document.getElementById('btnAdd').disabled = true;
-                                        $scope.new.ValueSpec = '';
-
-                                    } else {
-
-
-                                        $scope.new.ValueSpec = roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) + (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed($scope.new.Prec) / 2, $scope.new.Prec) +
-                                        '±' + roundDown(((roundDown($scope.new.upperVal, $scope.new.Prec)) - (roundDown($scope.new.lowerVal, $scope.new.Prec))).toFixed($scope.new.Prec) / 2, $scope.new.Prec);
-                                        document.getElementById('btnAdd').disabled = false;
-                                    }
-                                }
-                            } else {
-                                document.getElementById('btnAdd').disabled = true;
-                                $scope.new.ValueSpec = '';
-
-                            }
-                        } else {
-                            if (n != '') {
-                                if ($scope.new.upperVal == '') {
-                                    document.getElementById('btnAdd').disabled = false;
-                                    document.getElementById('ValueSpec').disabled = true;
-                                    $scope.new.ValueSpec = '';
-                                } else {
-                                    document.getElementById('btnAdd').disabled = true;
-                                }
-                            }
-                            if (n == '' && $scope.new.Property == '') {
-                                document.getElementById('btnAdd').disabled = true;
-                            }
-                            if (n == '' && $scope.new.Property != undefined) {
-                                document.getElementById('btnAdd').disabled = false;
-                            }
-                        }
+                        $scope.materialList = res;
+                        console.log(res);
                     });
-                    $scope.editItem = function (index) {
-                        console.log($scope.materials[index]);
-                        var item = $scope.materials[index];
+                }
 
-                        angular.forEach($scope.Attribute, function (value) {
-                            if (value.PropertyName == item.PropertyName) {
-                                $scope.new.Property = value;
-                            }
+            });
+            $scope.$watch('new.Property', function (n) {
+                if (n !== undefined) {
+                    $scope.new.Prec = n.Prec;
+                }
+            });
+            $scope.$watch('note.SampleName', function (n) {
+                if (n !== undefined) {
+                    LIMSBasic.GetAttribute({
+                        sampleName: $scope.note.SampleName
+                    }, function (res) {
+                        $scope.Attribute = res;
+                    });
+                }
+
+
+            });
+
+            // Query function
+            $scope.Search = function (status) {
+                $scope.isSearchComplete = false;
+                if ($scope.Sample == null || $scope.Sample == '') {
+                    Notifications.addError({
+                        'status': 'error',
+                        'message': 'Please choose SampleName'
+                    });
+                    return;
+                } else {
+                    if ($scope.note.Material == undefined || $scope.note.Material == '') {
+
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': 'Please choose Material'
                         });
-                        if (item.MinValue) {
-                            $scope.new.lower = true;
-                            $scope.new.lowerVal = item.MinValue;
+                        return;
+                    }
+                }
+                /** Get data */
+                $scope.gridOptions.data = [];
+                var query = {
+                    sampleName: $scope.Sample.SampleName,
+                    lotNo: $scope.note.Material,
+                    status: status != undefined && status != '' ? status : $scope.note.status
+                };
+                $scope.note.status = query.status;
+                query.grades = '';
+                LIMSService.gradeVersion.getNewestGrade(query).$promise.then(function (res) { //this function return data and Newestgrade at the same time
+                    if (res.length > 0) {
+                        $scope.isSearchComplete = true;
+                        /** HisttoryData to HistoryDirective (prepare) */
+                        $scope.ID = res[0]['ID'];
+                        $scope.status = res[0]['Status'];
+                        if (query.status == 'P' || query.status == 'S') {
+                            $scope.HisttoryData = {
+                                'sampleName': $scope.Sample.SampleName,
+                                'lotNo': $scope.note.Material,
+                                'grades': res[0].Grades
+                            };
                         }
-                        if (item.MaxValue) {
-                            $scope.new.upper = true;
-                            $scope.new.upperVal = item.MaxValue;
-                        }
-                        if (item.Enable == 'true') {
-                            $scope.new.IsJudge = true;
-                        } else if (item.Enable == 'false') {
-                            $scope.new.IsJudge = false;
-                        }
-                        $scope.new.Prec = item.Prec;
-                        $scope.materials.splice(index, 1);
+                        /**Grid-ui add data */
+                        $scope.gridOptions.data = res;
+                    }
 
-                    };
-                    $scope.CreateVoucher = function () {
-                        var isCanCreate = 0;
-                        angular.forEach($scope.materials, function (value) {
-                            if (value.PropertyName !== $scope.new.Property.PropertyName) {
-                                if (value.Grade === $scope.new.Grade.Grade) {
-                                    isCanCreate++;
-                                } else {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': 'Grade of property have to similar'
+                }, function (errormessage) {
+                    $scope.isSearchComplete =false;
+                    Notifications.addError({
+                        'status': 'error',
+                        'message': errormessage
+                    });
+                })
 
-                                    });
+            };
+            var col = [{
+                field: 'ID',
+                visible: false,
+                displayName: $translate.instant('VoucherID'),
+                minWidth: 80,
+                cellTooltip: true
+            },
+            {
+                field: 'PropertyName',
+                displayName: $translate.instant('PropertyName'),
+                minWidth: 80,
+                cellTooltip: true
+            },
+            {
+                field: 'Grade',
+                displayName: $translate.instant('Grade'),
+                minWidth: 100,
+                cellTooltip: true
+            },
+            {
+                field: 'Grades',
+                visible: false,
+                displayName: $translate.instant('Grades'),
+                minWidth: 80,
+                cellTooltip: true
+            },
+            {
+                field: 'MinValue',
+                displayName: $translate.instant('MinValue'),
+                minWidth: 80,
+                cellTooltip: true
+            },
+            {
+                field: 'MaxValue',
+                displayName: $translate.instant('MaxValue'),
+                minWidth: 80,
+                cellTooltip: true
+            },
+            {
+                field: 'ValueSpec',
+                displayName: $translate.instant('ValueSpec'),
+                minWidth: 180,
+                cellTooltip: true
+            },
+            {
+                field: 'ValidDate',
+                displayName: $translate.instant('ValidDate'),
+                minWidth: 180,
+                cellTooltip: true
+            },
+            {
+                field: 'Prec',
+                displayName: $translate.instant('Prec'),
+                minWidth: 60,
+                cellTooltip: true
+            },
+            {
+                field: 'ENABLE',
+                displayName: $translate.instant('Enable'),
+                minWidth: 100,
+                cellTooltip: true,
+                cellTemplate: '<input  style="width: 70%" type="checkbox" ng-checked="{{COL_FIELD}}" disabled>'
+            },
+            {
+                field: 'Version',
+                visible: false,
+                displayName: $translate.instant('Version'),
+                minWidth: 100,
+                cellTooltip: true
+            },
+            {
+                field: 'VersionSpc',
+                displayName: $translate.instant('Version'),
+                minWidth: 100,
+                cellTooltip: true
+            },
+            {
+                field: 'ValidTODate',
+                displayName: $translate.instant('ValidTODate'),
+                minWidth: 100,
+                cellTooltip: true
+            }, {
+                field: 'Remark',
+                displayName: $translate.instant('Remark'),
+                minWidth: 100,
+                cellTooltip: true
+            }
 
-                                }
-
-                            }
-                            else {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': 'this PropertyName is exsit'
-                                });
-
-                            }
+            ];
+            var paginationOptions = {
+                pageNumber: 1,
+                pageSize: 50,
+                sort: null
+            };
+            var gridMenu = [{
+                title: $translate.instant('Version_create'),
+                action: function ($event) {
+                    $scope.isShow = false;
+                    clearModal();
+                    if ($scope.SampleDes && $scope.note.Material) {
+                        $scope.isCopy = true;
+                        $scope.IsModify = false;
+                        $('#myModal').modal('show');
+                    } else {
+                        Notifications.addMessage({
+                            'status': 'info',
+                            'message': 'Please ,Select SampleName and LotNO'
                         });
-                        if (isCanCreate == $scope.materials.length) {
-
-                            $scope.materials.push({
-                                Grades: '00',
-                                Grade: $scope.new.Grade.Grade,
-                                Enable: $scope.new.IsJudge,
-                                MaxValue: $scope.new.upperVal == '' || $scope.new.upperVal == undefined ? '' : roundDown($scope.new.upperVal, $scope.new.Prec).toFixed($scope.new.Prec>3?3:$scope.new.Prec),
-                                MinValue: $scope.new.lowerVal == '' || $scope.new.lowerVal == undefined ? '' : roundDown($scope.new.lowerVal, $scope.new.Prec).toFixed($scope.new.Prec>3?3:$scope.new.Prec),
-                                Prec: $scope.new.Prec,
-                                PropertyName: $scope.new.Property.PropertyName,
-                                ValueSpec: $scope.new.ValueSpec,
-                                LOT_NO: $scope.note.Material,
-                                SampleName: $scope.Sample.SampleName,
-                                UserID: Auth.username, ValidDate: $scope.new.ValidDate,
-                                ValidTODate: null
+                    }
+                },
+                order: 1
+            }, {
+                title: $translate.instant('Version_copy'),
+                action: function ($event) {
+                    clearModal();
+                    $scope.IsModify = false;
+                    $scope.isShow = false;
+                    var copy = {};
+                    copy.sampleName = $scope.Sample.SampleName;
+                    copy.lotNo = $scope.note.Material;
+                    copy.grades = '00';
+                    if ($scope.gridOptions.data[0].STATUS != 'S') {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': 'Only can Copy Publish Grade !'
+                        });
+                    } else {
+                        LIMSService.GradeVersion().GetCreateVersion(copy).$promise.then(function (res) {
+                            $scope.isCopy = true;
+                            angular.forEach($scope.gradesList, function (value) {
+                                if (value.Grade === res[0].Grade) {
+                                    $scope.new.Grade = value;
+                                }
                             });
-                            console.log($scope.materials);
-                        }
-
-                        clearData();
-                    };
-                    $scope.Close = function () {
+                            $('#myModal').modal('show');
+                            $scope.new.ValidDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+                            $scope.materials = res;
+                        }, function (errResponse) {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': errResponse.data.Message
+                            });
+                        });
+                    }
+                },
+                order: 2
+            }, {
+                title: $translate.instant('Version_modify'),
+                action: function ($event) {
+                    console.log($scope.username);
+                    var params = {
+                        UserID: $scope.username
+                    }
+                    LIMSService.CanUpdateGrades(params, (res) => {
                         clearModal();
-                        $('#myModal').modal('hide');
-                    };
-                    function clearData() {
-                        $scope.new.upperVal = '';
-                        $scope.new.lowerVal = '';
-                        $scope.new.ValueSpec = '';
-                        $scope.new.IsJudge = '';
-                        $scope.new.Prec = '';
-                        $scope.new.Property = '';
-                        $scope.new.upper = false;
-                        $scope.new.lower = false;
-
-                    }
-
-                    function clearModal() {
-                        $scope.new = {};
-                        $scope.new.lowerVal = '';
-                        $scope.new.upperVal = '';
-                        $scope.new.ValidDate = '';
-                        $scope.materials = [];
-
-                    }
-
-                    $scope.submit = function () {
-                        if ($scope.checkList.length <= 0) {
+                        if (res[0].Result == 0) {
                             Notifications.addError({
                                 'status': 'error',
-                                'message': 'Don\'t get leader'
+                                'message': 'Only modify voucher draft '
                             });
-                            return;
                         }
-                        formVariables.push({name: 'ChecherArray', value: $scope.checkList});
-                        save(function (result, err) {
-                            if (!result) {
-                                Notifications.addError({'status': 'error', 'message': err});
+                        else {
+                            if ($scope.gridOptions.data.length > 0) {
+                                var id = $scope.gridOptions.data[0].ID;
+                                $scope.ID = id;
+                                $scope.IsModify = false;
+                                $scope.isCopy = true;
 
-                            } else {
-                                formVariables.push({name: 'ID', value: result.ID});
-                                formVariables.push({name: 'sampleName', value: result.SampleName});
-                                formVariables.push({name: 'Version', value: result.Version});
-                                formVariables.push({
-                                    name: 'graderemark',
-                                    value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc
-                                });
-                                historyVariable.push({
-                                    name: 'Remark',
-                                    value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc
-                                });
-                                historyVariable.push({name: 'workflowKey', value: $scope.flowkey});
-                                LIMSService.SubmitBPM($scope.flowkey, formVariables, historyVariable, '', function (res, message) {
-                                    if (message) {
-                                        Notifications.addError({'status': 'error', 'message': message});
+                                LIMSService.gradeVersion.GetGradeProcessing({
+                                    id: id
+                                }).$promise.then(function (res) {
+                                    if (res.Status === 'N' || res.Status === 'S') {
 
+                                        $scope.isShow = (res.Status === 'S' ? true : false);//Create by Isaac 07-11-2018
+
+                                        console.log(res);
+                                        if (res.Grades.length > 0) {
+                                            for (var i = 0; i < res.Grades.length; i++) {
+                                                res.Grades[i].ValidDate = $filter('date')(new Date(res.Grades[i].ValidDate), 'yyyy-MM-dd hh:mm:ss');
+                                                res.Grades[i].MaxValue = res.Grades[i].MaxValue == '' ? '' : roundDown(res.Grades[i].MaxValue, res.Grades[i].Prec);
+                                                res.Grades[i].MinValue = res.Grades[i].MinValue == '' ? '' : roundDown(res.Grades[i].MinValue, res.Grades[i].Prec);
+                                                res.Grades[i].Enable = res.Grades[i].Enable.toLowerCase().trim();
+                                            }
+                                        }
+                                        $scope.materials = res.Grades;
+                                        angular.forEach($scope.gradesList, function (value) {
+                                            if (value.Grade === res.Grades[0].Grade) {
+                                                $scope.new.Grade = value;
+                                            }
+                                        });
+                                        $scope.new.ValidDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+                                        $('#myModal').modal('show');
                                     } else {
-                                        Notifications.addMessage({'status': 'info', 'message': 'Success'});
-                                        $scope.Search('P');
-                                        $('#myModal').modal('hide');
+                                        Notifications.addError({
+                                            'status': 'error',
+                                            'message': 'Only modify voucher draft '
+                                        });
                                     }
+                                }, function (errormessage) {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': errormessage
+                                    });
                                 });
 
-                            }
-
-                        })
-                    };
-                    // function submitBPM(result) {
-                    //     formVariables.push({ name: 'ChecherArray', value: $scope.checkList });
-                    //     formVariables.push({ name: 'graderemark', value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc });
-                    //     formVariables.push({ name: 'Remark', value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc });
-                    //     historyVariable.push({ name: 'Remark', value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc });
-                    //     historyVariable.push({ name: 'workflowKey', value: $scope.flowkey });
-
-                    //     LIMSService.SubmitBPM($scope.flowkey, formVariables, historyVariable, '', function (res, message) {
-                    //         if (message) {
-                    //             Notifications.addMessage({ 'status': 'info', 'message': res.message });
-                    //             return;
-                    //         } else {
-                    //             Notifications.addMessage({ 'status': 'info', 'message': 'Success' });
-                    //             //clearModal();
-                    //             $('#myModal').modal('hide');
-                    //         }
-                    //     });
-
-                    // }
-                    // Submit new version
-                    $scope.submitModify = function () {
-                        if ($scope.checkList.length <= 0) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': 'Don\'t get leader'
-                            });
-                            return;
-                        }
-                        formVariables.push({name: 'ChecherArray', value: $scope.checkList});
-                        saveModify(function (result, err) {
-                            if (!result) {
-                                Notifications.addError({'status': 'error', 'message': err});
-
-                            } else {
-                                formVariables.push({name: 'ID', value: result.ID});
-                                formVariables.push({name: 'sampleName', value: result.SampleName});
-                                formVariables.push({name: 'Version', value: result.Version});
-                                formVariables.push({
-                                    name: 'graderemark',
-                                    value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc
-                                });
-                                formVariables.push({
-                                    name: 'Remark',
-                                    value: $scope.SampleDes + ' ' + $scope.note.Material + ' Version:' + result.VersionSpc
-                                });
-                                historyVariable.push({name: 'workflowKey', value: $scope.flowkey});
-
-                                LIMSService.SubmitBPM($scope.flowkey, formVariables, historyVariable, '', function (res, message) {
-                                    if (message) {
-                                        Notifications.addError({'status': 'error', 'message': message});
-
-                                    } else {
-                                        Notifications.addMessage({'status': 'info', 'message': 'Success'});
-                                        $scope.Search('P');
-                                        $('#myModal').modal('hide');
-                                    }
-                                });
-                            }
-                        })
-                    };
-                    // Save sunmit new version
-                    function saveModify(callback) {
-                        var mar = paraData('');
-                        console.log(mar);
-                        LIMSService.gradeVersion.SaveModifyVersion(mar).$promise.then(function (res) {
-                            if (res.Error) {
-                                callback('', res.Error);
-                            } else {
-                                callback(res);
-                            }
-
-                        }, function (errormessage) {
-                            callback('', errormessage);
-                        });
-                    }
-
-                    function paraData(id) {
-                        var grade = {};
-                        grade.Grade = $scope.new.Grade.Grade;
-                        grade.Grades = '00';
-                        grade.GradesDto = [];
-                        grade.ID = id;
-                        var materials = $scope.materials;
-                        for (var i = 0; i < materials.length; i++) {
-                            var propery = {};
-                            propery.Enable = materials[i].Enable || false;
-                            propery.MaxValue = materials[i].MaxValue || NaN;
-                            propery.MinValue = materials[i].MinValue || NaN;
-                            propery.Prec = materials[i].Prec;
-                            propery.PropertyName = materials[i].PropertyName;
-                            propery.ValueSpec = materials[i].ValueSpec;
-                            propery.Remark =$scope.note.remark;
-                            grade.GradesDto.push(propery);
-                        }
-                        grade.LOT_NO = $scope.note.Material;
-                        grade.SampleName = $scope.Sample.SampleName;
-                        grade.UserID = Auth.username;
-                        grade.ValidDate = $scope.new.ValidDate;
-                        grade.ValidTODate = NaN;
-                        grade.Version = 1;
-                        return grade;
-                    }
-
-
-                    $scope.deleteMaterialsItem = function (index) {
-                        $scope.materials.splice(index, 1);
-                    };
-                    $scope.SaveDraft = function () {
-                        save(function (result, err) {
-                            if (result) {
-                                Notifications.addMessage({
-                                    'status': 'info',
-                                    'message': 'save Success'
-                                });
-                                $scope.Search('N');
-                                $('#myModal').modal('hide');
                             } else {
                                 Notifications.addError({
                                     'status': 'error',
-                                    'message': err
+                                    'message': 'Please select one row '
                                 });
                             }
-                        });                       
+                        }
+                    })
 
-                    };
-                    function save(callback) {
-                        var mar = paraData('');
-                        console.log(mar);
-                        LIMSService.GradeVersion().CreateVersion(mar).$promise.then(function (res) {
-                            if (res.Error) {
-                                callback('', res.Error);
-                            } else {
-                                callback(res);
-                            }
 
-                        }, function (errormessage) {
-                            callback('', errormessage);
-                        });
-                    }
-                $scope.fnSaveStatus=()=>
-                    {
-                        var params = paraData('');
-                       params.ID = $scope.ID;
-                        LIMSService.UpdateCurrentGradeStatus(params,(res)=>{
-                            if (res[0] >0) {
+
+                },
+                order: 3
+            }, {
+                title: $translate.instant('Version_delete'),
+                action: function ($event) {
+                    clearModal();
+                    var id = $scope.gridOptions.data[0].ID;
+                    var version = $scope.gridOptions.data[0].Version;
+                    if (id && version) {
+                        if (confirm($translate.instant('Delete_IS_MSG') + ' version: ' + version)) {
+                            LIMSService.gradeVersion.DeleteVersion({
+                                id: id,
+                                version: version
+                            }, {}).$promise.then(function (res) {
                                 Notifications.addMessage({
                                     'status': 'info',
-                                    'message': 'Update Status Success'
+                                    'message': 'Delete success'
                                 });
-                                $scope.Search('S');
-                                $('#myModal').modal('hide');
-                            } else {
+                                //query,get gird data
+                                $scope.Search('X');
+
+                            }, function (errResponse) {
                                 Notifications.addError({
                                     'status': 'error',
-                                    'message': err
+                                    'message': 'Can not delete because : ' + errResponse.data.Message
                                 });
-                            }
-                            console.log(res);
-                        })
+                            });
+                        }
+
+                    } else {
+                        Notifications.addMessage({
+                            'status': 'info',
+                            'message': 'Please ,Select Row'
+                        });
                     }
 
                 },
-                templateUrl: '/forms/QCGrades/CopyModel.html'
+                order: 4
+
+            },
+            {
+                title: $translate.instant('Version_upgrade'),
+                action: function ($event) {
+                    clearModal();
+                    if (!$scope.Sample || !$scope.note.Material) {
+                        Notifications.addError({
+                            'status': '',
+                            'message': 'Select SampleName and material'
+                        });
+                        return;
+                    }
+                    var modify = {};
+
+
+                    modify.sampleName = $scope.Sample.SampleName;
+                    modify.lotNo = $scope.note.Material;
+                    modify.grades = '00';
+                    LIMSService.gradeVersion.GetCreateVersion(modify).$promise.then(function (res) {
+                        angular.forEach($scope.gradesList, function (value) {
+                            if (value.Grade === res[0].Grade) {
+                                $scope.new.Grade = value;
+                            }
+                        });
+                        $scope.IsModify = true;
+                        $scope.isShow = false;
+                        $('#myModal').modal('show');
+                        if (res.length > 0) {
+                            for (var i = 0; i < res.length; i++) {
+                                res[i].ValidDate = $filter('date')(new Date(res[i].ValidDate), 'yyyy-MM-dd hh:mm:ss');
+                            }
+                        }
+                        $scope.new.ValidDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+                        $scope.materials = res;
+
+                    }, function (errResponse) {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': errResponse.data.Message
+                        });
+                    });
+
+                },
+                order: 6
+            },
+
+            {
+                title: $translate.instant('Cur_version_log'),
+                action: function () {
+                    LIMSService.QCGradesPID().get({ ID: $scope.ID }).$promise.then(function (res) {
+                        console.log(res);
+                        if (res) {
+                            window.open('#/processlog/' + res.ProcessInstanceId);
+                        }
+
+                    }, function (err) {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': err
+                        });
+                    })
+
+                },
+                order: 7
+
+            }, {
+                title: $translate.instant('Version_history'),
+                action: function () {
+                    if ($scope.note.status == 'P' && $scope.gridOptions.data.length > 0) {
+                        $scope.dataTest = {
+                            'sampleName': $scope.Sample.SampleName,
+                            'lotNo': $scope.note.Material,
+                            'grades': '00'
+                        };
+
+                    }
+
+                },
+                order: 8
+
+            }];
+            $scope.gridOptions = {
+                columnDefs: col,
+                data: [],
+                enableColumnResizing: true,
+                enableSorting: true,
+                showGridFooter: true,
+                enableGridMenu: true,
+                exporterOlderExcelCompatibility: true,
+                enableSelectAll: false,
+                enableRowHeaderSelection: true,
+                enableRowSelection: true,
+                multiSelect: false,
+                paginationPageSizes: [50, 100, 200, 500],
+                paginationPageSize: 50,
+                useExternalPagination: true,
+                enablePagination: true,
+                enablePaginationControls: true,
+                onRegisterApi: function (gridApi) {
+                    $scope.gridApi = gridApi;
+                    EngineApi.getTcodeLink().get({
+                        'userid': Auth.username,
+                        'tcode': $scope.flowkey
+                    }, function (linkres) {
+                        // if (linkres.IsSuccess) {
+                        gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
+
+                        // }
+                    });
+                    gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                        $scope.selectedVoucherid = row.entity.VoucherID;
+                    });
+                    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                        paginationOptions.pageNumber = newPage;
+                        paginationOptions.pageSize = pageSize;
+                        //getPage();
+                    });
+                }
+
+            };
+
+            function roundDown(number, decimals) {
+
+                number = number || 0;
+
+                if (number == '') {
+                    return 0;
+                } else {
+                    return (Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals));
+                }
+
             }
 
 
-        }]);
+            function clearModal() {
+                $scope.new = {};
+                $scope.new.lowerVal = '';
+                $scope.new.upperVal = '';
+                $scope.new.ValidDate = '';
+                $scope.new.upper = false;
+                $scope.new.lower = false;
+                $scope.materials = [];
+                $scope.note.remark = '';
 
+            }
+
+        }
+    ])
 });

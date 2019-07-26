@@ -1,0 +1,110 @@
+<script type="text/javascript">
+    function GoodsOut_start($scope, EngineApi, $http, $timeout, Notifications,  $compile, $filter, Auth,$resource,$translatePartialLoader, $translate) {
+        //there is mult language address
+        $translatePartialLoader.addPart('Test');
+        $translate.refresh();
+
+
+
+
+    }
+ </script>
+<div ng-app=" ">
+    <style>
+        .table th, .table td {
+            border-top: none !important;
+        }
+        input[type="text"], input[type="date"]{
+            width:100%;
+            box-sizing:border-box;
+        }
+    </style>
+    <body>
+    <p></p>
+    <div class="container">
+
+        <div class="jumbotron">
+            <button data-toggle="collapse" data-target="#demo1">Collapsible1 <img width="20%" height="10%" src="https://cdn0.iconfinder.com/data/icons/super-mono-reflection/blue/toggle-collapse-alt_blue.png"></img></button>
+            <table id="demo1" class="table table-borderless">
+                <thead>
+                <tr>
+                    <td>FIELD1</td>
+                    <td>GD201608220009</td>
+                    <td>FIELD2</td>
+                    <td><input type="text"></td>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>FIELD3 </td>
+                    <td><input type="radio" name="optionsRadios" id="radio1"> Red
+                        <input type="radio" name="optionsRadios" id="radio2"> Green
+                    </td>
+                    <td>FIELD4 </td>
+                    <td><input type="date"></td>
+
+                </tr>
+                <tr>
+                    <td>FIELD5</td>
+                    <td><input type="text"></td>
+                    <td>FIELD6</td>
+                    <td><input type="text"></td>
+
+                </tr>
+                <tr>
+                    <td>FIELD7</td>
+                    <td><input type="text"></td>
+                    <td>FIELD8</td>
+                    <td><input type="date"></td>
+
+                </tr>
+                <tr>
+                    <td>FIELD9</td>
+                    <td><input type="text"></td>
+                    <td><input type="button" value="button">XXYY</td>
+
+                </tr>
+
+                </tbody>
+            </table>
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <button> button1</button><button> button2</button><button> button3</button><button> button4</button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class ="jumbotron">
+            <button data-toggle="collapse" data-target="#demo2">Collapsible 2 <img width="20%" height="10%" src="https://cdn0.iconfinder.com/data/icons/super-mono-reflection/blue/toggle-collapse-alt_blue.png"></img></button>
+            <table id="demo2" class="table table-borderless">
+
+                <tbody>
+
+                <tr>
+                    <td>FIELD1</td>
+                    <td><input type="text"></td>
+                    <td>FIELD2</td>
+                    <td><input type="text"></td>
+
+                </tr>
+                <tr>
+                    <td>FIELD3</td>
+                    <td><input type="text"></td>
+                    <td>FIELD4</td>
+                    <td><input type="text"></td>
+
+                </tr>
+                <tr>
+                    <td> <button>button</button></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

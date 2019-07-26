@@ -1,0 +1,33 @@
+<!-- CREATE BY JANG 20181129 -->
+
+<h1>Leader Check Pagexxx</h1>
+<script>
+    function RYVoucherCheck($scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
+        Auth, $translate, LIMSService, $filter) {
+        var lang = window.localStorage.lang;
+     
+        $scope.passOrNot = [{"name": $translate.instant('agree'), "value": "YES"}, {"name": $translate.instant('notAgree'), "value": "NO"},, {"name": 'delete', "value": "Cancel"}];
+        $scope.savesubmit = function(){
+            $scope.formVariables.push({name: "QCManagerList", value: ['981023','FEPV1666']});
+            
+            $scope.submit();
+        }
+    }
+</script>
+<div ng-controller="RYVoucherCheck">
+          
+        <div class="form-group">
+                <label class="col-sm-2 control-label" style="text-align: left;">{{'IsPass'|translate}}:</label>
+    
+                <div class="col-sm-3">
+                    <select class="form-control" history-field="ISReceive" form-field
+                            name="ISReceive"
+                            ng-model="ISReceive"
+                            ng-options="c.value as c.name for c in passOrNot"
+                            required> </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                    <button class="btn btn-primary btn-sm" ng-click="savesubmit()" ng-disabled="form.$invalid" >Add item</button>
+                </div>
+    </div>

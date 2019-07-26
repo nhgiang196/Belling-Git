@@ -2,14 +2,14 @@
  * Modified by Isaac on 2018-12-03.
  */
 /*eslint-env jquery*/
-define(['myapp', 'jszip'], function (myapp, jszip) {
+define(['myapp','jszip'], function (myapp,jszip) {
     myapp.controller('EntrustedController', ['$scope', '$filter', '$compile', '$routeParams', '$resource', '$location',
         'i18nService', 'Notifications', 'Auth', 'uiGridConstants', '$http',
         '$translatePartialLoader', '$translate', 'LIMSBasic', 'LIMSService', 'EngineApi',
         function ($scope, $filter, $compile, $routeParams, $resource, $location, i18nService, Notifications, Auth, uiGridConstants, $http, $translatePartialLoader, $translate, LIMSBasic, LIMSService, EngineApi) {
             $scope.flowkey = 'PVLIMS-004';
-            // Needed to make DataTables export to Excel work
-            window.JSZip = jszip //Very important
+           // Needed to make DataTables export to Excel work
+           window.JSZip = jszip //Very important
             var myTable = '#myTable';
             function newinit() {
                 $scope.entrust = {};
@@ -85,76 +85,76 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
                                 reqHeader.push(key)
                             }
                         }
-                        if (reqHeader.length > 8)
-                            $scope.modalWidth = 100;
-                        else $scope.modalWidth = 80;
+                        if (reqHeader.length>8 )
+                            $scope.modalWidth=100;
+                        else $scope.modalWidth=80;
                         $scope.reqHeader = reqHeader;
                         LoadGrid(res, reqHeader);
                         console.log(reqHeader);
                         console.log($scope.reqList)
                     }
                 });
-
+              
 
             };
             var col = [{
-                field: 'DraftID',
-                displayName: $translate.instant('DraftID'),
-                minWidth: 180,
-                cellTooltip: true,
-                cellTemplate: '<a ng-click="grid.appScope.openModalDetail(row.entity.DraftID)"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>'
-            },
-            {
-                field: 'SampleName',
-                displayName: $translate.instant('SampleID'),
-                minWidth: 100,
-                cellTooltip: true
-                // cellTemplate: '<span >{{grid.appScope.getSampleName(row.entity.SampleName)}}</span>'
-            },
-            {
-                field: 'Description_EN',
-                displayName: $translate.instant('SampleName'),
-                minWidth: 150,
-                cellTooltip: true
-            },
-            {
-                field: 'LOT_NO',
-                displayName: $translate.instant('LOT_NO'),
-                minWidth: 100,
-                cellTooltip: true
-
-            },
-            {
-                field: 'Purpose',
-                displayName: $translate.instant('Purpose'),
-                minWidth: 100,
-                cellTooltip: true
-
-            },
-            {
-                field: 'CreateDate',
-                displayName: $translate.instant('CreateDate'),
-                minWidth: 180,
-                cellTooltip: true
-            },
-            {
-                field: 'Owner',
-                displayName: $translate.instant('Owner'),
-                minWidth: 80,
-                cellTooltip: true
-            },
-            {
-                field: 'Specification',
-                displayName: $translate.instant('Specification'),
-                minWidth: 150,
-                cellTooltip: true
-            },
-            {
-                field: 'UploadedFile',
-                displayName: $translate.instant('UploadedFile'),
-                minWidth: 30,
-                cellTooltip: true
-            }
+                    field: 'DraftID',
+                    displayName: $translate.instant('DraftID'),
+                    minWidth: 180,
+                    cellTooltip: true,
+                    cellTemplate: '<a ng-click="grid.appScope.openModalDetail(row.entity.DraftID)"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>'
+                },
+                {
+                    field: 'SampleName',
+                    displayName: $translate.instant('SampleID'),
+                    minWidth: 100,
+                    cellTooltip: true
+                    // cellTemplate: '<span >{{grid.appScope.getSampleName(row.entity.SampleName)}}</span>'
+                },
+				{
+                    field: 'Description_EN',
+                    displayName: $translate.instant('SampleName'),
+                    minWidth: 150,
+                    cellTooltip: true
+                },
+				{
+                    field: 'LOT_NO',
+                    displayName: $translate.instant('LOT_NO'),
+                    minWidth: 100,
+                    cellTooltip: true
+                    
+                },
+				{
+                    field: 'Purpose',
+                    displayName: $translate.instant('Purpose'),
+                    minWidth: 100,
+                    cellTooltip: true
+                    
+                },
+				{
+                    field: 'CreateDate',
+                    displayName: $translate.instant('CreateDate'),
+                    minWidth: 180,
+                    cellTooltip: true
+                },              
+                {
+                    field: 'Owner',
+                    displayName: $translate.instant('Owner'),
+                    minWidth: 80,
+                    cellTooltip: true
+                },
+                {
+                    field: 'Specification',
+                    displayName: $translate.instant('Specification'),
+                    minWidth: 150,
+                    cellTooltip: true
+                },
+                {
+                    field: 'UploadedFile',
+                    displayName: $translate.instant('UploadedFile'),
+                    minWidth: 30,
+                    cellTooltip: true
+                }
 
             ];
             $scope.gridOptions = {
@@ -206,52 +206,52 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
             };
 
             var gridMenu = [{
-                title: $translate.instant('Create'),
-                action: function () {
+                    title: $translate.instant('Create'),
+                    action: function () {
 
-                    $('#myModal').modal('show');
+                        $('#myModal').modal('show');
+                    },
+                    order: 1
                 },
-                order: 1
-            },
-            {
-                title: $translate.instant('Delete'),
-                action: function ($event) {
-                    var selectRows = $scope.gridApi.selection.getSelectedGridRows();
-                    var VoucherID = selectRows[0].entity.VoucherID;
-                    var State = selectRows[0].entity.State;
-                    if (VoucherID) {
-                        if (State != '0') {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': 'Status is eroor,can not delete'
-                            });
-                            return;
-                        }
-                        if (confirm('IS delete this VoucherID: ' + VoucherID)) {
-
-                            LIMSService.Entrusted.DeleteRequisionStatus({
-                                voucherID: VoucherID
-                            }, {}).$promise.then(function (res) {
-                                Notifications.addMessage({
-                                    'status': 'info',
-                                    'message': 'Delete success'
-                                });
-                            }, function (errResponse) {
+                {
+                    title: $translate.instant('Delete'),
+                    action: function ($event) {
+                        var selectRows = $scope.gridApi.selection.getSelectedGridRows();
+                        var VoucherID = selectRows[0].entity.VoucherID;
+                        var State = selectRows[0].entity.State;
+                        if (VoucherID) {
+                            if (State != '0') {
                                 Notifications.addError({
                                     'status': 'error',
-                                    'message': 'Can not delete because : ' + errResponse.data.Message
+                                    'message': 'Status is eroor,can not delete'
                                 });
+                                return;
+                            }
+                            if (confirm('IS delete this VoucherID: ' + VoucherID)) {
+
+                                LIMSService.Entrusted.DeleteRequisionStatus({
+                                    voucherID: VoucherID
+                                }, {}).$promise.then(function (res) {
+                                    Notifications.addMessage({
+                                        'status': 'info',
+                                        'message': 'Delete success'
+                                    });
+                                }, function (errResponse) {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': 'Can not delete because : ' + errResponse.data.Message
+                                    });
+                                });
+                            }
+                        } else {
+                            Notifications.addMessage({
+                                'status': 'info',
+                                'message': 'Please ,Select Row'
                             });
                         }
-                    } else {
-                        Notifications.addMessage({
-                            'status': 'info',
-                            'message': 'Please ,Select Row'
-                        });
-                    }
-                },
-                order: 4
-            }
+                    },
+                    order: 4
+                }
             ];
             $scope.Close = function () {
                 newinit();
@@ -285,7 +285,7 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
                     newinit();
                 }
             });
-
+          
             /**
              * Load Department into Combobox
              * */
@@ -360,14 +360,14 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
                     newinit();
                 }
             };
-
+           
             /**
              * Option Report output
              * By Isaac 
              */
             var buttonCommon = {
-                exportOptions: {
-                    format: {
+                exportOptions: {                   
+                    format: {                        
                         body: function (data, row, column, node) {
                             // Strip $ from salary column to make it numeric                        
                             return data.replace(/[$Z]/g, '');
@@ -382,45 +382,45 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
                     columnKeys.push({
                         "data": element,
                         "mRender": function (data, type, full) {
-                            if (data.contains('*ValueSpec')) {
-                                return 'ValueSpec';
-                            }
+                                if (data.contains('*ValueSpec')) {
+                                    return 'ValueSpec';
+                                }
 
-                            var rest = data.match(/\w*-\w*.pdf/);//Get string filename
-                            var value = data.split(/@\w*-\w*.pdf/gm);
+                                var rest = data.match(/\w*-\w*.pdf/);//Get string filename
+                                var value = data.split(/@\w*-\w*.pdf/gm);
 
-                            if (data.contains('$')) { /*OVERRANGE NUMBER VALUE*/
-                                if (!data.contains('@'))
-                                    return '<span class="Overrange">' + data.substring(1) + '</span>';
-                                else {
-                                    if (data.contains('$') && data.contains('@')) {
-                                        return '<span class="Overrange">' + value[0].substring(1) + '</span>' + '  <a  href=' + rest + ' target="_blank"><span style="color: #563d7c" class="glyphicon glyphicon-file"></span></a>';
-                                    } else {
-                                        var rs = value[0].substring(1) + '  <a  href=' + rest + ' target="_blank"><span style="color: #563d7c" class="glyphicon glyphicon-file"></span></a>';
-                                        return rs;
+                                if (data.contains('$')) { /*OVERRANGE NUMBER VALUE*/
+                                    if (!data.contains('@'))
+                                        return '<span class="Overrange">' + data.substring(1) + '</span>';
+                                    else {
+                                        if (data.contains('$') && data.contains('@')) {
+                                            return '<span class="Overrange">' + value[0].substring(1) + '</span>' + '  <a  href=' + rest + ' target="_blank"><span style="color: #563d7c" class="glyphicon glyphicon-file"></span></a>';
+                                        } else {
+                                            var rs = value[0].substring(1) + '  <a  href=' + rest + ' target="_blank"><span style="color: #563d7c" class="glyphicon glyphicon-file"></span></a>';
+                                            return rs;
+                                        }
                                     }
                                 }
-                            }
-                            else {
-                                if (!data.contains('@'))
-                                    return '<span>' + data + '</span>';
                                 else {
-                                    return value[0] + '  <a  href=' + rest + ' target="_blank"><span style="color: #563d7c" class="glyphicon glyphicon-file"></span></a>';
+                                    if (!data.contains('@'))
+                                        return '<span>' + data + '</span>';
+                                    else {
+                                        return value[0] + '  <a  href=' + rest + ' target="_blank"><span style="color: #563d7c" class="glyphicon glyphicon-file"></span></a>';
+                                    }
+
                                 }
 
-                            }
 
-
-                            switch (data) {
-                                case 'N': /*OVERRANGE STRING VALUE*/
-                                    return '<span class="Overrange">' + data + '</span>';
-                                    break;
-                                case 'Y': /*INRRANGE STRING VALUE*/
-                                    return '<span class="Inrange">' + data + '</span>';
-                                    break;
-                            }
-                            return data;
-
+                                switch (data) {
+                                    case 'N': /*OVERRANGE STRING VALUE*/
+                                        return '<span class="Overrange">' + data + '</span>';
+                                        break;
+                                    case 'Y': /*INRRANGE STRING VALUE*/
+                                        return '<span class="Inrange">' + data + '</span>';
+                                        break;
+                                }
+                                return data;
+                            
                         }
                     })
                 });
@@ -430,7 +430,7 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
                     fixedHeader: true,
                     data: gridData,
                     dom: 'Bfrtip',
-                    buttons: [
+                    buttons: [                     
                         // $.extend(true, {}, buttonCommon, {
                         //     extend: 'pdfHtml5',
                         //     text:'Download PDF',                       
@@ -440,26 +440,26 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
                         //     extend: 'excelHtml5',
                         //     text:'Download Excel',                       
                         //     title:'Entrusted Result'
-
+                           
                         // })  
 
-                        'copyHtml5',
-                        'excelHtml5'
+                            'copyHtml5',
+                            'excelHtml5'
                     ],
-                    columns: columnKeys,
+                    columns: columnKeys,                 
                     // scrollY: 400,
                     // autoWidth: true,
                     // scrollX: true,
-                    deferRender: true,
+                    deferRender: true,                    
                     keys: true,
                     lengthMenu: [
                         [100, 50, 25, -1],
                         [100, 50, 25, "All"]
-                    ],
-                    order: [],
+                    ],                   
+                    order: [],                      
                     colReorder: true,
                     deferLoading: 57,
-
+                   
 
                 });
             }
@@ -482,10 +482,10 @@ define(['myapp', 'jszip'], function (myapp, jszip) {
 
             function fnDestroyTable() {
                 if ($.fn.DataTable.isDataTable(myTable)) {
-                    $(myTable).dataTable().fnDestroy();
+                    $(myTable).dataTable().fnDestroy();                 
                     $(myTable).empty(); // empty in case the columns change
-
-
+                
+                  
                 }
             }
 

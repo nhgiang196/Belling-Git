@@ -3,6 +3,7 @@
         $translatePartialLoader.addPart('Contractor');
         $translate.refresh();
         $scope.passOrNot = GateGuest.GetCheckList();
+		console.log('passOrNot: '+$scope.passOrNot );
         $scope.filedata = [];
         function parseArray(arrStr) {
             var tempKey = 'arr23' + new Date().getTime();//arr231432350056527

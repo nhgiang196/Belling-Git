@@ -6,6 +6,7 @@ define(['myapp', 'angular', 'jquery'], function (myapp, angular, jquery) {
         function ($scope, $filter, $compile, $routeParams, $resource, $location, i18nService, Notifications, User, Forms, Auth, uiGridConstants, $http, EngineApi, ConQuaService, $upload, $translatePartialLoader, $translate, LIMSService, LIMSBasic) {
             $scope.note = {};
             $scope.lang = window.localStorage.lang || 'EN';
+
             var q_category = {userid: Auth.username, Language: $scope.lang};
             LIMSBasic.GetCategorys(q_category, function (data) {
                 console.log(data)

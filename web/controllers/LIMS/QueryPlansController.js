@@ -9,12 +9,8 @@ define(['myapp', 'angular', 'jquery', 'jszip'], function (myapp, angular, jquery
             $scope.flowkey = 'GateMisUser';
             $scope.note = {};
             $scope.lang = window.localStorage.lang || 'EN';
-            // $scope.note.DateFrom = $filter('date')(new Date(), 'yyyy-MM-dd');
-            // $scope.note.DateTo = $filter('date')(new Date(), 'yyyy-MM-dd');
-            $scope.note.DateFrom = moment(new Date()).subtract(1, 'months').date(1).format('YYYY-MM-DD');
-            $scope.note.DateTo = moment(new Date()).date(1).subtract(1, 'days').format('YYYY-MM-DD');
-            $scope.note.SampleName = 'S01020001';
-
+            $scope.note.DateFrom = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.note.DateTo = $filter('date')(new Date(), 'yyyy-MM-dd');
             // Needed to make DataTables export to Excel work
             window.JSZip = jszip //Very important
             var myTable = '#data';

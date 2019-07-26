@@ -213,7 +213,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                      */
                     function SaveGuest(note) {
                         var msg=checkErr();
-						var deferred = $q.defer();
                         if(msg){
                             deferred.reject(msg);
                         }else{

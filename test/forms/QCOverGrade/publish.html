@@ -53,6 +53,7 @@
                 var data = { VoucherID: $scope.VoucherID, status: 'X', userid: user };
                 LIMSService.DeleteRYVoucher().save(data, {}).$promise.then((res) => {
                     if (res.Success) {
+                        $scope.loading = true;  
                         SubmitAndRemind();
                     }
                     else {
@@ -68,6 +69,7 @@
                 data = saveInitData();
                 LIMSService.UpdateRYVoucher(data, (res) => {
                     if (res.Success) {
+                        $scope.loading = true;  
                         $scope.formVariables.push({ name: "leadername", value: nickname + '(' + user + ')' });
                         $scope.formVariables.push({ name: "leadercheck_remark", value: $scope.leadercheck_remark });
                         SubmitAndRemind();
@@ -82,14 +84,13 @@
             }
         }
         function SubmitAndRemind() {
-            debugger;
             $q.all([$scope.submit()]).then(function () {
-                $scope.loading = true;  
                 var reminder_parrams = {
                     voucherID: $scope.VoucherID,
                     userid: Auth.username,
                     formkey: 'publish'
                 }
+                debugger;
                 LIMSService.SendReminder(reminder_parrams, function (res) {
                     if (res.Success) return;
                 }, function (error) {
@@ -160,7 +161,7 @@
             <label class="col-sm-2  control-label" style="text-align: left;">*{{'Remark'|translate}}:</label>
             <div class="col-sm-6">
                 <textarea class="form-control" name="leadercheck_remark" type="text" form-field
-                    history-field="DenyReason" ng-model="leadercheck_remark" field-validate rows="3" />
+                    history-field="LeaderRemark" ng-model="leadercheck_remark" field-validate rows="3" />
                 </div>
         </div>
         <!-- NEXT CANDIDATE -->

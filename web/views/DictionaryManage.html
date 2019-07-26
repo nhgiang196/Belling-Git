@@ -4,7 +4,7 @@
     }
 </style>
 <form class="form-horizontal" role="form" novalidate name="form">
-<legend><h3>Bộ từ điển và chuyển đổi字典管理<code>红色没确认，蓝色越文已经确认，黑色全部确认</code></h3></legend>
+<legend><h3>字典管理<code>红色没确认，蓝色越文已经确认，黑色全部确认</code></h3></legend>
 <div class="form-group form-table">
     <div class=" form-group ">
         <label class="col-sm-1 control-label">开始时间</label>
@@ -49,7 +49,7 @@
         <th >中文</th>
         <th>英文</th>
         <th>越南文</th>
-        <th>中文繁体TW</th>
+        <th>中文繁体</th>
         <td></td>
     </tr>
     <tr ng-repeat="word in dictionary">
@@ -75,7 +75,7 @@
     </tr>
 </table>
 </form>
-<div class="modal fade " id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" 
+<div class="modal fade " id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -93,24 +93,24 @@
                         </div>
                      </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">中文CN</label>
+                        <label class="col-sm-1 control-label">中文</label>
 
                         <div class="col-sm-3">
                             <input class="form-control" type="text" ng-model="words.CN" required>
                         </div>
-                        <label class="col-sm-2 control-label">中文繁体TW</label>
+                        <label class="col-sm-2 control-label">中文繁体</label>
                         <div class="col-sm-3">
                             <input class="form-control" type="text" ng-model="words.TW" required>
                         </div>
 
                       </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">英语EN</label>
+                        <label class="col-sm-1 control-label">英语</label>
 
                         <div class="col-sm-3">
                             <input class="form-control" type="text" ng-model="words.EN" required>
                         </div>
-                        <label class="col-sm-2 control-label">越南语VN</label>
+                        <label class="col-sm-2 control-label">越南语</label>
 
                         <div class="col-sm-3">
                             <input class="form-control" type="text" ng-model="words.VN" required>

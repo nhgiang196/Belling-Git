@@ -2,160 +2,52 @@
  * Created by phkhoi on 07-Sep-17.
  */
 
-define(['myapp', 'angular','xlsx'], function (myapp, angular) {
-    myapp.directive('uploadFile', ['OAServices', 'Notifications', function (OAServices, Notifications) {
-        return {
-            restrict: 'AEC',
-            scope: {
-                uploadFile: "="
-            },
-            link: function (scope, element, attributes) {
-                element.bind("change", function (changeEvent) {
-                    //  var files = e.target.files;
-                    //  var i,f;
-                    var f = element[0].files[0];
-                    //   for (i = 0, f = files[i]; i != files.length; ++i) {
-                    if (element[0].files[0].type == "application/vnd.ms-excel") {
-                        var r = new FileReader();
-                        r.onload = function (evet) {
-                            var data = evet.target.result;
-                            var workbook = XLSX.read(data, {type:'binary', cellDates:true, cellNF: false, cellText:false});
-                            var first_sheet_name = workbook.SheetNames[0];
-                            /* Get worksheet */
-                            var worksheet = workbook.Sheets[first_sheet_name];
-
-                            var first_sheet_name = workbook.SheetNames[0];
-                            /* Get worksheet */
-                            var worksheet = workbook.Sheets[first_sheet_name];
-                            var arr = XLSX.utils.sheet_to_json(worksheet, {dateNF:"DD-MM-YYYY"});
-                            scope.EmployeeHandle = {};
-                            scope.EmployeeHandle.empDetail = [];
-                            function FromOADate(oadate) {
-                                return new Date(((oadate - 25569 ) * 86400000));
-                            }
-
-                            for (var i = 0; i < arr.length; i++) {
-                                var propery = {};
-                                var month = '';
-                                var year = new Date().getFullYear();
-                                var keys = Object.keys(arr[i]);
-                                for (var j = 0; j < keys.length; j++) {
-                                    var key = keys[j];
-                                    if (key != undefined && key.indexOf('/') == 1) {
-                                        month = key.substring(2, 3);
-                                        break;
-                                    }
-                                }
-                                if (month.toString().trim() != '') {
-                                    for (var k = 1; k < 32; k++) {
-                                        var str = k + '/' + month;
-
-                                        if (arr[i][str] != undefined && arr[i][str].toString().trim() != '') {
-                                            propery.DateSwipe = month + '/' + k + '/' + year || NaN;
-                                            propery.Type = 'AddLunch' || NaN;
-                                            propery.EmployeeID_Old = arr[i].ID.toString().trim() || '';
-                                            propery.Reason = 'Forget swipe Card at Lunch';
-                                            scope.EmployeeHandle.empDetail.push(propery);
-                                            propery = {};
-                                        }
-                                    }
-                                } else if (arr[i].EmployeeID_Old != undefined && arr[i].EmployeeID_Old.toString().trim != '') {
-                                    var teee = arr[i].EmployeeID_Old.toString().trim().length;
-                                    propery.EmployeeID_Old = arr[i].EmployeeID_Old.toString().trim().length == 6 ? arr[i].EmployeeID_Old.toString().trim() : arr[i].EmployeeID_Old.toString().trim().padStart(6, '0');
-                                    propery.DateSwipe = new Date(arr[i].DateSwipe.toString().trim()).toDateString() || NaN;
-                                    propery.Type = arr[i].Type.toString().trim() || NaN;
-                                    propery.Reason = arr[i].Reason.toString().trim();
-                                    scope.EmployeeHandle.empDetail.push(propery);
-                                    propery = {};
-                                }
-
-
-                            }
-                            if(scope.$parent.IsSuccess){
-                                OAServices.getInformation.UploadExcel({}, scope.EmployeeHandle).$promise.then(function (res) {
-                                    if (res.Mess) {
-                                        Notifications.addError({
-                                            'status': 'info',
-                                            'message': res.Mess
-                                        });
-                                    } else {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': res.Error
-                                        });
-                                    }
-                                }, function (errormessage) {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': errormessage
-                                    });
-                                });
-
-                            }else{
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': 'Can not upload file. Please contact IT department.'
-                                });
-                            }
-
-                        };
-                        r.readAsBinaryString(f);
-                    } else {
-                        Notifications.addError({
-                            'status': 'info',
-                            'message': 'you import is not correct with  format！ .xls'
-                        });
-
-                    }
-                });
-            }
-        }
-    }]);
-    myapp.directive('fileReader', function (OAServices) {
+define(['myapp', 'angular'], function (myapp, angular) {
+    myapp.directive('fileReader', function(OAServices) {
         return {
             scope: {
-                fileReader: '='
+                fileReader:'='
             },
-            link: function (scope, element) {
-                $(element).on('change', function (changeEvent) {
+            link: function(scope, element) {
+                $(element).on('change', function(changeEvent) {
                     var files = changeEvent.target.files;
                     if (files.length) {
                         var r = new FileReader();
-                        r.onload = function (e) {
+                        r.onload = function(e) {
                             var contents = e.target.result;
                             scope.$apply(function () {
 
                                 scope.fileReader = contents;
 
-                                var lines = contents.split('\n');
+                                var lines=contents.split('\n')
 
-                                var result = [];
+                                var result = []
 
-                                var headers = lines[0].split(',');
-                                var UserInfo = '';
-                                for (var i = 1; i < lines.length - 1; i++) {
+                                var headers=lines[0].split(',')
+                                var UserInfo=''
+                                for(var i=1;i<lines.length -1;i++){
                                     var obj = {};
-                                    var LineSplit = lines[i].split(',');
+                                    var LineSplit=lines[i].split(',');
 
-                                    for (var j = 0; j < headers.length; j++) {
+                                    for(var j=0;j<headers.length;j++){
                                         obj[headers[j]] = LineSplit[j];
                                     }
-                                    if (LineSplit[0] != '') {
-                                        UserInfo += LineSplit[0] + ':' + LineSplit[1] + ':' + LineSplit[2] + ':' + LineSplit[3] + '|'
+                                    if(LineSplit[0]!=''){
+                                        UserInfo += LineSplit[0] + ':' + LineSplit[1] + ':'+ LineSplit[2] + ':'+ LineSplit[3]+ '|'
                                     }
 
 
                                     result.push(obj);
                                 }
-                                UserInfo = UserInfo.substring(0, UserInfo.length - 2);
-                                console.log(UserInfo);
-                                OAServices.getInformation.UploadUserHandle({UserInfo: UserInfo}).$promise.then(function (res) {
+                                UserInfo = UserInfo.substring(0, UserInfo.length - 2)
+                                console.log(UserInfo)
+                                OAServices.getInformation.UploadUserHandle({UserInfo:UserInfo}).$promise.then(function (res) {
                                     console.log('----------------');//
 
                                     console.log(res);
                                     alert('Add success. Page will reload.');
 
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         location.reload();
                                     }, 3000);
                                 }, function (errormessage) {
@@ -172,27 +64,28 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
             }
         };
     });
-    myapp.controller('MealController', ['$scope', '$filter', '$compile', '$routeParams', '$resource', '$location', 'i18nService', 'Notifications', 'User', 'Forms', 'Auth', 'uiGridConstants', '$http', 'EngineApi', 'ConQuaService', '$upload', '$translatePartialLoader', '$translate', 'OAServices',
-        function ($scope, $filter, $compile, $routeParams, $resource, $location, i18nService, Notifications, User, Forms, Auth, uiGridConstants, $http, EngineApi, ConQuaService, $upload, $translatePartialLoader, $translate, OAServices) {
+    myapp.controller('MealController', ['$scope', '$filter', '$compile', '$routeParams', '$resource', '$location', 'i18nService', 'Notifications', 'User', 'Forms', 'Auth', 'uiGridConstants', '$http', 'EngineApi', 'ConQuaService', '$upload', '$translatePartialLoader', '$translate','OAServices',
+        function ($scope, $filter, $compile, $routeParams, $resource, $location, i18nService, Notifications, User, Forms, Auth, uiGridConstants, $http, EngineApi, ConQuaService, $upload, $translatePartialLoader, $translate,OAServices) {
 
             $scope.dateFrom = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.dateTo = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.sum = 0;
-            $scope.flowkey = 'FEPVOAMeal';
+            $scope.flowkey = 'GateMisUser';
             $scope.note = {};
             //  $scope.CDepartmentList = {DepartmentID: "A", Specification: "", Spe: "", Alias: ""};
             $scope.DepartmentID = '';
-            $scope.Total = 0;
-            $scope.exportExel = {};
+            $scope.Total=0;
+            $scope.exportExel ={};
             $scope.showall = true;
             var dataongrid = {};
+
 
 
             var file = '';
             $scope.onFileSelect = function ($files) {
                 console.log($files);
                 file = $files;
-            };
+            }
 
 
             EngineApi.getDepartment().getList({userid: Auth.username, ctype: ''}, function (res) {
@@ -204,7 +97,7 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
             var col = [
                 {
                     field: 'DepartmentID',
-                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,' + '\'\'' + ')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
+                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,'+'\'\''+')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
                     displayName: $translate.instant('Department'),
                     minWidth: 100,
                     cellTooltip: true
@@ -215,26 +108,18 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                     minWidth: 105,
                     cellTooltip: true
                 },
-                {
-                    field: 'Lunch', displayName: $translate.instant('Lunch'), minWidth: 10, cellTooltip: true,
-                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,' + '\'L\'' + ')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
+                {field: 'Lunch', displayName: $translate.instant('Lunch'), minWidth: 10, cellTooltip: true,
+                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,'+'\'L\''+')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
                 },
-                {
-                    field: 'Dinner', displayName: $translate.instant('Dinner'), minWidth: 10, cellTooltip: true,
-                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,' + '\'D\'' + ')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
+                {field: 'Dinner', displayName: $translate.instant('Dinner'), minWidth: 10, cellTooltip: true,
+                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,'+'\'D\''+')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
                 },
-                {
-                    field: 'Night', displayName: $translate.instant('Night'), minWidth: 10, cellTooltip: true,
-                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,' + '\'N\'' + ')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
+                {field: 'Night', displayName: $translate.instant('Night'), minWidth: 10, cellTooltip: true,
+                    cellTemplate: '<a ng-click="grid.appScope.getVoucher(row,'+'\'N\''+')"  style="padding:5px;display:block; cursor:pointer">{{COL_FIELD}}</a>',
                 },
 
-                {
-                    field: 'Total',
-                    displayName: $translate.instant('Total'),
-                    aggregationType: uiGridConstants.aggregationTypes.sum,
-                    minWidth: 10,
-                    cellTooltip: true
-                }
+                {field: 'Total', displayName: $translate.instant('Total'),aggregationType: uiGridConstants.aggregationTypes.sum,
+                    minWidth: 10, cellTooltip: true}
             ];
             var col1 = [
                 {
@@ -247,32 +132,22 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 {
                     field: 'EmployeeID_Old',
                     displayName: $translate.instant('EmployeeID_Old'),
-                    minWidth: 100,
-                    cellTooltip: true
+                    minWidth:100,
+                    cellTooltip:true
                 },
                 {
-                    field: 'EmployeeName',
-                    displayName: $translate.instant('EmployeeName'),
+                    field: 'Name',
+                    displayName: $translate.instant('Specification'),
                     minWidth: 150,
                     cellTooltip: true
                 },
                 {field: 'Sex', displayName: $translate.instant('Sex'), minWidth: 90, cellTooltip: true},
-                {
-                    field: 'DepartmentID',
-                    displayName: $translate.instant('Department'),
-                    minWidth: 105,
-                    cellTooltip: true
-                },
-                {
-                    field: 'Specification',
-                    displayName: $translate.instant('Specification'),
-                    minWidth: 200,
-                    cellTooltip: true
-                },
+                {field: 'DepartmentID', displayName: $translate.instant('Department'), minWidth: 105, cellTooltip: true},
+                {field: 'Specification', displayName: $translate.instant('Specification'), minWidth: 200, cellTooltip: true},
                 {field: 'DateSwipe', displayName: $translate.instant('DateSwipe'), minWidth: 180, cellTooltip: true},
                 {field: 'TimeSwipe', displayName: $translate.instant('TimeSwipe'), minWidth: 180, cellTooltip: true},
                 {field: 'Machine', displayName: $translate.instant('Machine'), minWidth: 180, cellTooltip: true},
-                {field: 'Type', displayName: $translate.instant('Type'), minWidth: 150, cellTooltip: true}
+                {field: 'Type' , displayName:$translate.instant('Type'),minWidth:150,cellTooltip:true}
 
 
             ];
@@ -295,19 +170,18 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 useExternalPagination: true,
                 enablePagination: true,
                 enablePaginationControls: true,
+
+
+                //       totalServerItems: 'totalServerItems',
+
                 onRegisterApi: function (gridApi) {
                     $scope.gridApi = gridApi;
-                    EngineApi.getTcodeLink().get({
-                        'userid': Auth.username,
-                        'tcode': $scope.flowkey
-                    }, function (linkres) {
-                        $scope.IsSuccess=linkres.IsSuccess;
+                    EngineApi.getTcodeLink().get({'userid': Auth.username, 'tcode': $scope.flowkey}, function (linkres) {
+                        // if (linkres.IsSuccess) {
+                        gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
 
-                        if (linkres.IsSuccess) {
-                            gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
-
-                        }
-                    });
+                        // }
+                    })
                     gridApi.selection.on.rowSelectionChanged($scope, function (row) {
                         $scope.selectedVoucherid = row.entity.VoucherID;
                     });
@@ -351,55 +225,53 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
             };
 
             var getPage = function () {
-                $scope.Total = 0;
+                $scope.Total=0;
 
                 var query = {};
                 if ($scope.showall == true) {
-                    query.IncludeOTUser = 'False';
+                    query.IncludeOTUser ='False';
                 }
-                else {
-                    query.IncludeOTUser = 'True';
+                else{ query.IncludeOTUser='True';
                 }
-                query.UserID = Auth.username;
+                query.UserID =  Auth.username;
                 query.DepartmentID = $scope.note.Department || '';
 
                 query.DateB = $scope.dateFrom || '';
                 query.DateE = $scope.dateTo || '';
                 OAServices.getInformation.getInfo(query).$promise.then(function (res) {
-                    dataongrid = angular.toJson(res);
-                    console.log(res);
-                    for (var i = 0; i < res.length; i++) {
-                        $scope.Total += parseInt(res[i].Total);
+                    dataongrid=  angular.toJson(res)
+                    console.log(res)
+                    for(var i = 0; i< res.length; i++){
+                        $scope.Total+= parseInt(res[i].Total);
                     }
 
 
-                    $scope.exportExel = res;
+                    $scope.exportExel =res;
                     $scope.gridOptions.data = res;
                 }, function (errormessage) {
                     Notifications.addError({'status': 'error', 'message': errormessage});
                 });
 
             };
-            $scope.bpmnloaded = false;
+            $scope.bpmnloaded=false;
             $scope.showPng = function () {
                 if ($scope.bpmnloaded == true) {
                     $scope.bpmnloaded = false;
                 } else {
                     $scope.bpmnloaded = true;
                 }
-            };
+            }
 
-            $scope.getVoucher = function (obj, Type) {
-                $('#myModal').modal('show');
-                var paras = {};
+            $scope.getVoucher = function (obj,Type) {
+                $('#myModal').modal('show')
+                var paras={};
                 if ($scope.showall == true) {
                     paras.IncludeOTUser = 'False';
                 }
-                else {
-                    paras.IncludeOTUser = 'True';
+                else{ paras.IncludeOTUser='True';
                 }
-                paras.UserID = Auth.username;
-                paras.DepartmentID = obj.entity.DepartmentID;
+                paras.UserID=Auth.username;
+                paras.DepartmentID=obj.entity.DepartmentID;
                 paras.DateE = $scope.dateTo;
                 paras.DateB = $scope.dateFrom;
                 paras.Type = Type;
@@ -413,30 +285,29 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 });
 
 
-            };
-            $scope.reset = function () {
+            }
+            $scope.reset = function(){
                 $('#myModal').modal('hide');
-            };
+            }
             var gridMenu = [{
                 title: $translate.instant('Print Report Details'),
                 action: function ($event) {
 
                     $scope.deptID = '';
-                    if ($scope.note.Department == undefined) {
+                    if($scope.note.Department == undefined){
                         $scope.deptID = 'All';
                     }
-                    else {
+                    else{
                         $scope.deptID = $scope.note.Department;
                     }
                     if ($scope.showall == true) {
                         $scope.IncludeOTUser = 'False';
                     }
-                    else {
-                        $scope.IncludeOTUser = 'True';
+                    else{ $scope.IncludeOTUser='True';
                     }
 
                     //    return $scope.note.Department;
-                    var href = '#/gate/MealDetails/' + $scope.dateFrom + '/' + $scope.dateTo + '/' + $scope.deptID + '/' + $scope.IncludeOTUser;
+                    var href = '#/gate/MealDetails/'+ $scope.dateFrom + '/' + $scope.dateTo +'/'+  $scope.deptID +'/'+ $scope.IncludeOTUser;
                     window.open(href);
                 },
                 order: 1
@@ -445,15 +316,14 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 title: $translate.instant('Export Excel File Details'),
                 order: 2,
                 action: function ($event) {
-                    var paras = {};
+                    var paras={};
                     if ($scope.showall == true) {
                         paras.IncludeOTUser = 'False';
                     }
-                    else {
-                        paras.IncludeOTUser = 'True';
+                    else{ paras.IncludeOTUser='True';
                     }
-                    paras.UserID = Auth.username;
-                    paras.DepartmentID = '';
+                    paras.UserID=Auth.username;
+                    paras.DepartmentID='';
                     paras.DateE = $scope.dateTo;
                     paras.DateB = $scope.dateFrom;
                     paras.Type = '';
@@ -479,9 +349,9 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                             result += keys.join(columnDelimiter);
                             result += lineDelimiter;
 
-                            data.forEach(function (item) {
+                            data.forEach(function(item) {
                                 ctr = 0;
-                                keys.forEach(function (key) {
+                                keys.forEach(function(key) {
                                     if (ctr > 0) result += columnDelimiter;
 
                                     result += item[key];
@@ -492,7 +362,6 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
 
                             return result;
                         }
-
                         var data, filename, link;
 
                         var csv = convertArrayOfObjectsToCSV({
@@ -518,25 +387,24 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                     });
                 }
             },
-                {
-                    title: $translate.instant('Export Excel File By Department'),
-                    order: 3,
-                    action: function () {
-                        var objects = dataongrid;
-                        for (var i = 0; i < objects.length; i++) {
-                            var obj = objects[i];
-                            for (var prop in obj) {
-                                if (obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])) {
-                                    obj[prop] = +obj[prop];
-                                }
+            {
+                title: $translate.instant('Export Excel File By Department'),
+                order: 3,
+                action: function () {
+                    var objects = dataongrid;
+                    for(var i = 0; i < objects.length; i++){
+                        var obj = objects[i];
+                        for(var prop in obj){
+                            if(obj.hasOwnProperty(prop) && obj[prop] !== null && !isNaN(obj[prop])){
+                                obj[prop] = +obj[prop];
                             }
                         }
-                        //       console.log(objects);
-                        JSONToCSVConvertor(objects, 'Meal_Report', true);
                     }
+                    //       console.log(objects);
+                    JSONToCSVConvertor(objects, 'Meal_Report', true);
                 }
+            }
             ];
-
             function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
                 //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
                 var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
@@ -576,7 +444,7 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 //Generate a file name
                 var fileName = '';
                 //this will remove the blank-spaces from the title and replace it with an underscore
-                fileName += ReportTitle.replace(/ /g, '_');
+                fileName += ReportTitle.replace(/ /g,'_');
 
                 //Initialize file format you want csv or xls
                 var uri = 'data:text/csv;charset=utf-16,' + encodeURI(CSV);
@@ -600,9 +468,9 @@ define(['myapp', 'angular','xlsx'], function (myapp, angular) {
                 document.body.removeChild(link);
             }
 
-            $scope.setDate = function () {
+            $scope.setDate = function (){
                 // var startDate1 = $scope.dateFrom;
-                $scope.dateTo = $filter('date')(new Date($scope.dateFrom), 'yyyy-MM-dd');
+                $scope.dateTo = $filter('date')(new Date($scope.dateFrom),'yyyy-MM-dd');
                 $scope.$apply();
 
             };

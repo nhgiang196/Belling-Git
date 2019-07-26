@@ -136,14 +136,14 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     field: 'ExpectOut',
                     displayName: $translate.instant('GoodsExpectOut'),
                     minWidth: 105,
-                  
+                    cellTemplate: '<span>{{grid.appScope.getDate(row.entity.ExpectOut)}}</span>',
                     cellTooltip: true
                 },
                 {
                     field: 'ExpectBack',
                     displayName: $translate.instant('GoodsExpectBack'),
                     minWidth: 100,
-                   
+                    cellTemplate: '<span>{{grid.appScope.getDate(row.entity.ExpectBack)}}</span>',
                     cellTooltip: true
                 },
                 {field: 'TakeOut', displayName: $translate.instant('TakeOut'), minWidth: 80, cellTooltip: true},
