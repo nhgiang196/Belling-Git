@@ -53,6 +53,10 @@ define(['myapp', 'angular'], function (myapp) {
                         EngineApi.getProcessLogs.getList({ "id": res.ProcessInstanceId, "cId": "" }, function (data) {
 
                             console.log(data[0].Logs);
+                            data.forEach(function(value,index){
+                                if (index>=1) 
+                                    data[0].Logs.push.apply(data[0].Logs,data[index].Logs)
+                            });
                             var receiver = [];
                             var taf = TAFFY(data[0].Logs);
                             receiver[0] = taf({ TaskName: "起始表单" }).first(); //initiator

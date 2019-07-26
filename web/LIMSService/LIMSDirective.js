@@ -10,7 +10,8 @@ define(['app', 'bpmn'], function (app) {
                     scope.HeaderName = header;
                     $('#showPropertyDetails').modal('show');
                 };
-                // scope.finalData = {};
+                scope.header = {};
+                scope.finalData = {};
                 var mydata = JSON.parse(attrs.test);
                 LIMSService.gradeVersion.HistoryOfGradeVersion({
                     sampleName: mydata.sampleName,

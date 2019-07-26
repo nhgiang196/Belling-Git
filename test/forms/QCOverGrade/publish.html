@@ -15,8 +15,8 @@
         $translate.refresh();
         $scope.username = user;
         $scope.isLeader = $scope.variable.QCManagerList[2].indexOf(user) > -1 ? false : true;
-        
-            // ["FEPVNN0081", "FEPVNN0090"].indexOf(user) > -1 ? true : false; //柯建成 & 谢志君
+
+        // ["FEPVNN0081", "FEPVNN0090"].indexOf(user) > -1 ? true : false; //柯建成 & 谢志君
         // $scope.isLeader =
         //     ["FEPVNN0184", "FEPVNN0082", "FEPVNN0186", "FEPVNN0033"].indexOf(user) > -1 ? true : false; // 黃大千 趙明華  李思源 林憲宏
         $scope.passOrNot =
@@ -39,7 +39,7 @@
             /* publish */
             note.remark = ($scope.isLeader && $scope.ISPublish === 'YES') ?
                 $scope.leadercheck_remark : $scope.recod.Remark; //only Leader can write remark
-            note.status = ($scope.isInitiator && $scope.ISPublish === 'YES') ?
+            note.status = (!$scope.isLeader && $scope.ISPublish === 'YES') ?
                 'S' : ($scope.recod.Status); //only Initiator can publish
 
             return note;
@@ -53,7 +53,6 @@
                 var data = { VoucherID: $scope.VoucherID, status: 'X', userid: user };
                 LIMSService.DeleteRYVoucher().save(data, {}).$promise.then((res) => {
                     if (res.Success) {
-                        $scope.loading = true;  
                         SubmitAndRemind();
                     }
                     else {
@@ -69,7 +68,6 @@
                 data = saveInitData();
                 LIMSService.UpdateRYVoucher(data, (res) => {
                     if (res.Success) {
-                        $scope.loading = true;  
                         $scope.formVariables.push({ name: "leadername", value: nickname + '(' + user + ')' });
                         $scope.formVariables.push({ name: "leadercheck_remark", value: $scope.leadercheck_remark });
                         SubmitAndRemind();
@@ -85,6 +83,7 @@
         }
         function SubmitAndRemind() {
             $q.all([$scope.submit()]).then(function () {
+                $scope.loading = true;
                 var reminder_parrams = {
                     voucherID: $scope.VoucherID,
                     userid: Auth.username,
@@ -161,7 +160,7 @@
             <label class="col-sm-2  control-label" style="text-align: left;">*{{'Remark'|translate}}:</label>
             <div class="col-sm-6">
                 <textarea class="form-control" name="leadercheck_remark" type="text" form-field
-                    history-field="LeaderRemark" ng-model="leadercheck_remark" field-validate rows="3" />
+                    history-field="DenyReason" ng-model="leadercheck_remark" field-validate rows="3" />
                 </div>
         </div>
         <!-- NEXT CANDIDATE -->

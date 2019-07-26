@@ -1,6 +1,3 @@
-/**
- * Created by ptanh on 4/14/2018.
- */
 define(['myapp', 'angular'], function (myapp, angular) {
     myapp.directive('createVoucher', ['VoucherService', 'Auth', '$q',
         function (VoucherService, Auth, $q) {

@@ -15,6 +15,7 @@ define( ['app','angular'],function(app,angular){
                 authentication.email=data.email;
                 $cookieStore.put('username',data.username);
                 console.log(data.nickname);
+				  $rootScope.authentication = authentication;
               callback("OK");
              }else{
                 callback(null);

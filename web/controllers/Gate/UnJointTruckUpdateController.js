@@ -31,7 +31,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 query.Status = Status;
                 query.UserID = Auth.username;
                 query.OrderNO = $scope.note.OrderNO || "";
-                query.ImportBatch== $scope.note.OrderNO || "";
                 GateJointTruck.JointTruckBasic().isInBlackList({
                     vehicle: $scope.note.VehicleNO,
                     type: "Truck"

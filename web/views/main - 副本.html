@@ -1,0 +1,116 @@
+<style>
+    .theme-img.boxshadow, .theme-img-s.boxshadow {
+        background-color: #FFF;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .theme-thumb.boxshadow {
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+    .browser-bar-xl {
+        display: block;
+        height: 6px;
+        background-color: #E6E6E6;
+        padding: 6px 10px;
+        -webkit-border-radius: 2px 2px 0 0;
+        -moz-border-radius: 2px 2px 0 0;
+        border-radius: 2px 2px 0 0;
+    }
+    img {
+        max-width: 100%;
+        width: auto\9;
+        height: auto;
+        border: 0;
+        vertical-align: middle;
+        -ms-interpolation-mode: bicubic;
+    }
+    h1.featured, h2.featured {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    #main-footer {
+        margin-top: 20px;
+        background: #E6E6E6;
+        color: #64686D;
+    }
+    .list-group-item1>a {
+        cursor: pointer;
+    }
+</style>
+
+<div class="container" >
+  <div class="row" style="padding-top: 15px; ">
+      <div class="col-sm-9 panel panel-default" style="padding-top: 15px; padding-bottom: 15px" >
+          <div class="row" >
+              <div  class="col-sm-3">
+                  <img   src="css/image/gate.jpg" style="opacity: 1; transition: opacity 1s; background-color: rgb(255, 255, 255);">
+              </div>
+              <div  class="col-sm-9">
+                  <h4 style="    border-bottom: 1px solid #d5d5d5;    padding-bottom: 0.5em;">{{'Gate'| translate}}</h4>
+                  <div  class="col-sm-4">
+                      <div class="list-group-item1" >
+                          <a ng-click="btSelect('FEPVGateGuest')" class="nav-list"> <i class="icon-bar glyphicon  glyphicon-hand-right" style="color: #f39c12"></i> {{'GuestPlan'| translate}}  </a>
+                      </div>
+                      <div class="list-group-item1" >
+
+                          <a   ng-click="btCheckAuth('FEPVGateGoodOut','/gate/GoodsOut')" class="nav-list"> <i class="icon-bar glyphicon  glyphicon-hand-right" style="color: #f39c12"></i> {{'GoodsOut'| translate}}    </a>
+                      </div>
+                      <div class="list-group-item1" >
+                          <a href="#/ConQua/Index" class="nav-list"> <i class="icon-bar glyphicon  glyphicon-hand-right" style="color: #f39c12"></i> {{'承揽商信息查询'| translate}}  </a>
+                      </div>
+                      <div class="list-group-item1" >
+                          <a ng-click="btSelect('GateContractorInfoProcess')" class="nav-list"> <i class="icon-bar glyphicon  glyphicon-hand-right" style="color: #f39c12"></i> {{'承揽商新建'| translate}}  </a>
+                      </div>
+                      <div class="list-group-item1" >
+                          <a ng-click="btSelect('GateContractorQuaProcess')" class="nav-list"> <i class="icon-bar glyphicon  glyphicon-hand-right" style="color: #f39c12"></i> {{'承揽商办卡管理'| translate}}  </a>
+                      </div>
+                      <div class="list-group-item1" >
+                          <a href="#/FormSetting/contractor" class="nav-list"> <i class="icon-bar glyphicon  glyphicon-hand-right" style="color: #f39c12"></i> {{'承揽商资料管理'| translate}}  </a>
+                      </div>
+                   </div>
+              </div>
+          </div>
+      </div>
+
+
+      <div class="col-sm-3">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="#/taskForm/todo" class="nav-list"> <i class="icon-bar glyphicon glyphicon-calendar" style="color: #f39c12"></i>   {{ 'MyTask' | translate }}   <span class="badge" >{{tasksCounter}}</span></a>
+                    </li>
+
+                    </li>
+                    <li  class="list-group-item">
+                        <a href="#/history" class="nav-list"> <i class="icon-bar glyphicon glyphicon-list-alt" style="color: #f39c12"></i> {{ 'HistoryList' | translate }}   </a>
+                    </li>
+                    <li style="display: none" >
+                        <a href="#/taskForm/startList" class="nav-list"> <i class="icon-bar glyphicon glyphicon-gift" style="color: #f39c12"></i> 流程版本清单   <span class="badge"></span></a>
+                    </li>
+
+
+                    <li  class="list-group-item">
+                        <a href="http://apps.feg.cn" target="_blank" class="nav-list"> <i class="icon-bar glyphicon glyphicon-glass" style="color: #f39c12"></i>   {{ 'APPS' | translate }}  </a>
+                    </li>
+                    <li  class="list-group-item">
+                        <a href="#/taskForm/DictionaryManage" target="_blank" class="nav-list"> <i class="icon-bar glyphicon glyphicon-list-alt" style="color: #f39c12"></i>   Dictionary  </a>
+                    </li>
+                </ul>
+                <ul>
+
+                    <li> {{'main_01'|translate}}<code>{{'main_02'|translate}}</code>{{'main_03'|translate}}<a href="http://10.17.31.76/images/GoogleChrome.rar" target="_blank">{{'main_04'|translate}}</a></li>
+                    <li>{{'main_05'|translate}}</li>
+
+                </ul>
+
+            </div>
+
+
+   </div>
+
+
+
+</div>

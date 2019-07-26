@@ -1,19 +1,18 @@
 <style>
     .red {
-     /* background-color: red !important; */
-     color:red;
-     text-align: center;
+        /* background-color: red !important; */
+        color: red;
+        text-align: center;
 
 
- }
- .yellow {
-     /* background-color: yellow !important; */
-     color:rgb(255, 200, 20);
-     text-align: center;
+    }
 
- }
+    .yellow {
+        /* background-color: yellow !important; */
+        color: rgb(255, 200, 20);
+        text-align: center;
 
-
+    }
 </style>
 <div>
     <form class="form-horizontal" role="form" novalidate name="form">
@@ -40,7 +39,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
                     <div class="col-sm-3">
-                        <select class="form-control" name="SampleName" ng-model="sampleName" ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList  ">
+                        <select class="form-control" name="SampleName" ng-model="sampleName"
+                            ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList  ">
                             <option value="">-- ALL --</option>
                         </select>
                     </div>
@@ -55,7 +55,8 @@
 
                     <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
                     <div class="col-sm-3">
-                        <select class="form-control" name="material" ng-model="material" ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
+                        <select class="form-control" name="material" ng-model="material"
+                            ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
                             <option value="">-- ALL --</option>
                         </select>
                     </div>
@@ -74,13 +75,15 @@
 
                     <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
                     <div class="col-sm-3">
-                        <select class="form-control" style="float: none;" name="line" ng-model="line" ng-options="c.Line as c.Linespc for c in LinesList">
+                        <select class="form-control" style="float: none;" name="line" ng-model="line"
+                            ng-options="c.Line as c.Linespc for c in LinesList">
                             <option value="">-- ALL --</option>
                         </select>
                     </div>
                     <label class="col-sm-2 control-label">{{'Status'|translate}}</label>
                     <div class="col-sm-3">
-                        <select class="form-control" name="status" ng-model="status" ng-options="s.State as s.StateSpec for s in StatusList">
+                        <select class="form-control" name="status" ng-model="status"
+                            ng-options="s.State as s.StateSpec for s in StatusList">
                             <option value="">-- ALL --</option>
                         </select>
                     </div>
@@ -101,6 +104,14 @@
                     <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
                         ui-grid-resize-columns ui-grid-core></div>
                 </div>
+                <div class="text-center">
+                    <!-- <label
+                        style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size: 10pt; color: #FF0000;text-align: center;">*New
+                        updated system from 2019-05-14 13:00. <br> If there were any errors and problems, please contact
+                        Jiang # 3614 to solve the problem.*</label> -->
+                </div>
+
+
 
             </div>
         </div>
@@ -118,8 +129,8 @@
                             <label class="col-sm-2 control-label">{{'Date'|translate}}</label>
 
                             <div class="col-sm-3">
-                                <input type="text" ng-change="dateBegin_change(dateBegin)" class="form-control" name="dateBegin"
-                                    ng-model="dateBegin" date-picker required>
+                                <input type="text" ng-change="dateBegin_change(dateBegin)" class="form-control"
+                                    name="dateBegin" ng-model="dateBegin" date-picker required>
                             </div>
 
                             <label class="col-sm-2 control-label">{{'dateTo'|translate}}</label>
@@ -133,22 +144,24 @@
                             <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control" name="SampleName" ng-model="sampleName" ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList"
-                                    required>
+                                <select class="form-control" name="SampleName" ng-model="sampleName"
+                                    ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList" required>
                                 </select>
                             </div>
 
                             <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
 
                             <div class="col-sm-3">
-                                <select required class="form-control" name="material" ng-model="material" ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
+                                <select required class="form-control" name="material" ng-model="material"
+                                    ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
                             <div class="col-sm-3">
-                                <select required class="form-control" name="line" ng-model="line" ng-options="c.Line as c.Linespc for c in LinesList">
+                                <select required class="form-control" name="line" ng-model="line"
+                                    ng-options="c.Line as c.Linespc for c in LinesList">
                                 </select>
                             </div>
 
@@ -164,7 +177,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" ng-click="Save()" ng-disabled="formCreateUQ.$invalid">{{'saveDraft'|translate}}</button>
+                    <button type="button" class="btn btn-warning" ng-click="Save()"
+                        ng-disabled="formCreateUQ.$invalid">{{'saveDraft'|translate}}</button>
                     <!-- <button type="button" class="btn btn-primary" ng-click="SaveSubmit(true)" ng-disabled="formCreateUQ.$invalid">{{'saveSubmit'|translate}}</button> -->
                     <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}}
                     </button>
@@ -207,7 +221,8 @@
                             <table style="border:black;" class="table-bordered table-hover" width=100%>
                                 <thead>
                                     <tr>
-                                        <th style="text-align:center;" ng-repeat="header in plansHeader">{{ header }}</th>
+                                        <th style="text-align:center;" ng-repeat="header in plansHeader">{{ header }}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -226,4 +241,52 @@
                             <table width=100%>
                                 <tr>
                                     <td>ÂìÅÁÆ°ÈÉ®ÈñÄ<br>B√¥Ã£ ph√¢Ã£n SX: {{receiver[3].UserName}}
-                                        {{receiver[3].Stamp | date:h      Œp    ±p     ∞e    gæ•În’              , < C r e a t e A p p l i c a t i o n . a s p x h      Œp    ±p    h∞e    ˛Ö™În’              , < C r e a t e A p p l i c a t i o n . a s p x h      Œp    ±p    –∞e    ˛Ö™În’Å              , < C r e a t e A p p l i c a t i o n . a s p x h      Œp    ±p    8±e    ‰¨În’Å Ä            , < C r e a t e A p p l i c a t i o n . a s p x p      œp    ±p    †±e    ‰¨În’               2 < C r e a t e A p p l i c a t i o n . a s p x . c s   p      œp    ±p    ≤e    ‰¨În’              2 < C r e a t e A p p l i c a t i o n . a s p x . c s   p      œp    ±p    Ä≤e    î™±În’              2 < C r e a t e A p p l i c a t i o n . a s p x . c s   p      œp    ±p    ≤e    1¥În’Å              2 < C r e a t e A p p l i c a t i o n . a s p x . c s   p      œp    ±p    `≥e    1¥În’Å Ä            2 < C r e a t e A p p l i c a t i o n . a s p x . c s   à      –p    ±p    –≥e    1¥În’               H < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x     à      –p    ±p    X¥e    ∏–∏În’ 	              H < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x     à      –p    ±p    ‡¥e    ∏–∏În’	              H < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x     à      –p    ±p    hµe    ›3ªÎn’	              H < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x     à      –p    ±p    µe    ›3ªÎn’â              H < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x     à      –p    ±p    x∂e    ñΩÎn’â Ä            H < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x     ê      —p    ±p     ∑e    ñΩÎn’               N < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x . c s     ˇˇê      —p    ±p    ê∑e    |Y¬În’ 	              N < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x . c s     ˇˇê      —p    ±p     ∏e    |Y¬În’	              N < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x . c s     ˇˇê      —p    ±p    ∞∏e    Ï«În’	              N < C r e a t e D e l e t e D o c u m e n t A p p l i c a t i o n . a s p x . c s     ˇˇê      —p    ±p    @πe    Ï«În’â              N < C r e a t e D e l
+                                        {{receiver[3].Stamp | date:"'('yyyy/MM/dd 'at' h:mma')'"}} </td>
+                                    <td>Á∞ΩÊî∂‰∫∫Âì°<br>Ng∆∞∆°ÃÄi nh√¢Ã£n: {{receiver[1].UserName}}
+                                        {{receiver[1].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}</td>
+                                </tr>
+                            </table>
+                            <div ng-show='!isRed'>
+                                <p>ËôïÁêÜÁµêÊûúK√™ÃÅt quaÃâ x∆∞Ãâ lyÃÅ: {{recod.Remark}} </p>
+                                <p>Âª†ÔºàËôïÔºâÂÆ§ÊâπÁ§∫VP x∆∞∆°Ãâng (b.ph√¢Ã£n) duy√™Ã£t:{{receiver[2].UserName}}
+                                    {{receiver[2].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}
+                                </p>
+                            </div>
+                        </div>
+                        <div ng-show='isShow'>
+                            <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">{{'NextStep' |
+                                translate}} </H4>
+                            <div style="margin-top:10px" ng-repeat="leader in leaderlist">
+                                <span show-checker user-name={{leader.Person}}></span>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-disabled="UQList[0]['NO_RESULT']!=null" class="btn btn-primary"
+                        ng-click="SaveSubmit(false)" ng-show='isShow'>{{'submit'|translate}}</button>
+                    <a href="#/LIMS/QualifiedControl/print/{{recod.VoucherID}}" target="_blank"> <button type="button"
+                            class="btn btn-secondary">üìì {{'PrintQualifed'|translate}}
+                        </button></a>
+                    <a href="#/LIMS/QualifiedControl/printRedUQ/{{recod.VoucherID}}" target="_blank">
+                        <button type="button" class="btn btn-danger">üìî {{'PrintUQRedVoucher'|translate}}
+                        </button></a>
+
+                    <!-- <label class="col-sm-5" style="text-align: left;color: #FF0000;font-size: 90%;width: 50%">{{'Qualifed
+                        Submit Comfirm'|translate}}</label> -->
+
+                    <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}} </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+</div>

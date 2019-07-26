@@ -46,7 +46,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="headerController" >
     <script>
 
-        function headerController($scope,$translate,EngineApi,Auth,$location,Notifications,$http,$cookieStore){
+        function headerController($rootScope,$scope,$translate,EngineApi,Auth,$location,Notifications,$http,$cookieStore){
             $scope.switching = function(lang) {
                 $translate.use(lang);
                 window.localStorage.lang = lang;
@@ -93,6 +93,7 @@
            $scope.Logout=function(){
                     $http.post('/authorize/logout').success(function(data){
                         $cookieStore.remove('username');
+						$rootScope.authentication=null;
                         $location.path('/login');
                     }).error(function (data, status) {
                         Notifications.addError({'status': 'error', 'message': "logout failure" + status + data});
@@ -177,9 +178,9 @@
                                 <a  href="javascript:void(0)" ng-click="btCheckAuth('PVLIMS-010','LIMS/GradeSpecVersion')"> <span style="color: #563d7c" class="glyphicon glyphicon-new-window"></span> <span> {{'GradeSpecVersion'| translate}} </span></a>   
                                 <div class="divider"></div>
                                 <a  href="javascript:void(0)" ng-click="btCheckAuth('PVLIMS-010','LIMS/QueryPlans')"> <span style="color: #563d7c" class="glyphicon glyphicon-new-window"></span> <span> {{'QueryPlans'| translate}} </span></a>
-                                <a  href="#/Lims/ReportAnalysis"> <span style="color: #563d7c" class="glyphicon glyphicon-stats"></span>
+                                <a  href="javascript:void(0)" ng-click="btCheckAuth('PVLIMS-010','LIMS/ReportAnalysis')"> <span style="color: #563d7c" class="glyphicon glyphicon-stats"></span>
                                     <span > {{'ReportIncomingAnalysis'| translate}} </span></a>
-                                <a  href="#/Lims/ReportPOLYnSSP"> <span style="color: #563d7c" class="glyphicon glyphicon-stats"></span>
+                                <a   href="javascript:void(0)" ng-click="btCheckAuth('PVLIMS-010','LIMS/ReportPOLYnSSP')"> <span style="color: #563d7c" class="glyphicon glyphicon-stats"></span>
                                     <span > {{'ReportPOLYnSSP'| translate}} </span></a>                                    
                         </li>
                     </ul>
@@ -221,9 +222,9 @@
                 <ul class="dropdown-menu" role="menu">
 
                     <li>
-                        <a ng-click="Logout()" style="cursor: pointer">{{authentication.nickname}} {{ 'Signout' | translate }}</a>
-                    <a href="#/main/userInfo">{{ 'ChangePassword' | translate }}</a>
-                    <a href="#/taskForm/ProxyUser">{{ 'Agentsettings' | translate }}</a>
+                        <a ng-click="Logout()" style="cursor: pointer" ng-if='authentication.username!=null'>{{authentication.nickname}} {{ 'Signout' | translate }}</a>
+                    <a href="#/main/userInfo" ng-if='authentication.username!=null'>{{ 'ChangePassword' | translate }}</a>
+                    <a href="#/taskForm/ProxyUser" ng-if='authentication.username!=null'>{{ 'Agentsettings' | translate }}</a>
                     <div class="divider"></div>
                    <a ng-click="switching('VN')" style="cursor: pointer">{{'VN'|translate}}</a>
                         <a ng-click="switching('EN')" style="cursor: pointer">{{'EN'|translate}}</a>

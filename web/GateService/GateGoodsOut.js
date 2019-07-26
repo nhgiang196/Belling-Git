@@ -2,7 +2,6 @@
  * Created by wang.chen on 2016/9/13.
  */
 define( ['app','angular'],function(app,angular){
- 
     app.service("GateGoodsOut",[ '$resource','$q','Auth','$location', function($resource,$q,Auth,$location) {
         function GateGoodsOut(){
             this.getGoodBasic= $resource("/ehs/gate/Goods/:operation",{},{

@@ -4,3 +4,5 @@ log/app.log.3
 log/app.log.4
 log/app.log.5
 /log/app.log
+/models/db.js
+/log/errors.log

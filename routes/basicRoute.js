@@ -348,7 +348,7 @@ exports.getAuth=  function (request,path,userid,tcode,callback){
                             //  res.json(ret);
                         }
                     }else{
-
+	
                         log.error('error getAuth!' + response.statusCode);
                         ret.IsSuccess = null;
                         callback(ret);
@@ -366,6 +366,7 @@ exports.getAuth=  function (request,path,userid,tcode,callback){
 exports.getStartForm=function(rest,para,callback){
     var url = rest+'process-definition/'+para.id +'/startForm';
     console.log(url);
+	
     request(
         { method: 'GET'
             , uri:url

@@ -1,49 +1,49 @@
 <link rel="stylesheet" href="vendor/datatables/datatables.min.css">
-
 <style>
-
-    .table th, .table td {
+    .table th,
+    .table td {
         padding: 4px;
         line-height: 14px;
-        font-size:10px;
+        font-size: 10px;
     }
-    .PropertySpec{
+    .PropertySpec {
         background-color: #cfccff;
     }
-    footer{
+    footer {
         display: none;
     }
-    .table{
-
+    .table {
         width: 1200px;
         margin-left: 0px;
         margin: auto;
-        margin-top: 30px!;
+        margin-top: 30px !;
     }
     .table-bordered tbody tr:nth-child(odd) td {
         background-color: #F2FAFE;
     }
-    .form-group{     margin-bottom: 5px}
-    .Inrange{
+    .form-group {
+        margin-bottom: 5px
+    }
+    .Inrange {
         color: #37c678;
     }
-    .Overrange{
-        color: red!important;
+    .Overrange {
+        color: red !important;
     }
-    .greenyellow{
-        background: red!important;
+    .greenyellow {
+        background: red !important;
         color: #000000;
     }
-    .glyphicon-file{
-        color:#000000;
+    .glyphicon-file {
+        color: #000000;
     }
     /* Tooltip container */
     .tooltip {
         position: relative;
         display: inline-block;
-        border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+        border-bottom: 1px dotted black;
+        /* If you want dots under the hoverable text */
     }
-
     /* Tooltip text */
     .tooltip .tooltiptext {
         visibility: hidden;
@@ -53,19 +53,14 @@
         text-align: center;
         padding: 5px 0;
         border-radius: 6px;
-
         /* Position the tooltip text - see examples below! */
         position: absolute;
         z-index: 1;
     }
-
     /* Show the tooltip text when you mouse over the tooltip container */
     .tooltip:hover .tooltiptext {
         visibility: visible;
     }
-
-
-
 </style>
 <div id="demo" class="collapse in">
     <form class="form-horizontal" role="form" novalidate name="form">
@@ -87,13 +82,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">{{'TypeName'|translate}}</label>
                     <div class="col-sm-2">
-                        <select class="form-control" name="TypeID" ng-model="note.TypeID" ng-options=" c.TypeID as c.TypeName for c in CategoryList | filter:myFilter" required>
+                        <select class="form-control" name="TypeID" ng-model="note.TypeID"
+                            ng-options=" c.TypeID as c.TypeName for c in CategoryList | filter:myFilter" required>
                         </select>
                     </div>
-
                     <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
                     <div class="col-sm-2">
-                        <select required class="form-control" name="nameSample" ng-model="note.SampleName" ng-options=" c.SampleName as c.Description_EN for c in SampleList">
+                        <select required class="form-control" name="nameSample" ng-model="note.SampleName"
+                            ng-options=" c.SampleName as c.Description_EN for c in SampleList">
                             <!-- <option val ue="">All</option> -->
                         </select>
                     </div>
@@ -109,13 +105,15 @@
                     </div>
                     <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
                     <div class="col-sm-2">
-                        <select class="form-control" name="material" ng-model="note.Material" ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
+                        <select class="form-control" name="material" ng-model="note.Material"
+                            ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
                             <option value="">-- ALL --</option>
                         </select>
                     </div>
                     <div class="col-sm-4"></div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary" ng-click="Search()" ng-disabled="form.$invalid">{{'Search'|translate}}
+                        <button type="button" class="btn btn-primary" ng-click="Search()"
+                            ng-disabled="form.$invalid">{{'Search'|translate}}
                         </button>
                     </div>
                 </div>

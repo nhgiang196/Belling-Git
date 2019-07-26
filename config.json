@@ -8,7 +8,7 @@
         "bpmurl":"http://10.20.46.23:9999/",
         "hrrest":"http://10.20.46.23:9003/",
         "hrhost":"localhost",
-        "ehshost":"http://10.20.46.23:9005/",
+        "ehshost":"http://localhost:9005/",
         "hrport":"9003",
         "datasource":"10.20.46.23",
         "dbuser":"sa",
