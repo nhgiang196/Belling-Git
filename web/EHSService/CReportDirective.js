@@ -48,6 +48,13 @@ define(['app'], function (app) {
 
 
                         });
+                        // $(document).ready(function () {
+                        //     setTimeout(function () {
+                        //         window.print();
+                        //     }, 1000);
+                        // })
+
+
 
                         /**Get Receiver*/
                         CReportService.CReportHSEPID().get({
@@ -94,24 +101,18 @@ define(['app'], function (app) {
                                 })
 
 
+
+
+
                             }
                         }, function (err) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': err.data
-                            });
+
+
                         })
 
 
 
                     }
-
-
-
-
-
-
-
 
                 },
                 templateUrl: './forms/EHS/CReport/CReportDetail.html'

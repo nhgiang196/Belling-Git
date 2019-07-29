@@ -1,52 +1,54 @@
 <style>
-    #page-contain {
-        font-size: 12pt !important;
-        font-family: 'Times New Roman', 'DFKai-SB';
-    }
-
-
-
-
-
-
-    .navbar,
+   
     footer {
         display: none;
     }
 
-
     #bottom-footer {
         display: none;
     }
-
     body {
         background: rgb(204, 204, 204);
         padding: 0;
     }
-
     .container,
     .row {
         padding: 0;
     }
 
-    @media print {
-        html,
-        body {
+    @page {
+        size: A4;
+        /* margin: 0; */
+        /* size: auto; */
+        margin-top: 5.5mm;
+        margin-left: 9mm;
+        margin-right: 9mm;
+        margin-bottom: 0mm;
+        
+    }
 
-            margin: 0;
-            padding: 0 !important;
-        }
+
+    @media print {
 
         .container {
-            width: auto;
-
-            padding-top: 0 !important;
+            padding-top: 0px !important;
         }
 
-        .footer-page {
-            position: fixed;
+        #page-contain {
+            font-size: 12pt !important;
+            font-family: 'Times New Roman', 'DFKai-SB';
         }
 
+        .navbar, .fileattached {
+            display: none;
+        }
+
+
+
+
+        h4 {
+            font-size: 12px;
+        }
 
         table {
             page-break-inside: avoid;
@@ -77,18 +79,6 @@
             margin-top: 5px;
             border-bottom: none;
         }
-
-
-    }
-
-
-
-    .col-mrg {
-        margin-bottom: 2%;
-    }
-
-    .container {
-        padding-top: 0px !important;
     }
 </style>
 

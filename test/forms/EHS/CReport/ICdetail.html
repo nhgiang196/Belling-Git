@@ -1,34 +1,46 @@
 <style>
-    .navbar,
+   
     footer {
         display: none;
     }
 
-
     #bottom-footer {
         display: none;
     }
-
-
-
     body {
         background: rgb(204, 204, 204);
         padding: 0;
     }
-
     .container,
     .row {
         padding: 0;
     }
 
+    @page {
+        size: A4;
+        /* margin: 0; */
+        /* size: auto; */
+        margin-top: 5.5mm;
+        margin-left: 9mm;
+        margin-right: 9mm;
+        margin-bottom: 5.5mm;
+        
+    }
+
     @media print {
+
+        .container {
+            padding-top: 0px !important;
+        }
 
         #page-contain {
             font-size: 12pt !important;
             font-family: 'Times New Roman', 'DFKai-SB';
         }
 
-
+        .navbar, .fileattached {
+            display: none;
+        }
         h4 {
             font-size: 12px;
         }
@@ -58,16 +70,10 @@
             display: block;
             position: fixed;
             bottom: 0px;
-            width: 84%;
+            width: 100%;
             margin-top: 5px;
             border-bottom: none;
         }
-    }
-    .col-mrg {
-        margin-bottom: 2%;
-    }
-    .container {
-        padding-top: 0px !important;
     }
 </style>
 <receive-report Rp_ID='{{Rp_ID}}'></receive-report>
