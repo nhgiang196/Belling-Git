@@ -83,7 +83,7 @@
     </div>
 
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Acdatetime'|translate}} : </label>
+        <label class="col-sm-2 control-label ctr-lb">* {{'CReportDateTime'|translate}} : </label>
         <div class="col-sm-4">
             <div class='input-group date'>
                 <input type='text' id="time-prc-ac" class="form-control" date-picker time="Y-m-d H:i" max="0"
@@ -208,7 +208,7 @@
         <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
-                ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="mySwitch">
+                ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="AC_Department_Disable">
                 <option value=""></option>
                 <option value="{{deptDefault.CostCenter}}">
                     {{deptDefault.CostCenter}} - {{deptDefault.Specification }}</option>

@@ -93,3 +93,195 @@
 </style>
 
 <receive-report Rp_ID='{{Rp_ID}}'></receive-report>
+
+<!-- <page size="A4" id="page-contain" class="container">
+    <table class="body">
+
+        <tbody>
+
+            <tr>
+                <td>
+                    <h4 style="text-align:center;  margin-bottom: 4%;">
+                        CÔNG TY TNHH POLYTEX FAR EASTERN (VIET NAM)<br>
+                        遠東新世紀股份有限公司(越南紡纖廠)
+
+                    </h4>
+
+                    <div style="text-align: center; margin-bottom: 4%;">
+                        <h4 style="">BÁO CÁO TAI NẠN NGOÀI Ý MUỐN <br>
+                            意外傷害報告書
+                        </h4>
+                    </div>
+                    <div style="text-align: right;">
+                        填表日期 Ngày tháng : {{Rp_Date}}
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class=" ">
+                        1.0 Thông tin cơ bản người bị thương 傷者基本資料 :
+                    </div>
+
+                    <div style="padding-left: 3%; margin-top:25px;" ng-repeat="item in ACdetail">
+                        <div class="col-mrg">
+                            Họ tên 姓名 : {{item.Name}}
+                        </div>
+                        <div class="col-mrg">
+                            Giới tính 性別 : {{item.sex}}
+                        </div>
+                        <div class="col-mrg">
+                            Tuổi 年齡 : {{item.Age}} 歲
+                        </div>
+                        <div class="col-mrg">
+                            Mã nhân viên 工號 : {{item.EmployeeID}}
+                        </div>
+                        <div class=" col-mrg">
+                            Đơn vị 單位 : {{item.Specification_VN}}
+                        </div>
+                        <div class="col-mrg">
+                            Công việc đảm nhận 擔任工作 : {{item.PositionName}}
+                        </div>
+                        <div class="col-mrg">
+                            Ngày vào làm 進廠日期 : {{item.Hiring}}
+                        </div>
+                    </div>
+
+                    <div>
+                        2.0 Thời gian bị thương 受傷時間 : {{Rp_DateTime}}
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <div>
+                        3.0 Địa điểm bị thương 受傷地點：(nếu bên ngoài xưởng, xin vẽ ra vị trí địa lý 若係廠外受傷，請劃出地理位置) :
+                        <br><span style="padding-left: 20px;">{{Rp_Location | translate}}</span>
+                        <br>
+                        <a href="/{{item.File_ID}}" ng-repeat="item in ACfile_Location" target="_blank"
+                            style="padding-left: 3%; display: block;">{{item.File_ID}}</a>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        4.0 Tình hình chi tiết quá trình bị thương 受傷經過詳細情形 :
+                        <p style="padding-left: 3%; text-align: justify;" ng-repeat="item in ACdetail">
+                            {{item.EmployeeID}}: {{item.Injury_Description}}</p>
+                        <a href="/{{item.File_ID}}" target="_blank" ng-repeat="item in ACfile_Injury_Description"
+                            style="padding-left: 3%; display: block;">{{item.Profile_ID}}: {{item.File_ID}}</a>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        5.0 Danh tính người chứng kiến hiện trường hoặc người có quan hệ với người bị thương
+                        受傷關係人或現場見證人姓名
+                        (nếu bên ngoài xưởng xin ghi rõ cách thức liên lạc 若係廠外請註明聯絡方法) :
+                        <p style="padding-left: 3%; text-align: justify;" ng-repeat="item in ACdetail">
+                            {{item.EmployeeID}}: {{item.Witness_info}}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        6.0 Tình hình xử lý sau khi bị thương 受傷後處理情形 :
+                        <p style="padding-left: 3%; text-align: justify;" ng-repeat="item in ACdetail">
+                            {{item.EmployeeID}}: {{item.Treatment_Result}}</p>
+                    </div>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <div>
+                        7.0 Làm thế nào để ngăn ngừa tai nạn tương tự 如何防止同樣事故發生 :
+                        <p style="padding-left: 3%; text-align: justify;">{{Rp_PreventMeasure}}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        8.0 Báo cáo cải thiện tai nạn 事故改善報告
+                    </div>
+
+                    <div>
+                        <p style="padding-left: 3%;">8.1 Nội dung biện pháp cải thiện 改善措施內容 : </p>
+                        <p style="padding-left: 3%;">8.1.1 1Phần mềm 軟體(con người人員) :</p>
+                        <p style="padding-left: 5%; text-align: justify;">{{RpAC_ImproveSoftware}}</p>
+                        <p style="padding-left: 3%;">8.1.2 Cải thiện phần cứng 硬體 (môi trường,cơ sở 環境、設施) 改善 :</p>
+                        <p style="padding-left: 5%; text-align: justify;">{{RpAC_ImproveHardware}}</p>
+                    </div>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        <p style="padding-left: 3%;">8.2 Ngày tháng hoàn thành biện pháp cải thiện 改善措施完成日期 :
+                            {{RpAC_DateComplete}}</p>
+                        <p style="padding-left: 3%;">8.2.1 Phần mềm 軟體 (con người人員) :
+                            {{RpAC_ResultSoftware | translate}}</p>
+                        <p style="padding-left: 3%;">8.2.2 Cải thiện phần cứng 硬體 (môi trường,cơ sở 環境、設施) 改善:
+                            {{RpAC_ResultHardware | translate}}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class=" col-mrg div-table">
+                        9.0 Phê duyệt của chủ quản 主管批示 :
+                        <table cellpadding="5px" border="1px" style="width:100%; height: 100%; margin-top: 3%;">
+                            <tr style="text-align:center;">
+                                <td style="width:5%">Creator</td>
+                                <td></td>
+                                <td style="width:5%">Leader</td>
+                                <td></td>
+                                <td style="width:5%">Header Factory</td>
+                                <td></td>
+                                <td style="width:5%">Supervisor</td>
+                                <td></td>
+                                <td style="width:5%">Leader</td>
+                                <td></td>
+                                <td style="width:5%">Manager</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="col-sm-12" style="text-align: justify; margin-top:3%; margin-bottom: 0px;">
+                        ※ Bản này chia làm hai bản đồng thời trình ký,sau khi thông qua đơn vị ATVSMT ký duyệt, một bản
+                        do bộ phận bị tai nạn lưu,
+                        một bản do bộ phận ATVSMT lưu. 本文件一式兩份同時呈報，經安衛單位簽核後一份回原單位，一份由安衛單位存查。
+                    </p>
+                </td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <div class="divFooter" style="text-align: right;">5VEXXHR391-01</div>
+                </td>
+            </tr>
+        </tfoot>
+
+    </table>
+    
+</page>
+
+ -->

@@ -1,5 +1,4 @@
 <style>
-
     #page-contain {
         font-size: 15pt;
         font-family: 'Times New Roman', 'DFKai-SB';
@@ -39,7 +38,9 @@
             </Strong>
         </div>
         <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
-            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   </u>年<u>  </u><u> </u>月<u>  </u><u> </u>日  
+            Năm {{ReportDetail.Rp_Date | date:  'yyyy'}}  年
+            tháng {{ReportDetail.Rp_Date | date:  'MM'}}  月
+            ngày {{ReportDetail.Rp_Date | date:  'dd'}}  日
         </div>
     </div>
     <!--end of header-->
@@ -144,7 +145,9 @@
             意外傷害報告書
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align: right;">
-            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   </u>年<u>  </u><u> </u>月<u>  </u><u> </u>日  
+            Năm {{ReportDetail.Rp_Date | date:  'yyyy'}} 年
+            tháng {{ReportDetail.Rp_Date | date:  'MM'}} 月
+            ngày {{ReportDetail.Rp_Date | date:  'dd'}} 日
         </div>
     </div>
     <!--end off header-->
@@ -296,12 +299,14 @@
             <br> <Strong> BÁO CÁO SỰ CỐ MÔI TRƯỜNG <br> 環境事故報告書 </Strong>
         </div>
         <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
-            Ngày tháng:<u>    /     /       </u> 填報日期：<u>   </u>年<u>  </u><u> </u>月<u>  </u><u> </u>日  
+            Năm {{ReportDetail.Rp_Date | date:  'yyyy'}} 年
+            tháng {{ReportDetail.Rp_Date | date:  'MM'}} 月
+            ngày {{ReportDetail.Rp_Date | date:  'dd'}} 日
         </div>
     </div>
     <div class="body">
         <div class="col-lg-12 col-sm-12 col-mrg">
-            1. 事故單位 Đơn vị xảy ra sự cố: {{ReportDetail.SubDepartmentName}}
+            1. Đơn vị xảy ra sự cố 事故單位: {{ReportDetail.SubDepartmentName}}
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             2. Loại hình sự cố 事故類型: {{ReportDetail.RpIC_IncidentType}}
@@ -322,8 +327,8 @@
             {{ReportDetail.RpIC_TimeNotif | date:  'dd'}} ngày日
             {{ReportDetail.RpIC_TimeNotif | date:  'HH'}} giờ時
             {{ReportDetail.RpIC_TimeNotif | date:  'mm'}} phút分
-            <br>Người thực hiện thông báo 通報人：{{ReportDetail.Rp_CreatorID}}
-            <br>Người nhận thông báo授信人 ：{{ReportDetail.RpIC_NotifPerson}}
+            <br>Người thực hiện thông báo 通報人：{{ReportDetail.RpIC_NotifPerson}}
+            <br>Người nhận thông báo授信人 ：{{ReportDetail.RpIC_ReceivePerson}}
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location |translate}}
@@ -333,7 +338,7 @@
                     ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}"
                     style=" display:block;">{{item.File_ID}}</a>
             </div>
-            Diễn biến sự cố 事故發生經過 (Thuyết minh chi tiết 請詳細說明):
+            Hình ảnh sự cố 事故照片: (Đính kèm ảnh)
             <p style=" text-align: justify;">{{ReportDetail.RpIC_Description}}</p>
             <a href="/{{item.File_ID}}" target="_blank"
                 ng-repeat="item in FileAttached | filter:{ColumnName: 'Injury_Description'}"

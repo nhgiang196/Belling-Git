@@ -470,11 +470,11 @@
   "IncidentReport": "Incident Report",
   "Nofile": "No file chosen",
   "Incident_info": "Incident Information ",
-  "Iclocation": "Location of Incident",
+  "CreportLocation": "Location of Incident",
   "Factory": "Factory",
   "IncidentType": "Incident Type",
   "IcUnit": "Unit",
-  "Icdatetime": "Date of incident",
+  "CReportDateTime": "Date of incident",
   "Description": "Incident Description",
   "Basic": "Basic Reason",
   "Dr_reason": "Direct Reason",
@@ -559,14 +559,17 @@
   "Age": "Age",
   "CategoryReport": "Category Of Report",
   "IcCategoryReport": "IC category Report (Sub Type)",
-  "RpIC_IncidentType-WasteWater": "Nước thải",
-  "RpIC_IncidentType-Gas": "Khí thải",
-  "RpIC_IncidentType-SolidWaste": "Chất thải rắn",
-  "RpIC_IncidentType-Chemical": "Hóa chất",
-  "RpIC_IncidentType-Other": "Khác",
-  "RpIC_Affect-Low": "Sự cố môi trường mức độ thấp",
-  "RpIC_Affect-Medium": "Sự cố môi trường mức độ trung bình",
-  "RpIC_Affect-High": "Sự cố môi trường mức độ cao"
+  "RpIC_IncidentType-WasteWater": "Waste Water",
+  "RpIC_IncidentType-Gas": "Gas",
+  "RpIC_IncidentType-SolidWaste": "Solid Chemical",
+  "RpIC_IncidentType-Chemical": "Chemical",
+  "RpIC_IncidentType-Other": "Other",
+  "RpIC_Affect-Low": "Low affect",
+  "RpIC_Affect-Medium": "Medium Affect",
+  "RpIC_Affect-High": "High Affect"
   ,"StatusPW": "Wait for updating"
-  ,"Update Improvement":"Cập nhật bằng chứng cải thiện"
+  ,"Update Improvement":"Update Improvement"
+  ,"CreateIC_EVR":""
+  ,"CreateIC":""
+  ,"CreateAC":""
 }

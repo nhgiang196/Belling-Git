@@ -162,7 +162,7 @@
     </div>
     <div class=" form-group frm-mrg ">
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Icdatetime'|translate}} </label>
+        <label class="col-sm-2 control-label ctr-lb">* {{'CReportDateTime'|translate}} </label>
         <div class="col-sm-4">
             <div class='input-group date'>
                 <input type='text' id="time-prc-ic" class="form-control" date-picker time="1" max="0"
@@ -173,7 +173,7 @@
             </div>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Iclocation'|translate}}</label>
+        <label class="col-sm-2 control-label ctr-lb">* {{'CReportLocation'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordIC.icLocation" name="recordIC.icLocation" required>
                 <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}

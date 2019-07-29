@@ -15,7 +15,7 @@ define(['app'], function (app) {
                      *reset data function
                      */
                     $scope.resetAC = function () {
-                        $scope.mySwitch = false;
+                        $scope.AC_Department_Disable = false;
                         $scope.listfileAC = [];
                         $scope.recordAC = {};
                         $scope.gd = {};
@@ -259,7 +259,7 @@ define(['app'], function (app) {
                     $scope.SaveACReport = function () { //main submitting /saving function
                         var nofile = false;
                         if ($scope.employees.length != 0) {
-                            $scope.mySwitch = false;
+                            $scope.AC_Department_Disable = false;
                             var note = saveInitDataAC();
                             if ($scope.count == 0 && $scope.recordAC.ac_location == "O") {
                                 $scope.nofileLoc();

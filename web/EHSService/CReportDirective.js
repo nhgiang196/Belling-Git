@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('receiveReport', ['CReportService', 'InfolistService', 'Auth', '$filter', '$routeParams', '$translate','EngineApi',
-        function (CReportService, InfolistService, Auth, $filter, $routeParams, $translate,EngineApi) {
+    app.directive('receiveReport', ['CReportService', 'InfolistService', 'Auth', '$filter', '$routeParams', '$translate', 'EngineApi',
+        function (CReportService, InfolistService, Auth, $filter, $routeParams, $translate, EngineApi) {
             return {
                 restrict: 'AEC',
                 link: function (scope, element, attrs) {
@@ -44,6 +44,9 @@ define(['app'], function (app) {
 
                             }
 
+
+
+
                         });
 
                         /**Get Receiver*/
@@ -64,18 +67,30 @@ define(['app'], function (app) {
                                     })
                                     var receiver = {};
                                     var taf = TAFFY(data[0].Logs);
-                                    receiver[0] = taf({TaskName: "起始表单"}).first(); //initiator
-                                    receiver[1] = taf({TaskName: "Leader check C-Report"}).order("Stamp").limit(1).last();
-                                    receiver[2] = taf({TaskName: "Leader check C-Report"}).order("Stamp").limit(2).last();
-                                    receiver[3] = taf({TaskName: "Leader HSE check C-Report"}).order("Stamp").limit(1).last();
-                                    receiver[4] = taf({TaskName: "Leader HSE check C-Report"}).order("Stamp").limit(2).last();
-                                    receiver[5] = taf({TaskName: "Leader HSE check C-Report"}).order("Stamp").limit(3).last();
-                                    if (receiver[2].UserId == receiver[1].UserId) receiver[2]=null;
-                                    if (receiver[4].UserId == receiver[3].UserId) receiver[4]=receiver[5];
-                                    if (receiver[5].UserId == receiver[4].UserId) receiver[5]=null;
-                                    
+                                    receiver[0] = taf({
+                                        TaskName: "起始表单"
+                                    }).first(); //initiator
+                                    receiver[1] = taf({
+                                        TaskName: "Leader check C-Report"
+                                    }).order("Stamp").limit(1).last();
+                                    receiver[2] = taf({
+                                        TaskName: "Leader check C-Report"
+                                    }).order("Stamp").limit(2).last();
+                                    receiver[3] = taf({
+                                        TaskName: "Leader HSE check C-Report"
+                                    }).order("Stamp").limit(1).last();
+                                    receiver[4] = taf({
+                                        TaskName: "Leader HSE check C-Report"
+                                    }).order("Stamp").limit(2).last();
+                                    receiver[5] = taf({
+                                        TaskName: "Leader HSE check C-Report"
+                                    }).order("Stamp").limit(3).last();
+                                    if (receiver[2].UserId == receiver[1].UserId) receiver[2] = null;
+                                    if (receiver[4].UserId == receiver[3].UserId) receiver[4] = receiver[5];
+                                    if (receiver[5].UserId == receiver[4].UserId) receiver[5] = null;
+
                                     scope.receiver = receiver;
-                                    console.log('receiver: ',receiver);
+                                    console.log('receiver: ', receiver);
                                 })
 
 
