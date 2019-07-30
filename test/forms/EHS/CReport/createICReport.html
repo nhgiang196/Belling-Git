@@ -104,7 +104,7 @@
             </select>
         </div>
         <div ng-if="IsEVR" class="EVRform">
-            <label class="col-sm-2 control-label ctr-lb">* {{'icCategoryReport'|translate}}</label>
+            <label class="col-sm-2 control-label ctr-lb">* {{'IcCategoryReport'|translate}}</label>
             <div class="col-sm-4">
                 <select ng-if="!icType_CheckOther" style="width:100%" ui-select2 ng-model="recordIC.icType"
                     name="recordIC.icType" required>
@@ -173,7 +173,7 @@
             </div>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'CReportLocation'|translate}}</label>
+        <label class="col-sm-2 control-label ctr-lb">* {{'CreportLocation'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordIC.icLocation" name="recordIC.icLocation" required>
                 <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}
@@ -275,7 +275,7 @@
         <!-- end of form-group frm-mrg -->
 
         <div class="form-group frm-mrg">
-            <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Basic'|translate}} </label>
+            <label class="col-sm-4 rm-padding-left control-label ctr-lb">* {{'Basic_reason'|translate}} </label>
             <div class="col-sm-8 rm-padding-left">
                 <textarea class="form-control" rows="4" type="text" name="recordIC.icBasic" ng-model="recordIC.icBasic" />
             </div>
@@ -288,7 +288,7 @@
     <div class="col-sm-6">
 
         <div class="form-group frm-mrg">
-            <label class="col-sm-4 control-label ctr-lb">* {{'Result'|translate}}</label>
+            <label class="col-sm-4 control-label ctr-lb">* {{'CResult'|translate}}</label>
             <div class="col-sm-8 rm-padding-right">
                 <textarea class="form-control" rows="4" type="text" name="recordIC.icResult" ng-model="recordIC.icResult" />
             </div>

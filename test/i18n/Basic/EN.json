@@ -564,6 +564,7 @@
   "Submit_Processing_MSG": "You can't submit the report that is processing",
   "Submit_Signed_MSG": "You can't submit the report that was signed approval",
   "Submit_Success_MSG": "Your report is submited!",
+  "Improment_Update_MSG":"Can't update Incident Report",
   "Unit_Other": "Unit",
   "Update_Deleted_MSG": "You can't update the report that was deleted",
   "Update_Improvement": "Update Improvement",

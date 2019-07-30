@@ -6,6 +6,10 @@
     input[type=checkbox] {
         transform: scale(1.5);
     }
+    body{
+        
+        font-family: 'Tahoma', 'DFKai-SB';
+    }
 
     .ibx-manage-logo {
         height: 42px;
@@ -132,7 +136,7 @@
                 <label class="col-sm-2 control-label">{{'Status'|translate}}</label>
                 <div class="col-sm-4">
                     <select class="form-control" name="status" ng-model="s_status">
-                        <option ng-selected="true" value="">{{'All'|translate}}</option>
+                        <option ng-selected="true" value="">{{'Show All'|translate}}</option>
                         <option ng-repeat="item in statuslist" value="{{item.id}}">{{item.name | translate}}</option>
 
                     </select>

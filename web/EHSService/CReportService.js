@@ -400,13 +400,13 @@ define(['app', 'angular'], function (app, angular) {
                     case 'status':
                         var statuslist = [{
                                 id: 'D',
-                                name: 'Draft'
+                                name: 'StatusD'
                             }, {
                                 id: 'P',
-                                name: 'Processing'
+                                name: 'StatusP'
                             }, {
                                 id: 'S',
-                                name: 'Signed'
+                                name: 'StatusS'
                             }, {
                                 id: 'X',
                                 name: 'StatusX'

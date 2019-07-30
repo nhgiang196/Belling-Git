@@ -564,6 +564,7 @@
   "Submit_Processing_MSG": "您無法提交已簽名的處理報告",
   "Submit_Signed_MSG": "您無法提交已簽名和已批准的報告以供審批",
   "Submit_Success_MSG": "您的報告已提交！",
+  "Improment_Update_MSG":"Không thể cập nhật cải thiện cho đơn loại này được",
   "Unit_Other": "單元",
   "Update_Deleted_MSG": "您無法更新已刪除的報告",
   "Update_Improvement": "更新改進",

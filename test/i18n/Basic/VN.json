@@ -564,6 +564,7 @@
   "Submit_Processing_MSG": "Bạn không thể gửi ký duyệt báo cáo đang xử lý",
   "Submit_Signed_MSG": "Bạn không thể gửi ký duyệt báo cáo đã ký duyệt",
   "Submit_Success_MSG": "Báo cáo của bạn đã được gửi ký duyệt!",
+  "Improment_Update_MSG":"Không thể cập nhật cải thiện cho đơn loại này được",
   "Unit_Other": "Đơn vị",
   "Update_Deleted_MSG": "Bạn không thể cập nhật báo cáo đã xóa",
   "Update_Improvement": "Cập nhật bằng chứng cải thiện",

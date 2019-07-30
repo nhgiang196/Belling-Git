@@ -122,7 +122,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 {
                     field: 'Rp_Location',
                     minWidth: 150,
-                    displayName: $translate.instant('CReportLocation'),
+                    displayName: $translate.instant('CreportLocation'),
                     cellTooltip: true,
                     cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Rp_Location)}}</span>'
                 },
@@ -500,7 +500,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 {
                                     Notifications.addError({
                                         'status': 'error',
-                                        'message': $translate.instant('IC Wont Work')
+                                        'message': $translate.instant('')
                                     });
                                     return;
                                 }
