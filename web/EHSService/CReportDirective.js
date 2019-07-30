@@ -24,8 +24,6 @@ define(['app'], function (app) {
                             scope.ReportDetail = data.Header[0];
                             scope.FileAttached = data.File;
                             scope.InjuryDetail = data.Detail;
-
-
                             // evaluate combobox
                             var evaluatelist = InfolistService.Infolist('evaluate');
                             // location combobox
@@ -41,8 +39,65 @@ define(['app'], function (app) {
                                     scope.ReportDetail.RpAC_ResultHardware = evaluatelist.find(item => item.id === data.Header[0].RpAC_ResultHardware).name;
                                     scope.ReportDetail.RpAC_ResultSoftware = evaluatelist.find(item => item.id === data.Header[0].RpAC_ResultSoftware).name;
                                 }
+                            }
+
+                            if (['P', 'S'].indexOf(data.Header[0].Rp_Status) >= 0) {
+                                /**Get Receiver*/
+                                CReportService.CReportHSEPID().get({
+                                    Rp_ID: _Rp_ID
+                                }).$promise.then(function (res) {
+                                    console.log(res);
+                                    if (res) {
+                                        EngineApi.getProcessLogs.getList({
+                                            "id": res.ProcessInstanceId,
+                                            "cId": ""
+                                        }, function (data) {
+                                            console.log('getdata!', data);
+                                            console.log(data[0].Logs);
+                                            data.forEach(function (value, index) {
+                                                if (index >= 1)
+                                                    data[0].Logs.push.apply(data[0].Logs, data[index].Logs)
+                                            })
+                                            var receiver = {};
+                                            var taf = TAFFY(data[0].Logs);
+                                            receiver[0] = taf({
+                                                TaskName: "起始表单"
+                                            }).first(); //initiator
+                                            receiver[1] = taf({
+                                                TaskName: "Leader check C-Report"
+                                            }).order("Stamp").limit(1).last();
+                                            receiver[2] = taf({
+                                                TaskName: "Leader check C-Report"
+                                            }).order("Stamp").limit(2).last();
+                                            receiver[3] = taf({
+                                                TaskName: "Leader HSE check C-Report"
+                                            }).order("Stamp").limit(1).last();
+                                            receiver[4] = taf({
+                                                TaskName: "Leader HSE check C-Report"
+                                            }).order("Stamp").limit(2).last();
+                                            receiver[5] = taf({
+                                                TaskName: "Leader HSE check C-Report"
+                                            }).order("Stamp").limit(3).last();
+                                            if (receiver[2].UserId == receiver[1].UserId) receiver[2] = null;
+                                            if (receiver[4].UserId == receiver[3].UserId) receiver[4] = receiver[5];
+                                            if (receiver[5].UserId == receiver[4].UserId) receiver[5] = null;
+
+                                            scope.receiver = receiver;
+                                            console.log('receiver: ', receiver);
+                                        })
+
+
+
+
+
+                                    }
+                                }, function (err) {
+
+
+                                })
 
                             }
+
 
 
 
@@ -56,59 +111,7 @@ define(['app'], function (app) {
 
 
 
-                        /**Get Receiver*/
-                        CReportService.CReportHSEPID().get({
-                            Rp_ID: _Rp_ID
-                        }).$promise.then(function (res) {
-                            console.log(res);
-                            if (res) {
-                                EngineApi.getProcessLogs.getList({
-                                    "id": res.ProcessInstanceId,
-                                    "cId": ""
-                                }, function (data) {
-                                    console.log('getdata!', data);
-                                    console.log(data[0].Logs);
-                                    data.forEach(function (value, index) {
-                                        if (index >= 1)
-                                            data[0].Logs.push.apply(data[0].Logs, data[index].Logs)
-                                    })
-                                    var receiver = {};
-                                    var taf = TAFFY(data[0].Logs);
-                                    receiver[0] = taf({
-                                        TaskName: "起始表单"
-                                    }).first(); //initiator
-                                    receiver[1] = taf({
-                                        TaskName: "Leader check C-Report"
-                                    }).order("Stamp").limit(1).last();
-                                    receiver[2] = taf({
-                                        TaskName: "Leader check C-Report"
-                                    }).order("Stamp").limit(2).last();
-                                    receiver[3] = taf({
-                                        TaskName: "Leader HSE check C-Report"
-                                    }).order("Stamp").limit(1).last();
-                                    receiver[4] = taf({
-                                        TaskName: "Leader HSE check C-Report"
-                                    }).order("Stamp").limit(2).last();
-                                    receiver[5] = taf({
-                                        TaskName: "Leader HSE check C-Report"
-                                    }).order("Stamp").limit(3).last();
-                                    if (receiver[2].UserId == receiver[1].UserId) receiver[2] = null;
-                                    if (receiver[4].UserId == receiver[3].UserId) receiver[4] = receiver[5];
-                                    if (receiver[5].UserId == receiver[4].UserId) receiver[5] = null;
 
-                                    scope.receiver = receiver;
-                                    console.log('receiver: ', receiver);
-                                })
-
-
-
-
-
-                            }
-                        }, function (err) {
-
-
-                        })
 
 
 

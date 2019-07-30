@@ -41,15 +41,15 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
             };
 
-            /**Get voucher and voucher detail  */
-            $q.all([loadDetail()]).then(function (result) {
-                console.log(result);
-            }, function (error) {
-                Notifications.addError({
-                    'status': 'Failed',
-                    'message': 'Loading failed: ' + error
-                });
-            });
+            // /**Get voucher and voucher detail  */
+            // $q.all([loadDetail()]).then(function (result) {
+            //     console.log(result);
+            // }, function (error) {
+            //     Notifications.addError({
+            //         'status': 'Failed',
+            //         'message': 'Loading failed: ' + error
+            //     });
+            // });
 
 
             //lấy báo cáo phần chung 

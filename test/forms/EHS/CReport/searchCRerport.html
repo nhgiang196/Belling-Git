@@ -6,9 +6,14 @@
     input[type=checkbox] {
         transform: scale(1.5);
     }
-    body{
-        
+
+    body {
+
         font-family: 'Tahoma', 'DFKai-SB';
+    }
+
+    .receive_report .container {
+        width: 970px;
     }
 
     .ibx-manage-logo {
@@ -379,8 +384,8 @@
                     </div>
                     <hr>
                     <H4 class="title">{{'ReportDetail'|translate}}</H4>
-                    <receive-report ng-if='ReportDetail.Rp_ID!=undefined' Rp_ID='{{ReportDetail.Rp_ID}}'
-                        style="width: 100%"></receive-report>
+                    <receive-report ng-if='ReportDetail.Rp_ID!=undefined' Rp_ID='{{ReportDetail.Rp_ID}}'>
+                    </receive-report>
 
 
 
@@ -399,5 +404,5 @@
 <hr>
 
 <div style="padding-top: 20px; text-align: center">
-    <div process-diagram-preview flow-key="CReportHSE"></div>
+    <div process-diagram-preview flow-key="CReportHSE" width="100%"></div>
 </div>

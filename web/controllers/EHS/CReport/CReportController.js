@@ -494,7 +494,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 {
                                     Notifications.addError({
                                         'status': 'error',
-                                        'message': $translate.instant('')
+                                        'message': $translate.instant('Improment_Update_MSG')
                                     });
                                     return;
                                 }
