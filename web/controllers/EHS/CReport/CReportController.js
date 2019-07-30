@@ -24,13 +24,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 id: '1',
                 name: $translate.instant('Accident')
             }];
-            $scope.typelistEVR = [{ //list for submittype combobox
-                id: 'all',
-                name: $translate.instant('All')
-            }, {
-                id: '0',
-                name: $translate.instant('Incident')
-            }, {
+            $scope.typelistEVR = [{
                 id: '2',
                 name: $translate.instant('PollutionEnvironment')
             }];
@@ -155,7 +149,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         if (id == "IC") return $translate.instant("Incident");
                         return $translate.instant($scope.ACTypelist.find(item => item.id === id).name);
                     case 'RpIC_Affect':
-                        return $translate.instant("RpIC_Affect-"+id);
+                        return $translate.instant("RpIC_Affect-" + id);
 
                 }
             }
