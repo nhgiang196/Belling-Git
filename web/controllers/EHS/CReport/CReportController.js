@@ -10,6 +10,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 submitbutton: true,
                 checker: true
             }
+            var isHSEUser;
+            EngineApi.getMemberInfo().get({
+                userid: Auth.username
+            }, function (res) {
+                $scope.isHSEUser = isHSEUser=( res.DepartmentID == '519101000' ? true : false);
+            });
             var lang = window.localStorage.lang || 'EN';
             // $scope.ImprovementRecord = {};
             getGateCheck(null); //get Checker
@@ -25,7 +31,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 id: '1',
                 name: $translate.instant('Accident')
             }];
-            $scope.typelistEVR = [ {
+            $scope.typelistEVR = [{
                 id: '2',
                 name: $translate.instant('PollutionEnvironment')
             }];
@@ -35,7 +41,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.rp_Submittype = $scope.SubmitTypelist[0]; //set default search param
             $scope.rp_type = $scope.typelist[0].id; //set default search param
             /**********************************GRID -UI DEFINITION*********************************************************/
-            var col = [{
+            var colgrid = [{
                     field: 'Rp_ID',
                     width: 130,
                     minWidth: 30,
@@ -51,6 +57,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     minWidth: 10,
                     cellTooltip: true,
                     cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Rp_Status)}}</span>'
+                },
+                {
+                    field: 'Improvement_Status',
+                    minWidth: 100,
+                    displayName: $translate.instant('Improvement_Status'),
+                    cellTooltip: true,
+                    cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Improvement_Status)}}</span>'
                 },
                 {
                     field: 'Rp_Date',
@@ -102,7 +115,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     minWidth: 150,
                     displayName: $translate.instant('Creator'),
                     cellTooltip: true
-                }
+                },
+               
             ];
             $scope.getTranslatedCol = function (colname, id) { //translated column
                 switch (colname) {
@@ -113,6 +127,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     case 'Rp_Type':
                         if (id == "IC") return $translate.instant("Incident");
                         return $translate.instant($scope.ACTypelist.find(item => item.id === id).name);
+                    case 'Improvement_Status':
+                        return $translate.instant('Improvement_Status-'+id);
                 }
             }
             $scope.GetLink = function (data) { //Getlink để hiện báo cáo
@@ -142,7 +158,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 });
             }
             $scope.gridOptions = { //Grid setting mặc định tên 
-                columnDefs: col,
+                columnDefs: colgrid,
                 data: [],
                 enableFiltering: true,
                 enableColumnResizing: true,
@@ -346,27 +362,27 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.ReportDetail = {};
                         $scope.listfile = [];
                         if (resultRows.length == 1) {
-                            if (resultRows[0].Rp_CreatorID != Auth.username) {
+                            if (resultRows[0].Rp_CreatorID != Auth.username && !isHSEUser && Auth.username!='cassie') {
                                 Notifications.addError({
                                     'status': 'error',
                                     'message': $translate.instant('Update_onlyowner_MSG')
                                 });
                                 return;
                             }
-                            if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
-                                {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('IC Wont Work')
-                                    });
-                                    return;
-                                }
-                            }
+                            // if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
+                            //     {
+                            //         Notifications.addError({
+                            //             'status': 'error',
+                            //             'message': $translate.instant('IC Wont Work')
+                            //         });
+                            //         return;
+                            //     }
+                            // }
                             $scope.ReportDetail.Rp_ID = resultRows[0].Rp_ID
                             CReportService.FindByID({
                                 Rp_ID: resultRows[0].Rp_ID
                             }, function (data) {
-                                if (new Date(data.RpAC_DateComplete) >= new Date()) {
+                                if (new Date(data.RpAC_DateComplete) >= new Date() || isHSEUser) {
                                     $scope.ImprovementRecord = data;
                                     data.FileAttached.forEach(element => {
                                         var x = {};
@@ -478,7 +494,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 console.log(res);
                                 if (res) {
                                     window.open('#/processlog/' + res.ProcessInstanceId);
-                                } 
+                                }
                             }, function (err) {
                                 Notifications.addError({
                                     'status': 'error',

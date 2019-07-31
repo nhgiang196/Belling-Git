@@ -570,4 +570,7 @@
   "Victim_info": "Personal Injury Description",
   "Witness": "Witness ",
   "Witness_info": " Witness name/ Contact"
+  ,"Improvement_Status":"Improvement Status"
+  ,"Improvement_Status-Done":"Done"
+  ,"Improvement_Status-Wait":"Wait"
 }

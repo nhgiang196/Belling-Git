@@ -574,4 +574,7 @@
   "Victim_info": "傷者基本資料",
   "Witness": "受傷關係人或現場見證人姓名",
   "Witness_info": "受傷關係人或現場見證人姓名 (若係廠外請註明聯絡方法)"
+  ,"Improvement_Status":"Trạng thái cải thiện"
+  ,"Improvement_Status-Done":"Done"
+  ,"Improvement_Status-Wait":"Wait"
 }

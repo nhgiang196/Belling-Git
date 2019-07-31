@@ -515,9 +515,9 @@
   "ICTimeNotif": "Thời gian thông báo sự cố",
   "IcUnit": "Đơn vị xảy ra sự cố",
   "Idr_reason": "Nguyên nhân gián tiếp",
-  "Improvehard": "Biện pháp cải thiện phần cứng",
+  "Improvehard": "Biện pháp cải thiện phần cứng (môi trường, cơ sở)",
   "ImprovementInformation": "Nội dung cải thiện",
-  "Improvesoft": "Biện pháp cải thiện phần mềm",
+  "Improvesoft": "Biện pháp cải thiện phần mềm (con người)",
   "Incident": "Sự cố suýt xảy ra",
   "Incident_info": "Thông tin sự cố",
   "IncidentReport": "BÁO CÁO SỰ CỐ SUÝT XẢY RA",
@@ -576,4 +576,7 @@
   "Victim_info": "Thông tin nạn nhân",
   "Witness": "Người chứng kiến",
   "Witness_info": "Danh tính người chứng kiến hoặc người có quan hệ với nạn nhân (Người ngoài xưởng xin ghi rõ cách thức liên hệ)"
+  ,"Improvement_Status":"Trạng thái cải thiện"
+  ,"Improvement_Status-Done":"Hết hạn"
+  ,"Improvement_Status-Wait":"Còn hạn"
 }
