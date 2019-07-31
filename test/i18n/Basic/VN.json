@@ -501,7 +501,7 @@
   "Factory": "Xưởng",
   "Female": "Nữ",
   "FiberChemical": "Xưởng Hóa Sợi",
-  "File_Location": "Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố",
+  "File_Location_MSG": "Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố",
   "FileValidation_IMG_MSG": "Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf",
   "FileValidation_MSG": "Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf, .doc, .docx",
   "FireProtection": "Phòng cháy",

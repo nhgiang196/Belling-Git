@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('createAcReport', ['CReportService', 'InfolistService', 'Auth',
-        function (CReportService, InfolistService, Auth) {
+    app.directive('createAcReport', ['CReportService', 'InfolistService', 'Auth',' $timeout', 'Notifications',
+        function (CReportService, InfolistService, Auth,  $timeout, Notifications) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
@@ -135,7 +135,12 @@ define(['app'], function (app) {
                         if ($scope.gd != null || $scope.gd != {}) {
                             $scope.employees.forEach(x => {
                                 if ($scope.gd.EmployeeID == x.EmployeeID) {
-                                    $scope.same_employee_msg();
+                                    $timeout(function () {
+                                        Notifications.addMessage({
+                                            'status': 'error',
+                                            'message': $translate.instant('SameEmployee')
+                                        });
+                                    }, 300);
                                     return;
                                 }
                             })
@@ -291,7 +296,10 @@ define(['app'], function (app) {
                                 }
                             }
                         } else {
-                            $scope.ac_details_msg();
+                            Notifications.addMessage({
+                                'status': 'information',
+                                'message': $translate.instant('ACDetails_Msg')
+                            });
                         }
                     };
                     $scope.emp_name = "";

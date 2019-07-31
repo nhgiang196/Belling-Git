@@ -376,7 +376,7 @@ define(['app'], function (app) {
                         $timeout(function () {
                             Notifications.addError({
                                 'status': 'error',
-                                'message': $translate.instant('File_Location')
+                                'message': $translate.instant('File_Location_MSG')
                             });
                         }, 200);
                     }
@@ -387,12 +387,6 @@ define(['app'], function (app) {
                                 'message': $translate.instant('Update_Success_MSG')
                             });
                         }, 300);
-                    }
-                    $scope.ac_details_msg = function () {
-                        Notifications.addMessage({
-                            'status': 'information',
-                            'message': $translate.instant('ACDetails_Msg')
-                        });
                     }
                     $scope.submit_success_msg = function () {
                         $timeout(function () {
@@ -418,14 +412,7 @@ define(['app'], function (app) {
                             });
                         }, 300);
                     }
-                    $scope.same_employee_msg = function () {
-                        $timeout(function () {
-                            Notifications.addMessage({
-                                'status': 'error',
-                                'message': $translate.instant('SameEmployee')
-                            });
-                        }, 300);
-                    }
+
 
                     // $scope.showBtnFile = function () {
                     //     if ($scope.recordIC.icLocation == 'O' || $scope.recordAC.ac_location == 'O') {

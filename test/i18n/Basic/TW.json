@@ -499,7 +499,7 @@
   "Factory": "廠",
   "Female": "女",
   "FiberChemical": "化纖廠",
-  "File_Location": "Please upload location file",
+  "File_Location_MSG": "請上傳文件位置 ",
   "FileValidation_IMG_MSG": "您可以上傳文件擴展名為.jpg：.jpeg，.png，.pdf的文件",
   "FileValidation_MSG": "您可以上傳文件擴展名的文件：.jpg，.jpeg，.png，.pdf，.doc，.docx",
   "FireProtection": "消防",

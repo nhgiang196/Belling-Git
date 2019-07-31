@@ -8,13 +8,14 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
             $scope.show = { //show  signal
                 submitbutton: true,
-                checker: true
+                checker: true,
+                isHSEUser: null
             }
             var isHSEUser;
             EngineApi.getMemberInfo().get({
                 userid: Auth.username
             }, function (res) {
-                $scope.isHSEUser = isHSEUser=( res.DepartmentID == '519101000' ? true : false);
+                $scope.show.isHSEUser = isHSEUser = (res.DepartmentID == '519101000' ? true : false);
             });
             var lang = window.localStorage.lang || 'EN';
             // $scope.ImprovementRecord = {};
@@ -88,13 +89,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 {
                     field: 'Rp_DateTime',
                     minWidth: 150,
-                    displayName: $translate.instant('Icdatetime'),
+                    displayName: $translate.instant('CReportDateTime'),
                     cellTooltip: true
                 },
                 {
                     field: 'Rp_Location',
                     minWidth: 150,
-                    displayName: $translate.instant('Iclocation'),
+                    displayName: $translate.instant('CreportLocation'),
                     cellTooltip: true,
                     cellTemplate: '<span class="grid_cell_ct">{{grid.appScope.getTranslatedCol(col.name,row.entity.Rp_Location)}}</span>'
                 },
@@ -116,7 +117,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     displayName: $translate.instant('Creator'),
                     cellTooltip: true
                 },
-               
+
             ];
             $scope.getTranslatedCol = function (colname, id) { //translated column
                 switch (colname) {
@@ -128,7 +129,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         if (id == "IC") return $translate.instant("Incident");
                         return $translate.instant($scope.ACTypelist.find(item => item.id === id).name);
                     case 'Improvement_Status':
-                        return $translate.instant('Improvement_Status-'+id);
+                        return $translate.instant('Improvement_Status-' + id);
                 }
             }
             $scope.GetLink = function (data) { //Getlink để hiện báo cáo
@@ -179,7 +180,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 enablePagination: true,
                 enablePaginationControls: true,
                 exporterFieldCallback: function (grid, row, col, value) {
-                    if (['Rp_Status', 'Rp_Location', 'Rp_Type'].indexOf(col.name) >= 0) {
+                    if (['Rp_Status', 'Rp_Location', 'Rp_Type','Improvement_Status'].indexOf(col.name) >= 0) {
                         if (value != undefined) value = $scope.getTranslatedCol(col.name, value);
                     }
                     return value;
@@ -362,7 +363,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.ReportDetail = {};
                         $scope.listfile = [];
                         if (resultRows.length == 1) {
-                            if (resultRows[0].Rp_CreatorID != Auth.username && !isHSEUser && Auth.username!='cassie') {
+                            if (resultRows[0].Rp_CreatorID != Auth.username && !isHSEUser && Auth.username != 'cassie') {
                                 Notifications.addError({
                                     'status': 'error',
                                     'message': $translate.instant('Update_onlyowner_MSG')

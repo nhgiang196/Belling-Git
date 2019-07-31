@@ -272,11 +272,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label ctr-lb">* {{'DateOfImprovementComplete'|translate}} :
                             </label>
-                            <div class="col-sm-4" ng-if="!isHSEUser">
+                            <div class="col-sm-4" ng-if="!show.isHSEUser">
                                 <span style="color:red; font-size: 120%">
                                     {{ImprovementRecord.RpAC_DateComplete|date:'yyyy-MM-dd HH:mm'}} </span>
                             </div>
-                            <div class="col-sm-4" ng-if="isHSEUser">
+                            <div class="col-sm-4" ng-if="show.isHSEUser">
                                 <div class='input-group date'>
                                     <input class="form-control" id="time-cpl" type="text" name="ac_datecomp"
                                         ng-model="ImprovementRecord.RpAC_DateComplete" date-picker required />
