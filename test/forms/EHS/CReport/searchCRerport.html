@@ -125,7 +125,9 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">{{'ReportID'|translate}}</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="rp_id">
+                    <input type="text" class="form-control" ng-model="rp_id"
+                    ng-keydown="$event.keyCode === 13 && Search()"
+                    >
                 </div>
 
                 <div class="col-sm-4 col-sm-push-2">
