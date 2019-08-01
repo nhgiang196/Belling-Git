@@ -1,5 +1,3 @@
-
-
 define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'], function (myapp, angular) {
     myapp.controller('WasteItemController', ['$filter', '$http',
         '$routeParams', '$resource', '$location', '$interval', '$timeout',
@@ -17,7 +15,7 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
             $scope.method_list = []; //cbx
             $scope.companylist = []; //cbx
             $scope.status = ''; //form status
-            
+
             var paginationOptions = {
                 pageNumber: 1,
                 pageSize: 50,
@@ -25,26 +23,25 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
             };
             /**Define list of waste item state and status */
             $scope.statelist = [{
-                id: 'S',
-                name: $translate.instant('Solid')
-            },
-            {
-                id: 'L',
-                name: $translate.instant('Liquid')
-            },
-            {
-                id: 'M',
-                name: $translate.instant('Sludge')
-            }
+                    id: 'S',
+                    name: $translate.instant('Solid')
+                }, {
+                    id: 'L',
+                    name: $translate.instant('Liquid')
+                },
+                {
+                    id: 'M',
+                    name: $translate.instant('Sludge')
+                }
             ];
             $scope.statuslist = [{
-                id: '1',
-                name: $translate.instant('Available')
-            },
-            {
-                id: '0',
-                name: $translate.instant('Unavailable')
-            },
+                    id: '1',
+                    name: $translate.instant('Available')
+                },
+                {
+                    id: '0',
+                    name: $translate.instant('Unavailable')
+                },
             ];
 
             $q.all([loadMethodName(), loadCompany()]);
@@ -53,7 +50,9 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
              */
 
             function loadMethodName() {
-                var query = { lang: lang };
+                var query = {
+                    lang: lang
+                };
                 MethodProcessService.GetMethod(query, function (data) {
                     console.log(data);
                     $scope.method_list = data;
@@ -66,8 +65,10 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
             }
             /**Load company combobox */
             function loadCompany() {
-                var query = { lang: lang };
-                CompanyService.GetCompany(function (data) {
+                var query = {
+                    lang: lang
+                };
+                CompanyService.GetCompany(query,function (data) {
                     console.log(data);
                     $scope.companylist = data;
                 }, function (error) {
@@ -95,14 +96,21 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                     $scope.recod.method_id = data.MethodID;
                     $scope.recod.comp_originid = data.CompOriginID;
                     $scope.recod.status = data.Status;
+                    /**New attributes 2019-08-01 */
+                    $scope.recod.wastetype = data.WasteType ;
+                    $scope.recod.wastevalue = data.WasteValue ;
+                    $scope.recod.source = data.Source;
+                    $scope.recod.unitprice = data.UnitPrice ;
+                    $scope.recod.area = data.Area ;
+
+
                     deferred.resolve(data);
                 }, function (error) {
                     deferred.reject(error);
                 })
                 return deferred.promise;
             }
-            var col = [
-                {
+            var col = [{
                     field: 'WasteID',
                     minWidth: 50,
                     displayName: $translate.instant('WasteID'),
@@ -168,7 +176,9 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
             ];
 
             $scope.getItemState = function (id) {
-                var statLen = $filter('filter')($scope.statelist, { 'id': id });
+                var statLen = $filter('filter')($scope.statelist, {
+                    'id': id
+                });
                 if (statLen.length > 0) {
                     return statLen[0].name;
                 } else {
@@ -176,7 +186,9 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                 }
             };
             $scope.getItemStatus = function (id) {
-                var statLen = $filter('filter')($scope.statuslist, { 'id': id });
+                var statLen = $filter('filter')($scope.statuslist, {
+                    'id': id
+                });
                 if (statLen.length > 0) {
                     return statLen[0].name;
                 } else {
@@ -240,7 +252,10 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
              */
             function SearchList() {
 
-                var query = { userID: '', des: '' }
+                var query = {
+                    userID: '',
+                    des: ''
+                }
                 query.MethodID = $scope.method_id || '';
                 query.ItemCode = $scope.item_code || '';
                 query.Description = $scope.description || '';
@@ -249,23 +264,28 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                 query.Status = $scope.w_status || '';
                 return query;
             }
-
-
             /**Off/on the status of wasteitem */
             function deleteById(id) {
-                var data = { WasteID: id };
+                var data = {
+                    WasteID: id
+                };
                 WasteItemService.DeleteByWasteItemID(data, function (res) {
-                    if (res.Success) {
-                        Notifications.addMessage({ 'status': 'information', 'message': $translate.instant('Delete_Success_MSG') });
-                        $timeout(function () { $scope.Search() }, 1000);
-                    } else {
-                        Notifications.addError({
-                            'status': 'error',
-                            'message': $translate.instant('saveError') + res.Message
-                        });
-                    }
+                        if (res.Success) {
+                            Notifications.addMessage({
+                                'status': 'information',
+                                'message': $translate.instant('Delete_Success_MSG')
+                            });
+                            $timeout(function () {
+                                $scope.Search()
+                            }, 1000);
+                        } else {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': $translate.instant('saveError') + res.Message
+                            });
+                        }
 
-                },
+                    },
                     function (error) {
                         Notifications.addError({
                             'status': 'error',
@@ -273,7 +293,6 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                         });
                     })
             }
-
 
             /**
              *Search function
@@ -290,63 +309,64 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                 })
             }
             var gridMenu = [{
-                title: $translate.instant('Create'),
-                action: function () {
-                    $scope.reset();
-                    $scope.status = 'N';
-                    $("#ProcessComp").prop('disabled', false); //enable ProcessComp text
-                    $('#myModal').modal('show');
-                },
-                order: 1
-            }, {
-                title: $translate.instant('Update'),
-                action: function () {
-                    var resultRows = $scope.gridApi.selection.getSelectedRows();
-                    $scope.status = 'M';
-                    if (resultRows.length == 1) {
-                        // if (resultRows[0].Status == 'N' && resultRows[0].UserID == Auth.username) {
-                        var querypromise = loadWasteItemDetails(resultRows[0].WasteID);
-                        querypromise.then(function () {
-                            $("#ProcessComp").prop('disabled', true); //disable ProcessComp text
-                            $('#myModal').modal('show');
-                        }, function (error) {
+                    title: $translate.instant('Create'),
+                    action: function () {
+                        $scope.reset();
+                        $scope.status = 'N';
+                        $("#ProcessComp").prop('disabled', false); //enable ProcessComp text
+                        $('#myModal').modal('show');
+                    },
+                    order: 1
+                }, {
+                    title: $translate.instant('Update'),
+                    action: function () {
+                        var resultRows = $scope.gridApi.selection.getSelectedRows();
+                        $scope.status = 'M';
+                        if (resultRows.length == 1) {
+                            // if (resultRows[0].Status == 'N' && resultRows[0].UserID == Auth.username) {
+                            var querypromise = loadWasteItemDetails(resultRows[0].WasteID);
+                            querypromise.then(function () {
+                                $("#ProcessComp").prop('disabled', true); //disable ProcessComp text
+                                $('#myModal').modal('show');
+                            }, function (error) {
 
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': error
+                                });
+                            })
+                            // }
+                            // else {
+                            //     Notifications.addError({'status': 'error', 'message': $translate.instant('Edit_Draf_MSG')})
+                            // }
+                        } else {
                             Notifications.addError({
                                 'status': 'error',
-                                'message': error
+                                'message': $translate.instant('Select_ONE_MSG')
                             });
-                        })
-                        // }
-                        // else {
-                        //     Notifications.addError({'status': 'error', 'message': $translate.instant('Edit_Draf_MSG')})
-                        // }
-                    } else {
-                        Notifications.addError({
-                            'status': 'error',
-                            'message': $translate.instant('Select_ONE_MSG')
-                        });
-                    }
-                },
-                order: 2
-            },
-            {
-                title: $translate.instant('Status_On_Off'),
-                action: function () {
-                    var resultRows = $scope.gridApi.selection.getSelectedRows();
-                    if (resultRows.length == 1) {
-                        if (confirm($translate.instant('Delete_IS_MSG') + ':' + resultRows[0].ItemCode)) {
-                            var updatepromise = deleteById(resultRows[0].WasteID);
                         }
-                    } else {
-                        Notifications.addError({
-                            'status': 'error',
-                            'message': $translate.instant('Select_ONE_MSG')
-                        });
-                    }
+                    },
+                    order: 2
                 },
-                order: 3
+                {
+                    title: $translate.instant('Status_On_Off'),
+                    action: function () {
+                        var resultRows = $scope.gridApi.selection.getSelectedRows();
+                        if (resultRows.length == 1) {
+                            if (confirm($translate.instant('Delete_IS_MSG') + ':' + resultRows[0].ItemCode)) {
+                                var updatepromise = deleteById(resultRows[0].WasteID);
+                            }
+                        } else {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': $translate.instant('Select_ONE_MSG')
+                            });
+                        }
+                    },
+                    order: 3
 
-            }];
-        }])
+                }
+            ];
+        }
+    ])
 })
-

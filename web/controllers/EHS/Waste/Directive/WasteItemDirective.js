@@ -1,4 +1,3 @@
-
 define(['myapp', 'angular'], function (myapp, angular) {
     myapp.directive('createWasteItem', ['$filter', '$http',
         '$routeParams', '$resource', '$location', '$interval',
@@ -29,11 +28,43 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         note.Description_CN = $scope.recod.description_TW || '';
                         note.Description_VN = $scope.recod.description_VN || '';
                         note.Description_EN = $scope.recod.description_VN || '';
-                        note.Status = $scope.recod.status || '0';
+                        note.Status = $scope.recod.status || '1';
+                        /**New attributes 2019-08-01 */
+                        note.WasteType = $scope.recod.wastetype || '';
+                        note.WasteValue = $scope.recod.wastevalue || '';
+                        note.Source = $scope.recod.source || '';
+                        note.UnitPrice = $scope.recod.unitprice || '';
+                        note.Area = $scope.recod.area || '';
+
                         return note;
                     }
+
                     function updateByID(data) {
                         WasteItemService.UpdateWasteItem(data, function (res) {
+                                if (res.Success) {
+                                    $scope.Search();
+                                    $('#myModal').modal('hide');
+                                    $('#messageModal').modal('hide');
+                                    $('#nextModal').modal('hide');
+                                } else {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('saveError') + res.Message
+                                    });
+                                }
+
+                            },
+                            function (error) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': $translate.instant('saveError') + error
+                                });
+                            })
+                    }
+
+                    function SaveItem(data) {
+                        WasteItemService.CreateWasteItem(data, function (res) {
+                            console.log(res)
                             if (res.Success) {
                                 $scope.Search();
                                 $('#myModal').modal('hide');
@@ -46,29 +77,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 });
                             }
 
-                        },
-                            function (error) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + error
-                                });
-                            })
-                    }
-                    function SaveItem(data) {
-                        WasteItemService.CreateWasteItem(data, function (res) {
-                            console.log(res)
-                            if (res.Success) {
-                                $scope.Search();
-                                $('#myModal').modal('hide');
-                                $('#messageModal').modal('hide');
-                                $('#nextModal').modal('hide');
-                            }
-                            else {
-                                Notifications.addError({ 'status': 'error', 'message': $translate.instant('saveError') + res.Message });
-                            }
-
                         }, function (error) {
-                            Notifications.addError({ 'status': 'error', 'message': $translate.instant('saveError') + error });
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': $translate.instant('saveError') + error
+                            });
                         })
                     }
                     $scope.savesubmit = function () {
@@ -91,5 +104,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 },
                 templateUrl: './forms/EHS/WasteItem/createWasteItem.html'
             }
-        }]);
+        }
+    ]);
 });

@@ -20,6 +20,19 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">*{{'ItemCode'|translate}}</label>
+    
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="ItemCode" ng-model="recod.item_code" required/>
+                            </div>
+                            <label class="col-sm-2 control-label">*{{'ProcessComp'|translate}}</label>
+                            <div class="col-sm-4">
+                                <select style="width:100%" id="ProcessComp" class="form-control" ng-model="recod.comp_originid" name="compid" 
+                                ng-options="d.CompOriginID as d.CompName for d in companylist | filter:{Type:'P'}" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">*{{'State'|translate}}</label>
                             <div class="col-sm-3">
                                 <select class="form-control" type="text" name="State" ng-model="recod.state" required>

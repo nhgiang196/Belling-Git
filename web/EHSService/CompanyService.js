@@ -48,8 +48,8 @@ define([
             })            
         }
        
-        CompanyService.prototype.GetCompany = function(callback){
-            this.GetInfoBasic.getList().$promise.then(function(data){
+        CompanyService.prototype.GetCompany = function(query,callback){
+            this.GetInfoBasic.getList(query).$promise.then(function(data){
                 callback(data);              
             }, function(ex){
                 console.log(ex);
