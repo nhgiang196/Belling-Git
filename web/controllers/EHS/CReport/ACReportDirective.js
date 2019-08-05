@@ -1,6 +1,6 @@
 define(['app'], function (app) {
-    app.directive('createAcReport', ['CReportService', 'InfolistService', 'Auth',' $timeout', 'Notifications',
-        function (CReportService, InfolistService, Auth,  $timeout, Notifications) {
+    app.directive('createAcReport',['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate', '$upload',
+        function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate, $upload, ) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
