@@ -20,7 +20,6 @@ define(['app'], function (app) {
 
                             if (InfolistService.Infolist('IncidentType').find(x => x.id == data.Header[0].RpIC_IncidentType) != undefined)
                                 data.Header[0].RpIC_IncidentType = $translate.instant('RpIC_IncidentType-' + data.Header[0].RpIC_IncidentType);
-
                             scope.ReportDetail = data.Header[0];
                             scope.FileAttached = data.File;
                             scope.InjuryDetail = data.Detail;
@@ -30,7 +29,9 @@ define(['app'], function (app) {
                             var locationlist = InfolistService.Infolist('location');
                             // incident type combobox
                             var submittypelist = InfolistService.Infolist('SubmitType');
-                            if (data.Header[0].Rp_SubmitType == 'EVR') {} else {
+
+
+                            if (data.Header[0].Rp_SubmitType == 'Environment') {} else {
                                 if (data.Header[0].Rp_Type == 'IC') {
                                     scope.ReportDetail.Rp_SubmitType = submittypelist.find(item => item.id === data.Header[0].Rp_SubmitType).name;
                                     scope.ReportDetail.RpIC_Evaluate = evaluatelist.find(item => item.id === data.Header[0].RpIC_Evaluate).name;
@@ -61,26 +62,33 @@ define(['app'], function (app) {
                                             var receiver = {};
                                             var taf = TAFFY(data[0].Logs);
                                             receiver[0] = taf({
-                                                TaskName: "起始表单"
+                                                TaskName: "起始表单" //statis string
                                             }).first(); //initiator
                                             receiver[1] = taf({
-                                                TaskName: "Leader check C-Report"
+                                                TaskName: "Leader check C-Report" //statis string
                                             }).order("Stamp").limit(1).last();
                                             receiver[2] = taf({
-                                                TaskName: "Leader check C-Report"
+                                                TaskName: "Leader check C-Report" //statis string
                                             }).order("Stamp").limit(2).last();
                                             receiver[3] = taf({
-                                                TaskName: "Leader HSE check C-Report"
+                                                TaskName: "Leader HSE check C-Report" //statis string
                                             }).order("Stamp").limit(1).last();
                                             receiver[4] = taf({
-                                                TaskName: "Leader HSE check C-Report"
+                                                TaskName: "Leader HSE check C-Report" //statis string
                                             }).order("Stamp").limit(2).last();
                                             receiver[5] = taf({
-                                                TaskName: "Leader HSE check C-Report"
+                                                TaskName: "Leader HSE check C-Report" //statis string
                                             }).order("Stamp").limit(3).last();
-                                            if (receiver[2].UserId == receiver[1].UserId) receiver[2] = null;
-                                            if (receiver[4].UserId == receiver[3].UserId) receiver[4] = receiver[5];
-                                            if (receiver[5].UserId == receiver[4].UserId) receiver[5] = null;
+                                            /** This part could be changed later because there is a list for show specific role
+                                             * not from Creator -  Leader -  Header Factory - Supervisor -  Leader - Manager
+                                             */
+                                            if (receiver[2].UserId == receiver[1].UserId) // move rev2 to rev1 if it's the same person
+                                                receiver[2] = null;
+
+                                            if (receiver[5].UserId == receiver[4].UserId) // move rev5 to rev4 if it's the same person
+                                                receiver[5] = null;
+                                            if (receiver[4].UserId == receiver[3].UserId) // move rev4 to rev3 if it's the same person. rev4 take from rev5. Why? I don't really know.
+                                                receiver[4] = receiver[5];
 
                                             scope.receiver = receiver;
                                             console.log('receiver: ', receiver);
@@ -128,32 +136,33 @@ define(['app'], function (app) {
         function ($resource, Auth, CReportService) {
             return {
                 restrict: 'EAC',
-                controller: function ($scope, $element, $attrs) {
-                    console.log($attrs.userName);
-                    console.log($attrs.flowKey);
+                link: function (scope, element, attrs) {
+                    console.log(attrs.userName);
+                    console.log(attrs.flowKey);
                     // attrs.$observe('kinds', function (newValue) {
                     //     if (newValue) {
                     //         GetBPMCheckers();
                     //     }
 
                     // }, true);
-                    
+
                     geHSEChecker();
+
                     function geHSEChecker() {
                         CReportService.HSEChecker().get({
-                            flowname: $attrs.flowKey,
+                            flowname: attrs.flowKey,
                             userid: Auth.username,
-                            kinds: $attrs.kinds || '',
+                            kinds: attrs.kinds || '',
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {
                                 var checkList = [];
                                 for (var i = 0; i < leaderlist.length; i++) {
                                     checkList[i] = leaderlist[i].Person;
                                 }
-                                $scope.checkList = checkList;
-                                $scope.leaderlist = leaderlist;
-                                console.log("Checklist", $scope.checkList);
-                                console.log("leaderlist", $scope.leaderlist);
+                                scope.checkList = checkList;
+                                scope.leaderlist = leaderlist;
+                                console.log("Checklist", scope.checkList);
+                                console.log("leaderlist", scope.leaderlist);
                             };
                             // scope.$loaded = true;
                             // console.log(data);
@@ -169,9 +178,9 @@ define(['app'], function (app) {
                             console.log(errormessage);
                         })
                     }
-
                 },
-                link: function (scope, element, attrs) {
+
+                controller: function ($scope, $element, $attrs) {
 
 
                 },
