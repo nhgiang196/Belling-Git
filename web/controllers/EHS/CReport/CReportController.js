@@ -243,7 +243,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 $scope.gridOptions.columnDefs[5].visible = query.SubmitType != 'EVR' ? true : false;
                 $scope.gridOptions.columnDefs[8].visible = query.ReportType != '0' ? true : false;
                 $scope.gridOptions.columnDefs[9].visible = query.ReportType != '0' ? true : false;
-
                 CReportService.SearchCReport(query, function (data) {
                     $scope.gridOptions.data = data;
 

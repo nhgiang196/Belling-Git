@@ -32,7 +32,7 @@ define(['app'], function (app) {
                             var submittypelist = InfolistService.Infolist('SubmitType');
                             if (data.Header[0].Rp_SubmitType == 'EVR') {} else {
                                 if (data.Header[0].Rp_Type == 'IC') {
-                                    scope.ReportDetail.RpIC_IncidentType = submittypelist.find(item => item.id === data.Header[0].RpIC_IncidentType).name;
+                                    scope.ReportDetail.Rp_SubmitType = submittypelist.find(item => item.id === data.Header[0].Rp_SubmitType).name;
                                     scope.ReportDetail.RpIC_Evaluate = evaluatelist.find(item => item.id === data.Header[0].RpIC_Evaluate).name;
                                 } else {
 

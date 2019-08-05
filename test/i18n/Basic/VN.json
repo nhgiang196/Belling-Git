@@ -268,7 +268,7 @@
   "Container Information": "Thông tin về Container",
   "Basic Information": "Thông tin chung",
   "B": {
-     "L NO": "Mã vận đơn"
+    "L NO": "Mã vận đơn"
   },
   "Conditional Query": "Điều kiện tìm kiếm",
   "Container": "Đơn cho container",
@@ -496,7 +496,6 @@
   "Dr_reason": "Nguyên nhân trực tiếp",
   "Edit": "Sửa",
   "EmployeeName": "Tên nhân viên",
-  "Environment": "Môi trường",
   "Evaluate": "Đánh giá",
   "Factory": "Xưởng",
   "Female": "Nữ",
@@ -504,7 +503,6 @@
   "File_Location_MSG": "Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố",
   "FileValidation_IMG_MSG": "Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf",
   "FileValidation_MSG": "Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf, .doc, .docx",
-  "FireProtection": "Phòng cháy",
   "General_Info": "Thông tin chung",
   "Good": "Tốt",
   "Group": "Nhóm",
@@ -549,7 +547,6 @@
   "RpIC_IncidentType-WasteWater": "Nước thải",
   "RpIC_NotifPerson": "Người thực hiện thông báo",
   "RpIC_ReceivePerson": "Người nhận thông báo",
-  "Safety": "An toàn",
   "SameEmployee": "Thông tin nhân viên bị trùng lấp",
   "Serious": "Tai nạn lao động nghiêm trọng",
   "ShowFile": "Hiển thị danh sách file",
@@ -564,7 +561,7 @@
   "Submit_Processing_MSG": "Bạn không thể gửi ký duyệt báo cáo đang xử lý",
   "Submit_Signed_MSG": "Bạn không thể gửi ký duyệt báo cáo đã ký duyệt",
   "Submit_Success_MSG": "Báo cáo của bạn đã được gửi ký duyệt!",
-  "Improment_Update_MSG":"Không thể cập nhật cải thiện cho đơn loại này được",
+  "Improment_Update_MSG": "Không thể cập nhật cải thiện cho đơn loại này được",
   "Unit_Other": "Đơn vị",
   "Update_Deleted_MSG": "Bạn không thể cập nhật báo cáo đã xóa",
   "Update_Improvement": "Cập nhật bằng chứng cải thiện",
@@ -575,8 +572,11 @@
   "VeryGood": "Rất tốt",
   "Victim_info": "Thông tin nạn nhân",
   "Witness": "Người chứng kiến",
-  "Witness_info": "Danh tính người chứng kiến hoặc người có quan hệ với nạn nhân (Người ngoài xưởng xin ghi rõ cách thức liên hệ)"
-  ,"Improvement_Status":"Trạng thái cải thiện"
-  ,"Improvement_Status-Done":"Hết hạn"
-  ,"Improvement_Status-Wait":"Còn hạn"
+  "Witness_info": "Danh tính người chứng kiến hoặc người có quan hệ với nạn nhân (Người ngoài xưởng xin ghi rõ cách thức liên hệ)",
+  "Improvement_Status": "Trạng thái cải thiện",
+  "Improvement_Status-Done": "Hết hạn",
+  "Improvement_Status-Wait": "Còn hạn",
+  "FireProtection": "Phòng cháy",
+  "Safety": "An toàn",
+  "Environment": "Môi trường"
 }
