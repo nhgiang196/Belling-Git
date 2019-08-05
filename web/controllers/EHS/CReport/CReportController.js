@@ -1,6 +1,11 @@
 define(['myapp', 'angular'], function (myapp, angular) {
     myapp.controller('CReportController', ['GateGuest', '$upload', '$filter', 'Notifications', 'Auth', 'EngineApi', 'CReportService', 'InfolistService', '$translate', '$q', '$scope', '$timeout',
         function (GateGuest, $upload, $filter, Notifications, Auth, EngineApi, CReportService, InfolistService, $translate, $q, $scope, $timeout) {
+            $scope.thisUser = Auth.username;
+            // owner: Auth.username,
+            //         flowkey: 'CReportHSE',
+            //         Kinds: 'initiator',
+            //         CheckDate: NaN
             $scope.recordAC = {}; //record for AC directive
             $scope.recordIC = {}; //record for IC directive
             $scope.flowkey = 'HW-User'; //flow key for access this module 
@@ -19,7 +24,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             });
             var lang = window.localStorage.lang || 'EN';
             // $scope.ImprovementRecord = {};
-            getGateCheck(null); //get Checker
+
             /***************************************************************************** */
             /**search comboboxs */
             $scope.typelist = [{ //list for RP_Type combobox
@@ -180,7 +185,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 enablePagination: true,
                 enablePaginationControls: true,
                 exporterFieldCallback: function (grid, row, col, value) {
-                    if (['Rp_Status', 'Rp_Location', 'Rp_Type','Improvement_Status'].indexOf(col.name) >= 0) {
+                    if (['Rp_Status', 'Rp_Location', 'Rp_Type', 'Improvement_Status'].indexOf(col.name) >= 0) {
                         if (value != undefined) value = $scope.getTranslatedCol(col.name, value);
                     }
                     return value;
@@ -234,8 +239,15 @@ define(['myapp', 'angular'], function (myapp, angular) {
             };
             $scope.Search = function () { //search function()
                 var query = SearchList();
+                console.log($scope.gridOptions.columnDefs);
+                $scope.gridOptions.columnDefs[5].visible = query.SubmitType != 'EVR' ? true : false;
+                $scope.gridOptions.columnDefs[8].visible = query.ReportType != '0' ? true : false;
+                $scope.gridOptions.columnDefs[9].visible = query.ReportType != '0' ? true : false;
+
                 CReportService.SearchCReport(query, function (data) {
                     $scope.gridOptions.data = data;
+
+
                 }, function (error) {});
             };
 
@@ -508,16 +520,15 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 },
             ];
             /**get Information of next Candidate */
-
+            getGateCheck(null); //get Checker
             function getGateCheck(CReportType) {
                 $scope.checkList = [];
                 $scope.leaderlist = [];
-                GateGuest.GetGateCheckers().getCheckers({
-                    owner: Auth.username,
-                    flowkey: 'CReportHSE',
-                    Kinds: 'initiator',
-                    CheckDate: NaN
-                }, function (leaderlist) {
+                CReportService.HSEChecker().get({
+                    flowname: 'CReportHSE',
+                    userid: Auth.username,
+                    kinds: 'initiator' || '',
+                }).$promise.then(function (leaderlist) {
                     if (leaderlist.length > 0) {
                         var checkList = [];
                         for (var i = 0; i < leaderlist.length; i++) {
@@ -527,12 +538,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.leaderlist = leaderlist;
                         console.log("Checklist", $scope.checkList);
                         console.log("leaderlist", $scope.leaderlist);
-                        return true;
                     };
-                    return false;
+
                 }, function (errormessage) {
                     console.log(errormessage);
-                    return false;
                 })
             }
             /**Save Submit */

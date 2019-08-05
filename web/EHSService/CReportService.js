@@ -1,20 +1,28 @@
 define(['app', 'angular'], function (app, angular) {
     app.service('CReportService', [
-
         '$resource', '$q', 'Auth', '$location', '$translate', 'EngineApi', 'Forms',
         function ($resource, $q, Auth, $location, $translate, EngineApi, Forms) {
             function CReportService() {
-
                 this.getCReportPID = $resource('/hse/CReportHSE/PID', {}, {
                     get: {
                         method: 'GET'
                     }
                 });
-
-                this.SendReminder = $resource('/hse/CReportHSE/PID', {}, {
+                this.gethsechecker = $resource('/Waste/HSEChecker/:operation', {}, {
                     get: {
-                        method: 'GET'
+                        method: 'GET',
+                        params: {
+                            operation: 'GetChecker'
+                        }
+                        ,isArray:true
+                    },
+                    sendReminder: {
+                        method: 'POST',
+                        params: {
+                            operation: 'SendReminder'
+                        }
                     }
+
                 });
                 this.FileManagement = $resource('/Waste/files/:operation', {}, {
                     UploadFile: {
@@ -148,6 +156,9 @@ define(['app', 'angular'], function (app, angular) {
                     }
 
                 })
+            }
+            CReportService.prototype.HSEChecker = function () {
+                return this.gethsechecker;
             }
             CReportService.prototype.CReportHSEPID = function () {
                 return this.getCReportPID;
@@ -325,12 +336,6 @@ define(['app', 'angular'], function (app, angular) {
 
 
             }
-
-
-
-
-
-
             return new CReportService();
         }
     ]);
@@ -399,22 +404,21 @@ define(['app', 'angular'], function (app, angular) {
 
                     case 'status':
                         var statuslist = [{
-                                id: 'D',
-                                name: 'StatusD'
-                            }, {
-                                id: 'P',
-                                name: 'StatusP'
-                            }, {
-                                id: 'S',
-                                name: 'StatusS'
-                            }, {
-                                id: 'X',
-                                name: 'StatusX'
-                            }, {
-                                id: 'PW',
-                                name: 'StatusPW'
-                            }
-                        ];
+                            id: 'D',
+                            name: 'StatusD'
+                        }, {
+                            id: 'P',
+                            name: 'StatusP'
+                        }, {
+                            id: 'S',
+                            name: 'StatusS'
+                        }, {
+                            id: 'X',
+                            name: 'StatusX'
+                        }, {
+                            id: 'PW',
+                            name: 'StatusPW'
+                        }];
                         return statuslist;
                         break;
 

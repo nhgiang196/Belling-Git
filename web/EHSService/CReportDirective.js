@@ -124,10 +124,63 @@ define(['app'], function (app) {
     ]);
 
 
+    app.directive('ehsLeaderCheck', ['$resource', 'Auth', 'CReportService', '$compile',
+        function ($resource, Auth, CReportService) {
+            return {
+                restrict: 'EAC',
+                controller: function ($scope, $element, $attrs) {
+                    console.log($attrs.userName);
+                    console.log($attrs.flowKey);
+                    // attrs.$observe('kinds', function (newValue) {
+                    //     if (newValue) {
+                    //         GetBPMCheckers();
+                    //     }
+
+                    // }, true);
+                    
+                    geHSEChecker();
+                    function geHSEChecker() {
+                        CReportService.HSEChecker().get({
+                            flowname: $attrs.flowKey,
+                            userid: Auth.username,
+                            kinds: $attrs.kinds || '',
+                        }).$promise.then(function (leaderlist) {
+                            if (leaderlist.length > 0) {
+                                var checkList = [];
+                                for (var i = 0; i < leaderlist.length; i++) {
+                                    checkList[i] = leaderlist[i].Person;
+                                }
+                                $scope.checkList = checkList;
+                                $scope.leaderlist = leaderlist;
+                                console.log("Checklist", $scope.checkList);
+                                console.log("leaderlist", $scope.leaderlist);
+                            };
+                            // scope.$loaded = true;
+                            // console.log(data);
+                            // var checkList = [];
+                            // for (var i = 0; i < data.length; i++) {
+                            //     checkList[i] = data[i].Person;
+                            // }
+                            // scope.$parent.checkList = checkList;
+                            // scope.checkList = checkList;
+                            // scope.data = data;
+
+                        }, function (errormessage) {
+                            console.log(errormessage);
+                        })
+                    }
+
+                },
+                link: function (scope, element, attrs) {
+
+
+                },
+                templateUrl: '../TemplateViews/ShowLeaderTemplate.html'
+            }
+        }
+    ]);
 
 });
-
-
 // DepartmentName: "Hóa sợi"
 // RpAC_DateComplete: null
 // RpAC_ImproveHardware: null
