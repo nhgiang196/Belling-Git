@@ -34,8 +34,8 @@ define(['app'], function (app) {
                         note.Rp_Status = $scope.recordIC.status || '';
                         note.Rp_Type = 'IC';
                         note.RpIC_Group = $scope.recordIC.icGroup || '';;
-                        note.Rp_DepartmentID = $scope.CostCenter.slice(0, 3);
-                        note.Rp_SubDepartmentID = $scope.CostCenter;
+                        note.Rp_DepartmentID = recordIC.ic_SubDeparmentid.slice(0, 3); //  Center Department ?? 
+                        note.Rp_SubDepartmentID = recordIC.ic_SubDeparmentid; //?? Should be SUbDepartmentID
                         note.Rp_DateTime = $scope.recordIC.icDatetime;
                         note.Rp_Location = $scope.recordIC.icLocation;
                         note.Rp_PreventMeasure = $scope.recordIC.icPrevent;
@@ -65,10 +65,10 @@ define(['app'], function (app) {
                             console.log(res)
                             if (res.Success) {
                                 if ($scope.btnSub) {
-                                    $scope.ID_IC = res.Data;
+                                    $scope.ID_IC = res.Data; //data= RP_ID
                                     $scope.formVariables.push({
                                         name: 'Rp_ID',
-                                        value: $scope.ID_IC //??
+                                        value: $scope.ID_IC
                                     });
                                     $scope.SubmitAndChangeStatus($scope.ID_IC);
                                     $scope.btnSub = false;
@@ -93,7 +93,7 @@ define(['app'], function (app) {
                     function updateByID_IC(data) { //function for update
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {
-                                    if ($scope.btnSub) { //??
+                                    if ($scope.btnSub) { //?? Đánh dấu gì ở đây ạ???
                                         $('#my-modal').modal('hide');
                                         $scope.submit_success_msg();
                                         $scope.Search();
@@ -240,8 +240,8 @@ define(['app'], function (app) {
                             message: "Upload Completed!"
                         };
                         //check file exist in list
-                        var listOfFiles =   (($scope.listfileAC.length + fileCount) > maximumSize 
-                                        ||  ($scope.listfile.filter(x=>x.col=== colname).length + fileCount) > maximumSize) ? true : false;
+                        var listOfFiles = (($scope.listfileAC.length + fileCount) > maximumSize ||
+                            ($scope.listfile.filter(x => x.col === colname).length + fileCount) > maximumSize) ? true : false;
                         if (fileCount > totalFile || listOfFiles) {
                             objectResult.success = false;
                             objectResult.message = `Your number of files over ${totalFile}`;
@@ -256,51 +256,39 @@ define(['app'], function (app) {
                         return objectResult;
                     }
                     // GetBasic ------------ USE FOR BOTH REPORT
-                    var subdepartment = {
-                        TableName: "Department",
-                        Lang: lang || 'EN'
-                    };
-                    var centerdepartment = {
+                    //--CenterDepartment----
+                    CReportService.GetBasic({
                         TableName: "CenterDepartment",
                         Lang: lang || 'EN'
-                    };
-                    //--CenterDepartment----
-                    CReportService.GetBasic(centerdepartment, function (data) {
-                        $scope.center_dpm = data;
-                        $scope.listFactory = data;
-                    }, function (error) {})
-                    //--SubDepartment------ USE FOR BOTH REPORT
-                    CReportService.GetBasic(subdepartment, function (data) {
-                        $scope.sub_dpm = data;
-                        $scope.deptDefault = {};
-                        var employeeid = {
-                            emp_id: Auth.username
-                        };
+                    }, function (data) {
+                        var center_dpm = data; //get center department lift for the comparation later
+
                         /** Get user's departments (private) */
-                        CReportService.GetDataDepartment(employeeid, function (data) {
-                            $scope.sub_dpm.forEach(x => {
-                                if (data[0].DepartmentID == x.CostCenter) {
-                                    
-                                    $scope.deptDefault = x;
-                                    $scope.recordIC.ic_SubDeparmentid = x.CostCenter; /// WHy??? =.=! 
-                                    $scope.showDeptInIC = x.CostCenter + " - " + x.Specification; //Department
-                                    $scope.CostCenter = x.CostCenter;
-                                    var dept_id = $scope.recordIC.ic_SubDeparmentid
-                                    if (dept_id == null || dept_id == '') return;
-                                    if (dept_id.length > 3)
-                                        var basodau = dept_id.slice(0, 3);
-                                    else basodau = dept_id;
-                                    $scope.center_dpm.forEach(x => {
-                                        if (x.CostCenter == basodau) {
-                                            $scope.recordIC.ic_departmentid = x.CostCenter; // WHy??? =.=! 
-                                            $scope.showFactoryInIC = x.Specification;
-                                        }
-                                    })
+                        CReportService.GetDataDepartment({
+                            emp_id: Auth.username
+                        }, function (sub_department_list) {
+                            $scope.submitDept = sub_department_list;
+                            $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
+                            if (sub_department_list.length == 1)
+                                scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
+                            center_dpm.forEach(x => {
+                                if (x.CostCenter == sub_department_list[0].DepartmentID.slice(0, 3)) {
+
+                                    $scope.showFactoryInIC = x.Specification;
                                 }
-                            });
+                            })
                             console.log('subdepartment', $scope.recordIC.ic_SubDeparmentid);
-                        }, function (error) {})
-                    }, function (error) {})
+                        })
+
+
+                    })
+                    //--SubDepartment------ USE FOR BOTH REPORT
+                    // CReportService.GetBasic({
+                    //     TableName: "Department",
+                    //     Lang: lang || 'EN'
+                    // }, function (data) { //?? Hàm này cực kỳ rối rắm...
+                    //     var full_department_list = data;
+                    // })
                     $scope.evaluatelist = InfolistService.Infolist('evaluate'); //general list
                     // location combobox
                     $scope.locationlist = InfolistService.Infolist('location'); //general list

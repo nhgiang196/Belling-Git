@@ -8,13 +8,13 @@
         $scope.recod = {};
         $translate.refresh();
         $scope.passOrNot = [{
-                "name": $translate.instant('agree'),
-                "value": "YES"
-            },
-            {
-                "name": $translate.instant('notAgree'),
-                "value": "NO"
-            }
+            "name": $translate.instant('agree'),
+            "value": "YES"
+        },
+        {
+            "name": $translate.instant('notAgree'),
+            "value": "NO"
+        }
             // { "name": 'DeleteVoucher', "value": "Cancel" }
         ];
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
@@ -24,9 +24,9 @@
             $scope.loading = true;
             if ($scope.ISPublish == 'NO') {
                 CReportService.SubmitStatus({
-                        Rp_ID: $scope.variable.Rp_ID, //chosen
-                        Rp_Status: 'PW'
-                    },
+                    Rp_ID: $scope.variable.Rp_ID, //chosen
+                    Rp_Status: 'PW'
+                },
                     function (res) {
                         if (res.Success) {
                             SaveBpmn();
@@ -77,8 +77,6 @@
     <!-- CHOOSE FORM -->
     <form class="form-horizontal" role="form" novalidate name="form">
         <!-- RECEVEIVE AND PROCESS FORM -->
-
-
         <div class="form-group">
             <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
             <div class="col-sm-3">
@@ -102,13 +100,15 @@
                 {{variable.leadername}} Remark: {{variable.leadercheck_remark}}
             </h3>
         </div> -->
-        <!-- NEXT CANDIDATE -->
-        <div class="row">
+        <!-- NEXT CANDIDATE --> 
+        <div class="form-group" style="padding-left: 3%">
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div leader-check flow-key="CReportHSE" user-name="{{username}}" kinds=""></div>
+            <div ehs-leader-check flow-key="CReportHSE" user-name="{{username}}" kinds=""></div>
         </div>
+
+        
 
         <!-- BUTTON OF SUBMITTING -->
         <div class="form-group" ng-hide="recod.Status=='K'">

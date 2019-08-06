@@ -6,9 +6,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
             //         flowkey: 'CReportHSE',
             //         Kinds: 'initiator',
             //         CheckDate: NaN
+
+
             $scope.recordAC = {}; //record for AC directive
             $scope.recordIC = {}; //record for IC directive
-            $scope.flowkey = 'HW-User'; //flow key for access this module 
+            $scope.flowkey = 'FEPVHC_User'; //flow key for access this module 
             $scope.onlyOwner = true; //check box of Onwer
             $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
             $scope.show = { //show  signal
@@ -196,7 +198,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         'userid': Auth.username,
                         'tcode': $scope.flowkey
                     }, function (linkres) {
-                        if (true) {
+                        if (linkres.IsSuccess) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
                     });
@@ -220,6 +222,18 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
                 $scope.Search();
             };
+
+            $scope.$watch('recordIC.ic_SubDeparmentid', function (val) {
+                if (val != null) OnChangeSubDepartmentID(val)
+            })
+            $scope.$watch('recordAC.ac_subdepartment', function (val) {
+                if (val != null) OnChangeSubDepartmentID(val)
+            })
+
+            function OnChangeSubDepartmentID(SubmitDepartmentID) {
+                if ($scope.show.checker)
+                    $scope.getLeaderCheck(SubmitDepartmentID);
+            }
 
             function SearchList() { //search information 
                 var query = {};
@@ -519,13 +533,14 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 },
             ];
             /**get Information of next Candidate */
-            getGateCheck(null); //get Checker
-            function getGateCheck(CReportType) {
+
+            $scope.getLeaderCheck = function (SubmitDepartID) {
                 $scope.checkList = [];
                 $scope.leaderlist = [];
                 CReportService.HSEChecker().get({
                     flowname: 'CReportHSE',
                     userid: Auth.username,
+                    submitdepartid: SubmitDepartID || '',
                     kinds: 'initiator' || '',
                 }).$promise.then(function (leaderlist) {
                     if (leaderlist.length > 0) {

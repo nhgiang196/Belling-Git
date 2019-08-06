@@ -42,7 +42,7 @@ define(['app'], function (app) {
                                 }
                             }
 
-                            if (['P', 'S'].indexOf(data.Header[0].Rp_Status) >= 0) {
+                            if (['P', 'S','SM'].indexOf(data.Header[0].Rp_Status) >= 0) {
                                 /**Get Receiver*/
                                 CReportService.CReportHSEPID().get({
                                     Rp_ID: _Rp_ID
@@ -139,13 +139,6 @@ define(['app'], function (app) {
                 link: function (scope, element, attrs) {
                     console.log(attrs.userName);
                     console.log(attrs.flowKey);
-                    // attrs.$observe('kinds', function (newValue) {
-                    //     if (newValue) {
-                    //         GetBPMCheckers();
-                    //     }
-
-                    // }, true);
-
                     geHSEChecker();
 
                     function geHSEChecker() {
