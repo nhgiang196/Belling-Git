@@ -1,35 +1,9 @@
 <script>
     function HSE_receiveController(
         $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
-        Auth, GateGuest, $translate, CReportService, $filter, $q) {
+        Auth, GateGuest, $translate, CReportService, $filter, $q, $timeout) {
         var lang = window.localStorage.lang;
-        $scope.$watch('checkList', function (val) {
-            debugger;
-            if (val !== undefined && val !== null) {
-                debugger;
-                if ($scope.ReportDetail.Rp_SubmitType == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
-                    $scope.checkList.splice(0, 1, 'FEPV000096');
-                    $scope.leaderlist.splice(0, 1, {
-                        $$hashKey: "",
-                        Person: "FEPV000096" // Thi Sinh
-                    });
-                }
-                if ($scope.ReportDetail.Rp_SubmitType == 'SF') { //same as above, had to change this (by mistake =.=!)
-                    $scope.checkList.splice(0, 1, 'FEPV000559');
-                    $scope.leaderlist.splice(0, 1, {
-                        $$hashKey: "",
-                        Person: "FEPV000559" // Xi long
-                    });
-                }
-                if ($scope.ReportDetail.Rp_SubmitType == 'FP') { //same as above, had to change this (by mistake =.=!)
-                    $scope.checkList.splice(0, 1, 'FEPV000944');
-                    $scope.leaderlist.splice(0, 1, {
-                        $$hashKey: "",
-                        Person: "FEPV000944" //other
-                    });
-                }
-            }
-        })
+        const con_flowkey = 'Receive_HSE_Users';
         $translate.refresh();
         $scope.passOrNot = [{
             "name": $translate.instant('agree'),
@@ -43,8 +17,39 @@
         ];
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
+        
+        $scope.$watch('checkList', function (val) {
+            if (val !== undefined && val !== null) {
+                $timeout(function () {
+                    if ($scope.ReportDetail.Rp_SubmitType == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
+                        $scope.checkList.splice(0, 1, 'FEPV000096');
+                        $scope.leaderlist.splice(0, 1, {
+                            $$hashKey: "",
+                            Person: "FEPV000096" // Thi Sinh
+                        });
+                    }
+                    if ($scope.ReportDetail.Rp_SubmitType == 'SF') { //same as above, had to change this (by mistake =.=!)
+                        $scope.checkList.splice(0, 1, 'FEPV000559');
+                        $scope.leaderlist.splice(0, 1, {
+                            $$hashKey: "",
+                            Person: "FEPV000559" // Xi long
+                        });
+                    }
+                    if ($scope.ReportDetail.Rp_SubmitType == 'FP') { //same as above, had to change this (by mistake =.=!)
+                        $scope.checkList.splice(0, 1, 'FEPV000944');
+                        $scope.leaderlist.splice(0, 1, {
+                            $$hashKey: "",
+                            Person: "FEPV000944" //other
+                        });
+                    }
+                }, 500)
+
+            }
+        })
+
 
         $scope.Save = function (isSubmit) {
+            debugger;
             $scope.loading = true;
             if ($scope.ISReceive == 'NO') {
                 CReportService.SubmitStatus({
@@ -69,7 +74,7 @@
 
 
         function SaveBpmn() {
-            if ($scope.checkList.length <= 0) {
+            if (!$scope.checkList) {
                 Notifications.addError({
                     'status': 'error',
                     'message': 'Don\'t get leader'
@@ -77,7 +82,7 @@
                 return;
             }
             $scope.formVariables.push({
-                name: 'Receive_HSE_Users',
+                name: 'Receive_HSE_Users', 
                 value: $scope.checkList
             });
             $scope.formVariables.push({
@@ -143,7 +148,9 @@
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div ehs-leader-check flow-key="CReportHSE" user-name="{{username}}" kinds="receive"></div>
+            <div ehs-leader-check 
+                flow-key="CReportHSE" 
+                kinds="receive"></div>
         </div>
 
         <!-- BUTTON OF SUBMITTING -->

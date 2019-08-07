@@ -31,7 +31,7 @@ define(['app'], function (app) {
                             var submittypelist = InfolistService.Infolist('SubmitType');
 
 
-                            if (data.Header[0].Rp_SubmitType == 'Environment') {} else {
+                            if (data.Header[0].Rp_SubmitType == 'EVR') {} else {
                                 if (data.Header[0].Rp_Type == 'IC') {
                                     scope.ReportDetail.Rp_SubmitType = submittypelist.find(item => item.id === data.Header[0].Rp_SubmitType).name;
                                     scope.ReportDetail.RpIC_Evaluate = evaluatelist.find(item => item.id === data.Header[0].RpIC_Evaluate).name;
@@ -145,6 +145,7 @@ define(['app'], function (app) {
                         CReportService.HSEChecker().get({
                             flowname: attrs.flowKey,
                             userid: Auth.username,
+                            submitdepartid: '',
                             kinds: attrs.kinds || '',
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {

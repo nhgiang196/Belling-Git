@@ -265,7 +265,6 @@ define(['app'], function (app) {
                     $scope.SaveACReport = function () { //main submitting /saving function
                         var nofile = false;
                         if ($scope.employees.length != 0) {
-                            $scope.AC_Department_Disable = false;
                             var note = saveInitDataAC();
                             if ($scope.count == 0 && $scope.recordAC.ac_location == "O") {
                                 $scope.nofileLoc();

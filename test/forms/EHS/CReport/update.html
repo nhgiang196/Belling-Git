@@ -6,6 +6,7 @@
             /***************************************** INIT **************************************************/
             $scope.recordAC = {};
             $scope.recordIC = {};
+            $scope.IC_Department_Disable = true;
             $scope.AC_Department_Disable = true; // bật tắt input Bộ phận trong AC khi sửa
             $scope.status = 'MP'; //this form only for Modified Submit
             $scope.ISReceive = 'Yes'; //default submit choose
@@ -194,7 +195,7 @@
                 <div>
                     <h4>{{'NextStep'|translate}}</h4>
                 </div>
-                <div leader-check flow-key="CReportHSE" user-name="{{username}}"></div>
+                <div ehs-leader-check flow-key="CReportHSE" kinds="initiator" user-name="{{username}}"></div>
             </div>
     
             <!-- BUTTON OF SUBMITTING -->

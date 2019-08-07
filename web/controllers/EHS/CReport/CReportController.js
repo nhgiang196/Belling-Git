@@ -424,7 +424,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     $timeout(function () {
                                         Notifications.addError({
                                             'status': 'error',
-                                            'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete.toString())
+                                            'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete)
                                         });
                                     }, 300);
                                 }

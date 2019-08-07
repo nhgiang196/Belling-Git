@@ -34,8 +34,8 @@ define(['app'], function (app) {
                         note.Rp_Status = $scope.recordIC.status || '';
                         note.Rp_Type = 'IC';
                         note.RpIC_Group = $scope.recordIC.icGroup || '';;
-                        note.Rp_DepartmentID = recordIC.ic_SubDeparmentid.slice(0, 3); //  Center Department ?? 
-                        note.Rp_SubDepartmentID = recordIC.ic_SubDeparmentid; //?? Should be SUbDepartmentID
+                        note.Rp_DepartmentID = $scope.recordIC.ic_SubDeparmentid.slice(0, 3); //  Center Department ?? 
+                        note.Rp_SubDepartmentID = $scope.recordIC.ic_SubDeparmentid; //?? Should be SUbDepartmentID
                         note.Rp_DateTime = $scope.recordIC.icDatetime;
                         note.Rp_Location = $scope.recordIC.icLocation;
                         note.Rp_PreventMeasure = $scope.recordIC.icPrevent;
@@ -156,6 +156,7 @@ define(['app'], function (app) {
                         // $scope.btnFile = true;
                         $scope.listfile_loc_ic = false;
                         $scope.listfile_process_ic = false;
+                        $scope.IC_Department_Disable = false;
                     }
                     /**********************************************************************************************/
                     /* general-  THIS FOLLOWING PART IS USED BY ITSELF OR FROM OTHER DIRECTIVE                    */
@@ -282,7 +283,7 @@ define(['app'], function (app) {
 
 
                     })
-              
+
                     $scope.evaluatelist = InfolistService.Infolist('evaluate'); //general list
                     // location combobox
                     $scope.locationlist = InfolistService.Infolist('location'); //general list
