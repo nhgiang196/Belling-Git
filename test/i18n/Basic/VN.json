@@ -579,5 +579,7 @@
   "FireProtection": "Phòng cháy",
   "Safety": "An toàn",
   "Environment": "Môi trường",
-  "SubDepartmentID_OtherInformation":"Thông tin khác (nếu không có trong danh sách nhân viên)"
+  "SubDepartmentID_OtherInformation":"Thông tin khác (nếu không có trong danh sách nhân viên)",
+  "CReportHSE":"Lưu trình xử lý báo cáo sự cố đến HSE"
+
 }
