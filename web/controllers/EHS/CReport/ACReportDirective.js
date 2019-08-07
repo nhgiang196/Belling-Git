@@ -27,6 +27,7 @@ define(['app'], function (app) {
                         // $scope.btnFile_AC = true;
                         $scope.listfile_loc_ac = false;
                         $scope.listfile_process_ac = false;
+                        $scope.otherInfomation = false;
                     };
                     $scope.showEmployeeName = function (emp_id) {
                         if ($scope.employees)
@@ -171,7 +172,7 @@ define(['app'], function (app) {
                         note.Rp_Date = $scope.recordAC.date || '';
                         note.Rp_Stamp = $scope.recordAC.stamp || '';
                         note.Rp_Status = $scope.recordAC.status || '';
-                        note.Rp_SubDepartmentID = $scope.recordAC.ac_subdepartment;
+                        note.Rp_SubDepartmentID = $scope.otherInfomation? 'Other': $scope.recordAC.ac_subdepartment;
                         note.Rp_DateTime = $scope.recordAC.ac_datetime;
                         note.Rp_Location = $scope.recordAC.ac_location;
                         note.Rp_Type = $scope.recordAC.ac_type;

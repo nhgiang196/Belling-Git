@@ -143,27 +143,28 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 var employee_id = data.entity.EmployeeID;
                 var id = data.entity.Rp_ID;
                 var ReportType = data.entity.Rp_Type;
-                CReportService.GetDepartment_RP({
-                    Rp_ID: id
-                }, function (res) {
-                    if (res.Success) {
-                        var other_depart = res.Data;
-                        if (ReportType != 'IC') {
-                            console.log(id);
-                            if (other_depart == "Other") {
-                                var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
-                                window.open(href);
+                CReportService.GetDepartment_RP({ //?? Service chỉ để lấy SubDepartment... Hơi dư
+                        Rp_ID: id
+                    }, function (res) {
+                        if (res.Success) {
+                            var other_depart = res.Data; //data from OperationResult.Data
+                            if (ReportType != 'IC') {
+                                console.log(id);
+                                if (other_depart == "Other") {
+                                    var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
+                                    window.open(href);
+                                } else {
+                                    var href = '#/CircumstanceReport/ACReport/print/' + id;
+                                    window.open(href);
+                                }
                             } else {
-                                var href = '#/CircumstanceReport/ACReport/print/' + id;
+                                console.log(id);
+                                var href = '#/CircumstanceReport/ICReport/print/' + id;
                                 window.open(href);
                             }
-                        } else {
-                            console.log(id);
-                            var href = '#/CircumstanceReport/ICReport/print/' + id;
-                            window.open(href);
                         }
-                    }
-                });
+                    } //??  Nên thông báo để người dùng biết nếu có lỗi in ấn 
+                );
             }
             $scope.gridOptions = { //Grid setting mặc định tên 
                 columnDefs: colgrid,
@@ -223,11 +224,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 $scope.Search();
             };
 
-            $scope.$watch('recordIC.ic_SubDeparmentid', function (val) {
-                if (val != null) OnChangeSubDepartmentID(val)
+            /** Event on change SubDepartment*/
+            $scope.$watch('recordIC.ic_SubDeparmentid', function (val, olval) {
+                if (val != null & val != undefined) OnChangeSubDepartmentID(val);
             })
             $scope.$watch('recordAC.ac_subdepartment', function (val) {
-                if (val != null) OnChangeSubDepartmentID(val)
+                if (val != null && val != undefined && val != 'Other') OnChangeSubDepartmentID(val);
             })
 
             function OnChangeSubDepartmentID(SubmitDepartmentID) {

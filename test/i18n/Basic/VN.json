@@ -578,5 +578,6 @@
   "Improvement_Status-Wait": "Còn hạn",
   "FireProtection": "Phòng cháy",
   "Safety": "An toàn",
-  "Environment": "Môi trường"
+  "Environment": "Môi trường",
+  "SubDepartmentID_OtherInformation":"Thông tin khác (nếu không có trong danh sách nhân viên)"
 }

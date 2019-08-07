@@ -128,8 +128,7 @@
             <input type="file" ng-file-select="UploadFileHSE($files,'Rp_Location')" id="file_location_ac"
                 style="display:none !important" multiple accept="image/*">
             <button id="btn_file_location_ac" class="btn btn-info" style="display:inline-block;" type="button"
-                ng-disabled="btnFile_AC"
-                ng-click="btnfile('file_location_ac','file_name_location_ac')">
+                ng-disabled="btnFile_AC" ng-click="btnfile('file_location_ac','file_name_location_ac')">
                 <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
             </button>
             <span><input type="checkbox" ng-model="listfile_loc_ac" style="vertical-align: text-top;">
@@ -212,15 +211,21 @@
                 <option value=""></option>
                 <option ng-repeat="dept in submitDept" value="{{dept.DepartmentID}}">
                     {{dept.DepartmentID}} - {{dept.SubmitDepartName }}</option>
+                <!-- <option value="Other">{{'SubDepartmentID_OtherInformation' | translate}} </option> -->
 
-                <option value="Other"> {{'Other'|translate}} </option>
                 <!--translate-->
 
             </select>
+            <label>
+                <input type="checkbox" ng-model="otherInfomation" 
+                ng-change="employees = [];">
+                {{'SubDepartmentID_OtherInformation' | translate}}
+            </label>
+
         </div>
     </div>
     <hr>
-    <div ng-if="recordAC.ac_subdepartment=='Other'" ng-init="on=true">
+    <div ng-if="otherInfomation" ng-init="on=true">
         <div class="form-group">
             <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeName' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
@@ -271,7 +276,7 @@
 
 
     <div class="form-group">
-        <div ng-if="recordAC.ac_subdepartment!='Other'">
+        <div ng-if="!otherInfomation">
             <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeID'|translate}}: </label>
 
             <div class="col-sm-4">

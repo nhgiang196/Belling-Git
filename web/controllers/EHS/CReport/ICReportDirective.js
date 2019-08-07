@@ -93,7 +93,7 @@ define(['app'], function (app) {
                     function updateByID_IC(data) { //function for update
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {
-                                    if ($scope.btnSub) { //?? Đánh dấu gì ở đây ạ???
+                                    if ($scope.btnSub) { //?? Nếu là singal thì nên đặt tên để liên tưởng đến kiểu Yes/No hơn.
                                         $('#my-modal').modal('hide');
                                         $scope.submit_success_msg();
                                         $scope.Search();
@@ -282,13 +282,7 @@ define(['app'], function (app) {
 
 
                     })
-                    //--SubDepartment------ USE FOR BOTH REPORT
-                    // CReportService.GetBasic({
-                    //     TableName: "Department",
-                    //     Lang: lang || 'EN'
-                    // }, function (data) { //?? Hàm này cực kỳ rối rắm...
-                    //     var full_department_list = data;
-                    // })
+              
                     $scope.evaluatelist = InfolistService.Infolist('evaluate'); //general list
                     // location combobox
                     $scope.locationlist = InfolistService.Infolist('location'); //general list

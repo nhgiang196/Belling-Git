@@ -481,7 +481,7 @@
   "CreportLocation": "Location of Incident",
   "CResult": "Result",
   "DateOfImprovementComplete": "Date of Improvement to Complete",
-  "DayToWork": "Day to work",
+  "DayToWork": "Joined Date",
   "Delete_Deleted_MSG": "You can't delete the report that was deleted",
   "Delete_onlyowner_MSG": "you can't delete other people's reports",
   "Delete_Processing_MSG": "You can't delete the report that is processing",
@@ -573,4 +573,5 @@
   ,"Improvement_Status":"Improvement Status"
   ,"Improvement_Status-Done":"Done"
   ,"Improvement_Status-Wait":"Wait"
+  ,"SubDepartmentID_OtherInformation": "Other information (only if Injuried person wasn't in this list)"
 }

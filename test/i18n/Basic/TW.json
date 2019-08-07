@@ -266,7 +266,7 @@
   "Container Information": "集裝箱信息",
   "Basic Information": "基礎信息",
   "B": {
-     "L NO": "提貨單號"
+    "L NO": "提貨單號"
   },
   "Conditional Query": "查詢條件",
   "Container": "集裝箱單據",
@@ -562,7 +562,7 @@
   "Submit_Processing_MSG": "您無法提交已簽名的處理報告",
   "Submit_Signed_MSG": "您無法提交已簽名和已批准的報告以供審批",
   "Submit_Success_MSG": "您的報告已提交！",
-  "Improment_Update_MSG":"Không thể cập nhật cải thiện cho đơn loại này được",
+  "Improment_Update_MSG": "Không thể cập nhật cải thiện cho đơn loại này được",
   "Unit_Other": "單元",
   "Update_Deleted_MSG": "您無法更新已刪除的報告",
   "Update_Improvement": "更新改進",
@@ -573,8 +573,9 @@
   "VeryGood": "很好",
   "Victim_info": "傷者基本資料",
   "Witness": "受傷關係人或現場見證人姓名",
-  "Witness_info": "受傷關係人或現場見證人姓名 (若係廠外請註明聯絡方法)"
-  ,"Improvement_Status":"狀態改善"
-  ,"Improvement_Status-Done":"Done"
-  ,"Improvement_Status-Wait":"Wait"
+  "Witness_info": "受傷關係人或現場見證人姓名 (若係廠外請註明聯絡方法)",
+  "Improvement_Status": "狀態改善",
+  "Improvement_Status-Done": "Done",
+  "Improvement_Status-Wait": "Wait",
+  "SubDepartmentID_OtherInformation": "其他信息（如果不在列表中）"
 }
