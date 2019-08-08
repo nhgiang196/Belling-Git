@@ -66,12 +66,12 @@
     <div class=" form-group frm-mrg" style="margin-top:20px;">
         <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}</label>
         <div class="col-sm-10">
-            <select ng-disabled="IC_Department_Disable" 
-                style="width:100%" ui-select2 ng-model="recordIC.ic_SubDeparmentid" name="ic_SubDeparmentid">
+            <select ng-disabled="IC_Department_Disable" style="width:100%" ui-select2
+                ng-model="recordIC.ic_SubDeparmentid" name="ic_SubDeparmentid">
                 <option ng-repeat="dept in submitDept" value="{{dept.DepartmentID}}">
                     {{dept.DepartmentID}} - {{dept.SubmitDepartName }}</option>
             </select>
-            
+
         </div>
 
 
@@ -370,9 +370,15 @@
     <button ng-if="show.submitbutton" type="button" class="btn btn-default btn-ct-ac" ng-click="resetIC()" data-dismiss="modal"><i class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i> {{'Close'|translate}}</button>
 </div>
 
-<div class="modal-footer" >
-        <div style="float:left">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque accusamus, dignissimos cupiditate alias maiores cum? Excepturi sunt architecto nihil, libero, facere quia dicta numquam eos ea, possimus porro ducimus illo!
+<div class="modal-footer" ng-if="IsEVR" >
+        <div style="float:left; text-align: left">
+
+            <p>環境事故分類 Phân loại sự cố môi trường</p>
+            <p>一般環境事故：係指廠內現場單位發生之環境事故，尚未導致土壤/水源/空氣污染，且廠內或現場單位可自行處理。<br />Sự cố môi trường mức độ thấp: là sự cố xảy ra ở cấp độ bộ phận hiện trường hoặc trong phạm vi của cơ sở, chưa gây ra ô nhiễm nguồn đất/nước/ không khí và nằm trong khả năng tự ứng phó của bộ phận hiện trường hoặc cơ sở.</p>
+            <p>較大環境事故：係指廠內發生之環境事故，已影響到工業區內之土壤/水源/空氣污染，且超出廠內之應付能力。<br />Sự cố môi trường mức độ trung bình: là sự cố xảy ra ở cấp độ cơ sở, đã gây ô nhiễm nguồn đất/nước/ không khí trong phạm vi khu công nghiệp và vượt quá khả năng tự ứng phó của cơ sở.</p>
+            <p>重大環境事故：係指廠內發生之環境事故，已影響到工業區外之土壤/水源/空氣污染，且超出廠內之應付能力。<br />Sự cố môi trường mức độ cao: là sự cố xảy ra ở cấp độ cơ sở, đã gây ô nhiễm nguồn đất/nước/không khí ngoài phạm vi khu công nghiệp và vượt quá khả năng tự ứng phó của cơ sở.</p>
+
+
         </div>
 </div>
 

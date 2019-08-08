@@ -271,7 +271,7 @@ define(['app'], function (app) {
                             $scope.submitDept = sub_department_list;
                             $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
                             if (sub_department_list.length == 1)
-                                scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
+                                if ($scope.getLeaderCheck) $scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
                             center_dpm.forEach(x => {
                                 if (x.CostCenter == sub_department_list[0].DepartmentID.slice(0, 3)) {
 

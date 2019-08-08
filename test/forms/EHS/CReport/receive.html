@@ -17,7 +17,7 @@
         ];
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
-        
+
         $scope.$watch('checkList', function (val) {
             if (val !== undefined && val !== null) {
                 $timeout(function () {
@@ -73,40 +73,42 @@
         } //save
 
 
+
         function SaveBpmn() {
-            if (!$scope.checkList) {
+            if ($scope.checkList && checkList.length >= 0) {
+                $scope.formVariables.push({
+                    name: 'Receive_HSE_Users',
+                    value: $scope.checkList
+                });
+                $scope.formVariables.push({
+                    name: 'Rp_ID',
+                    value: $scope.variable.Rp_ID //chosen
+                });
+
+                $q.all([$scope.submit()]).then(function () {
+                    // var reminder_parrams = {
+                    //     voucherID: $scope.VoucherID,
+                    //     userid: Auth.username,
+                    //     formkey: 'leadercheck'
+                    // }
+                    // LIMSService.SendReminder(reminder_parrams, function (res) {
+                    //     if (res.Success) return;
+                    // }, function (error) {
+                    //     Notifications.addError({
+                    //         'status': 'error',
+                    //         'message': $translate.instant('saveError') + error
+                    //     });
+                    // })
+                });
+            }
+
+            else {
                 Notifications.addError({
                     'status': 'error',
                     'message': 'Don\'t get leader'
                 });
                 return;
             }
-            $scope.formVariables.push({
-                name: 'Receive_HSE_Users', 
-                value: $scope.checkList
-            });
-            $scope.formVariables.push({
-                name: 'Rp_ID',
-                value: $scope.variable.Rp_ID //chosen
-            });
-
-            $q.all([$scope.submit()]).then(function () {
-                /* Write the reminder mail here.*/
-                // var reminder_parrams = {
-                //     voucherID: $scope.VoucherID,
-                //     userid: Auth.username,
-                //     formkey: 'leadercheck'
-                // }
-                // LIMSService.SendReminder(reminder_parrams, function (res) {
-                //     if (res.Success) return;
-                // }, function (error) {
-                //     Notifications.addError({
-                //         'status': 'error',
-                //         'message': $translate.instant('saveError') + error
-                //     });
-                // })
-            });
-
 
         }
 

@@ -1,5 +1,5 @@
 define(['app'], function (app) {
-    app.directive('createAcReport',['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate', '$upload',
+    app.directive('createAcReport', ['CReportService', 'InfolistService', 'Auth', '$timeout', 'Notifications', '$translate', '$upload',
         function (CReportService, InfolistService, Auth, $timeout, Notifications, $translate, $upload, ) {
             return {
                 restrict: 'E',
@@ -83,7 +83,9 @@ define(['app'], function (app) {
                             Rp_ID: id
                         }, function (data) {
                             $scope.recordAC.rp_id = data.Rp_ID;
-                            $scope.recordAC.ac_subdepartment = data.Rp_SubDepartmentID;
+                            // $scope.recordAC.ac_subdepartment = data.Rp_SubDepartmentID;
+                            $scope.recordAC.ac_subdepartment = data.Rp_DepartmentID;
+                            $scope.otherInfomation = data.Rp_SubDepartmentID == 'Other' ? true : false;
                             $scope.recordAC.ac_type = data.Rp_Type;
                             $scope.recordAC.ac_datetime = data.Rp_DateTime;
                             $scope.recordAC.ac_location = data.Rp_Location;
@@ -172,7 +174,8 @@ define(['app'], function (app) {
                         note.Rp_Date = $scope.recordAC.date || '';
                         note.Rp_Stamp = $scope.recordAC.stamp || '';
                         note.Rp_Status = $scope.recordAC.status || '';
-                        note.Rp_SubDepartmentID = $scope.otherInfomation? 'Other': $scope.recordAC.ac_subdepartment;
+                        note.Rp_SubDepartmentID = $scope.otherInfomation ? 'Other' : $scope.recordAC.ac_subdepartment;
+                        note.Rp_DepartmentID = $scope.recordAC.ac_subdepartment;
                         note.Rp_DateTime = $scope.recordAC.ac_datetime;
                         note.Rp_Location = $scope.recordAC.ac_location;
                         note.Rp_Type = $scope.recordAC.ac_type;
@@ -255,6 +258,7 @@ define(['app'], function (app) {
                                     $scope.save_msg();
                                     $scope.Search();
                                 }
+                                $scope.resetAC();
                             } else {
                                 $scope.save_error_msg();
                             }
@@ -278,7 +282,7 @@ define(['app'], function (app) {
                                 switch (status) {
                                     case 'N':
                                         SaveAC(note);
-                                        $scope.resetAC();
+                                        
                                         break;
                                     case 'M':
                                         note.Rp_Status = 'D';

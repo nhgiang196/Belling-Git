@@ -454,10 +454,14 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                         var other_depart = res.Data;
                                         if (resultRows[0].Rp_Type != 'IC') {
                                             if (other_depart == "Other") {
-                                                var href = '#/CircumstanceReport/ACReport/print/' + resultRows[0].Rp_ID + '_' + resultRows[0].EmployeeID + '_o' + ':true';
+                                                var href = '#/CircumstanceReport/ACReport/print/' 
+                                                    + resultRows[0].Rp_ID 
+                                                    // + '_' + resultRows[0].EmployeeID + '_o' + ':true';
                                                 window.open(href);
                                             } else {
-                                                var href = '#/CircumstanceReport/ACReport/print/' + resultRows[0].Rp_ID + '_' + resultRows[0].EmployeeID + ':true';
+                                                var href = '#/CircumstanceReport/ACReport/print/' 
+                                                    + resultRows[0].Rp_ID 
+                                                    // + '_' + resultRows[0].EmployeeID + ':true';
                                                 window.open(href);
                                             }
                                         }
