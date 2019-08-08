@@ -143,28 +143,31 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 var employee_id = data.entity.EmployeeID;
                 var id = data.entity.Rp_ID;
                 var ReportType = data.entity.Rp_Type;
-                CReportService.GetDepartment_RP({ //?? Service chỉ để lấy SubDepartment... Hơi dư
-                        Rp_ID: id
-                    }, function (res) {
-                        if (res.Success) {
-                            var other_depart = res.Data; //data from OperationResult.Data
-                            if (ReportType != 'IC') {
-                                console.log(id);
-                                if (other_depart == "Other") {
-                                    var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
-                                    window.open(href);
-                                } else {
-                                    var href = '#/CircumstanceReport/ACReport/print/' + id;
-                                    window.open(href);
-                                }
-                            } else {
-                                console.log(id);
-                                var href = '#/CircumstanceReport/ICReport/print/' + id;
-                                window.open(href);
-                            }
-                        }
-                    } //??  Nên thông báo để người dùng biết nếu có lỗi in ấn 
-                );
+                var href = '#/CircumstanceReport/ICReport/print/' + id;
+                window.open(href);
+
+                // CReportService.GetDepartment_RP({ //?? Service chỉ để lấy SubDepartment... Hơi dư
+                //         Rp_ID: id
+                //     }, function (res) {
+                //         if (res.Success) {
+                //             var other_depart = res.Data; //data from OperationResult.Data
+                //             if (ReportType != 'IC') {
+                //                 console.log(id);
+                //                 if (other_depart == "Other") {
+                //                     var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
+                //                     window.open(href);
+                //                 } else {
+                //                     var href = '#/CircumstanceReport/ACReport/print/' + id;
+                //                     window.open(href);
+                //                 }
+                //             } else {
+                //                 console.log(id);
+                //                 var href = '#/CircumstanceReport/ICReport/print/' + id;
+                //                 window.open(href);
+                //             }
+                //         }
+                //     } //??  Nên thông báo để người dùng biết nếu có lỗi in ấn 
+                // );
             }
             $scope.gridOptions = { //Grid setting mặc định tên 
                 columnDefs: colgrid,
@@ -443,31 +446,36 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
                         if (resultRows.length == 1) {
-                            if (resultRows[0].Rp_Type == "IC") {
-                                var href = '#/CircumstanceReport/ICReport/print/' + resultRows[0].Rp_ID + ':true';
-                                window.open(href);
-                            } else {
-                                CReportService.GetDepartment_RP({
-                                    Rp_ID: resultRows[0].Rp_ID
-                                }, function (res) {
-                                    if (res.Success) {
-                                        var other_depart = res.Data;
-                                        if (resultRows[0].Rp_Type != 'IC') {
-                                            if (other_depart == "Other") {
-                                                var href = '#/CircumstanceReport/ACReport/print/' 
-                                                    + resultRows[0].Rp_ID 
-                                                    // + '_' + resultRows[0].EmployeeID + '_o' + ':true';
-                                                window.open(href);
-                                            } else {
-                                                var href = '#/CircumstanceReport/ACReport/print/' 
-                                                    + resultRows[0].Rp_ID 
-                                                    // + '_' + resultRows[0].EmployeeID + ':true';
-                                                window.open(href);
-                                            }
-                                        }
-                                    }
-                                });
-                            }
+
+                            var href = '#/CircumstanceReport/ICReport/print/' + resultRows[0].Rp_ID
+                            // + ':true';
+                            window.open(href);
+
+
+                            // if (resultRows[0].Rp_Type == "IC") {
+
+                            // } else {
+                            //     CReportService.GetDepartment_RP({
+                            //         Rp_ID: resultRows[0].Rp_ID
+                            //     }, function (res) {
+                            //         if (res.Success) {
+                            //             var other_depart = res.Data;
+                            //             if (resultRows[0].Rp_Type != 'IC') {
+                            //                 if (other_depart == "Other") {
+                            //                     var href = '#/CircumstanceReport/ACReport/print/' 
+                            //                         + resultRows[0].Rp_ID 
+                            //                         // + '_' + resultRows[0].EmployeeID + '_o' + ':true';
+                            //                     window.open(href);
+                            //                 } else {
+                            //                     var href = '#/CircumstanceReport/ACReport/print/' 
+                            //                         + resultRows[0].Rp_ID 
+                            //                         // + '_' + resultRows[0].EmployeeID + ':true';
+                            //                     window.open(href);
+                            //                 }
+                            //             }
+                            //         }
+                            //     });
+                            // }
                         } else {
                             Notifications.addError({
                                 'status': 'error',
