@@ -75,7 +75,7 @@
 
 
         function SaveBpmn() {
-            if ($scope.checkList && checkList.length >= 0) {
+            // if ($scope.checkList && checkList.length >= 0) {
                 $scope.formVariables.push({
                     name: 'Receive_HSE_Users',
                     value: $scope.checkList
@@ -100,15 +100,15 @@
                     //     });
                     // })
                 });
-            }
+            // }
 
-            else {
-                Notifications.addError({
-                    'status': 'error',
-                    'message': 'Don\'t get leader'
-                });
-                return;
-            }
+            // else {
+            //     Notifications.addError({
+            //         'status': 'error',
+            //         'message': 'Don\'t get leader'
+            //     });
+            //     return;
+            // }
 
         }
 

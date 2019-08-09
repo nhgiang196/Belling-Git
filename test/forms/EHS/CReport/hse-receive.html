@@ -45,31 +45,31 @@
         } //save
 
         function SaveBpmn() {
-            if ($scope.checkList && checkList.length >= 0) {
-                $q.all([$scope.submit()]).then(function () {
-                    // var reminder_parrams = {
-                    //     voucherID: $scope.VoucherID,
-                    //     userid: Auth.username,
-                    //     formkey: 'leadercheck'
-                    // }
-                    // LIMSService.SendReminder(reminder_parrams, function (res) {
-                    //     if (res.Success) return;
-                    // }, function (error) {
-                    //     Notifications.addError({
-                    //         'status': 'error',
-                    //         'message': $translate.instant('saveError') + error
-                    //     });
-                    // })
-                });
-            }
+            // if ($scope.checkList && checkList.length >= 0) {
+            $q.all([$scope.submit()]).then(function () {
+                // var reminder_parrams = {
+                //     voucherID: $scope.VoucherID,
+                //     userid: Auth.username,
+                //     formkey: 'leadercheck'
+                // }
+                // LIMSService.SendReminder(reminder_parrams, function (res) {
+                //     if (res.Success) return;
+                // }, function (error) {
+                //     Notifications.addError({
+                //         'status': 'error',
+                //         'message': $translate.instant('saveError') + error
+                //     });
+                // })
+            });
+            // }
 
-            else {
-                Notifications.addError({
-                    'status': 'error',
-                    'message': 'Don\'t get leader'
-                });
-                return;
-            }
+            // else {
+            //     Notifications.addError({
+            //         'status': 'error',
+            //         'message': 'Don\'t get leader'
+            //     });
+            //     return;
+            // }
 
         }
     }

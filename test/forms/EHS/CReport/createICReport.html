@@ -51,10 +51,6 @@
     a:hover {
         cursor: pointer;
     }
-
-    .EVRform {
-        color: rgb(179, 110, 0);
-    }
 </style>
 <h3 class="text-center" ng-if="!IsEVR">{{'IncidentReport'|translate}}</h3>
 <h3 class="text-center" ng-if="IsEVR">{{'IncidentReport_EVR'|translate}}</h3>
@@ -95,15 +91,18 @@
     </div>
     <!-- end of form-group frm-mrg -->
     <div class=" form-group frm-mrg ">
-        <label class="col-sm-2 control-label ctr-lb">* {{'CategoryReport'|translate}}</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordIC.submittype" name="recordIC.submittype"
-                ng-change="IsEVR= recordIC.submittype=='EVR'? true: false;" require>
-                <option ng-repeat='item in SubmitTypelist' value="{{item.id}}">{{item.name | translate}}
-                </option>
-            </select>
+        <div ng-show="!IsEVR">
+            <label class="col-sm-2 control-label ctr-lb">* {{'CategoryReport'|translate}}</label>
+            <div class="col-sm-4">
+                <select style="width:100%" ui-select2 ng-model="recordIC.submittype" name="recordIC.submittype"
+                    ng-change="IsEVR= recordIC.submittype=='EVR'? true: false;" require>
+                    <option ng-repeat="item in SubmitTypelist | filter:{id:'!EVR'} " value="{{item.id}}">{{item.name | translate}}
+                    </option>
+                </select>
+            </div>
         </div>
-        <div ng-if="IsEVR" class="EVRform">
+
+        <div ng-if="IsEVR" >
             <label class="col-sm-2 control-label ctr-lb">* {{'IcCategoryReport'|translate}}</label>
             <div class="col-sm-4">
                 <select ng-if="!icType_CheckOther" style="width:100%" ui-select2 ng-model="recordIC.icType"
@@ -123,7 +122,7 @@
 
 
     <!-- end of form-group frm-mrg -->
-    <div class="form-group frm-mrg EVRform" ng-if="IsEVR ">
+    <div class="form-group frm-mrg " ng-if="IsEVR ">
         <label class="col-sm-2 control-label ctr-lb">* {{'RpIC_NotifPerson'|translate}}</label>
         <div class="col-sm-4">
             <input type="text" class="form-control" ng-model="recordIC.ICNotifPersion" name="ICNotifPersion" required>
@@ -135,7 +134,7 @@
     </div>
     <!-- end of form-group frm-mrg -->
 
-    <div class=" form-group frm-mrg EVRform" ng-if="IsEVR">
+    <div class=" form-group frm-mrg " ng-if="IsEVR">
 
         <label class="col-sm-2 control-label ctr-lb">* {{'ICTimeNotif'|translate}} </label>
         <div class="col-sm-4">
@@ -147,7 +146,7 @@
                 </span>
             </div>
         </div>
-        <div ng-if="IsEVR" class="EVRform">
+        <div ng-if="IsEVR" >
             <label class="col-sm-2 control-label ctr-lb">* {{'ICAffect'|translate}}</label>
             <div class="col-sm-4">
                 <select style="width:100%" ui-select2 ng-model="recordIC.icAffect" name="recordIC.icAffect" required>
@@ -210,7 +209,7 @@
 
 
 
-    <div class="form-group frm-mrg EVRform" ng-if="IsEVR">
+    <div class="form-group frm-mrg " ng-if="IsEVR">
         <label class="col-sm-2 control-label ctr-lb" style="margin-top: 1%;">*
             {{'AffectRange'|translate}}</label>
         <div class="col-sm-10">
@@ -299,7 +298,7 @@
             <label class="col-sm-4 control-label ctr-lb">* {{'IcProcess'|translate}}</label>
             <div class="col-sm-8 rm-padding-right">
                 <textarea class="form-control" rows="4" type="text" name="recordIC.icImprove" ng-model="recordIC.icImprove" />
-                <div ng-if="IsEVR" class="EVRform">
+                <div ng-if="IsEVR" >
                     <input type="file" ng-file-select="UploadFileHSE($files, 'RpIC_Process')" id="file_location_ic3" style="display:none !important" multiple accept="image/*">
                     <button style="margin-top: 10px;" id="btn_file_location_ic" class="btn btn-info" style="display:inline-block;" type="button" ng-model='btnFile'
                      ng-click="btnfile('file_location_ic3','')">

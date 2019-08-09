@@ -17,32 +17,10 @@ define(['app'], function (app) {
                         }, function (data) {
                             console.log("return data:", data);
 
-
-                            if (InfolistService.Infolist('IncidentType').find(x => x.id == data.Header[0].RpIC_IncidentType) != undefined)
-                                data.Header[0].RpIC_IncidentType = $translate.instant('RpIC_IncidentType-' + data.Header[0].RpIC_IncidentType);
                             scope.ReportDetail = data.Header[0];
                             scope.FileAttached = data.File;
                             scope.InjuryDetail = data.Detail;
-                            // evaluate combobox
-                            var evaluatelist = InfolistService.Infolist('evaluate');
-                            // location combobox
-                            var locationlist = InfolistService.Infolist('location');
-                            // incident type combobox
-                            var submittypelist = InfolistService.Infolist('SubmitType');
-
-
-                            if (data.Header[0].Rp_SubmitType == 'EVR') {} else {
-                                if (data.Header[0].Rp_Type == 'IC') {
-                                    scope.ReportDetail.Rp_SubmitType = submittypelist.find(item => item.id === data.Header[0].Rp_SubmitType).name;
-                                    scope.ReportDetail.RpIC_Evaluate = evaluatelist.find(item => item.id === data.Header[0].RpIC_Evaluate).name;
-                                } else {
-
-                                    scope.ReportDetail.RpAC_ResultHardware = evaluatelist.find(item => item.id === data.Header[0].RpAC_ResultHardware).name;
-                                    scope.ReportDetail.RpAC_ResultSoftware = evaluatelist.find(item => item.id === data.Header[0].RpAC_ResultSoftware).name;
-                                }
-                            }
-
-                            if (['P', 'S','SM'].indexOf(data.Header[0].Rp_Status) >= 0) {
+                            if (['P', 'S', 'SM'].indexOf(data.Header[0].Rp_Status) >= 0) {
                                 /**Get Receiver*/
                                 CReportService.CReportHSEPID().get({
                                     Rp_ID: _Rp_ID
