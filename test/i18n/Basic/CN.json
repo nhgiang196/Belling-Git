@@ -562,7 +562,7 @@
   "Submit_Processing_MSG": "您无法提交已签名的处理报告",
   "Submit_Signed_MSG": "您无法提交已签名和已批准的报告以供审批",
   "Submit_Success_MSG": "您的报告已提交！",
-  "Improment_Update_MSG":"Không thể cập nhật cải thiện cho đơn loại này được",
+  "Improment_Update_MSG": "Không thể cập nhật cải thiện cho đơn loại này được",
   "Unit_Other": "单元",
   "Update_Deleted_MSG": "您无法更新已删除的报告",
   "Update_Improvement": "更新改进",
@@ -573,10 +573,10 @@
   "VeryGood": "很好",
   "Victim_info": "伤者基本资料",
   "Witness": "受伤关系人或现场见证人姓名",
-  "Witness_info": "受伤关系人或现场见证人姓名 (若系厂外请注明联络方法)"
-  ,"Improvement_Status":"状态改善"
-  ,"Improvement_Status-Done":"Done"
-  ,"Improvement_Status-Wait":"Wait"
-  ,"SubDepartmentID_OtherInformation": "其他信息（如果不在列表中）"
-  
+  "Witness_info": "受伤关系人或现场见证人姓名 (若系厂外请注明联络方法)",
+  "Improvement_Status": "状态改善",
+  "Improvement_Status-Done": "Done",
+  "Improvement_Status-Wait": "Wait",
+  "Improvement_Status-Unknow": "Không xác định",
+  "SubDepartmentID_OtherInformation": "其他信息（如果不在列表中）"
 }

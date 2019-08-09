@@ -17,9 +17,16 @@ define(['app'], function (app) {
                         }, function (data) {
                             console.log("return data:", data);
 
+
+
                             scope.ReportDetail = data.Header[0];
                             scope.FileAttached = data.File;
                             scope.InjuryDetail = data.Detail;
+
+                            scope.ShowReportType =
+                                data.Header[0].Rp_SubmitType == 'Môi trường' ? 1 :
+                                data.Header[0].Rp_Type == 'IC' ? 2 : 3;
+
                             if (['P', 'S', 'SM'].indexOf(data.Header[0].Rp_Status) >= 0) {
                                 /**Get Receiver*/
                                 CReportService.CReportHSEPID().get({
@@ -82,6 +89,9 @@ define(['app'], function (app) {
 
                                 })
 
+
+
+
                             }
 
 
@@ -94,13 +104,6 @@ define(['app'], function (app) {
                         //         window.print();
                         //     }, 1000);
                         // })
-
-
-
-
-
-
-
                     }
 
                 },

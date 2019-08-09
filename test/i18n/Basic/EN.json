@@ -268,7 +268,7 @@
   "Container Information": "Container Information",
   "Basic Information": "Basic Information",
   "B": {
-     "L NO": "B/L Number"
+    "L NO": "B/L Number"
   },
   "Conditional Query": "Conditional Query",
   "Container": "Application for container",
@@ -558,7 +558,7 @@
   "Submit_Processing_MSG": "You can't submit the report that is processing",
   "Submit_Signed_MSG": "You can't submit the report that was signed approval",
   "Submit_Success_MSG": "Your report is submited!",
-  "Improment_Update_MSG":"Can't update Incident Report",
+  "Improment_Update_MSG": "Can't update Incident Report",
   "Unit_Other": "Unit",
   "Update_Deleted_MSG": "You can't update the report that was deleted",
   "Update_Improvement": "Update Improvement",
@@ -569,9 +569,10 @@
   "VeryGood": "Very Good",
   "Victim_info": "Personal Injury Description",
   "Witness": "Witness ",
-  "Witness_info": " Witness name/ Contact"
-  ,"Improvement_Status":"Improvement Status"
-  ,"Improvement_Status-Done":"Done"
-  ,"Improvement_Status-Wait":"Wait"
-  ,"SubDepartmentID_OtherInformation": "Other information (only if Injuried person wasn't in this list)"
+  "Witness_info": " Witness name/ Contact",
+  "Improvement_Status": "Improvement Status",
+  "Improvement_Status-Done": "Done",
+  "Improvement_Status-Wait": "Wait",
+  "Improvement_Status-Unknow": "Unknow",
+  "SubDepartmentID_OtherInformation": "Other information (only if Injuried person wasn't in this list)"
 }
