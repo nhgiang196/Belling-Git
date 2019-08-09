@@ -57,6 +57,7 @@
                     $scope.recordIC.icDamaged_Envr = data.RpIC_Damaged_Envr;
                     $scope.recordIC.icImprove = data.RpIC_Process;
                     $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
+                    $scope.recordIC.icType = data.RpIC_IncidentType;
                     $scope.recordIC.submittype = data.Rp_SubmitType;
                     if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
                         $scope.icType_CheckOther = true;
@@ -176,7 +177,7 @@
     <div ng-show="!IsIC">
         <create_ac_report></create_ac_report>
     </div>
-
+    <hr>
     <form class="form-horizontal" role="form" novalidate name="form">
         <!-- RECEVEIVE AND PROCESS FORM -->
 

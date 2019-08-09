@@ -215,10 +215,10 @@
             <div ng-repeat="person in InjuryDetail">
 
                 <p ng-if="InjuryDetail[0].Contractor_Name === null"
-                    style=" text-align: justify; ;white-space:pre-wrap;">
+                    style=" text-align: justify;">
                     ({{person.Name}}) {{person.Injury_Description}}</p>
                 <p ng-if="InjuryDetail[0].Contractor_Name !== null"
-                    style=" text-align: justify;;white-space:pre-wrap; ">
+                    style=" text-align: justify;">
                     ({{person.Contractor_Victim_Name}}) {{person.Injury_Description}}</p>
             </div>
             <a href="/{{item.File_ID}}" class="fileattached"

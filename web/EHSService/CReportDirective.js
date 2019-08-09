@@ -24,8 +24,8 @@ define(['app'], function (app) {
                             scope.InjuryDetail = data.Detail;
 
                             scope.ShowReportType =
-                                data.Header[0].Rp_SubmitType == 'Môi trường' ? 1 :
-                                data.Header[0].Rp_Type == 'IC' ? 2 : 3;
+                                data.Header[0].Rp_SubmitTypeCode == 'EVR' ? 1 :
+                                data.Header[0].Rp_TypeCode == 'IC' ? 2 : 3;
 
                             if (['P', 'S', 'SM'].indexOf(data.Header[0].Rp_Status) >= 0) {
                                 /**Get Receiver*/
