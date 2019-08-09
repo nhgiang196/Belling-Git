@@ -38,12 +38,16 @@ define(['app'], function (app) {
                         note.Rp_SubDepartmentID = $scope.recordIC.ic_SubDeparmentid; //?? Should be SUbDepartmentID
                         note.Rp_DateTime = $scope.recordIC.icDatetime;
                         note.Rp_Location = $scope.recordIC.icLocation;
+                        note.Rp_LocationDetail = $scope.recordIC.icLocationDetail;
                         note.Rp_PreventMeasure = $scope.recordIC.icPrevent;
                         note.RpIC_Description = $scope.recordIC.icProcess;
                         note.RpIC_DirectReason = $scope.recordIC.icDr_reason;
                         note.RpIC_IndirectReason = $scope.recordIC.icIdr_reason;
                         note.RpIC_BasicReason = $scope.recordIC.icBasic;
                         note.RpIC_Damage = $scope.recordIC.icResult;
+                        note.RpIC_Damaged_Human = $scope.recordIC.icDamaged_Human;
+                        note.RpIC_Damaged_Asset = $scope.recordIC.icDamaged_Asset;
+                        note.RpIC_Damaged_Envr = $scope.recordIC.icDamaged_Envr;
                         note.RpIC_Process = $scope.recordIC.icImprove;
                         note.RpIC_Evaluate = $scope.recordIC.icEvaluate;
                         note.RpIC_IncidentType = $scope.recordIC.icType;
@@ -312,14 +316,20 @@ define(['app'], function (app) {
                             $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
                             $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
                             $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
+
+                            
                             $scope.recordIC.icDatetime = data.Rp_DateTime;
                             $scope.recordIC.icLocation = data.Rp_Location;
+                            $scope.recordIC.icLocationDetail = data.Rp_LocationDetail;
                             $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
                             $scope.recordIC.icProcess = data.RpIC_Description;
                             $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
                             $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
                             $scope.recordIC.icBasic = data.RpIC_BasicReason;
                             $scope.recordIC.icResult = data.RpIC_Damage;
+                            $scope.recordIC.icDamaged_Human = data.RpIC_Damaged_Human;
+                            $scope.recordIC.icDamaged_Asset = data.RpIC_Damaged_Asset;
+                            $scope.recordIC.icDamaged_Envr = data.RpIC_Damaged_Envr;
                             $scope.recordIC.icImprove = data.RpIC_Process;
                             $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
                             $scope.recordIC.submittype = data.Rp_SubmitType;

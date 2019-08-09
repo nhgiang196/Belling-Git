@@ -145,7 +145,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 var ReportType = data.entity.Rp_Type;
                 var href = '#/CircumstanceReport/ICReport/print/' + id;
                 window.open(href);
-
                 // CReportService.GetDepartment_RP({ //?? Service chỉ để lấy SubDepartment... Hơi dư
                 //         Rp_ID: id
                 //     }, function (res) {
@@ -264,8 +263,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 $scope.gridOptions.columnDefs[9].visible = query.ReportType != '0' ? true : false;
                 CReportService.SearchCReport(query, function (data) {
                     $scope.gridOptions.data = data;
-
-
                 }, function (error) {});
             };
 

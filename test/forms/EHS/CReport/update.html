@@ -45,15 +45,18 @@
                     $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
                     $scope.recordIC.icDatetime = data.Rp_DateTime;
                     $scope.recordIC.icLocation = data.Rp_Location;
+                    $scope.recordIC.icLocationDetail = data.Rp_LocationDetail;
                     $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
                     $scope.recordIC.icProcess = data.RpIC_Description;
                     $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
                     $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
                     $scope.recordIC.icBasic = data.RpIC_BasicReason;
                     $scope.recordIC.icResult = data.RpIC_Damage;
+                    $scope.recordIC.icDamaged_Human = data.RpIC_Damaged_Human;
+                    $scope.recordIC.icDamaged_Asset = data.RpIC_Damaged_Asset;
+                    $scope.recordIC.icDamaged_Envr = data.RpIC_Damaged_Envr;
                     $scope.recordIC.icImprove = data.RpIC_Process;
                     $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
-                    $scope.recordIC.icType = data.RpIC_IncidentType;
                     $scope.recordIC.submittype = data.Rp_SubmitType;
                     if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
                         $scope.icType_CheckOther = true;
@@ -74,6 +77,7 @@
                     $scope.recordAC.ac_type = data.Rp_Type;
                     $scope.recordAC.ac_datetime = data.Rp_DateTime;
                     $scope.recordAC.ac_location = data.Rp_Location;
+                    $scope.recordAC.ac_locationDetail = data.Rp_LocationDetail;
                     $scope.recordAC.ac_prevent = data.Rp_PreventMeasure;
                     $scope.recordAC.ac_improvesoft = data.RpAC_ImproveSoftware;
                     $scope.recordAC.ac_improvehard = data.RpAC_ImproveHardware;

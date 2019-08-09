@@ -55,7 +55,7 @@
             3.0 事故時間 Thời gian tai nạn: {{ReportDetail.Rp_DateTime | date : 'yyyy-MM-dd HH:mm'}}
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
-            4.0 事故地點 Địa điểm xảy ra sự cố: {{ReportDetail.Rp_Location}}
+            4.0 事故地點 Địa điểm xảy ra sự cố: {{ReportDetail.Rp_Location}} - {{ReportDetail.Rp_LocationDetail}}
             <br>
             <div style=" text-align: justify; ">
                 <a href="/{{item.File_ID}}" class="fileattached"
@@ -203,7 +203,7 @@
         </div>
         <div class="col-lg-12 col-sm-12">
             3.0 Địa điểm bị thương 受傷地點：(nếu bên ngoài xưởng, xin vẽ ra vị trí địa lý 若係廠外受傷，請劃出地理位置):
-            {{ReportDetail.Rp_Location }}
+            {{ReportDetail.Rp_Location }} - {{ReportDetail.Rp_LocationDetail}}
             <br>
             <a href="/{{item.File_ID}}" class="fileattached"
                 ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}"
@@ -238,10 +238,10 @@
         </div>
         <div class="col-lg-12 col-sm-12">
             6.0 Tình hình xử lý sau khi bị thương 受傷後處理情形:
-            <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify;white-space:pre-wrap;"
+            <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify"
                 ng-repeat="person in InjuryDetail">
                 ({{person.Name}}) {{person.Treatment_Result}}</p>
-            <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify;white-space:pre-wrap;"
+            <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify"
                 ng-repeat="person in InjuryDetail">
                 ({{person.Contractor_Victim_Name}}) {{person.Treatment_Result}}</p>
         </div>
@@ -338,7 +338,7 @@
             <br>Người nhận thông báo授信人 ：{{ReportDetail.RpIC_ReceivePerson}}
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
-            5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location}}
+            5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location}} - {{ReportDetail.Rp_LocationDetail}}
             <br>Hình ảnh sự cố 事故照片: (Đính kèm ảnh)
 
             <div style=" text-align: justify; ">

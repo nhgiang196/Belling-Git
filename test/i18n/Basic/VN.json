@@ -580,8 +580,9 @@
   "FireProtection": "Phòng cháy",
   "Safety": "An toàn",
   "Environment": "Môi trường",
-  "SubDepartmentID_OtherInformation":"Thông tin khác (nếu không có trong danh sách nhân viên)",
-  "CReportHSE":"Lưu trình xử lý báo cáo sự cố đến HSE"
-  
-
+  "SubDepartmentID_OtherInformation": "Thông tin khác (nếu không có trong danh sách nhân viên)",
+  "CReportHSE": "Lưu trình xử lý báo cáo sự cố đến HSE",
+  "Rpic_Damaged_Human": "Thiệt hại đối với con người",
+  "Rpic_Damaged_Asset": "Thiệt hại đối với tài sản",
+  "Rpic_Damaged_Envr": "Thiệt hại đối với môi trường"
 }

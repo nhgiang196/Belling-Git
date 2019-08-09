@@ -89,6 +89,7 @@ define(['app'], function (app) {
                             $scope.recordAC.ac_type = data.Rp_Type;
                             $scope.recordAC.ac_datetime = data.Rp_DateTime;
                             $scope.recordAC.ac_location = data.Rp_Location;
+                            $scope.recordAC.ac_locationDetail = data.Rp_LocationDetail;
                             $scope.recordAC.ac_prevent = data.Rp_PreventMeasure;
                             $scope.recordAC.ac_improvesoft = data.RpAC_ImproveSoftware;
                             $scope.recordAC.ac_improvehard = data.RpAC_ImproveHardware;
@@ -178,6 +179,7 @@ define(['app'], function (app) {
                         note.Rp_DepartmentID = $scope.recordAC.ac_subdepartment;
                         note.Rp_DateTime = $scope.recordAC.ac_datetime;
                         note.Rp_Location = $scope.recordAC.ac_location;
+                        note.Rp_LocationDetail = $scope.recordAC.ac_locationDetail;
                         note.Rp_Type = $scope.recordAC.ac_type;
                         note.Rp_PreventMeasure = $scope.recordAC.ac_prevent;
                         note.RpAC_ImproveSoftware = $scope.recordAC.ac_improvesoft;

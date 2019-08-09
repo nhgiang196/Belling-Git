@@ -577,6 +577,9 @@
   "Improvement_Status": "狀態改善",
   "Improvement_Status-Done": "Done",
   "Improvement_Status-Wait": "Wait",
-  "Improvement_Status-Unknow": "Không xác định",
-  "SubDepartmentID_OtherInformation": "其他信息（如果不在列表中）"
+  "Improvement_Status-Unknow": "Unknow",
+  "SubDepartmentID_OtherInformation": "其他信息（如果不在列表中）",
+  "Rpic_Damaged_Human": "對於人員",
+  "Rpic_Damaged_Asset": "對於財產",
+  "Rpic_Damaged_Envr": "對於環境"
 }

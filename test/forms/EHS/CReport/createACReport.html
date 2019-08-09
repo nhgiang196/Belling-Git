@@ -120,6 +120,17 @@
             </select>
         </div>
     </div>
+    <div class=" form-group ">
+        <label class="col-sm-2 control-label ctr-lb">* {{'Aclocation'|translate}} : </label>
+        <div class="col-sm-10">
+            <textarea class="form-control" type="text" rows="3" name="recordAC.ac_locationDetail"
+                style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_locationDetail" required>
+                                    </textarea>
+        </div>
+
+
+
+    </div>
     <!-- end of form-group -->
 
     <div class="form-group">
@@ -207,8 +218,7 @@
         <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
         <div class="col-sm-8">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
-                ng-change="showEmployeeList(recordAC.ac_subdepartment)" 
-                ng-disabled="AC_Department_Disable">
+                ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="AC_Department_Disable">
                 <option value=""></option>
                 <option ng-repeat="dept in submitDept" value="{{dept.DepartmentID}}">
                     {{dept.DepartmentID}} - {{dept.SubmitDepartName }}</option>
@@ -218,8 +228,7 @@
 
             </select>
             <label>
-                <input type="checkbox" ng-model="otherInfomation" 
-                ng-change="employees = [];">
+                <input type="checkbox" ng-model="otherInfomation" ng-change="employees = [];">
                 {{'SubDepartmentID_OtherInformation' | translate}}
             </label>
 
