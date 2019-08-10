@@ -96,6 +96,8 @@ define(['app'], function (app) {
                             $scope.recordAC.ac_datecomp = data.RpAC_DateComplete;
                             $scope.recordAC.ac_resultsoft = data.RpAC_ResultSoftware;
                             $scope.recordAC.ac_resulthard = data.RpAC_ResultHardware;
+                            $scope.recordAC.ac_causeCondition = data.RpAC_CauseCondition;
+                            $scope.recordAC.ac_causeActivity = data.RpAC_CauseActivity;
                             $scope.recordAC.submittype = data.Rp_SubmitType;
                             $scope.employees = [];
                             $scope.showEmployeeList(data.Rp_SubDepartmentID);
@@ -187,6 +189,8 @@ define(['app'], function (app) {
                         note.RpAC_DateComplete = $scope.recordAC.ac_datecomp;
                         note.RpAC_ResultSoftware = $scope.recordAC.ac_resultsoft;
                         note.RpAC_ResultHardware = $scope.recordAC.ac_resulthard;
+                        note.RpAC_CauseCondition = $scope.recordAC.ac_causeCondition;
+                        note.RpAC_CauseActivity = $scope.recordAC.ac_causeActivity;
                         note.Rp_SubmitType = $scope.recordAC.submittype;
                         note.Rp_CreatorID = Auth.username;
                         note.AccidentDetail = $scope.employees;
@@ -284,7 +288,7 @@ define(['app'], function (app) {
                                 switch (status) {
                                     case 'N':
                                         SaveAC(note);
-                                        
+
                                         break;
                                     case 'M':
                                         note.Rp_Status = 'D';

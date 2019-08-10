@@ -176,8 +176,7 @@ define(['app'], function (app) {
                     //*** UPload file */
                     $scope.listfile = [];
                     $scope.UploadFileHSE = function ($files, _colName) {
-
-                        var isValidFile = checkFileLimited($files, _colName, 3, 3);
+                        var isValidFile = checkFileLimited($files, _colName, 6, 3);
                         if (!isValidFile.success) {
                             alert(isValidFile.message)
                         } else {
@@ -405,18 +404,6 @@ define(['app'], function (app) {
                             });
                         }, 300);
                     }
-
-
-                    // $scope.showBtnFile = function () {
-                    //     if ($scope.recordIC.icLocation == 'O' || $scope.recordAC.ac_location == 'O') {
-                    //         $scope.btnFile = false;
-                    //         $scope.btnFile_AC = false;
-                    //     } else {
-                    //         $scope.btnFile = true;
-                    //         $scope.btnFile_AC = true;
-                    //     }
-                    // }
-
 
                 },
                 templateUrl: './forms/EHS/CReport/createICReport.html'

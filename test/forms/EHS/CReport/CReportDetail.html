@@ -20,6 +20,132 @@
         margin-bottom: 5pt;
     }
 </style>
+
+<!-- ENVIRONMENT REPORT**************************************************************************************************************** -->
+<page size="A4" id="page-contain" class="container" ng-if="ShowReportType==1">
+    <div class="header">
+        <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
+            CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)
+            <br> 遠東紡纖（越南）有限公司
+            <br>
+            <Strong> BÁO CÁO SỰ CỐ MÔI TRƯỜNG <br> 環境事故報告書 </Strong>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
+            Năm {{ReportDetail.Rp_Date | date: 'yyyy'}} 年 tháng {{ReportDetail.Rp_Date | date: 'MM'}} 月 ngày
+            {{ReportDetail.Rp_Date | date: 'dd'}} 日
+        </div>
+    </div>
+    <div class="body">
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            1. Đơn vị xảy ra sự cố 事故單位: {{ReportDetail.SubDepartmentName}}
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            2. Loại hình sự cố 事故類型: {{ReportDetail.RpIC_IncidentType}}
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            3. Mức độ ảnh hưởng của sự cố 事故影響程度: {{ReportDetail.RpIC_Affect}}
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            4. Thời gian xảy ra sự cố 事故時間： {{ReportDetail.Rp_DateTime | date: 'yyyy'}} năm年
+            {{ReportDetail.Rp_DateTime | date: 'MM'}} tháng月 {{ReportDetail.Rp_DateTime | date: 'dd'}} ngày日
+            {{ReportDetail.Rp_DateTime | date: 'HH'}} giờ時 {{ReportDetail.Rp_DateTime | date: 'mm'}} phút分
+            <br>Thời gian thông báo sự cố通報時間： {{ReportDetail.RpIC_TimeNotif | date: 'yyyy'}} năm年
+            {{ReportDetail.RpIC_TimeNotif | date: 'MM'}} tháng月 {{ReportDetail.RpIC_TimeNotif | date: 'dd'}} ngày日
+            {{ReportDetail.RpIC_TimeNotif | date: 'HH'}} giờ時 {{ReportDetail.RpIC_TimeNotif | date: 'mm'}} phút分
+            <br>Người thực hiện thông báo 通報人：{{ReportDetail.RpIC_NotifPerson}}
+            <br>Người nhận thông báo授信人 ：{{ReportDetail.RpIC_ReceivePerson}}
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location}} - {{ReportDetail.Rp_LocationDetail}}
+            <br>Hình ảnh sự cố 事故照片: (Đính kèm ảnh)
+
+            <div style=" text-align: justify; ">
+                <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                    ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}">{{item.File_ID}}<br></a>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            6. Phạm vi ảnh hưởng của sự cố事故影響之範圍：
+            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_AffectRange}}</p>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            7.Quá trình phát sinh sự cố (Thuyết minh chi tiết) 事故發生經過 (請詳細說明)：
+            <br>
+            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_Description}}</p>
+            <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Description'}">{{item.File_ID}}<br></a>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            8. Nguyên nhân phát sinh sự cố事故發生原因：
+            <br> 8.1. Nguyên nhân trực tiếp直接原因：
+            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_DirectReason}}</p>
+            8.2. Nguyên nhân gián tiếp間接原因：
+            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_IndirectReason}}</p>
+            8.3. Nguyên nhân cơ bản基本原因：
+            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_BasicReason}}</p>
+
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            9. Hậu quả do sự cố gây ra (nhân viên hoảng sợ, tổn thất thiết bị, thiệt hại sản xuất,…): 事故結果
+            (人員驚嚇、設備損失、生產損失或其他)：
+            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_Damage}}</p>
+            <!-- <br>9.1. Đối với con người 對於人員：
+                <br>9.2. Đối với tài sản 對於財產：
+                <br>9.3. Đối với môi trường 對於環境： -->
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            10. Tình hình xử lý sau sự cố事故後處理情形：
+            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_Process}}</p>
+            Hình ảnh khắc phục sau sự cố改善照片: (Đính kèm ảnh)
+            <div style=" text-align: justify; ">
+                <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                    ng-repeat="item in FileAttached | filter:{ColumnName: 'RpIC_Process'}">{{item.File_ID}}<br></a>
+            </div>
+
+            <!-- FILE HERE -->
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            11. Làm thế nào để ngăn ngừa sự cố tương tự如何防止同樣事故發生？：
+            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.Rp_PreventMeasure}}</p>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-mrg">
+            12. Phê duyệt của chủ quản 主管批示 :
+            <table border="1px" cellpadding="5px" style="width:100%; height: 100%; ">
+                <tr style="text-align:center;">
+                    <td style="width:5%">Lập báo cáo 填寫報告</td>
+                    <td style="width:5%">Chủ quản hiện trường </td>
+                    <td style="width:5%">Chủ quản đơn vị 2 科長/單位主管</td>
+                    <td style="width:5%">Giám đốc /Xưởng trưởng/chủ quản cao nhất của đơn vị 經理/廠長/單位最高主管</td>
+                    <td style="width:5%">Kiểm tra 審核人員</td>
+                    <td style="width:5%">Trưởng Phòng HSE 科長</td>
+                    <td style="width:5%">Giám đốc HSE 經理</td>
+                </tr>
+                <tr style="text-align:center;height:90pt; font-size:10pt; vertical-align: top ">
+                    <td> {{receiver[0].UserId}}
+                        <br> {{receiver[0].UserName}} </td>
+                    <td> {{receiver[1].UserId}}
+                        <br> {{receiver[1].UserName}} </td>
+                    <td> {{receiver[2].UserId}}
+                        <br> {{receiver[2].UserName}} </td>
+                    <td> {{receiver[3].UserId}}
+                        <br> {{receiver[3].UserName}} </td>
+                    <td> {{receiver[4].UserId}}
+                        <br> {{receiver[4].UserName}} </td>
+                    <td> {{receiver[5].UserId}}
+                        <br> {{receiver[5].UserName}} </td>
+                    <td> {{receiver[6].UserId}}
+                        <br> {{receiver[6].UserName}} </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-12 col-lg-12" style="margin-top:2%; text-align:justify;">
+            Bản này chia làm hai bản, một bản do bộ phận bị tai nạn lưu, một bản do bộ phận ATVSMT lưu.
+            <br>本表一式兩份，一份由事故單位自存，一份送安衛環單位存查。
+        </div>
+    </div>
+</page>
+
+
 <!-- OTHER INCIDENT REPORT **************************************************************************************************************** -->
 <page size="A4" id="page-contain" class="container" ng-if="ShowReportType==2">
     <!--header Container-->
@@ -101,14 +227,15 @@
             11.0 Phê duyệt của chủ quản 主管批示 :
             <table border="1px" cellpadding="5px" style="width:100%; height: 100%; ">
                 <tr style="text-align:center;">
-                    <td style="width:5%">填報人 Creator</td>
-                    <td style="width:5%">Leader</td>
-                    <td style="width:5%">Header Factory</td>
-                    <td style="width:5%">Supervisor</td>
-                    <td style="width:5%">Leader</td>
-                    <td style="width:5%">Manager</td>
+                    <td style="width:5%">Lập báo cáo 填寫報告</td>
+                    <td style="width:5%">Chủ quản hiện trường </td>
+                    <td style="width:5%">Chủ quản đơn vị 2 科長/單位主管</td>
+                    <td style="width:5%">Giám đốc /Xưởng trưởng/chủ quản cao nhất của đơn vị 經理/廠長/單位最高主管</td>
+                    <td style="width:5%">Kiểm tra 審核人員</td>
+                    <td style="width:5%">Trưởng Phòng HSE 科長</td>
+                    <td style="width:5%">Giám đốc HSE 經理</td>
                 </tr>
-                <tr style="text-align:center; height:90pt; font-size:10pt; vertical-align: top ">
+                <tr style="text-align:center;height:90pt; font-size:10pt; vertical-align: top ">
                     <td> {{receiver[0].UserId}}
                         <br> {{receiver[0].UserName}} </td>
                     <td> {{receiver[1].UserId}}
@@ -121,6 +248,8 @@
                         <br> {{receiver[4].UserName}} </td>
                     <td> {{receiver[5].UserId}}
                         <br> {{receiver[5].UserName}} </td>
+                    <td> {{receiver[6].UserId}}
+                        <br> {{receiver[6].UserName}} </td>
                 </tr>
             </table>
         </div>
@@ -132,6 +261,9 @@
     <div class="divFooter" style="text-align: right;">5VEXXHR382-01</div>
 
 </page>
+
+
+
 <!-- OTHER ACIDENT REPORT **************************************************************************************************************** -->
 <page size="A4" id="page-contain" class="container" ng-if="ShowReportType==3">
     <div class="header">
@@ -214,11 +346,9 @@
             4.0 Tình hình chi tiết quá trình bị thương 受傷經過詳細情形 :
             <div ng-repeat="person in InjuryDetail">
 
-                <p ng-if="InjuryDetail[0].Contractor_Name === null"
-                    style=" text-align: justify;">
+                <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify;">
                     ({{person.Name}}) {{person.Injury_Description}}</p>
-                <p ng-if="InjuryDetail[0].Contractor_Name !== null"
-                    style=" text-align: justify;">
+                <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify;">
                     ({{person.Contractor_Victim_Name}}) {{person.Injury_Description}}</p>
             </div>
             <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
@@ -245,161 +375,50 @@
                 ng-repeat="person in InjuryDetail">
                 ({{person.Contractor_Victim_Name}}) {{person.Treatment_Result}}</p>
         </div>
+
+
         <div class="col-lg-12 col-sm-12">
-            7.0 Làm thế nào để ngăn ngừa tai nạn tương tự 如何防止同樣事故發生 :
+            7.0 Nguyên nhân tai nạn lao động事故原因 <br>
+            7.1 Điều kiện làm việc không an toàn 不安全環境/條件：( Người lập báo cáo điền)
+            <p style=" text-align: justify;white-space:pre-wrap;"></p>
+            7.2 Hành vi không an toàn 不安全行為: ( Người lập báo cáo điền)
+            <p style=" text-align: justify;white-space:pre-wrap;"></p>
+
+        </div>
+
+        <div class="col-lg-12 col-sm-12">
+            8.0 Làm thế nào để ngăn ngừa tai nạn tương tự 如何防止同樣事故發生 :
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.Rp_PreventMeasure}}</p>
         </div>
         <div class="col-lg-12 col-sm-12">
-            8.0 Báo cáo cải thiện tai nạn 事故改善報告
+            9.0 Báo cáo cải thiện tai nạn 事故改善報告
         </div>
         <div class="col-lg-12 col-sm-12">
-            <p>8.1 Nội dung biện pháp cải thiện 改善措施內容 : </p>
-            <p>8.1.1 Phần mềm 軟體(con người人員) :</p>
+            <p>9.1 Nội dung biện pháp cải thiện 改善措施內容 : </p>
+            <p>9.1.1 Phần mềm 軟體(con người人員) :</p>
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_ImproveSoftware}}</p>
-            <p>8.1.2 Cải thiện phần cứng 硬體(môi trường,cơ sở環境、設施)改善:</p>
+            <p>9.1.2 Cải thiện phần cứng 硬體(môi trường,cơ sở環境、設施)改善:</p>
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_ImproveHardware}}</p>
         </div>
         <div class="col-lg-12 col-sm-12">
-            <p>8.2 Ngày tháng hoàn thành biện pháp cải thiện 改善措施完成日期 :
+            <p>9.2 Ngày tháng hoàn thành biện pháp cải thiện 改善措施完成日期 :
                 {{ReportDetail.RpAC_DateComplete | date : 'yyyy-MM-dd'}}</p>
-            <p>8.2.1 Phần mềm軟體(con người人員): {{ReportDetail.RpAC_ResultSoftware}}
+            <p>9.2.1 Phần mềm軟體(con người人員): {{ReportDetail.RpAC_ResultSoftware}}
             </p>
-            <p>8.2.2 Cải thiện phần cứng硬體(môi trường,cơ sở環境、設施)改善: {{ReportDetail.RpAC_ResultHardware}}
+            <p>9.2.2 Cải thiện phần cứng硬體(môi trường,cơ sở環境、設施)改善: {{ReportDetail.RpAC_ResultHardware}}
             </p>
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
-            9.0 Phê duyệt của chủ quản 主管批示 :
-            <table cellpadding="5px" border="1px" style="width:100%; height: 100%; ">
-                <tr style="text-align:center;">
-                    <td style="width:5%">填報人 Creator</td>
-                    <td style="width:5%">Leader</td>
-                    <td style="width:5%">Header Factory</td>
-                    <td style="width:5%">Supervisor</td>
-                    <td style="width:5%">Leader</td>
-                    <td style="width:5%">Manager</td>
-                </tr>
-                <tr style="text-align:center;height:90pt; font-size:10pt; vertical-align: top">
-                    <td> {{receiver[0].UserId}}
-                        <br> {{receiver[0].UserName}} </td>
-                    <td> {{receiver[1].UserId}}
-                        <br> {{receiver[1].UserName}} </td>
-                    <td> {{receiver[2].UserId}}
-                        <br> {{receiver[2].UserName}} </td>
-                    <td> {{receiver[3].UserId}}
-                        <br> {{receiver[3].UserName}} </td>
-                    <td> {{receiver[4].UserId}}
-                        <br> {{receiver[4].UserName}} </td>
-                    <td> {{receiver[5].UserId}}
-                        <br> {{receiver[5].UserName}} </td>
-                </tr>
-            </table>
-        </div>
-        <p class="col-sm-12" style="text-align: justify; margin-top:3%; margin-bottom: 0px;">
-            ※ Bản này chia làm hai bản đồng thời trình ký,sau khi thông qua đơn vị ATVSMT ký duyệt, một bản do bộ phận
-            bị tai nạn lưu, một bản do bộ phận ATVSMT lưu. 本文件一式兩份同時呈報，經安衛單位簽核後一份回原單位，一份由安衛單位存查。
-        </p>
-    </div>
-    <!--end off body-->
-    <div class="divFooter" style="text-align:right;">5VEXXHR391-01</div>
-
-</page>
-<!-- ENVIRONMENT REPORT**************************************************************************************************************** -->
-<page size="A4" id="page-contain" class="container" ng-if="ShowReportType==1">
-    <div class="header">
-        <div class="col-lg-12 col-sm-12 col-mrg" style="text-align: center;">
-            CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)
-            <br> 遠東紡纖（越南）有限公司
-            <br>
-            <Strong> BÁO CÁO SỰ CỐ MÔI TRƯỜNG <br> 環境事故報告書 </Strong>
-        </div>
-        <div class="col-lg-12 col-sm-12" style="margin-bottom:3%; text-align: right">
-            Năm {{ReportDetail.Rp_Date | date: 'yyyy'}} 年 tháng {{ReportDetail.Rp_Date | date: 'MM'}} 月 ngày
-            {{ReportDetail.Rp_Date | date: 'dd'}} 日
-        </div>
-    </div>
-    <div class="body">
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            1. Đơn vị xảy ra sự cố 事故單位: {{ReportDetail.SubDepartmentName}}
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            2. Loại hình sự cố 事故類型: {{ReportDetail.RpIC_IncidentType}}
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            3. Mức độ ảnh hưởng của sự cố 事故影響程度: {{ReportDetail.RpIC_Affect}}
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            4. Thời gian xảy ra sự cố 事故時間： {{ReportDetail.Rp_DateTime | date: 'yyyy'}} năm年
-            {{ReportDetail.Rp_DateTime | date: 'MM'}} tháng月 {{ReportDetail.Rp_DateTime | date: 'dd'}} ngày日
-            {{ReportDetail.Rp_DateTime | date: 'HH'}} giờ時 {{ReportDetail.Rp_DateTime | date: 'mm'}} phút分
-            <br>Thời gian thông báo sự cố通報時間： {{ReportDetail.RpIC_TimeNotif | date: 'yyyy'}} năm年
-            {{ReportDetail.RpIC_TimeNotif | date: 'MM'}} tháng月 {{ReportDetail.RpIC_TimeNotif | date: 'dd'}} ngày日
-            {{ReportDetail.RpIC_TimeNotif | date: 'HH'}} giờ時 {{ReportDetail.RpIC_TimeNotif | date: 'mm'}} phút分
-            <br>Người thực hiện thông báo 通報人：{{ReportDetail.RpIC_NotifPerson}}
-            <br>Người nhận thông báo授信人 ：{{ReportDetail.RpIC_ReceivePerson}}
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location}} - {{ReportDetail.Rp_LocationDetail}}
-            <br>Hình ảnh sự cố 事故照片: (Đính kèm ảnh)
-
-            <div style=" text-align: justify; ">
-                <a href="/{{item.File_ID}}" target="_blank"  class="fileattached"
-                    ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}">{{item.File_ID}}<br></a>
-            </div>
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            6. Phạm vi ảnh hưởng của sự cố事故影響之範圍：
-            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_AffectRange}}</p>
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            7.Quá trình phát sinh sự cố (Thuyết minh chi tiết) 事故發生經過 (請詳細說明)：
-            <br>
-            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_Description}}</p>
-            <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
-                ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Description'}">{{item.File_ID}}<br></a>
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            8. Nguyên nhân phát sinh sự cố事故發生原因：
-            <br> 8.1. Nguyên nhân trực tiếp直接原因：
-            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_DirectReason}}</p>
-             8.2. Nguyên nhân gián tiếp間接原因：
-            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_IndirectReason}}</p>
-            8.3. Nguyên nhân cơ bản基本原因：
-            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_BasicReason}}</p>
-           
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            9. Hậu quả do sự cố gây ra (nhân viên hoảng sợ, tổn thất thiết bị, thiệt hại sản xuất,…): 事故結果
-            (人員驚嚇、設備損失、生產損失或其他)：
-            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_Damage}}</p>
-            <!-- <br>9.1. Đối với con người 對於人員：
-                <br>9.2. Đối với tài sản 對於財產：
-                <br>9.3. Đối với môi trường 對於環境： -->
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            10. Tình hình xử lý sau sự cố事故後處理情形：
-            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_Process}}</p>
-            Hình ảnh khắc phục sau sự cố改善照片: (Đính kèm ảnh)
-            <div style=" text-align: justify; ">
-                <a href="/{{item.File_ID}}"  target="_blank" class="fileattached"
-                    ng-repeat="item in FileAttached | filter:{ColumnName: 'RpIC_Process'}">{{item.File_ID}}<br></a>
-            </div>
-
-            <!-- FILE HERE -->
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            11. Làm thế nào để ngăn ngừa sự cố tương tự如何防止同樣事故發生？：
-            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.Rp_PreventMeasure}}</p>
-        </div>
-        <div class="col-lg-12 col-sm-12 col-mrg">
-            12. Phê duyệt của chủ quản 主管批示 :
+            10.0 Phê duyệt của chủ quản 主管批示 :
             <table border="1px" cellpadding="5px" style="width:100%; height: 100%; ">
                 <tr style="text-align:center;">
-                    <td style="width:5%">填報人 Creator</td>
-                    <td style="width:5%">Leader</td>
-                    <td style="width:5%">Header Factory</td>
-                    <td style="width:5%">Supervisor</td>
-                    <td style="width:5%">Leader</td>
-                    <td style="width:5%">Manager</td>
+                    <td style="width:5%">Lập báo cáo 填寫報告</td>
+                    <td style="width:5%">Chủ quản hiện trường </td>
+                    <td style="width:5%">Chủ quản đơn vị 2 科長/單位主管</td>
+                    <td style="width:5%">Giám đốc /Xưởng trưởng/chủ quản cao nhất của đơn vị 經理/廠長/單位最高主管</td>
+                    <td style="width:5%">Kiểm tra 審核人員</td>
+                    <td style="width:5%">Trưởng Phòng HSE 科長</td>
+                    <td style="width:5%">Giám đốc HSE 經理</td>
                 </tr>
                 <tr style="text-align:center;height:90pt; font-size:10pt; vertical-align: top ">
                     <td> {{receiver[0].UserId}}
@@ -414,12 +433,17 @@
                         <br> {{receiver[4].UserName}} </td>
                     <td> {{receiver[5].UserId}}
                         <br> {{receiver[5].UserName}} </td>
+                    <td> {{receiver[6].UserId}}
+                        <br> {{receiver[6].UserName}} </td>
                 </tr>
             </table>
         </div>
-        <div class="col-sm-12 col-lg-12" style="margin-top:2%; text-align:justify;">
-            Bản này chia làm hai bản, một bản do bộ phận bị tai nạn lưu, một bản do bộ phận ATVSMT lưu.
-            <br>本表一式兩份，一份由事故單位自存，一份送安衛環單位存查。
-        </div>
+        <p class="col-sm-12" style="text-align: justify; margin-top:3%; margin-bottom: 0px;">
+            ※ Bản này chia làm hai bản đồng thời trình ký,sau khi thông qua đơn vị ATVSMT ký duyệt, một bản do bộ phận
+            bị tai nạn lưu, một bản do bộ phận ATVSMT lưu. 本文件一式兩份同時呈報，經安衛單位簽核後一份回原單位，一份由安衛單位存查。
+        </p>
     </div>
+    <!--end off body-->
+    <div class="divFooter" style="text-align:right;">5VEXXHR391-01</div>
+
 </page>
