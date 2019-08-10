@@ -15,6 +15,9 @@
     page[size="A4"] {
         padding: 5% 5% 5% 5%;
     }
+    p {
+        padding-left: 10pt;
+    }
 
     .col-mrg {
         margin-bottom: 5pt;
@@ -379,10 +382,10 @@
 
         <div class="col-lg-12 col-sm-12">
             7.0 Nguyên nhân tai nạn lao động事故原因 <br>
-            7.1 Điều kiện làm việc không an toàn 不安全環境/條件：( Người lập báo cáo điền)
-            <p style=" text-align: justify;white-space:pre-wrap;"></p>
-            7.2 Hành vi không an toàn 不安全行為: ( Người lập báo cáo điền)
-            <p style=" text-align: justify;white-space:pre-wrap;"></p>
+            7.1 Điều kiện làm việc không an toàn 不安全環境/條件：
+            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_CauseCondition}}  </p>
+            7.2 Hành vi không an toàn 不安全行為: 
+            <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpAC_CauseActivity}}</p>
 
         </div>
 

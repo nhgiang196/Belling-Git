@@ -2,13 +2,11 @@
     #table-wrapper {
         position: relative;
     }
-
     #table-scroll {
         height: 150px;
         overflow: auto;
         margin-top: 20px;
     }
-
     #table-wrapper table {
         width: 100%;
     }
@@ -47,9 +45,6 @@
         font-family: tahoma;
     }
 
-    .ctr-lb {
-        padding-top: 0px !important;
-    }
 
     .my-custom-scrollbar {
         position: relative;
@@ -73,7 +68,7 @@
 <form class="form-horizontal model-form " name="acform" style="margin-top:15px;">
 
     <div class="form-group" style="margin-bottom:3%;">
-        <label class="col-sm-2 control-label ctr-lb">* {{'CategoryReport' | translate}}: </label>
+        <label class="col-sm-2 control-label ">* {{'CategoryReport' | translate}}: </label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.submittype" name="SubmitType" required>
                 <option ng-repeat='item in SubmitTypelist' ng-if="item.id != 'EVR'" value="{{item.id}}">
@@ -83,7 +78,7 @@
     </div>
 
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ctr-lb">* {{'CReportDateTime'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'CReportDateTime'|translate}} : </label>
         <div class="col-sm-4">
             <div class='input-group date'>
                 <input type='text' id="time-prc-ac" class="form-control" date-picker time="Y-m-d H:i" max="0"
@@ -94,7 +89,7 @@
             </div>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Improvesoft'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_improvesoft"
                 ng-model="recordAC.ac_improvesoft"></textarea>
@@ -104,7 +99,7 @@
     <!-- end of form-group -->
 
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Aclocation'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_location" name="ac_location" required>
                 <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}
@@ -112,7 +107,7 @@
             </select>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Evaluate'|translate}}</label>
+        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_resultsoft" name="ac_resultsoft" required>
                 <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
@@ -121,7 +116,7 @@
         </div>
     </div>
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Aclocation'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="3" name="recordAC.ac_locationDetail"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_locationDetail" required>
@@ -134,7 +129,7 @@
     <!-- end of form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label ctr-lb"></label>
+        <label class="col-sm-2 control-label "></label>
         <div class="col-sm-4">
             <input type="file" ng-file-select="UploadFileHSE($files,'Rp_Location')" id="file_location_ac"
                 style="display:none !important" multiple accept="image/*">
@@ -160,7 +155,7 @@
 
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Improvehard'|translate}}:</label>
+        <label class="col-sm-2 control-label ">* {{'Improvehard'|translate}}:</label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_improvehard"
                 ng-model="recordAC.ac_improvehard "></textarea>
@@ -169,7 +164,7 @@
     <!-- end of form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Rp_type'|translate}}:</label>
+        <label class="col-sm-2 control-label ">* {{'Rp_type'|translate}}:</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_type" name="ac_type" required>
                 <option ng-repeat="item in ACTypelist" value="{{item.id}}"> {{item.name | translate}}
@@ -177,7 +172,7 @@
             </select>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Evaluate'|translate}}</label>
+        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_resulthard" name="ac_resulthard" required>
                 <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
@@ -188,12 +183,12 @@
     <!-- end of form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Prevent'|translate}} </label>
+        <label class="col-sm-2 control-label ">* {{'Prevent'|translate}} </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_prevent" ng-model="recordAC.ac_prevent"></textarea>
         </div>
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'DateOfImprovementComplete'|translate}}:</label>
+        <label class="col-sm-2 control-label ">* {{'DateOfImprovementComplete'|translate}}:</label>
         <div class="col-sm-4">
             <div class='input-group date'>
                 <input class="form-control" id="time-cpl" type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp"
@@ -207,16 +202,16 @@
 
 
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ctr-lb"> {{'Reason'|translate}} </label>
+        <label class="col-sm-2 control-label "> {{'Reason'|translate}} </label>
     </div>
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ctr-lb">* {{'CauseCondition'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'CauseCondition'|translate}} : </label>
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="3" name="recordAC.ac_causeCondition"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_causeCondition" required>
                                     </textarea>
         </div>
-        <label class="col-sm-2 control-label ctr-lb">* {{'CauseActivity'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'CauseActivity'|translate}} : </label>
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="3" name="recordAC.ac_causeActivity"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_causeActivity" required>
@@ -236,7 +231,7 @@
 <form class="form-horizontal" role="form" name="formdetail" novalidate>
 
     <div class="form-group" style="margin-bottom:20px; margin-top:20px;">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Department'|translate}}: </label>
+        <label class="col-sm-2 control-label ">* {{'Department'|translate}}: </label>
         <div class="col-sm-8">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_subdepartment" name="ac_subdepartment" required
                 ng-change="showEmployeeList(recordAC.ac_subdepartment)" ng-disabled="AC_Department_Disable">
@@ -258,19 +253,19 @@
     <hr>
     <div ng-if="otherInfomation" ng-init="on=true">
         <div class="form-group">
-            <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeName' | translate}}: </label>
+            <label class="col-sm-2 control-label ">* {{'EmployeeName' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
                 <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Name" ng-required="on" />
             </div>
             <div class="col-lg-6 col-sm-6" style="padding-left: 50px;">
-                <label class="col-lg-3 col-sm-3  control-label ctr-lb"> * {{'Sex' | translate}}: </label>
+                <label class="col-lg-3 col-sm-3  control-label "> * {{'Sex' | translate}}: </label>
                 <div class="col-lg-4 col-sm-4">
                     <select class="form-control" ng-model="gd.Contractor_Victim_Sex" ng-required="on">
                         <option value="male">{{'Male' | translate}}</option>
                         <option value="female">{{'Female' | translate}}</option>
                     </select>
                 </div>
-                <label class="col-lg-2 col-sm-2 control-label ctr-lb">* {{'Age' | translate}} </label>
+                <label class="col-lg-2 col-sm-2 control-label ">* {{'Age' | translate}} </label>
                 <div class="col-lg-3 col-sm-3" style="padding-right: 0px;">
                     <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Age" ng-required="on" />
                 </div>
@@ -278,22 +273,22 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeID' | translate}}: </label>
+            <label class="col-sm-2 control-label ">* {{'EmployeeID' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
                 <input class="form-control" type="text" ng-model="gd.EmployeeID" ng-required="on" />
             </div>
-            <label class="col-sm-2 control-label ctr-lb">* {{'Unit_Other' | translate}}: </label>
+            <label class="col-sm-2 control-label ">* {{'Unit_Other' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
                 <input class="form-control" type="text" ng-model="gd.Contractor_Name" ng-required="on" />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label ctr-lb">* {{'Job' | translate}}: </label>
+            <label class="col-sm-2 control-label ">* {{'Job' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
                 <input class="form-control" type="text" ng-model="gd.Contractor_Victim_Work" ng-required="on" />
             </div>
-            <label class="col-sm-2 control-label ctr-lb">* {{'DayToWork' | translate}}: </label>
+            <label class="col-sm-2 control-label ">* {{'DayToWork' | translate}}: </label>
             <div class='input-group date col-ls-4 col-sm-4'>
                 <input type='text' id="DATE" class="form-control" date-picker max="0" name="DATE"
                     ng-model="gd.Contractor_Victim_DateWork" ng-required="on" />
@@ -308,7 +303,7 @@
 
     <div class="form-group">
         <div ng-if="!otherInfomation">
-            <label class="col-sm-2 control-label ctr-lb">* {{'EmployeeID'|translate}}: </label>
+            <label class="col-sm-2 control-label ">* {{'EmployeeID'|translate}}: </label>
 
             <div class="col-sm-4">
                 <select style="width:100%" ui-select2 ng-model="gd.EmployeeID" name="employeeID" ng-required="!on">
@@ -323,7 +318,7 @@
 
 
 
-        <label class="col-sm-2 control-label ctr-lb">* {{'Ac_treatment'|translate}}: </label>
+        <label class="col-sm-2 control-label ">* {{'Ac_treatment'|translate}}: </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_treatment" ng-model="gd.Treatment_Result"
                 required></textarea>
@@ -332,13 +327,13 @@
     <!-- end of form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label ctr-lb">* {{'Injurydetail'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Injurydetail'|translate}} : </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" rows="3" name="ac_injury" ng-model="gd.Injury_Description"
                 required></textarea>
         </div>
 
-        <label class="col-sm-6 control-label ctr-lb">{{'Witness_info'|translate}}:</label>
+        <label class="col-sm-6 control-label ">{{'Witness_info'|translate}}:</label>
         <div class="col-sm-6">
             <input class="form-control" type="text" name="ac_witness" ng-model="gd.Witness_info" />
         </div>
@@ -346,7 +341,7 @@
     <!-- end of form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label ctr-lb"> </label>
+        <label class="col-sm-2 control-label "> </label>
         <div class="col-sm-4">
             <input type="file" ng-file-select="UploadFileHSE($files,'Injury_Description')" id="file_process_ac"
                 style="display:none !important" multiple>
