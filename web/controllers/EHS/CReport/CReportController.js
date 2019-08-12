@@ -16,7 +16,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             }
             /**List/combobox added */
             var lang = window.localStorage.lang || 'EN';
-            $scope.rp_typeList = [{ //list for RP_Type combobox
+            var rp_typeList = [{ //list for RP_Type combobox
                 id: 'all',
                 name: $translate.instant('All')
             }, {
@@ -26,15 +26,17 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 id: '1',
                 name: $translate.instant('Accident')
             }];
-            $scope.typelistEVR = [{
+            var typelistEVR = [{
                 id: '2',
                 name: $translate.instant('PollutionEnvironment')
             }];
+            $scope.rp_type = rp_typeList[0].id; //set default search param
+            $scope.rp_typeList = rp_typeList;
+
+            $scope.rp_Submittype = InfolistService.Infolist('SubmitType')[0].id; //set default search param
+            $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
 
             $scope.statuslist = InfolistService.Infolist('status'); //search param list
-            $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
-            $scope.rp_Submittype = $scope.SubmitTypelist[0].id; //set default search param
-            $scope.rp_type = $scope.rp_typeList[0].id; //set default search param
 
             /***************************SERVICE FIRST RUN************************************************** */
 
@@ -200,10 +202,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.ChangeSubmitType = function () {
 
                 if ($scope.rp_Submittype == 'EVR') {
-                    $scope.rp_typeList = $scope.typelistEVR;
-                    $scope.rp_type = $scope.typelistEVR[0].id;
+                    $scope.rp_typeList = typelistEVR;
+                    $scope.rp_type = typelistEVR[0].id;
                 } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
-
+                    $scope.rp_typeList = rp_typeList;
                     $scope.rp_type = $scope.rp_typeList[0].id;
                 }
                 $scope.Search();
@@ -237,7 +239,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     query.uid = Auth.username;
                 } else query.uid = '';
                 return query;
-            };                
+            };
             $scope.Search = function () { //search function()   
                 var query = SearchList();
                 console.log($scope.gridOptions.columnDefs);
@@ -408,9 +410,9 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                     $timeout(function () {
                                         Notifications.addError({
                                             'status': 'error',
-                                            'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete)
+                                            'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete || '.')
                                         });
-                                    }, 300);
+                                    }, 400);
                                 }
                             }, function (error) {});
                         } else {

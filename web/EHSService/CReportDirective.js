@@ -48,7 +48,7 @@ define(['app'], function (app) {
                                             var taf = TAFFY(data[0].Logs);
                                             var stamptime = taf({
                                                 TaskName: 'Initiator re-update and submit'
-                                            }).min('Stamp');
+                                            }).min('Stamp') || '2010-01-01 00:00';
                                             receiver[0] = taf({
                                                 TaskName: "起始表单"
                                             }).first(); //initiator
