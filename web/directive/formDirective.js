@@ -325,7 +325,7 @@ define(['app', 'bpmn'], function (app, Bpmn) {
                 if (attrs.userName) {
                     scope.users = attrs.userName.split(',');
                 }
-                scope.ProcessRole = ' - ' +attrs.processRole || '';
+                scope.ProcessRole = attrs.processRole || '';
             },
             templateUrl: '../TemplateViews/ShowUsersTemplate.html'
         }
