@@ -339,7 +339,29 @@
             <label class="col-sm-2 control-label">* {{'Prevent'|translate}}</label>
             <div class="col-sm-8">
                 <textarea class="form-control" rows="3" type="text" name="recordIC.icPrevent" ng-model="recordIC.icPrevent" />
+                <div ng-if="IsEVR" >
+                    <input type="file" ng-file-select="UploadFileHSE($files, 'Rp_PreventMeasure')" id="file_location_ic4" style="display:none !important" multiple accept="image/*">
+                    <button style="margin-top: 10px;" id="btn_file_location_ic" class="btn btn-info" style="display:inline-block;" type="button" ng-model='btnFile'
+                     ng-click="btnfile('file_location_ic4','')">
+                        <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
+                    </button>       
+                    <span><input type="checkbox" ng-model="listfile_loc_ic4" style="vertical-align: text-top;">
+                        {{'ShowFile'|translate}}</span>
+                        <table ng-show="listfile_loc_ic4" class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:10px; width:100%">
+                            <tr ng-repeat="step in listfile" ng-show="step.col == 'Rp_PreventMeasure'">
+                                <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
+                                <td>
+                                    <a ng-click="removeFile($index)">
+                                        <span class="glyphicon glyphicon-remove" style="color: red; margin-top:66%;"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
             </div>
+           
+
+
     </div>
 
     <div class="form-group" ng-if="!IsEVR">
