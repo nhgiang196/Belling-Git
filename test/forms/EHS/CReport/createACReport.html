@@ -10,11 +10,9 @@
     #table-wrapper table {
         width: 100%;
     }
-
     #table-wrapper table * {
         color: black;
     }
-
     #table-wrapper table thead th .text {
         position: absolute;
         top: -20px;
@@ -22,7 +20,6 @@
         height: 20px;
         width: 35%;
     }
-
     .title {
         width: 101%;
         background-color: #ececec;
@@ -30,43 +27,32 @@
         border: 1px solid #ececec;
         border-radius: 6px;
     }
-
     .calender {
         color: grey;
         font-size: 29px;
     }
-
     .calender:hover {
         cursor: pointer;
     }
-
     .btn-ct-ac {
         font-weight: bold;
         font-family: tahoma;
     }
-
-
     .my-custom-scrollbar {
         position: relative;
         height: 117px;
         overflow: auto;
     }
-
     .table-wrapper-scroll-y {
         display: block;
     }
-
     a:hover {
         cursor: pointer;
     }
 </style>
-
-
 <h3 class="text-center">{{'AccidentReport'|translate}}</h3>
-
 <H4 class="title"> {{'General_Info'|translate}} - {{recordAC.rp_id}} </H4>
 <form class="form-horizontal model-form " name="acform" style="margin-top:15px;">
-
     <div class="form-group" style="margin-bottom:3%;">
         <label class="col-sm-2 control-label ">* {{'CategoryReport' | translate}}: </label>
         <div class="col-sm-4">
@@ -76,7 +62,6 @@
             </select>
         </div>
     </div>
-
     <div class=" form-group ">
         <label class="col-sm-2 control-label ">* {{'CReportDateTime'|translate}} : </label>
         <div class="col-sm-4">
@@ -88,16 +73,13 @@
                 </span>
             </div>
         </div>
-
         <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_improvesoft"
                 ng-model="recordAC.ac_improvesoft"></textarea>
-
         </div>
     </div>
     <!-- end of form-group -->
-
     <div class=" form-group ">
         <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
         <div class="col-sm-4">
@@ -106,7 +88,6 @@
                 </option>
             </select>
         </div>
-
         <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_resultsoft" name="ac_resultsoft" required>
@@ -122,12 +103,8 @@
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_locationDetail" required>
                                     </textarea>
         </div>
-
-
-
     </div>
     <!-- end of form-group -->
-
     <div class="form-group">
         <label class="col-sm-2 control-label "></label>
         <div class="col-sm-4">
@@ -139,7 +116,6 @@
             </button>
             <span><input type="checkbox" ng-model="listfile_loc_ac" style="vertical-align: text-top;">
                 {{'ShowFile'|translate}}</span>
-
             <table ng-show="listfile_loc_ac"
                 class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
                 style="margin-top:10px;">
@@ -152,9 +128,7 @@
                     </td>
                 </tr>
             </table>
-
         </div>
-
         <label class="col-sm-2 control-label ">* {{'Improvehard'|translate}}:</label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_improvehard"
@@ -162,7 +136,6 @@
         </div>
     </div>
     <!-- end of form-group -->
-
     <div class="form-group">
         <label class="col-sm-2 control-label ">* {{'Rp_type'|translate}}:</label>
         <div class="col-sm-4">
@@ -171,7 +144,6 @@
                 </option>
             </select>
         </div>
-
         <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_resulthard" name="ac_resulthard" required>
@@ -181,13 +153,11 @@
         </div>
     </div>
     <!-- end of form-group -->
-
     <div class="form-group">
         <label class="col-sm-2 control-label ">* {{'Prevent'|translate}} </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_prevent" ng-model="recordAC.ac_prevent"></textarea>
         </div>
-
         <label class="col-sm-2 control-label ">* {{'DateOfImprovementComplete'|translate}}:</label>
         <div class="col-sm-4">
             <div class='input-group date'>
@@ -199,8 +169,6 @@
             </div>
         </div>
     </div>
-
-
     <div class=" form-group ">
         <label class="col-sm-2 control-label "> {{'Reason'|translate}} </label>
     </div>
@@ -218,18 +186,12 @@
                                     </textarea>
         </div>
     </div>
-
-
     <!-- end of form-group -->
 </form>
 <!-- end of form -->
-
 <!--.....................................................................................................................................................................................................................................................................-->
-
 <H4 class="title"> {{'Victim_info'|translate}} </H4>
-
 <form class="form-horizontal" role="form" name="formdetail" novalidate>
-
     <div class="form-group" style="margin-bottom:20px; margin-top:20px;">
         <label class="col-sm-2 control-label ">* {{'Department'|translate}}: </label>
         <div class="col-sm-8">
@@ -239,15 +201,12 @@
                 <option ng-repeat="dept in submitDept" value="{{dept.DepartmentID}}">
                     {{dept.DepartmentID}} - {{dept.SubmitDepartName }}</option>
                 <!-- <option value="Other">{{'SubDepartmentID_OtherInformation' | translate}} </option> -->
-
                 <!--translate-->
-
             </select>
             <label>
                 <input type="checkbox" ng-model="otherInfomation" ng-change="employees = [];">
                 {{'SubDepartmentID_OtherInformation' | translate}}
             </label>
-
         </div>
     </div>
     <hr>
@@ -271,7 +230,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             <label class="col-sm-2 control-label ">* {{'EmployeeID' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
@@ -282,7 +240,6 @@
                 <input class="form-control" type="text" ng-model="gd.Contractor_Name" ng-required="on" />
             </div>
         </div>
-
         <div class="form-group">
             <label class="col-sm-2 control-label ">* {{'Job' | translate}}: </label>
             <div class="col-lg-4 col-sm-4">
@@ -298,13 +255,9 @@
             </div>
         </div>
     </div>
-
-
-
     <div class="form-group">
         <div ng-if="!otherInfomation">
             <label class="col-sm-2 control-label ">* {{'EmployeeID'|translate}}: </label>
-
             <div class="col-sm-4">
                 <select style="width:100%" ui-select2 ng-model="gd.EmployeeID" name="employeeID" ng-required="!on">
                     <option ng-repeat="value in listEmployee" value="{{value.EmployeeID}}">
@@ -312,12 +265,7 @@
                     </option>
                 </select>
             </div>
-
-
         </div>
-
-
-
         <label class="col-sm-2 control-label ">* {{'Ac_treatment'|translate}}: </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" name="ac_treatment" ng-model="gd.Treatment_Result"
@@ -325,21 +273,18 @@
         </div>
     </div>
     <!-- end of form-group -->
-
     <div class="form-group">
         <label class="col-sm-2 control-label ">* {{'Injurydetail'|translate}} : </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" rows="3" name="ac_injury" ng-model="gd.Injury_Description"
                 required></textarea>
         </div>
-
         <label class="col-sm-6 control-label ">{{'Witness_info'|translate}}:</label>
         <div class="col-sm-6">
             <input class="form-control" type="text" name="ac_witness" ng-model="gd.Witness_info" />
         </div>
     </div>
     <!-- end of form-group -->
-
     <div class="form-group">
         <label class="col-sm-2 control-label "> </label>
         <div class="col-sm-4">
@@ -351,7 +296,6 @@
             </button>
             <span><input type="checkbox" ng-model="listfile_process_ac" style="vertical-align: text-top;">
                 {{'ShowFile'|translate}}</span>
-
             <table ng-show="listfile_process_ac"
                 class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
                 style="margin-top:10px;">
@@ -364,9 +308,7 @@
                     </td>
                 </tr>
             </table>
-
         </div>
-
         <div class="col-sm-6" style="text-align: right;">
             <button id="btnSaveSubmit" type="button" class="btn btn-primary" ng-disabled="formdetail.$invalid"
                 ng-click="addEmployee()">
@@ -375,10 +317,8 @@
         </div>
     </div>
     <!-- end of form-group -->
-
 </form>
 <!-- end of form -->
-
 <div id="table-wrapper">
     <div id="table-scroll">
         <table id="temptable" ng-table="tableParams" class="table table-bordered table-striped ">
@@ -393,7 +333,6 @@
                     <th>{{'Delete'|translate}} </th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr ng-repeat="ac in employees">
                     <td>{{ac.EmployeeID}}</td>
@@ -409,7 +348,6 @@
                         <button ng-click="deleteEmployee($index)" class="btn-xs btn btn-danger"> <span
                                 class="glyphicon glyphicon-trash" style="color: white;"></span></button>
                     </td>
-
                 </tr>
             </tbody>
         </table>
@@ -423,9 +361,7 @@
         <span show-checker  process-role={{leader.LevelNameVN}} user-name={{leader.Person}}></span>
     </div>
 </div>
-
 <div class="modal-footer">
-
     <label ng-if="!show.submitbutton" style="color: #FF0000;float: left" class="ng-binding">**VUI LÒNG NHẤN LƯU TRƯỚC
         KHI SUBMIT ĐỂ ĐƠN ĐƯỢC LƯU**</label>
     <button id="btnSaveAC" type="button" class="btn btn-warning btn-ct-ac"

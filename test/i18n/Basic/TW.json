@@ -582,4 +582,7 @@
   "Rpic_Damaged_Human": "對於人員",
   "Rpic_Damaged_Asset": "對於財產",
   "Rpic_Damaged_Envr": "對於環境"
+  ,"Reason":"事故原因"
+  ,"CauseCondition":"不安全環境/條件"
+  ,"CauseActivity":"不安全行為"
 }

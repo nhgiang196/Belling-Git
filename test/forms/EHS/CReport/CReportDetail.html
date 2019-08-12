@@ -15,6 +15,7 @@
     page[size="A4"] {
         padding: 5% 5% 5% 5%;
     }
+
     p {
         padding-left: 10pt;
     }
@@ -23,7 +24,6 @@
         margin-bottom: 5pt;
     }
 </style>
-
 <!-- ENVIRONMENT REPORT**************************************************************************************************************** -->
 <page size="A4" id="page-contain" class="container" ng-if="ShowReportType==1">
     <div class="header">
@@ -61,7 +61,6 @@
         <div class="col-lg-12 col-sm-12 col-mrg">
             5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location}} - {{ReportDetail.Rp_LocationDetail}}
             <br>Hình ảnh sự cố 事故照片: (Đính kèm ảnh)
-
             <div style=" text-align: justify; ">
                 <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
                     ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}">{{item.File_ID}}<br></a>
@@ -86,7 +85,6 @@
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_IndirectReason}}</p>
             8.3. Nguyên nhân cơ bản基本原因：
             <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_BasicReason}}</p>
-
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             9. Hậu quả do sự cố gây ra (nhân viên hoảng sợ, tổn thất thiết bị, thiệt hại sản xuất,…): 事故結果
@@ -104,7 +102,6 @@
                 <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
                     ng-repeat="item in FileAttached | filter:{ColumnName: 'RpIC_Process'}">{{item.File_ID}}<br></a>
             </div>
-
             <!-- FILE HERE -->
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
@@ -147,8 +144,6 @@
         </div>
     </div>
 </page>
-
-
 <!-- OTHER INCIDENT REPORT **************************************************************************************************************** -->
 <page size="A4" id="page-contain" class="container" ng-if="ShowReportType==2">
     <!--header Container-->
@@ -259,14 +254,9 @@
         <div class="col-sm-12 col-lg-12" style="margin-top:2%; text-align:justify;"> Bản này chia làm hai bản, một bản
             do bộ phận phát sinh sự cố lưu, một bản do bộ phận ATMT lưu. 本表一式兩份，一份由事故單位自存，一份送安環處位存查。
         </div>
-
     </div>
     <div class="divFooter" style="text-align: right;">5VEXXHR382-01</div>
-
 </page>
-
-
-
 <!-- OTHER ACIDENT REPORT **************************************************************************************************************** -->
 <page size="A4" id="page-contain" class="container" ng-if="ShowReportType==3">
     <div class="header">
@@ -300,7 +290,6 @@
                         <br>性別:</th>
                     <th style="text-align:center;"> Tuổi
                         <br>年齡 歲:
-
                     <th style="text-align:center;"> Đơn vị
                         <br>單位: </th>
                     <th style="text-align:center;"> Công việc đảm nhận
@@ -316,7 +305,6 @@
                     <td> {{Injuries.Name}} </td>
                     <td> {{Injuries.Sex}} </td>
                     <td> {{Injuries.Age}} </td>
-
                     <td> {{Injuries.Specification}} </td>
                     <td> {{Injuries.PositionName}} </td>
                     <td> {{Injuries.Hiring | date: 'yyyy-MM-dd' }} </td>
@@ -326,7 +314,6 @@
                     <td> {{Injuries.Contractor_Victim_Name}} </td>
                     <td> {{Injuries.Contractor_Victim_Sex}} </td>
                     <td> {{Injuries.Contractor_Victim_Age}} </td>
-
                     <td> {{Injuries.Contractor_Name}} </td>
                     <td> {{Injuries.Contractor_Victim_Work}} </td>
                     <td> {{Injuries.Contractor_Victim_DateWork | date: 'yyyy-MM-dd' }} </td>
@@ -348,7 +335,6 @@
         <div class="col-lg-12 col-sm-12">
             4.0 Tình hình chi tiết quá trình bị thương 受傷經過詳細情形 :
             <div ng-repeat="person in InjuryDetail">
-
                 <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify;">
                     ({{person.Name}}) {{person.Injury_Description}}</p>
                 <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify;">
@@ -378,17 +364,13 @@
                 ng-repeat="person in InjuryDetail">
                 ({{person.Contractor_Victim_Name}}) {{person.Treatment_Result}}</p>
         </div>
-
-
         <div class="col-lg-12 col-sm-12">
-            7.0 Nguyên nhân tai nạn lao động事故原因 <br>
+            7.0 Nguyên nhân tai nạn lao động 事故原因 <br>
             7.1 Điều kiện làm việc không an toàn 不安全環境/條件：
-            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_CauseCondition}}  </p>
-            7.2 Hành vi không an toàn 不安全行為: 
+            <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_CauseCondition}} </p>
+            7.2 Hành vi không an toàn 不安全行為:
             <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpAC_CauseActivity}}</p>
-
         </div>
-
         <div class="col-lg-12 col-sm-12">
             8.0 Làm thế nào để ngăn ngừa tai nạn tương tự 如何防止同樣事故發生 :
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.Rp_PreventMeasure}}</p>
@@ -448,5 +430,4 @@
     </div>
     <!--end off body-->
     <div class="divFooter" style="text-align:right;">5VEXXHR391-01</div>
-
 </page>

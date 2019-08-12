@@ -585,5 +585,8 @@
   "Rpic_Damaged_Human": "Thiệt hại đối với con người",
   "Rpic_Damaged_Asset": "Thiệt hại đối với tài sản",
   "Rpic_Damaged_Envr": "Thiệt hại đối với môi trường"
+  ,"Reason":"Nguyên nhân gây ra tai nạn lao động"
+  ,"CauseCondition":"Điều kiện làm việc không an toàn"
+  ,"CauseActivity":"Hành vi không an toàn"
   
 }

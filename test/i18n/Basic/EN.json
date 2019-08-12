@@ -578,4 +578,7 @@
   "Rpic_Damaged_Human": "Thiệt hại đối với con người",
   "Rpic_Damaged_Asset": "Thiệt hại đối với tài sản",
   "Rpic_Damaged_Envr": "Thiệt hại đối với môi trường"
+  ,"Reason":"Reason"
+  ,"CauseCondition":"Caused by working condition"
+  ,"CauseActivity":"Caused by unsafe activities"
 }
