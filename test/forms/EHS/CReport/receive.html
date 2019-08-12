@@ -20,25 +20,29 @@
 
         $scope.$watch('checkList', function (val) {
             if (val !== undefined && val !== null) {
+                debugger;
                 $timeout(function () {
-                    if ($scope.ReportDetail.Rp_SubmitType == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
+                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
                         $scope.checkList.splice(0, 1, 'FEPV000096');
                         $scope.leaderlist.splice(0, 1, {
                             $$hashKey: "",
+                            LevelNameVN: "Kiểm tra 審核人員",
                             Person: "FEPV000096" // Thi Sinh
                         });
                     }
-                    if ($scope.ReportDetail.Rp_SubmitType == 'SF') { //same as above, had to change this (by mistake =.=!)
+                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'SF') { //same as above, had to change this (by mistake =.=!)
                         $scope.checkList.splice(0, 1, 'FEPV000559');
                         $scope.leaderlist.splice(0, 1, {
                             $$hashKey: "",
+                            LevelNameVN: "Kiểm tra 審核人員",
                             Person: "FEPV000559" // Xi long
                         });
                     }
-                    if ($scope.ReportDetail.Rp_SubmitType == 'FP') { //same as above, had to change this (by mistake =.=!)
+                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'FP') { //same as above, had to change this (by mistake =.=!)
                         $scope.checkList.splice(0, 1, 'FEPV000944');
                         $scope.leaderlist.splice(0, 1, {
                             $$hashKey: "",
+                            LevelNameVN: "Kiểm tra 審核人員",
                             Person: "FEPV000944" //other
                         });
                     }
