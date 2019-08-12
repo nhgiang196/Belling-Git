@@ -105,7 +105,7 @@
                 <label class="col-sm-2 control-label">{{'ReportType'|translate}}</label>
                 <div class="col-sm-4">
                     <select class="form-control" ng-model="rp_type" ng-change="Search()">
-                        <option style="padding-left: 5px;" ng-repeat="item in rp_typeList" value="{{item.id}}">
+                        <option style="padding-left: 5px;" ng-repeat="item in rp_typeList | filter : {EVRFilter: EVRFilter  }" value="{{item.id}}">
                             {{item.name}}</option>
                     </select>
                 </div>

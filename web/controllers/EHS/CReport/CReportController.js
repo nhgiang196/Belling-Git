@@ -16,22 +16,52 @@ define(['myapp', 'angular'], function (myapp, angular) {
             }
             /**List/combobox added */
             var lang = window.localStorage.lang || 'EN';
-            var rp_typeList = [{ //list for RP_Type combobox
-                id: 'all',
-                name: $translate.instant('All')
-            }, {
-                id: '0',
-                name: $translate.instant('Incident')
-            }, {
-                id: '1',
-                name: $translate.instant('Accident')
-            }];
-            var typelistEVR = [{
-                id: '2',
-                name: $translate.instant('PollutionEnvironment')
-            }];
+            var rp_typeList = $scope.rp_typeList = [{ //list for RP_Type combobox
+                    id: '',
+                    name: $translate.instant('All')
+                },
+                {
+                    id: 'IC',
+                    name: $translate.instant('Incident')
+                },
+                {
+                    id: 'A',
+                    name: $translate.instant('Accident')
+                }
+            ];
+            var rp_typelistEVR = [
+                { //list for RP_Type combobox
+                    id: '',
+                    name: $translate.instant('Show All')
+                },
+                { //list for RP_Type combobox
+                    id: 'Low',
+                    name: $translate.instant('RpIC_Affect-Low')
+                },
+                {
+                    id: 'Medium',
+                    name: $translate.instant('RpIC_Affect-Medium')
+                },
+                {
+                    id: 'High',
+                    name: $translate.instant('RpIC_Affect-High')
+                }
+            ];
+
+
+            // $scope.SearchParam = {
+            //     startdate: '',
+            //     enddate:  '',
+            //     rp_id: '',
+            //     status: '',
+            //     rp_submittype: InfolistService.Infolist('SubmitType')[0].id || '',
+            //     rp_type: rp_typeList[0].id || '',
+            //     lang: lang,
+            //     searchmode: '',
+            //     userid: $scope.onlyOwner == true ? Auth.username : ''
+            // };
+
             $scope.rp_type = rp_typeList[0].id; //set default search param
-            $scope.rp_typeList = rp_typeList;
 
             $scope.rp_Submittype = InfolistService.Infolist('SubmitType')[0].id; //set default search param
             $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
@@ -202,8 +232,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.ChangeSubmitType = function () {
 
                 if ($scope.rp_Submittype == 'EVR') {
-                    $scope.rp_typeList = typelistEVR;
-                    $scope.rp_type = typelistEVR[0].id;
+                    $scope.rp_typeList = rp_typelistEVR;
+                    $scope.rp_type = rp_typelistEVR[0].id;
                 } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
                     $scope.rp_typeList = rp_typeList;
                     $scope.rp_type = $scope.rp_typeList[0].id;
@@ -225,27 +255,25 @@ define(['myapp', 'angular'], function (myapp, angular) {
             };
 
             function SearchList() { //search information 
-                var query = {};
-                query.startdate = $scope.dateFrom || '';
-                query.enddate = $scope.dateTo || '';
-                query.Id = $scope.rp_id || '';
-                query.Status = $scope.s_status || '';
-                query.SubmitType = $scope.rp_Submittype || '';
-                query.ReportType = $scope.rp_type || '';
-                query.Lang = lang;
-                query.searchmode = '';
-                // chỉ xem báo cáo của tôi
-                if ($scope.onlyOwner == true) {
-                    query.uid = Auth.username;
-                } else query.uid = '';
+                var query = {
+                    startdate: $scope.dateFrom || '',
+                    enddate: $scope.dateTo || '',
+                    rp_id: $scope.rp_id || '',
+                    status: $scope.s_status || '',
+                    rp_submittype: $scope.rp_Submittype || '',
+                    rp_type: $scope.rp_type || '',
+                    lang: lang,
+                    searchmode: '',
+                    userid: $scope.onlyOwner == true ? Auth.username : ''
+                };
                 return query;
             };
             $scope.Search = function () { //search function()   
                 var query = SearchList();
                 console.log($scope.gridOptions.columnDefs);
-                $scope.gridOptions.columnDefs[5].visible = query.SubmitType != 'EVR' ? true : false;
-                $scope.gridOptions.columnDefs[8].visible = query.ReportType != '0' ? true : false;
-                $scope.gridOptions.columnDefs[9].visible = query.ReportType != '0' ? true : false;
+                // $scope.gridOptions.columnDefs[5].visible = query.rp_submittype != 'EVR' ? true : false;
+                $scope.gridOptions.columnDefs[8].visible = query.rp_type != '0' ? true : false;
+                $scope.gridOptions.columnDefs[9].visible = query.rp_type != '0' ? true : false;
                 CReportService.SearchCReport(query, function (data) {
                     $scope.gridOptions.data = data;
                 }, function (error) {});
