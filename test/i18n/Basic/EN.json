@@ -502,7 +502,7 @@
   "General_Info": "General Information",
   "Good": "Good",
   "Group": "Group",
-  "Heavy": "Heavy Accident",
+  
   "ICAffect": "Affect",
   "IcCategoryReport": "IC category Report (Sub Type)",
   "IcProcess": "Resolution",
@@ -523,7 +523,7 @@
   "KnittingDyeing": "Knitting Dyeing",
   "Male": "Male",
   "Medium": "Medium",
-  "Minor": "Minor Accident",
+  
   "Nofile": "No file chosen",
   "onlyOwnerReport": "Only my created report",
   "Other": "Other",
@@ -545,7 +545,7 @@
   "RpIC_ReceivePerson": "Receive Person",
   "Safety": "Safety",
   "SameEmployee": "Employee's information is the same",
-  "Serious": "Serious Accident",
+  
   "ShowFile": "Show list of files",
   "StatusD": "Draft",
   "StatusP": "Processing",
@@ -581,4 +581,8 @@
   ,"Reason":"Reason"
   ,"CauseCondition":"Caused by working condition"
   ,"CauseActivity":"Caused by unsafe activities"
+  ,"Heavy": "Heavy Accident"
+  ,"Serious": "Serious Accident"
+  ,"Minor": "Minor Accident"
+
 }

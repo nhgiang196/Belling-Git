@@ -506,7 +506,7 @@
   "General_Info": "Thông tin chung",
   "Good": "Tốt",
   "Group": "Nhóm",
-  "Heavy": "Tai nạn lao động nặng",
+  
   "ICAffect": "Mức độ ảnh hưởng",
   "IcCategoryReport": "Kiểu loại hình sự cố",
   "IcProcess": "Tình hình xử lý sau sự cố",
@@ -527,7 +527,7 @@
   "KnittingDyeing": "Xưởng Dệt Nhuộm",
   "Male": "Nam",
   "Medium": "Trung bình",
-  "Minor": "Tai nạn lao động bị nhẹ",
+  
   "Nofile": "Không có tập tin nào được chọn",
   "onlyOwnerReport": "Chỉ xem báo cáo của tôi",
   "Other": "Khác",
@@ -548,7 +548,7 @@
   "RpIC_NotifPerson": "Người thực hiện thông báo ",
   "RpIC_ReceivePerson": "Người nhận thông báo",
   "SameEmployee": "Thông tin nhân viên bị trùng lặp",
-  "Serious": "Tai nạn lao động nghiêm trọng",
+  
   "ShowFile": "Hiển thị danh sách file",
   "StatusD": "Bản Nháp",
   "StatusP": "Đang xử lý",
@@ -588,5 +588,9 @@
   ,"Reason":"Nguyên nhân gây ra tai nạn lao động"
   ,"CauseCondition":"Điều kiện làm việc không an toàn"
   ,"CauseActivity":"Hành vi không an toàn"
+  ,"Heavy": "Tai nạn lao động nặng"
+  ,"Serious": "Tai nạn lao động nghiêm trọng"
+  ,"Minor": "Tai nạn lao động bị nhẹ"
+
   
 }

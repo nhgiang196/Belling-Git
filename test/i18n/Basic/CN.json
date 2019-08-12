@@ -506,7 +506,7 @@
   "General_Info": "一般信息",
   "Good": "良好",
   "Group": "群",
-  "Heavy": "重劳动事故",
+  
   "ICAffect": "事故影响程度",
   "IcCategoryReport": "事件类型",
   "IcProcess": "事故后处理情形",
@@ -527,7 +527,7 @@
   "KnittingDyeing": "Knitting Dyeing",
   "Male": "男",
   "Medium": "中",
-  "Minor": "劳工事故轻微",
+  
   "Nofile": "没有选择文件",
   "onlyOwnerReport": "只有我创建的报告",
   "Other": "其他",
@@ -549,7 +549,7 @@
   "RpIC_ReceivePerson": "授信人",
   "Safety": "安全",
   "SameEmployee": "员工的信息是一样的",
-  "Serious": "严重的劳动事故",
+  
   "ShowFile": "显示文件列表",
   "StatusD": "草稿版本",
   "StatusP": "改善措施内容",
@@ -585,4 +585,8 @@
   ,"Reason":"事故原因"
   ,"CauseCondition":"不安全環境/條件"
   ,"CauseActivity":"不安全行為"
+  ,"Heavy": "重劳动事故"
+  ,"Serious": "严重的劳动事故"
+  ,"Minor": "劳工事故轻微"
+
 }
