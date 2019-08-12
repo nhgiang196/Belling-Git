@@ -1,35 +1,22 @@
 define(['myapp', 'angular'], function (myapp, angular) {
     myapp.controller('CReportController', ['GateGuest', '$upload', '$filter', 'Notifications', 'Auth', 'EngineApi', 'CReportService', 'InfolistService', '$translate', '$q', '$scope', '$timeout',
         function (GateGuest, $upload, $filter, Notifications, Auth, EngineApi, CReportService, InfolistService, $translate, $q, $scope, $timeout) {
-            $scope.thisUser = Auth.username;
-            // owner: Auth.username,
-            //         flowkey: 'CReportHSE',
-            //         Kinds: 'initiator',
-            //         CheckDate: NaN
 
+            /***************************INIT AND DECLARE************************************************* */
 
+            /**init var */
+            const roleKey = 'FEPVHC_User'; //role key for access this module 
             $scope.recordAC = {}; //record for AC directive
             $scope.recordIC = {}; //record for IC directive
-            $scope.flowkey = 'FEPVHC_User'; //flow key for access this module 
-            $scope.onlyOwner = true; //check box of Onwer
-            $scope.mySwitch = false; // bật tắt input Bộ phận trong AC khi sửa
+            $scope.AC_Department_Disable = false; // bật tắt input Bộ phận trong AC khi sửa
             $scope.show = { //show  signal
                 submitbutton: true,
                 checker: true,
                 isHSEUser: null
             }
-            var isHSEUser;
-            EngineApi.getMemberInfo().get({
-                userid: Auth.username
-            }, function (res) {
-                $scope.show.isHSEUser = isHSEUser = (res.DepartmentID == '519101000' ? true : false);
-            });
+            /**List/combobox added */
             var lang = window.localStorage.lang || 'EN';
-            // $scope.ImprovementRecord = {};
-
-            /***************************************************************************** */
-            /**search comboboxs */
-            $scope.typelist = [{ //list for RP_Type combobox
+            $scope.rp_typeList = [{ //list for RP_Type combobox
                 id: 'all',
                 name: $translate.instant('All')
             }, {
@@ -43,11 +30,31 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 id: '2',
                 name: $translate.instant('PollutionEnvironment')
             }];
-            $scope.demolist = $scope.typelist; //list for EVR or others. Depend on submit_type
+
             $scope.statuslist = InfolistService.Infolist('status'); //search param list
             $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
-            $scope.rp_Submittype = $scope.SubmitTypelist[0]; //set default search param
-            $scope.rp_type = $scope.typelist[0].id; //set default search param
+            $scope.rp_Submittype = $scope.SubmitTypelist[0].id; //set default search param
+            $scope.rp_type = $scope.rp_typeList[0].id; //set default search param
+
+            /***************************SERVICE FIRST RUN************************************************** */
+
+            /**cHECK IF USER IS HSE USER */
+            var isHSEUser;
+            EngineApi.getMemberInfo().get({
+                userid: Auth.username
+            }, function (res) {
+                $scope.show.isHSEUser = isHSEUser = (res.DepartmentID == '519101000' ? true : false);
+            });
+
+            /**Count number of report */
+            CReportService.CountReport(function (data) { //count number of every type report
+                var c = $scope.rpCounter = data[0];
+                $scope.rpCounter.sumPending = c.pending_fp + c.pending_sf + c.pending_evr
+                $scope.rpCounter.sumSubmited = c.count_fp + c.count_sf + c.count_evr
+            }, function (error) {})
+
+
+
             /**********************************GRID -UI DEFINITION*********************************************************/
             var colgrid = [{
                     field: 'Rp_ID',
@@ -138,36 +145,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     case 'Improvement_Status':
                         return $translate.instant('Improvement_Status-' + id);
                 }
-            }
+            };
             $scope.GetLink = function (data) { //Getlink để hiện báo cáo
-                var employee_id = data.entity.EmployeeID;
-                var id = data.entity.Rp_ID;
-                var ReportType = data.entity.Rp_Type;
-                var href = '#/CircumstanceReport/ICReport/print/' + id;
-                window.open(href);
-                // CReportService.GetDepartment_RP({ //?? Service chỉ để lấy SubDepartment... Hơi dư
-                //         Rp_ID: id
-                //     }, function (res) {
-                //         if (res.Success) {
-                //             var other_depart = res.Data; //data from OperationResult.Data
-                //             if (ReportType != 'IC') {
-                //                 console.log(id);
-                //                 if (other_depart == "Other") {
-                //                     var href = '#/CircumstanceReport/ACReport/print/' + id + '_o';
-                //                     window.open(href);
-                //                 } else {
-                //                     var href = '#/CircumstanceReport/ACReport/print/' + id;
-                //                     window.open(href);
-                //                 }
-                //             } else {
-                //                 console.log(id);
-                //                 var href = '#/CircumstanceReport/ICReport/print/' + id;
-                //                 window.open(href);
-                //             }
-                //         }
-                //     } //??  Nên thông báo để người dùng biết nếu có lỗi in ấn 
-                // );
-            }
+                window.open('#/CircumstanceReport/ICReport/print/' + data.entity.Rp_ID);
+            };
             $scope.gridOptions = { //Grid setting mặc định tên 
                 columnDefs: colgrid,
                 data: [],
@@ -199,7 +180,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     $scope.gridApi = gridApi;
                     EngineApi.getTcodeLink().get({
                         'userid': Auth.username,
-                        'tcode': $scope.flowkey
+                        'tcode': roleKey
                     }, function (linkres) {
                         // if (linkres.IsSuccess) {
                         if (true) {
@@ -207,7 +188,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         }
                     });
                     gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                        $scope.selectedSupID = row.entity.SupID;
+                        $scope.selectedID = row.entity.Rp_ID;
                     });
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                         paginationOptions.pageNumber = newPage;
@@ -217,12 +198,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
             };
             /**************************** FUNCTIONS ************************************************************** */
             $scope.ChangeSubmitType = function () {
-                if ($scope.rp_Submittype.id == 'EVR') {
-                    $scope.demolist = $scope.typelistEVR;
+
+                if ($scope.rp_Submittype == 'EVR') {
+                    $scope.rp_typeList = $scope.typelistEVR;
                     $scope.rp_type = $scope.typelistEVR[0].id;
-                } else if ($scope.rp_Submittype.id == 'FP' || $scope.rp_Submittype.id == 'SF') {
-                    $scope.demolist = $scope.typelist;
-                    $scope.rp_type = $scope.typelist[0].id;
+                } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
+
+                    $scope.rp_type = $scope.rp_typeList[0].id;
                 }
                 $scope.Search();
             };
@@ -230,15 +212,15 @@ define(['myapp', 'angular'], function (myapp, angular) {
             /** Event on change SubDepartment*/
             $scope.$watch('recordIC.ic_SubDeparmentid', function (val, olval) {
                 if (val != null & val != undefined) OnChangeSubDepartmentID(val);
-            })
+            });
             $scope.$watch('recordAC.ac_subdepartment', function (val) {
                 if (val != null && val != undefined && val != 'Other') OnChangeSubDepartmentID(val);
-            })
+            });
 
             function OnChangeSubDepartmentID(SubmitDepartmentID) {
                 if ($scope.show.checker)
                     $scope.getLeaderCheck(SubmitDepartmentID);
-            }
+            };
 
             function SearchList() { //search information 
                 var query = {};
@@ -246,7 +228,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 query.enddate = $scope.dateTo || '';
                 query.Id = $scope.rp_id || '';
                 query.Status = $scope.s_status || '';
-                query.SubmitType = $scope.rp_Submittype.id || '';
+                query.SubmitType = $scope.rp_Submittype || '';
                 query.ReportType = $scope.rp_type || '';
                 query.Lang = lang;
                 query.searchmode = '';
@@ -255,8 +237,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     query.uid = Auth.username;
                 } else query.uid = '';
                 return query;
-            };
-            $scope.Search = function () { //search function()
+            };                
+            $scope.Search = function () { //search function()   
                 var query = SearchList();
                 console.log($scope.gridOptions.columnDefs);
                 $scope.gridOptions.columnDefs[5].visible = query.SubmitType != 'EVR' ? true : false;
@@ -298,7 +280,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             var gridMenu = [{
                     title: $translate.instant('CreateIC_EVR'),
                     action: function () {
-                        $scope.rp_type = $scope.typelist[1].id // 0;
+                        $scope.rp_type = $scope.rp_typeList[1].id // 0;
                         $scope.status = 'N';
                         $('#my-modal').modal('show');
                         $scope.resetIC();
@@ -309,7 +291,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 {
                     title: $translate.instant('CreateIC'),
                     action: function () {
-                        $scope.rp_type = $scope.typelist[1].id;
+                        $scope.rp_type = $scope.rp_typeList[1].id;
                         $scope.status = 'N';
                         $('#my-modal').modal('show');
                         $scope.resetIC();
@@ -319,7 +301,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 {
                     title: $translate.instant('CreateAC'),
                     action: function () {
-                        $scope.rp_type = $scope.typelist[2].id;
+                        $scope.rp_type = $scope.rp_typeList[2].id;
                         $scope.status = 'N';
                         $scope.listEmployee = []; // danh sách lấy thông tin nhân viên
                         $('#myModal').modal('show');
@@ -332,6 +314,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     action: function () {
                         $scope.status = 'M'; //Set update Status
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
+
                         if (resultRows.length == 1) {
                             if (resultRows[0].Rp_CreatorID != Auth.username) {
                                 Notifications.addError({
@@ -370,7 +353,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
                                 $('#my-modal').modal('show');
                             } else { //UPDATE BÁO CÁO TAI NẠN
-                                $scope.mySwitch = true; // disable 
+                                $scope.AC_Department_Disable = true; // disable 
                                 $scope.rp_type = '1';
                                 $scope.loadACDetail(resultRows[0].Rp_ID); //load modal ACReportDirective
                                 $('#myModal').modal('show');
@@ -444,36 +427,9 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
                         if (resultRows.length == 1) {
-
                             var href = '#/CircumstanceReport/ICReport/print/' + resultRows[0].Rp_ID
                             // + ':true';
                             window.open(href);
-
-
-                            // if (resultRows[0].Rp_Type == "IC") {
-
-                            // } else {
-                            //     CReportService.GetDepartment_RP({
-                            //         Rp_ID: resultRows[0].Rp_ID
-                            //     }, function (res) {
-                            //         if (res.Success) {
-                            //             var other_depart = res.Data;
-                            //             if (resultRows[0].Rp_Type != 'IC') {
-                            //                 if (other_depart == "Other") {
-                            //                     var href = '#/CircumstanceReport/ACReport/print/' 
-                            //                         + resultRows[0].Rp_ID 
-                            //                         // + '_' + resultRows[0].EmployeeID + '_o' + ':true';
-                            //                     window.open(href);
-                            //                 } else {
-                            //                     var href = '#/CircumstanceReport/ACReport/print/' 
-                            //                         + resultRows[0].Rp_ID 
-                            //                         // + '_' + resultRows[0].EmployeeID + ':true';
-                            //                     window.open(href);
-                            //                 }
-                            //             }
-                            //         }
-                            //     });
-                            // }
                         } else {
                             Notifications.addError({
                                 'status': 'error',
@@ -545,7 +501,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 },
             ];
             /**get Information of next Candidate */
-
             $scope.getLeaderCheck = function (SubmitDepartID) {
                 $scope.checkList = [];
                 $scope.leaderlist = [];
@@ -569,7 +524,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }, function (errormessage) {
                     console.log(errormessage);
                 })
-            }
+            };
             /**Save Submit */
             $scope.SaveSubmitCReport = function (Rp_ID) { // fnSavesubmit
                 if ($scope.checkList.length <= 0) {
@@ -581,12 +536,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
                 $scope.formVariables = [];
                 $scope.historyVariable = [];
-                /**Check if user have permission to submit */
-                // EngineApi.getTcodeLink().get({
-                //     userid: Auth.username,
-                //     tcode: $scope.flowkey
-                // }, function (linkres) {
-                //     if (linkres.IsSuccess) {
+
                 $scope.formVariables.push({
                     name: 'Receive_Users',
                     value: $scope.checkList
@@ -595,7 +545,14 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     name: 'workflowkey',
                     value: 'CReportHSE'
                 });
-                //Report has not created yet, then create.
+
+                /**Check if user have permission to submit */
+                // EngineApi.getTcodeLink().get({
+                //     userid: Auth.username,
+                //     tcode: roleKey
+                // }, function (linkres) {
+                //     if (linkres.IsSuccess) {
+
                 /**Save and Submit Button */
                 if (confirm($translate.instant('Submit_Alert') + Rp_ID)) {
                     if ($scope.status == 'N' && $scope.rp_type == 0) {
@@ -614,7 +571,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
                 // } else alert("You don't have permission!")
                 // });
-            }
+            };
             $scope.SubmitAndChangeStatus = function (Rp_ID) { //fnchangeStatus 
                 /**Submit to BPMN */
                 CReportService.SubmitBPM($scope.formVariables, $scope.historyVariable, '', function (res, message) {
@@ -656,7 +613,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     }
                 })
                 /** Change Status to P */
-            }
+            };
             $scope.btnImprovementSave = function (myrecord) { //Improvement Save button functions
                 var templsFile = [];
                 if ($scope.listfile.length > 0) {
@@ -681,12 +638,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     function (error) {
                         $scope.update_error_msg(error);
                     })
-            }
-            CReportService.CountReport(function (data) { //count number of every type report
-                var c = $scope.rpCounter = data[0];
-                $scope.rpCounter.sumPending = c.pending_fp + c.pending_sf + c.pending_evr
-                $scope.rpCounter.sumSubmited = c.count_fp + c.count_sf + c.count_evr
-            }, function (error) {})
+            };
+
         } //function
     ]) // myapp.controller
 }) //define

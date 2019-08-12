@@ -271,17 +271,26 @@ define(['app'], function (app) {
                         CReportService.GetDataDepartment({
                             emp_id: Auth.username
                         }, function (sub_department_list) {
-                            $scope.submitDept = sub_department_list;
-                            $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
-                            if (sub_department_list.length == 1)
-                                if ($scope.getLeaderCheck) $scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
-                            center_dpm.forEach(x => {
-                                if (x.CostCenter == sub_department_list[0].DepartmentID.slice(0, 3)) {
+                            if (sub_department_list.length > 0) {
+                                $scope.submitDept = sub_department_list;
+                                $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
+                                if (sub_department_list.length == 1)
+                                    if ($scope.getLeaderCheck) $scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
+                                center_dpm.forEach(x => {
+                                    if (x.CostCenter == sub_department_list[0].DepartmentID.slice(0, 3)) {
+                                        $scope.showFactoryInIC = x.Specification;
+                                    }
+                                })
+                                console.log('subdepartment', $scope.recordIC.ic_SubDeparmentid);
+                            } 
+                            // else
+                            //     $timeout(function () {
+                            //         Notifications.addMessage({
+                            //             'status': 'error',
+                            //             'message': "Người dùng "+ Auth.username+" " + Auth.nickname +  " chưa được cấp quyền để gửi đơn"
+                            //         });
+                            //     }, 300);
 
-                                    $scope.showFactoryInIC = x.Specification;
-                                }
-                            })
-                            console.log('subdepartment', $scope.recordIC.ic_SubDeparmentid);
                         })
 
 
@@ -316,7 +325,7 @@ define(['app'], function (app) {
                             $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
                             $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
 
-                            
+
                             $scope.recordIC.icDatetime = data.Rp_DateTime;
                             $scope.recordIC.icLocation = data.Rp_Location;
                             $scope.recordIC.icLocationDetail = data.Rp_LocationDetail;

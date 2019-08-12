@@ -80,8 +80,10 @@
                 <label class="col-lg-2 col-sm-2 control-label">{{'CategoryReport' | translate}}</label>
                 <div class="col-lg-4 col-sm-4">
                     <select class="form-control" ng-model="rp_Submittype"
-                        ng-options="subtype.name | translate for subtype in SubmitTypelist track by subtype.id"
                         ng-change="ChangeSubmitType()">
+                        <option ng-repeat="item in SubmitTypelist" value="{{item.id}}" >
+                            {{item.name | translate}}
+                        </option>
                     </select>
                 </div>
 
@@ -131,7 +133,7 @@
 
                 <div class="col-sm-4 col-sm-push-2">
                     <label>
-                        <input name="onlyOwnerReport" type="checkbox" ng-model="onlyOwner">
+                        <input name="onlyOwnerReport" type="checkbox" ng-init="onlyOwner=true" ng-model="onlyOwner">
                         {{'onlyOwnerReport'|translate}}
                     </label>
                 </div>
