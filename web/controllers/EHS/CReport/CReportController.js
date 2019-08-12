@@ -16,9 +16,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
             }
             /**List/combobox added */
             var lang = window.localStorage.lang || 'EN';
+
+            $scope.rp_Submittype = InfolistService.Infolist('SubmitType')[0].id; //set default search param
+            $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
+
             var rp_typeList = $scope.rp_typeList = [{ //list for RP_Type combobox
                     id: '',
-                    name: $translate.instant('All')
+                    name: $translate.instant('Show All')
                 },
                 {
                     id: 'IC',
@@ -29,8 +33,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     name: $translate.instant('Accident')
                 }
             ];
-            var rp_typelistEVR = [
-                { //list for RP_Type combobox
+            var rp_typelistEVR = [{ //list for RP_Type combobox
                     id: '',
                     name: $translate.instant('Show All')
                 },
@@ -48,6 +51,17 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
             ];
 
+            $scope.ChangeSubmitType = function () {
+
+                if ($scope.rp_Submittype == 'EVR') {
+                    $scope.rp_typeList = rp_typelistEVR;
+                    $scope.rp_type = rp_typelistEVR[0].id;
+                } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
+                    $scope.rp_typeList = rp_typeList;
+                    $scope.rp_type = $scope.rp_typeList[0].id;
+                }
+                $scope.Search();
+            };
 
             // $scope.SearchParam = {
             //     startdate: '',
@@ -62,9 +76,6 @@ define(['myapp', 'angular'], function (myapp, angular) {
             // };
 
             $scope.rp_type = rp_typeList[0].id; //set default search param
-
-            $scope.rp_Submittype = InfolistService.Infolist('SubmitType')[0].id; //set default search param
-            $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
 
             $scope.statuslist = InfolistService.Infolist('status'); //search param list
 
@@ -229,17 +240,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }
             };
             /**************************** FUNCTIONS ************************************************************** */
-            $scope.ChangeSubmitType = function () {
 
-                if ($scope.rp_Submittype == 'EVR') {
-                    $scope.rp_typeList = rp_typelistEVR;
-                    $scope.rp_type = rp_typelistEVR[0].id;
-                } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
-                    $scope.rp_typeList = rp_typeList;
-                    $scope.rp_type = $scope.rp_typeList[0].id;
-                }
-                $scope.Search();
-            };
 
             /** Event on change SubDepartment*/
             $scope.$watch('recordIC.ic_SubDeparmentid', function (val, olval) {
@@ -271,9 +272,9 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.Search = function () { //search function()   
                 var query = SearchList();
                 console.log($scope.gridOptions.columnDefs);
-                // $scope.gridOptions.columnDefs[5].visible = query.rp_submittype != 'EVR' ? true : false;
-                $scope.gridOptions.columnDefs[8].visible = query.rp_type != '0' ? true : false;
-                $scope.gridOptions.columnDefs[9].visible = query.rp_type != '0' ? true : false;
+                $scope.gridOptions.columnDefs[5].visible = query.rp_submittype != 'EVR' ? true : false; //Rp_Type
+                $scope.gridOptions.columnDefs[8].visible = query.rp_type == 'A' ? true : false; //EmployeeID
+                $scope.gridOptions.columnDefs[9].visible = query.rp_type == 'A' ? true : false; //Employee - Name
                 CReportService.SearchCReport(query, function (data) {
                     $scope.gridOptions.data = data;
                 }, function (error) {});
