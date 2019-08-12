@@ -498,7 +498,6 @@
   "Evaluate": "执行防止对策后之追踪考核",
   "Factory": "厂",
   "Female": "女",
-  "FiberChemical": "化纖廠",
   "File_Location_MSG": "請上傳文件位置 ",
   "FileValidation_IMG_MSG": "您可以上传文件扩展名为.jpg：.jpeg，.png，.pdf的文件",
   "FileValidation_MSG": "您可以上传文件扩展名的文件：.jpg，.jpeg，.png，.pdf，.doc，.docx",
@@ -524,7 +523,6 @@
   "Injury": "受伤经过详细情形",
   "Injurydetail": "受伤经过详细情形",
   "Job": "工作",
-  "KnittingDyeing": "Knitting Dyeing",
   "Male": "男",
   "Medium": "中",
   
@@ -588,5 +586,7 @@
   ,"Heavy": "重劳动事故"
   ,"Serious": "严重的劳动事故"
   ,"Minor": "劳工事故轻微"
+  ,"KnittingDyeing": "織染廠"
+  ,"FiberChemical": "化纖廠"
 
 }

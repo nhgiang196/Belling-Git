@@ -57,13 +57,13 @@ define(['app'], function (app) {
                                                 Stamp: {
                                                     gt: stamptime
                                                 }
-                                            }).order("Stamp").limit(1).last();
+                                            }).order("Stamp DESC").limit(3).last();
                                             receiver[2] = taf({
                                                 TaskName: "Leader check C-Report",
                                                 Stamp: {
                                                     gt: stamptime
                                                 }
-                                            }).order("Stamp").limit(2).last();
+                                            }).order("Stamp DESC").limit(2).last();
 
                                             if (receiver[2].UserId == receiver[1].UserId) // move rev2 to rev1 if it's the same person
                                                 receiver[1] = null;
@@ -74,7 +74,7 @@ define(['app'], function (app) {
                                                 Stamp: {
                                                     gt: stamptime
                                                 }
-                                            }).order("Stamp").limit(3).last();
+                                            }).order("Stamp DESC").limit(1).last();
 
                                             if (receiver[3].UserId == receiver[2].UserId) // move rev2 to rev1 if it's the same person
                                                 receiver[2] = null;
@@ -84,19 +84,19 @@ define(['app'], function (app) {
                                                 Stamp: {
                                                     gt: stamptime
                                                 }
-                                            }).order("Stamp").limit(1).last();
+                                            }).order("Stamp DESC").limit(3).last();
                                             receiver[5] = taf({
                                                 TaskName: "Leader HSE check C-Report",
                                                 Stamp: {
                                                     gt: stamptime
                                                 }
-                                            }).order("Stamp").limit(2).last();
+                                            }).order("Stamp DESC").limit(2).last();
                                             receiver[6] = taf({
                                                 TaskName: "Leader HSE check C-Report",
                                                 Stamp: {
                                                     gt: stamptime
                                                 }
-                                            }).order("Stamp").limit(3).last();
+                                            }).order("Stamp DESC").limit(1).last();
                                             /** This part could be changed later because there is a list for show specific role
                                              * not from Creator -  Leader -  Header Factory - Supervisor -  Leader - Manager
                                              */

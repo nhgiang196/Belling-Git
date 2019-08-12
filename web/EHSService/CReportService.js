@@ -13,8 +13,8 @@ define(['app', 'angular'], function (app, angular) {
                         method: 'GET',
                         params: {
                             operation: 'GetChecker'
-                        }
-                        ,isArray:true
+                        },
+                        isArray: true
                     },
                     sendReminder: {
                         method: 'POST',
@@ -439,7 +439,12 @@ define(['app', 'angular'], function (app, angular) {
                         break;
 
                     case 'SubmitType':
-                        var SubmitTypelist = [{
+                        var SubmitTypelist = [
+                            {
+                                id: '',
+                                name: 'Show All'
+                            },
+                            {
                                 id: 'SF',
                                 name: 'Safety'
                             },
