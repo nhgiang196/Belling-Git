@@ -141,7 +141,7 @@ define(['app'], function (app) {
                                     updateByID_IC(note);
                                     break;
                                 case 'SM':
-                                    note.Rp_Status = 'P';
+                                    note.Rp_Status = 'SM';
                                     $scope.btnSub = true;
                                     updateByID_IC(note);
                                     break;
