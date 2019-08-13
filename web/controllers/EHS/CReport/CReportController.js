@@ -231,7 +231,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         }
                     });
                     gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                        $scope.selectedID = row.entity.Rp_ID;
+                        $scope.selectedSupID = row.entity.SupID;
                     });
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                         paginationOptions.pageNumber = newPage;
@@ -402,7 +402,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     title: '👨🏻‍🚒 ' + $translate.instant('Update_Improvement'),
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
-                        $scope.ReportDetail = {};
+                        $scope.ReportDetail_Ctr = {};
                         $scope.listfile = [];
                         if (resultRows.length == 1) {
                             if (resultRows[0].Rp_CreatorID != Auth.username && !isHSEUser && Auth.username != 'cassie') {
@@ -421,7 +421,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             //         return;
                             //     }
                             // }
-                            $scope.ReportDetail.Rp_ID = resultRows[0].Rp_ID
+                            $scope.ReportDetail_Ctr.Rp_ID = resultRows[0].Rp_ID;
                             CReportService.FindByID({
                                 Rp_ID: resultRows[0].Rp_ID
                             }, function (data) {
