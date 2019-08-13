@@ -441,10 +441,6 @@ define(['app', 'angular'], function (app, angular) {
                     case 'SubmitType':
                         var SubmitTypelist = [
                             {
-                                id: '',
-                                name: 'Show All'
-                            },
-                            {
                                 id: 'SF',
                                 name: 'Safety'
                             },

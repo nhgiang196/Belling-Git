@@ -20,10 +20,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.rp_Submittype = InfolistService.Infolist('SubmitType')[0].id; //set default search param
             $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
 
-            var rp_typeList = $scope.rp_typeList = [{ //list for RP_Type combobox
-                    id: '',
-                    name: $translate.instant('Show All')
-                },
+            var rp_typeList = $scope.rp_typeList = [
                 {
                     id: 'IC',
                     name: $translate.instant('Incident')
@@ -33,10 +30,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     name: $translate.instant('Accident')
                 }
             ];
-            var rp_typelistEVR = [{ //list for RP_Type combobox
-                    id: '',
-                    name: $translate.instant('Show All')
-                },
+            var rp_typelistEVR = [
                 { //list for RP_Type combobox
                     id: 'Low',
                     name: $translate.instant('RpIC_Affect-Low')
@@ -586,10 +580,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
 
                 /**Save and Submit Button */
                 if (confirm($translate.instant('Submit_Alert') + Rp_ID)) {
-                    if ($scope.status == 'N' && $scope.rp_type == 0) {
+                    if ($scope.status == 'N' && $scope.rp_type == 'IC') {
                         $scope.btnSub = true;
                         $scope.SaveICReport();
-                    } else if ($scope.status == 'N' && $scope.rp_type == 1) {
+                    } else if ($scope.status == 'N' && $scope.rp_type == 'A') {
                         $scope.btnSub = true;
                         $scope.SaveACReport();
                     } else {
@@ -633,10 +627,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                                 }
                             );
                         } else {
-                            if ($scope.rp_type == 0) {
+                            if ($scope.rp_type == 'IC') {
                                 $scope.status = 'SM';
                                 $scope.SaveICReport();
-                            } else if ($scope.rp_type == 1) {
+                            } else if ($scope.rp_type == 'A') {
                                 $scope.status = 'SM';
                                 $scope.SaveACReport();
                             }
