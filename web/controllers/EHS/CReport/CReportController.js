@@ -17,10 +17,13 @@ define(['myapp', 'angular'], function (myapp, angular) {
             /**List/combobox added */
             var lang = window.localStorage.lang || 'EN';
 
-            $scope.rp_Submittype = InfolistService.Infolist('SubmitType')[0].id; //set default search param
+            $scope.rp_Submittype = ''; //set default search param
             $scope.SubmitTypelist = InfolistService.Infolist('SubmitType'); //search param list
 
-            var rp_typeList = $scope.rp_typeList = [
+            var rp_typeList = $scope.rp_typeList = [{ //list for RP_Type combobox
+                    id: '',
+                    name: $translate.instant('Show All')
+                },
                 {
                     id: 'IC',
                     name: $translate.instant('Incident')
@@ -30,7 +33,10 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     name: $translate.instant('Accident')
                 }
             ];
-            var rp_typelistEVR = [
+            var rp_typelistEVR = [{ //list for RP_Type combobox
+                    id: '',
+                    name: $translate.instant('Show All')
+                },
                 { //list for RP_Type combobox
                     id: 'Low',
                     name: $translate.instant('RpIC_Affect-Low')
@@ -374,12 +380,12 @@ define(['myapp', 'angular'], function (myapp, angular) {
                             //         // $scope.btnFile = true;
                             //         // $scope.btnFile_AC = true;
                             if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
-                                $scope.rp_type = '0';
+                                $scope.rp_type = 'IC';
                                 $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
                                 $('#my-modal').modal('show');
                             } else { //UPDATE BÁO CÁO TAI NẠN
                                 $scope.AC_Department_Disable = true; // disable 
-                                $scope.rp_type = '1';
+                                $scope.rp_type = 'A';
                                 $scope.loadACDetail(resultRows[0].Rp_ID); //load modal ACReportDirective
                                 $('#myModal').modal('show');
                             }
