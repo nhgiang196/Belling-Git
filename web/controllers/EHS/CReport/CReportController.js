@@ -87,7 +87,16 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 userid: Auth.username
             }, function (res) {
                 $scope.show.isHSEUser = isHSEUser = (res.DepartmentID == '519101000' ? true : false);
+                // $scope.engine_department = res.DepartmentID;
             });
+
+            // CReportService.GetBasic({
+            //     TableName: "HSESubmitDepartment",
+            //     Lang: lang || 'EN'
+            // }, function (data) {
+
+            // })
+
 
             /**Count number of report */
             CReportService.CountReport(function (data) { //count number of every type report
@@ -265,7 +274,9 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     rp_type: $scope.rp_type || '',
                     lang: lang,
                     searchmode: '',
+                    departmentid: $scope.engine_department || '',
                     userid: $scope.onlyOwner == true ? Auth.username : ''
+
                 };
                 return query;
             };
@@ -347,30 +358,33 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
 
                         if (resultRows.length == 1) {
-                            if (resultRows[0].Rp_CreatorID != Auth.username) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('Update_onlyowner_MSG')
-                                });
-                                return;
-                            } else if (resultRows[0].Rp_Status == 'P') {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('Update_Processing_MSG')
-                                });
-                                return;
-                            } else if (resultRows[0].Rp_Status == 'X') {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('Update_Deleted_MSG')
-                                });
-                                return;
-                            } else if (resultRows[0].Rp_Status == 'S') {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('Update_Signed_MSG')
-                                });
-                                return;
+                            if (Auth.username != 'cassie') {
+                                if (resultRows[0].Rp_CreatorID != Auth.username) {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_onlyowner_MSG')
+                                    });
+                                    return;
+                                } else if (resultRows[0].Rp_Status == 'P') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Processing_MSG')
+                                    });
+                                    return;
+                                } else if (resultRows[0].Rp_Status == 'X') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Deleted_MSG')
+                                    });
+                                    return;
+                                } else if (resultRows[0].Rp_Status == 'S') {
+                                    Notifications.addError({
+                                        'status': 'error',
+                                        'message': $translate.instant('Update_Signed_MSG')
+                                    });
+                                    return;
+                                }
+
                             }
                             // var value = resultRows[0].Rp_Location; // bật tắt disable nút file chỗ địa điểm  
                             //     if (value == "O") {

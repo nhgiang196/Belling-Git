@@ -1,6 +1,3 @@
-<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#my-modal">Modal</button> -->
-<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Modal1</button> -->
-<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ACdetail_Modal">Modal1</button> -->
 <style>
     input[type=checkbox] {
         transform: scale(1.5);
@@ -117,12 +114,19 @@
                     <input type="text" class="form-control" ng-model="rp_id"
                         ng-keydown="$event.keyCode === 13 && Search()">
                 </div>
-                <div class="col-sm-4 col-sm-push-2">
-                    <label>
-                        <input name="onlyOwnerReport" type="checkbox" ng-init="onlyOwner=true" ng-model="onlyOwner">
-                        {{'onlyOwnerReport'|translate}}
-                    </label>
+                <label class="col-sm-2 control-label">{{'Department'|translate}}</label>
+                <div class="col-sm-4">
+
+                    <select  style="width:100%; height: 120%" ui-select2 ng-model="engine_department"
+                        name="engine_department">
+                        <option ng-if="show.isHSEUser" ng-selected="true" value="">{{'Show All'|translate}}</option>
+                        <option ng-repeat="item in EngineDepartmentList" value="{{item.DepartmentID}}">
+                            {{item.SubmitDepartName | translate}}
+                        </option>
+                    </select>
+
                 </div>
+
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">{{'Status'|translate}}</label>
@@ -132,6 +136,14 @@
                         <option ng-repeat="item in statuslist" value="{{item.id}}">{{item.name | translate}}</option>
                     </select>
                 </div>
+                <div class="col-sm-2 col-sm-push-2">
+                    <label>
+                        <input name="onlyOwnerReport" type="checkbox" ng-init="onlyOwner=true" ng-model="onlyOwner">
+                        {{'onlyOwnerReport'|translate}}
+                    </label>
+                </div>
+
+
                 <div class="col-sm-1 col-sm-push-2">
                     <button type="button" class="btn btn-primary" ng-click="Search()">{{'Search'|translate}}
                     </button>
@@ -202,7 +214,6 @@
 <div style="padding-top: 20px; text-align: center">
     <div process-diagram-preview flow-key="CReportHSE" width="100%"></div>
 </div>
-
 <div class="modal fade" id="my-modal" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static"
     data-keyboard="false">
     <div class="modal-dialog modal-lg">
@@ -283,8 +294,6 @@
                                 </table>
                             </div>
                         </div>
-
-
                         <div class=" form-group ">
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
                             <div class="col-sm-4">
@@ -296,8 +305,6 @@
                                 </select>
                             </div>
                         </div>
-
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
                             <div class="col-sm-10">
@@ -329,7 +336,6 @@
                                 </table>
                             </div>
                         </div>
-
                         <div class=" form-group ">
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
                             <div class="col-sm-4">
@@ -341,10 +347,7 @@
                                 </select>
                             </div>
                         </div>
-
-
                     </div>
-
                     <div id="ICType" ng-show="ImprovementRecord.Rp_Type=='IC'">
                         <div class="form-group">
                             <label class="col-sm-2 control-label ">* {{'IcProcess'|translate}} : </label>
@@ -409,9 +412,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </form>
                 <div class="modal-footer">
                     <button id="btnSaveImprovement" type="button" class="btn btn-warning btn-ct-ac"
@@ -430,7 +430,6 @@
         </div> <!-- end of modal-content -->
     </div> <!-- end of modal-dialog -->
 </div> <!-- end of modal-->
-
 <!-- <div class="form-group">
                     <my-delfile></my-delfile>
                 </div> -->

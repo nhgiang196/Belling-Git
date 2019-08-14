@@ -272,7 +272,9 @@ define(['app'], function (app) {
                         CReportService.GetDataDepartment({
                             emp_id: Auth.username
                         }, function (sub_department_list) {
+
                             if (sub_department_list.length > 0) {
+                                $scope.EngineDepartmentList = sub_department_list;
                                 $scope.submitDept = sub_department_list;
                                 $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
                                 if (sub_department_list.length == 1)

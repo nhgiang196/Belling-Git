@@ -20,33 +20,33 @@
 
         $scope.$watch('checkList', function (val) {
             if (val !== undefined && val !== null) {
-                debugger;
-                $timeout(function () {
-                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
-                        $scope.checkList.splice(0, 1, 'FEPV000096');
-                        $scope.leaderlist.splice(0, 1, {
-                            $$hashKey: "",
-                            LevelNameVN: "Kiểm tra 審核人員",
-                            Person: "FEPV000096" // Thi Sinh
-                        });
-                    }
-                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'SF') { //same as above, had to change this (by mistake =.=!)
-                        $scope.checkList.splice(0, 1, 'FEPV000559');
-                        $scope.leaderlist.splice(0, 1, {
-                            $$hashKey: "",
-                            LevelNameVN: "Kiểm tra 審核人員",
-                            Person: "FEPV000559" // Xi long
-                        });
-                    }
-                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'FP') { //same as above, had to change this (by mistake =.=!)
-                        $scope.checkList.splice(0, 1, 'FEPV000944');
-                        $scope.leaderlist.splice(0, 1, {
-                            $$hashKey: "",
-                            LevelNameVN: "Kiểm tra 審核人員",
-                            Person: "FEPV000944" //other
-                        });
-                    }
-                }, 500)
+                if (val.length == 3)
+                    $timeout(function () {
+                        if ($scope.ReportDetail.Rp_SubmitTypeCode == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
+                            $scope.checkList.splice(0, 1, 'FEPV000096');
+                            $scope.leaderlist.splice(0, 1, {
+                                $$hashKey: "",
+                                LevelNameVN: "Kiểm tra 審核人員",
+                                Person: "FEPV000096" // Thi Sinh
+                            });
+                        }
+                        if ($scope.ReportDetail.Rp_SubmitTypeCode == 'SF') { //same as above, had to change this (by mistake =.=!)
+                            $scope.checkList.splice(0, 1, 'FEPV000559');
+                            $scope.leaderlist.splice(0, 1, {
+                                $$hashKey: "",
+                                LevelNameVN: "Kiểm tra 審核人員",
+                                Person: "FEPV000559" // Xi long
+                            });
+                        }
+                        if ($scope.ReportDetail.Rp_SubmitTypeCode == 'FP') { //same as above, had to change this (by mistake =.=!)
+                            $scope.checkList.splice(0, 1, 'FEPV000944');
+                            $scope.leaderlist.splice(0, 1, {
+                                $$hashKey: "",
+                                LevelNameVN: "Kiểm tra 審核人員",
+                                Person: "FEPV000944" //other
+                            });
+                        }
+                    }, 500)
 
             }
         })
@@ -80,30 +80,30 @@
 
         function SaveBpmn() {
             // if ($scope.checkList && checkList.length >= 0) {
-                $scope.formVariables.push({
-                    name: 'Receive_HSE_Users',
-                    value: $scope.checkList
-                });
-                $scope.formVariables.push({
-                    name: 'Rp_ID',
-                    value: $scope.variable.Rp_ID //chosen
-                });
+            $scope.formVariables.push({
+                name: 'Receive_HSE_Users',
+                value: $scope.checkList
+            });
+            $scope.formVariables.push({
+                name: 'Rp_ID',
+                value: $scope.variable.Rp_ID //chosen
+            });
 
-                $q.all([$scope.submit()]).then(function () {
-                    // var reminder_parrams = {
-                    //     voucherID: $scope.VoucherID,
-                    //     userid: Auth.username,
-                    //     formkey: 'leadercheck'
-                    // }
-                    // LIMSService.SendReminder(reminder_parrams, function (res) {
-                    //     if (res.Success) return;
-                    // }, function (error) {
-                    //     Notifications.addError({
-                    //         'status': 'error',
-                    //         'message': $translate.instant('saveError') + error
-                    //     });
-                    // })
-                });
+            $q.all([$scope.submit()]).then(function () {
+                // var reminder_parrams = {
+                //     voucherID: $scope.VoucherID,
+                //     userid: Auth.username,
+                //     formkey: 'leadercheck'
+                // }
+                // LIMSService.SendReminder(reminder_parrams, function (res) {
+                //     if (res.Success) return;
+                // }, function (error) {
+                //     Notifications.addError({
+                //         'status': 'error',
+                //         'message': $translate.instant('saveError') + error
+                //     });
+                // })
+            });
             // }
 
             // else {
