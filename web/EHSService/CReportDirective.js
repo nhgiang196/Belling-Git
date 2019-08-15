@@ -12,6 +12,7 @@ define(['app'], function (app) {
                     scope.$watch('ReportDetail_Ctr.Rp_ID', function (val) {
                         if (val) LoadDetail(val);
                     })
+
                     function LoadDetail(_Rp_ID) {
                         if (!_Rp_ID)
                             console.log('No rp_ID to show');
@@ -140,13 +141,17 @@ define(['app'], function (app) {
                 link: function (scope, element, attrs) {
                     console.log(attrs.userName);
                     console.log(attrs.flowKey);
+                    scope.$watch('ReportDetail.Rp_DepartmentID', function (val) {
+                        if (val != nulll && val != undefined) geHSEChecker(department);
+
+                    });
                     geHSEChecker();
 
-                    function geHSEChecker() {
+                    function geHSEChecker(department) {
                         CReportService.HSEChecker().get({
                             flowname: attrs.flowKey,
                             userid: Auth.username,
-                            submitdepartid: '',
+                            submitdepartid: department || '',
                             kinds: attrs.kinds || '',
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {

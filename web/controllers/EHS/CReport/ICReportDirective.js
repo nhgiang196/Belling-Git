@@ -97,7 +97,7 @@ define(['app'], function (app) {
                     function updateByID_IC(data) { //function for update
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {
-                                    $scope.resetIC();
+                                    
                                     if ($scope.btnSub) { //?? Nếu là singal thì nên đặt tên để liên tưởng đến kiểu Yes/No hơn.
                                         $('#my-modal').modal('hide');
                                         $scope.submit_success_msg();
@@ -131,7 +131,7 @@ define(['app'], function (app) {
                             switch (status) {
                                 case 'N':
                                     SaveIC(note);
-
+                                    $scope.resetIC();
                                     break;
                                 case 'M':
                                     note.Rp_Status = 'D';

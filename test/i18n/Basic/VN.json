@@ -499,14 +499,12 @@
   "Evaluate": "Đánh giá",
   "Factory": "Xưởng",
   "Female": "Nữ",
-  
   "File_Location_MSG": "Bạn chưa upload file hình ảnh địa điểm xảy ra sự cố",
   "FileValidation_IMG_MSG": "Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf",
   "FileValidation_MSG": "Bạn chỉ có thể tải lên tệp vói định dạng: .jpeg, .jpg, .png, .pdf, .doc, .docx",
   "General_Info": "Thông tin chung",
   "Good": "Tốt",
   "Group": "Nhóm",
-  
   "ICAffect": "Mức độ ảnh hưởng",
   "IcCategoryReport": "Kiểu loại hình sự cố",
   "IcProcess": "Tình hình xử lý sau sự cố",
@@ -524,10 +522,8 @@
   "Injury": "Quá trình bị thương",
   "Injurydetail": "Tình hình chi tiết quá trình bị thương",
   "Job": "Công việc đảm nhận",
-  
   "Male": "Nam",
   "Medium": "Trung bình",
-  
   "Nofile": "Không có tập tin nào được chọn",
   "onlyOwnerReport": "Chỉ xem báo cáo của tôi",
   "Other": "Khác",
@@ -548,7 +544,6 @@
   "RpIC_NotifPerson": "Người thực hiện thông báo ",
   "RpIC_ReceivePerson": "Người nhận thông báo",
   "SameEmployee": "Thông tin nhân viên bị trùng lặp",
-  
   "ShowFile": "Hiển thị danh sách file",
   "StatusD": "Bản Nháp",
   "StatusP": "Đang xử lý",
@@ -584,19 +579,17 @@
   "CReportHSE": "Lưu trình xử lý báo cáo sự cố đến HSE",
   "Rpic_Damaged_Human": "Thiệt hại đối với con người",
   "Rpic_Damaged_Asset": "Thiệt hại đối với tài sản",
-  "Rpic_Damaged_Envr": "Thiệt hại đối với môi trường"
-  ,"Reason":"Nguyên nhân gây ra tai nạn lao động"
-  ,"CauseCondition":"Điều kiện làm việc không an toàn"
-  ,"CauseActivity":"Hành vi không an toàn"
-  ,"Heavy": "Tai nạn lao động nặng"
-  ,"Serious": "Tai nạn lao động nghiêm trọng"
-  ,"Minor": "Tai nạn lao động bị nhẹ"
-  ,"AC_Heavy": "Tai nạn lao động nặng"
-  ,"AC_Serious": "Tai nạn lao động nghiêm trọng"
-  ,"AC_Minor": "Tai nạn lao động bị nhẹ"
-  ,"KnittingDyeing": "Xưởng Dệt Nhuộm"
-  ,"FiberChemical": "Xưởng Hóa Sợi"
-  ,"CreportLocationDetail": "Chi tiết địa điểm xảy ra sự cố"
-
-  
+  "Rpic_Damaged_Envr": "Thiệt hại đối với môi trường",
+  "Reason": "Nguyên nhân gây ra tai nạn lao động",
+  "CauseCondition": "Điều kiện làm việc không an toàn",
+  "CauseActivity": "Hành vi không an toàn",
+  "Heavy": "Tai nạn lao động nặng",
+  "Serious": "Tai nạn lao động nghiêm trọng",
+  "Minor": "Tai nạn lao động bị nhẹ",
+  "AC_Heavy": "Tai nạn lao động nặng",
+  "AC_Serious": "Tai nạn lao động nghiêm trọng",
+  "AC_Minor": "Tai nạn lao động bị nhẹ",
+  "KnittingDyeing": "Xưởng Dệt Nhuộm",
+  "FiberChemical": "Xưởng Hóa Sợi",
+  "CreportLocationDetail": "Chi tiết địa điểm xảy ra sự cố"
 }

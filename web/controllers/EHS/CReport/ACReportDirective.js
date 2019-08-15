@@ -264,7 +264,7 @@ define(['app'], function (app) {
                                     $scope.save_msg();
                                     $scope.Search();
                                 }
-                                $scope.resetAC();
+                                
                             } else {
                                 $scope.save_error_msg();
                             }
@@ -288,7 +288,7 @@ define(['app'], function (app) {
                                 switch (status) {
                                     case 'N':
                                         SaveAC(note);
-
+                                        $scope.resetAC();
                                         break;
                                     case 'M':
                                         note.Rp_Status = 'D';
