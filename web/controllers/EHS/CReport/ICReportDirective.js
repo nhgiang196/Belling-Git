@@ -97,7 +97,7 @@ define(['app'], function (app) {
                     function updateByID_IC(data) { //function for update
                         CReportService.Update(data, function (res) {
                                 if (res.Success) {
-                                    
+
                                     if ($scope.btnSub) { //?? Nếu là singal thì nên đặt tên để liên tưởng đến kiểu Yes/No hơn.
                                         $('#my-modal').modal('hide');
                                         $scope.submit_success_msg();
@@ -274,9 +274,8 @@ define(['app'], function (app) {
                         }, function (sub_department_list) {
 
                             if (sub_department_list.length > 0) {
-                                $scope.EngineDepartmentList = sub_department_list;
-                                $scope.submitDept = sub_department_list;
-                                $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
+                                $scope.EngineDepartmentList = $scope.submitDept = sub_department_list;
+                                $scope.engine_department = $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
                                 if (sub_department_list.length == 1)
                                     if ($scope.getLeaderCheck) $scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
                                 center_dpm.forEach(x => {

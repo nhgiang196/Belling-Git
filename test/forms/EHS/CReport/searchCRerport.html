@@ -118,7 +118,7 @@
                 <div class="col-sm-4">
 
                     <select  style="width:100%; height: 120%" ui-select2 ng-model="engine_department"
-                        name="engine_department">
+                        name="engine_department" ng-change="Search()">
                         <option ng-if="show.isHSEUser" ng-selected="true" value="">{{'Show All'|translate}}</option>
                         <option ng-repeat="item in EngineDepartmentList" value="{{item.DepartmentID}}">
                             {{item.SubmitDepartName | translate}}
