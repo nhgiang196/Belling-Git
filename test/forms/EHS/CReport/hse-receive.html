@@ -83,10 +83,13 @@
         <!-- RECEVEIVE AND PROCESS FORM -->
         <div class="form-group">
             <label class="col-sm-2 control-label">{{'IsPass'|translate}}:</label>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <select class="form-control" history-field="ISPublish" form-field name="ISPublish" ng-model="ISPublish"
                     ng-options="c.value as c.name for c in passOrNot" required> </select>
             </div>
+            <div class="col-sm-6 "><strong class="pull-right"> {{variable.Rp_ID}} </strong></div>
+
+
         </div>
 
         <!-- DENY TEXTAREA -->

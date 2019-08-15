@@ -495,7 +495,7 @@
   "Factory": "Factory",
   "Female": "Female",
   "FiberChemical": "Fiber Chemical",
-  "File_Location": "Please upload location file",
+  "File_Location_MSG": "Please upload location file",
   "FileValidation_IMG_MSG": "You just can upload file with file extentions: .jpeg, .jpg, .png, .pdf",
   "FileValidation_MSG": "You just can upload file with file extentions: .jpeg, .jpg, .png, .pdf, .doc, .docx",
   "FireProtection": "Fire Protection",

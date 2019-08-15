@@ -133,6 +133,7 @@
                 <select class="form-control" history-field="ISReceive" form-field name="ISReceive" ng-model="ISReceive"
                     ng-options="c.value as c.name for c in passOrNot" required> </select>
             </div>
+            <div class="col-sm-6 "><strong class="pull-right"> {{variable.Rp_ID}} </strong></div>
         </div>
         <!-- DENY TEXTAREA -->
         <div class="form-group" ng-if="ISReceive=='NO'">
