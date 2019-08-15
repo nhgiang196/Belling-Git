@@ -274,7 +274,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     rp_type: $scope.rp_type || '',
                     lang: lang,
                     searchmode: '',
-                    departmentid: $scope.engine_department || '',
+                    departmentid: $scope.engine_department== undefined? 'NonDepartment' : $scope.engine_department,
                     userid: $scope.onlyOwner == true ? Auth.username : ''
 
                 };
