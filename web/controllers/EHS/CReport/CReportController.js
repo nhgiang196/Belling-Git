@@ -234,8 +234,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         'userid': Auth.username,
                         'tcode': roleKey
                     }, function (linkres) {
-                        // if (linkres.IsSuccess) {
-                        if (true) {
+                        if (linkres.IsSuccess) {
+                        // if (true) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
                     });
@@ -592,11 +592,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 });
 
                 /**Check if user have permission to submit */
-                // EngineApi.getTcodeLink().get({
-                //     userid: Auth.username,
-                //     tcode: roleKey
-                // }, function (linkres) {
-                //     if (linkres.IsSuccess) {
+                EngineApi.getTcodeLink().get({
+                    userid: Auth.username,
+                    tcode: roleKey
+                }, function (linkres) {
+                    if (linkres.IsSuccess) {
 
                 /**Save and Submit Button */
                 if (confirm($translate.instant('Submit_Alert') + Rp_ID)) {
@@ -614,8 +614,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         $scope.SubmitAndChangeStatus(Rp_ID);
                     }
                 }
-                // } else alert("You don't have permission!")
-                // });
+                } else alert("You don't have permission!")
+                });
             };
             $scope.SubmitAndChangeStatus = function (Rp_ID) { //fnchangeStatus 
                 /**Submit to BPMN */
