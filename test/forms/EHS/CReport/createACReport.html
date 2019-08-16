@@ -2,17 +2,21 @@
     #table-wrapper {
         position: relative;
     }
+
     #table-scroll {
         height: 150px;
         overflow: auto;
         margin-top: 20px;
     }
+
     #table-wrapper table {
         width: 100%;
     }
+
     #table-wrapper table * {
         color: black;
     }
+
     #table-wrapper table thead th .text {
         position: absolute;
         top: -20px;
@@ -20,6 +24,7 @@
         height: 20px;
         width: 35%;
     }
+
     .title {
         width: 101%;
         background-color: #ececec;
@@ -27,25 +32,31 @@
         border: 1px solid #ececec;
         border-radius: 6px;
     }
+
     .calender {
         color: grey;
         font-size: 29px;
     }
+
     .calender:hover {
         cursor: pointer;
     }
+
     .btn-ct-ac {
         font-weight: bold;
         font-family: tahoma;
     }
+
     .my-custom-scrollbar {
         position: relative;
         height: 117px;
         overflow: auto;
     }
+
     .table-wrapper-scroll-y {
         display: block;
     }
+
     a:hover {
         cursor: pointer;
     }
@@ -61,7 +72,19 @@
                     {{item.name | translate}}</option>
             </select>
         </div>
+        <label class="col-sm-2 control-label ">* {{'Rp_type'|translate}}:</label>
+        <div class="col-sm-4">
+            <select style="width:100%" ui-select2 ng-model="recordAC.ac_type" name="ac_type" required>
+                <option ng-repeat="item in ACTypelist" value="{{item.id}}"> {{item.name | translate}}
+                </option>
+            </select>
+        </div>
+
+
     </div>
+    <hr>
+
+
     <div class=" form-group ">
         <label class="col-sm-2 control-label ">* {{'CReportDateTime'|translate}} : </label>
         <div class="col-sm-4">
@@ -73,12 +96,9 @@
                 </span>
             </div>
         </div>
-        <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
-        <div class="col-sm-4">
-            <textarea class="form-control" type="text" name="ac_improvesoft"
-                ng-model="recordAC.ac_improvesoft"></textarea>
-        </div>
+
     </div>
+
     <!-- end of form-group -->
     <div class=" form-group ">
         <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
@@ -88,13 +108,7 @@
                 </option>
             </select>
         </div>
-        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordAC.ac_resultsoft" name="ac_resultsoft" required>
-                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
-                </option>
-            </select>
-        </div>
+
     </div>
     <div class=" form-group ">
         <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
@@ -129,46 +143,9 @@
                 </tr>
             </table>
         </div>
-        <label class="col-sm-2 control-label ">* {{'Improvehard'|translate}}:</label>
-        <div class="col-sm-4">
-            <textarea class="form-control" type="text" name="ac_improvehard"
-                ng-model="recordAC.ac_improvehard "></textarea>
-        </div>
+
     </div>
-    <!-- end of form-group -->
-    <div class="form-group">
-        <label class="col-sm-2 control-label ">* {{'Rp_type'|translate}}:</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordAC.ac_type" name="ac_type" required>
-                <option ng-repeat="item in ACTypelist" value="{{item.id}}"> {{item.name | translate}}
-                </option>
-            </select>
-        </div>
-        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordAC.ac_resulthard" name="ac_resulthard" required>
-                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
-                </option>
-            </select>
-        </div>
-    </div>
-    <!-- end of form-group -->
-    <div class="form-group">
-        <label class="col-sm-2 control-label ">* {{'Prevent'|translate}} </label>
-        <div class="col-sm-4">
-            <textarea class="form-control" type="text" name="ac_prevent" ng-model="recordAC.ac_prevent"></textarea>
-        </div>
-        <label class="col-sm-2 control-label ">* {{'DateOfImprovementComplete'|translate}}:</label>
-        <div class="col-sm-4">
-            <div class='input-group date'>
-                <input class="form-control" id="time-cpl" type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp"
-                    date-picker min="0" required />
-                <span class="input-group-addon">
-                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-cpl'></label>
-                </span>
-            </div>
-        </div>
-    </div>
+
     <div class=" form-group ">
         <label class="col-sm-2 control-label "> {{'Reason'|translate}} </label>
     </div>
@@ -186,6 +163,74 @@
                                     </textarea>
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label ">* {{'Prevent'|translate}} </label>
+        <div class="col-sm-4">
+            <textarea class="form-control" type="text" name="ac_prevent" ng-model="recordAC.ac_prevent"></textarea>
+        </div>
+
+    </div>
+    <hr>
+    <div class="form-group">
+        <label class="col-sm-2 control-label ">* {{'DateOfImprovementComplete'|translate}}:</label>
+        <div class="col-sm-4">
+            <div class='input-group date'>
+                <input class="form-control" id="time-cpl" type="text" name="ac_datecomp" ng-model="recordAC.ac_datecomp"
+                    date-picker min="0" required />
+                <span class="input-group-addon">
+                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-cpl'></label>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- end of form-group -->
+    <div class="form-group">
+
+
+        <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
+        <div class="col-sm-4">
+            <textarea class="form-control" type="text" name="ac_improvesoft"
+                ng-model="recordAC.ac_improvesoft"></textarea>
+        </div>
+
+
+        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
+        <div class="col-sm-4">
+            <select style="width:100%" ui-select2 ng-model="recordAC.ac_resultsoft" name="ac_resultsoft" required>
+                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
+                </option>
+            </select>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="form-group">
+
+
+        <label class="col-sm-2 control-label ">* {{'Improvehard'|translate}}:</label>
+        <div class="col-sm-4">
+            <textarea class="form-control" type="text" name="ac_improvehard"
+                ng-model="recordAC.ac_improvehard "></textarea>
+        </div>
+
+
+        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
+        <div class="col-sm-4">
+            <select style="width:100%" ui-select2 ng-model="recordAC.ac_resulthard" name="ac_resulthard" required>
+                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <!-- end of form-group -->
+
+
     <!-- end of form-group -->
 </form>
 <!-- end of form -->
@@ -310,8 +355,7 @@
             </table>
         </div>
         <div class="col-sm-6" style="text-align: right;">
-            <button type="button" class="btn btn-primary" ng-disabled="formdetail.$invalid"
-                ng-click="addEmployee()">
+            <button type="button" class="btn btn-primary" ng-disabled="formdetail.$invalid" ng-click="addEmployee()">
                 {{'Add'|translate}}
             </button>
         </div>
@@ -358,7 +402,7 @@
 <div ng-if="show.checker">
     <H4 class="title">{{'NextStep' | translate}} </H4>
     <div style="margin-top:10px; margin-left:5px;" ng-repeat="leader in leaderlist">
-        <span show-checker  process-role={{leader.LevelNameVN}} user-name={{leader.Person}}></span>
+        <span show-checker process-role={{leader.LevelNameVN}} user-name={{leader.Person}}></span>
     </div>
 </div>
 <div class="modal-footer">

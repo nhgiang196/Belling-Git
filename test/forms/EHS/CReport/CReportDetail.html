@@ -60,7 +60,7 @@
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             5. Địa điểm xảy ra sự cố 事故地點: {{ReportDetail.Rp_Location}} - {{ReportDetail.Rp_LocationDetail}}
-            <br>Hình ảnh sự cố 事故照片: 
+            <br>Hình ảnh sự cố 事故照片:
             <div style=" text-align: justify; ">
                 <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
                     ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_Location'}">{{item.File_ID}}<br></a>
@@ -97,7 +97,7 @@
         <div class="col-lg-12 col-sm-12 col-mrg">
             10. Tình hình xử lý sau sự cố事故後處理情形：
             <p style=" text-align: justify;white-space:pre-wrap;"> {{ReportDetail.RpIC_Process}}</p>
-            Hình ảnh khắc phục sau sự cố改善照片: 
+            Hình ảnh khắc phục sau sự cố改善照片:
             <div style=" text-align: justify; ">
                 <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
                     ng-repeat="item in FileAttached | filter:{ColumnName: 'RpIC_Process'}">{{item.File_ID}}<br></a>
@@ -229,13 +229,13 @@
             11.0 Phê duyệt của chủ quản 主管批示 :
             <table border="1px" cellpadding="5px" style="width:100%; height: 100%; ">
                 <tr style="text-align:center;">
-                    <td >Lập báo cáo 填寫報告</td>
+                    <td>Lập báo cáo 填寫報告</td>
                     <!-- <td style="width:5%">Chủ quản hiện trường 現場主管 </td> -->
-                    <td  colspan="2">Chủ quản đơn vị 科長/單位主管</td>
-                    <td >Giám đốc /Xưởng trưởng/chủ quản cao nhất của đơn vị 經理/廠長/單位最高主管</td>
-                    <td >Kiểm tra 審核人員</td>
-                    <td >Trưởng Phòng HSE 科長</td>
-                    <td >Giám đốc HSE 經理</td>
+                    <td colspan="2">Chủ quản đơn vị 科長/單位主管</td>
+                    <td>Giám đốc /Xưởng trưởng/chủ quản cao nhất của đơn vị 經理/廠長/單位最高主管</td>
+                    <td>Kiểm tra 審核人員</td>
+                    <td>Trưởng Phòng HSE 科長</td>
+                    <td>Giám đốc HSE 經理</td>
                 </tr>
                 <tr style="text-align:center;height:90pt; font-size:10pt; vertical-align: top ">
                     <td style="width:5%"> {{receiver[0].UserId}}
@@ -386,8 +386,16 @@
             <p>9.1 Nội dung biện pháp cải thiện 改善措施內容 : </p>
             <p>9.1.1 Phần mềm 軟體(con người人員) :</p>
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_ImproveSoftware}}</p>
+            <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                ng-repeat="item in FileAttached | filter:{ColumnName: 'RpAC_ImproveSoftware'}"
+                style=" display: block;">{{item.File_ID}}
+            </a>
             <p>9.1.2 Cải thiện phần cứng 硬體(môi trường,cơ sở環境、設施)改善:</p>
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpAC_ImproveHardware}}</p>
+            <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                ng-repeat="item in FileAttached | filter:{ColumnName: 'RpAC_ImproveHardware'}"
+                style=" display: block;">{{item.File_ID}}
+            </a>
         </div>
         <div class="col-lg-12 col-sm-12">
             <p>9.2 Ngày tháng hoàn thành biện pháp cải thiện 改善措施完成日期 :

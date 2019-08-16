@@ -61,7 +61,7 @@
 
 
     </div>
-    <!-- end of form-group  -->
+    
 
     <div class="form-group" style="margin-top:20px;">
         <label class="col-sm-2 control-label">* {{'Factory'|translate}}</label>
@@ -69,17 +69,17 @@
             <input type="text" ng-model="showFactoryInIC" style="width: 100%; height: 26px;" class="form-control"
                 readonly>
         </div>
-        <div ng-if="IsEVR">
+        <!-- <div ng-if="IsEVR">
             <label class="col-sm-2 control-label">{{'Group'|translate}}</label>
             <div class="col-sm-3">
                 <input class="form-control" type="text" ng-model="recordIC.icGroup">
             </div>
-        </div>
+        </div> -->
 
 
 
     </div>
-    <!-- end of form-group  -->
+    
     <div class="form-group">
         <div ng-show="!IsEVR">
             <label class="col-sm-2 control-label">* {{'CategoryReport'|translate}}</label>
@@ -107,36 +107,6 @@
             </div>
         </div>
 
-
-    </div>
-    <!-- end of form-group  -->
-
-
-    <!-- end of form-group  -->
-    <div class="form-group" ng-if="IsEVR">
-        <label class="col-sm-2 control-label">* {{'RpIC_NotifPerson'|translate}}</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" ng-model="recordIC.ICNotifPersion" name="ICNotifPersion" required>
-        </div>
-        <label class="col-sm-2 control-label">* {{'RpIC_ReceivePerson'|translate}}</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" ng-model="recordIC.ICReceivePerson" name="ICReceivePerson" required>
-        </div>
-    </div>
-    <!-- end of form-group  -->
-
-    <div class="form-group" ng-if="IsEVR">
-
-        <label class="col-sm-2 control-label">* {{'ICTimeNotif'|translate}} </label>
-        <div class="col-sm-4">
-            <div class='input-group date'>
-                <input type='text' id="time-prc-ic" class="form-control" date-picker time="1" name="recordIC.TimeNotif"
-                    ng-model="recordIC.TimeNotif" required />
-                <span class="input-group-addon">
-                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ic'></label>
-                </span>
-            </div>
-        </div>
         <div ng-if="IsEVR">
             <label class="col-sm-2 control-label">* {{'ICAffect'|translate}}</label>
             <div class="col-sm-4">
@@ -149,9 +119,12 @@
             </div>
         </div>
 
-    </div>
-    <div class="form-group">
 
+
+
+    </div>
+    
+    <div class="form-group" ng-if="IsEVR">
         <label class="col-sm-2 control-label">* {{'CReportDateTime'|translate}} </label>
         <div class="col-sm-4">
             <div class='input-group date'>
@@ -162,7 +135,40 @@
                 </span>
             </div>
         </div>
+        <label class="col-sm-2 control-label">* {{'ICTimeNotif'|translate}} </label>
 
+        <div class="col-sm-4">
+            <div class='input-group date'>
+                <input type='text' id="time-prc-ic" class="form-control" date-picker time="1" name="recordIC.TimeNotif"
+                    ng-model="recordIC.TimeNotif" required />
+                <span class="input-group-addon">
+                    <label class="glyphicon glyphicon-calendar" style="color: grey" for='time-prc-ic'></label>
+                </span>
+            </div>
+        </div>
+
+
+    </div>
+
+    
+    <div class="form-group" ng-if="IsEVR">
+        <label class="col-sm-2 control-label">* {{'RpIC_NotifPerson'|translate}}</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" ng-model="recordIC.ICNotifPersion" name="ICNotifPersion" required>
+        </div>
+        <label class="col-sm-2 control-label">* {{'RpIC_ReceivePerson'|translate}}</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" ng-model="recordIC.ICReceivePerson" name="ICReceivePerson" required>
+        </div>
+    </div>
+    
+
+
+    <div class="form-group">
+
+
+    </div>
+    <div class="form-group">
         <label class="col-sm-2 control-label">* {{'CreportLocation'|translate}}</label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordIC.icLocation" name="recordIC.icLocation" required>
@@ -192,11 +198,9 @@
                     </td>
                 </tr>
             </table>
-
-
         </div>
     </div>
-    <!-- end of form-group  -->
+    
 
 
 
@@ -251,7 +255,7 @@
 
         </div>
     </div>
-    <!-- end of form-group  -->
+    
 
     <div class="form-group">
         <label class="col-sm-2  control-label">* {{'Dr_reason'|translate}}

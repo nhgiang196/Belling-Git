@@ -121,7 +121,7 @@
                         name="engine_department" ng-change="Search()">
                         <option ng-if="show.isHSEUser" ng-selected="true" value="">{{'Show All'|translate}}</option>
                         <option ng-repeat="item in EngineDepartmentList" value="{{item.DepartmentID}}">
-                            {{item.SubmitDepartName | translate}}
+                            {{item.DepartmentID }} - {{item.SubmitDepartName | translate}}
                         </option>
                     </select>
 
