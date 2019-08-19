@@ -412,61 +412,61 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     },
                     order: 3
                 },
-                {
-                    title: '👨🏻‍🚒 ' + $translate.instant('Update_Improvement'),
-                    action: function () {
-                        var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
-                        $scope.ReportDetail_Ctr = {};
-                        $scope.listfile = [];
-                        if (resultRows.length == 1) {
-                            if (resultRows[0].Rp_CreatorID != Auth.username && !isHSEUser && Auth.username != 'cassie') {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('Update_onlyowner_MSG')
-                                });
-                                return;
-                            }
-                            // if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
-                            //     {
-                            //         Notifications.addError({
-                            //             'status': 'error',
-                            //             'message': $translate.instant('IC Wont Work')
-                            //         });
-                            //         return;
-                            //     }
-                            // }
-                            $scope.ReportDetail_Ctr.Rp_ID = resultRows[0].Rp_ID;
-                            CReportService.FindByID({
-                                Rp_ID: resultRows[0].Rp_ID
-                            }, function (data) {
-                                if (new Date(data.RpAC_DateComplete) >= new Date() || isHSEUser) {
-                                    $scope.ImprovementRecord = data;
-                                    data.FileAttached.forEach(element => {
-                                        var x = {};
-                                        x.Rp_ID = element.Rp_ID;
-                                        x.name = element.File_ID;
-                                        x.col = element.ColumnName;
-                                        $scope.listfile.push(x);
-                                    })
-                                    $('#modal_Improvement').modal('show');
-                                } else {
-                                    $timeout(function () {
-                                        Notifications.addError({
-                                            'status': 'error',
-                                            'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete || '.')
-                                        });
-                                    }, 400);
-                                }
-                            }, function (error) {});
-                        } else {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': $translate.instant('Select_ONE_MSG')
-                            });
-                        }
-                    },
-                    order: 3
-                },
+                // {
+                //     title: '👨🏻‍🚒 ' + $translate.instant('Update_Improvement'),
+                //     action: function () {
+                //         var resultRows = $scope.gridApi.selection.getSelectedRows(); // lấy dòng đang tick
+                //         $scope.ReportDetail_Ctr = {};
+                //         $scope.listfile = [];
+                //         if (resultRows.length == 1) {
+                //             if (resultRows[0].Rp_CreatorID != Auth.username && !isHSEUser && Auth.username != 'cassie') {
+                //                 Notifications.addError({
+                //                     'status': 'error',
+                //                     'message': $translate.instant('Update_onlyowner_MSG')
+                //                 });
+                //                 return;
+                //             }
+                //             // if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
+                //             //     {
+                //             //         Notifications.addError({
+                //             //             'status': 'error',
+                //             //             'message': $translate.instant('IC Wont Work')
+                //             //         });
+                //             //         return;
+                //             //     }
+                //             // }
+                //             $scope.ReportDetail_Ctr.Rp_ID = resultRows[0].Rp_ID;
+                //             CReportService.FindByID({
+                //                 Rp_ID: resultRows[0].Rp_ID
+                //             }, function (data) {
+                //                 if (new Date(data.RpAC_DateComplete) >= new Date() || isHSEUser) {
+                //                     $scope.ImprovementRecord = data;
+                //                     data.FileAttached.forEach(element => {
+                //                         var x = {};
+                //                         x.Rp_ID = element.Rp_ID;
+                //                         x.name = element.File_ID;
+                //                         x.col = element.ColumnName;
+                //                         $scope.listfile.push(x);
+                //                     })
+                //                     $('#modal_Improvement').modal('show');
+                //                 } else {
+                //                     $timeout(function () {
+                //                         Notifications.addError({
+                //                             'status': 'error',
+                //                             'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete || '.')
+                //                         });
+                //                     }, 400);
+                //                 }
+                //             }, function (error) {});
+                //         } else {
+                //             Notifications.addError({
+                //                 'status': 'error',
+                //                 'message': $translate.instant('Select_ONE_MSG')
+                //             });
+                //         }
+                //     },
+                //     order: 3
+                // },
                 {
                     title: '🖨️ ' + $translate.instant('PrintReport'),
                     action: function () {
