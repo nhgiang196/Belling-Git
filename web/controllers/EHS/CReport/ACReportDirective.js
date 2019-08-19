@@ -264,7 +264,7 @@ define(['app'], function (app) {
                                     $scope.save_msg();
                                     $scope.Search();
                                 }
-                                
+
                             } else {
                                 $scope.save_error_msg();
                             }
@@ -307,7 +307,7 @@ define(['app'], function (app) {
                             }
                         } else {
                             Notifications.addError({
-                                'status': 'information',
+                                'status': 'error',
                                 'message': $translate.instant('ACDetails_Msg')
                             });
                         }
