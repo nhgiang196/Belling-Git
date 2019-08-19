@@ -31,13 +31,13 @@ module.exports = function(app,request,config,express) {
     app.post('/ehs/Dictionary/delete',express.bodyParser(),basicService.deleteDictionary);
 
     //查询这个用户还代理哪些人的工作
-    app.get('/ehs/bpm/proxyUser', basicService.QueryproxyUser);
+    // app.get('/ehs/bpm/proxyUser', basicService.QueryproxyUser);
     //查需userid有被谁代理
-    app.get('/ehs/bpm/MyproxyUser', basicService.MyQueryproxyUser);
-    app.get('/ehs/bpm/ProxyUserByName',basicService.QueryproxyUserByName);//获取当前任务的代理人
-    app.delete('/ehs/bpm/proxyUser',basicService.DeleteProxyUser);//删除代理人
-    app.post('/ehs/bpm/proxyUser', express.bodyParser(), basicService.AddProxyUser);//设置代理人
-    app.put('/ehs/bpm/proxyUser',basicService.QueryUserbyId)
+    // app.get('/ehs/bpm/MyproxyUser', basicService.MyQueryproxyUser);
+    // app.get('/ehs/bpm/ProxyUserByName',basicService.QueryproxyUserByName);//获取当前任务的代理人
+    // app.delete('/ehs/bpm/proxyUser',basicService.DeleteProxyUser);//删除代理人
+    // app.post('/ehs/bpm/proxyUser', express.bodyParser(), basicService.AddProxyUser);//设置代理人
+    // app.put('/ehs/bpm/proxyUser',basicService.QueryUserbyId)
     app.get('/ehs/employeeInfo/:userid', function (req, res) {
       //  res.json({Name: req.params.userid});
 

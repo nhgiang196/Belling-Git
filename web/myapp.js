@@ -771,6 +771,17 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                     }
                 }
             }))
+            .when('/waste/GenUnit', angularAMD.route({
+                templateUrl: "forms/EHS/Voucher/searchGenUnit.html",
+                controller: 'GenUnitController',
+                controllerUrl: 'controllers/EHS/Waste/GenUnitController',
+                caseInsensitiveMatch: true,
+                resolve: {
+                    User: function (AuthenticationLoader) {
+                        return AuthenticationLoader();
+                    }
+                }
+            }))
             .when('/CircumstanceReport', angularAMD.route({ //route
                 
                 templateUrl: "forms/EHS/CReport/searchCRerport.html",
