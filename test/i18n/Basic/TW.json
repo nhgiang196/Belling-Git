@@ -498,7 +498,6 @@
   "Evaluate": "執行防止對策後之追蹤考核 ",
   "Factory": "廠",
   "Female": "女",
-  
   "File_Location_MSG": "請上傳文件位置 ",
   "FileValidation_IMG_MSG": "您可以上傳文件擴展名為.jpg：.jpeg，.png，.pdf的文件",
   "FileValidation_MSG": "您可以上傳文件擴展名的文件：.jpg，.jpeg，.png，.pdf，.doc，.docx",
@@ -506,7 +505,6 @@
   "General_Info": "一般信息",
   "Good": "良好",
   "Group": "群",
-  
   "ICAffect": "事故影響程度",
   "IcCategoryReport": "事件类型",
   "IcProcess": "事故後處理情形 ",
@@ -524,10 +522,8 @@
   "Injury": "受傷經過詳細情形",
   "Injurydetail": "受傷經過詳細情形",
   "Job": "工作",
-  
   "Male": "男",
   "Medium": "中",
-  
   "Nofile": "沒有選擇文件",
   "onlyOwnerReport": "只有我创建的报告",
   "Other": "其他",
@@ -549,7 +545,6 @@
   "RpIC_ReceivePerson": "授信人 ",
   "Safety": "安全",
   "SameEmployee": "員工的信息是一樣的",
-  
   "ShowFile": "顯示文件列表",
   "StatusD": "草稿版本",
   "StatusP": "改善措施內容",
@@ -581,15 +576,17 @@
   "SubDepartmentID_OtherInformation": "其他信息（如果不在列表中）",
   "Rpic_Damaged_Human": "對於人員",
   "Rpic_Damaged_Asset": "對於財產",
-  "Rpic_Damaged_Envr": "對於環境"
-  ,"Reason":"事故原因"
-  ,"CauseCondition":"不安全環境/條件"
-  ,"CauseActivity":"不安全行為"
-  ,"Heavy": "重勞動事故"
-  ,"Serious": "嚴重的勞動事故"
-  ,"Minor": "勞工事故輕微"
-  ,"KnittingDyeing": "織染廠"
-  ,"FiberChemical": "化纖廠"
-  ,"CReportHSE":"簽署並報告事件"
-  ,"CreportLocationDetail": "Chi tiết địa điểm xảy ra sự cố"
+  "Rpic_Damaged_Envr": "對於環境",
+  "Reason": "事故原因",
+  "CauseCondition": "不安全環境/條件",
+  "CauseActivity": "不安全行為",
+  "Heavy": "重勞動事故",
+  "Serious": "嚴重的勞動事故",
+  "Minor": "勞工事故輕微",
+  "KnittingDyeing": "織染廠",
+  "FiberChemical": "化纖廠",
+  "CReportHSE": "簽署並報告事件",
+  "CreportLocationDetail": "事件發生地點的詳細信息",
+  "Evaluate_N": "不符合t",
+  "Evaluate_Y": "符合"
 }

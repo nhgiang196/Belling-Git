@@ -349,25 +349,14 @@ define(['app', 'angular'], function (app, angular) {
                         var evaluatelist = [
 
                             {
-                                id: 'VG',
-                                name: 'VeryGood'
+                                id: 'N',
+                                name: 'Evaluate_N'
                             },
                             {
-                                id: 'G',
-                                name: 'Good'
+                                id: 'Y',
+                                name: 'Evaluate_Y'
                             },
-                            {
-                                id: 'MD',
-                                name: 'Medium'
-                            },
-                            {
-                                id: 'B',
-                                name: 'Bad'
-                            },
-                            {
-                                id: 'VB',
-                                name: 'VeryBad'
-                            }
+
                         ];
                         return evaluatelist;
                         break;
@@ -439,8 +428,7 @@ define(['app', 'angular'], function (app, angular) {
                         break;
 
                     case 'SubmitType':
-                        var SubmitTypelist = [
-                            {
+                        var SubmitTypelist = [{
                                 id: 'SF',
                                 name: 'Safety'
                             },

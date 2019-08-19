@@ -22,9 +22,6 @@ define(['app'], function (app) {
                                 Rp_ID: _Rp_ID
                             }, function (data) {
                                 console.log("return data:", data);
-
-
-
                                 scope.ReportDetail = data.Header[0];
                                 scope.FileAttached = data.File;
                                 scope.InjuryDetail = data.Detail;
