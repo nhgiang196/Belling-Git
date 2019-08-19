@@ -659,31 +659,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 })
                 /** Change Status to P */
             };
-            $scope.btnImprovementSave = function (myrecord) { //Improvement Save button functions
-                var templsFile = [];
-                if ($scope.listfile.length > 0) {
-                    $scope.listfile.forEach(element => {
-                        templsFile.push({
-                            File_ID: element.name,
-                            ColumnName: element.col,
-                            Rp_ID: myrecord.Rp_ID
-                        });
-                    })
-                }
-                myrecord.FileAttached = templsFile; //File list
-                console.log(myrecord);
-                CReportService.GetInfoBasic.Update(myrecord, function (res) {
-                        if (res.Success) {
-                            $('#modal_Improvement').modal('hide');
-                            $scope.update_msg();
-                        } else {
-                            $scope.update_error_msg();
-                        }
-                    },
-                    function (error) {
-                        $scope.update_error_msg(error);
-                    })
-            };
+ 
+
 
         } //function
     ]) // myapp.controller

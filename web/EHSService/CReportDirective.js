@@ -9,7 +9,7 @@ define(['app'], function (app) {
                     scope.UserName = Auth.username;
                     var _RpID = $routeParams.Rp_ID ? $routeParams.Rp_ID : attrs.rpId;
                     LoadDetail(_RpID);
-                    scope.$watch('ReportDetail_Ctr.Rp_ID', function (val) {
+                    scope.$watch('ReportDetail_Ctr.Rp_ID', function (val) { //watch from ImprovmentDirective's Controller
                         if (val) LoadDetail(val);
                     })
 
@@ -142,7 +142,7 @@ define(['app'], function (app) {
                     console.log(attrs.userName);
                     console.log(attrs.flowKey);
                     scope.$watch('ReportDetail.Rp_DepartmentID', function (val) {
-                        if (val != nulll && val != undefined) geHSEChecker(department);
+                        if (val != null && val != undefined) geHSEChecker(val);
 
                     });
                     geHSEChecker();

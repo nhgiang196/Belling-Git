@@ -306,7 +306,7 @@ define(['app'], function (app) {
                                 }
                             }
                         } else {
-                            Notifications.addMessage({
+                            Notifications.addError({
                                 'status': 'information',
                                 'message': $translate.instant('ACDetails_Msg')
                             });

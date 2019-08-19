@@ -11,6 +11,7 @@ define(
         ,'./CReportDirective'
         ,'controllers/EHS/CReport/ICReportDirective'
         ,'controllers/EHS/CReport/ACReportDirective'
+        ,'controllers/EHS/CReport/ImprovementDirective'
     ],function(){
 
 })

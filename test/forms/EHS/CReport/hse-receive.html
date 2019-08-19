@@ -5,8 +5,12 @@
 
         var lang = window.localStorage.lang;
         $scope.username = Auth.username;
+        $scope.show = {
+            isHSEUser: true
+        }
         $scope.recod = {};
         $translate.refresh();
+
         $scope.passOrNot = [{
             "name": $translate.instant('agree'),
             "value": "YES"
@@ -17,7 +21,7 @@
         }
             // { "name": 'DeleteVoucher', "value": "Cancel" }
         ];
-        $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
+        // $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
 
         $scope.Save = function (isSubmit) {
@@ -76,7 +80,12 @@
 </script>
 <div ng-controller="HSE_receiveController">
     <!-- REPORT DIRECTIVE -->
+    <div ng-show="false">
+        <create_ic_report></create_ic_report>
+    </div>
     <receive-report Rp_ID='{{variable.Rp_ID}}' style="width: 85%"></receive-report>
+
+
 
     <!-- CHOOSE FORM -->
     <form class="form-horizontal" role="form" novalidate name="form">
@@ -87,7 +96,18 @@
                 <select class="form-control" history-field="ISPublish" form-field name="ISPublish" ng-model="ISPublish"
                     ng-options="c.value as c.name for c in passOrNot" required> </select>
             </div>
-            <div class="col-sm-6 "><strong class="pull-right"> {{variable.Rp_ID}} </strong></div>
+
+            <div class="col-sm-6 "><button ng-show="checkList.length==2" ng-click="LoadImprovementInfo()"
+                    class="btn btn-warning btn-ct-ac" data-toggle="modal"
+                    data-target="#modal_Improvement">👨🏻‍🚒 {{'Evaluate'| translate}} ({{'Update_Improvement'|translate}})  </button>
+                <improvement-creport></improvement-creport>
+
+
+                <strong class="pull-right">
+                    {{variable.Rp_ID}}
+                </strong>
+            </div>
+
 
 
         </div>
@@ -112,7 +132,7 @@
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div ehs-leader-check flow-key="CReportHSE" user-name="{{username}}" kinds="hse-receive"></div>
+            <div ehs-leader-check flow-key="CReportHSE" user-name="{{username}}" kinds="receive"></div>
         </div>
 
         
