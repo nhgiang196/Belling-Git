@@ -772,7 +772,7 @@ define(['angularAMD', 'app', 'services/main', 'directive/main'], function (angul
                 }
             }))
             .when('/waste/GenUnit', angularAMD.route({
-                templateUrl: "forms/EHS/Voucher/searchGenUnit.html",
+                templateUrl: "forms/EHS/GenUnit/searchGenUnit.html",
                 controller: 'GenUnitController',
                 controllerUrl: 'controllers/EHS/Waste/GenUnitController',
                 caseInsensitiveMatch: true,

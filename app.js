@@ -118,8 +118,6 @@ app.post('/authorize/logout', function(req, res){
 })
 app.get('/authorize/isLogin',function(req,res){
     var username,nickname,email;
-    console.log('isLogin eq',req )
-    console.log('isLogin es',res )
     if(req.session != null && req.session['isAuthorize'] != null && req.session['isAuthorize'] != false)
     {
         username = req.session['username'];
@@ -239,9 +237,9 @@ app.use(express.bodyParser());
 //路由
 app.use(app.router);
 var GateService= require('./appservice/GateGuestService')(app,request,config,express);//
-var BPMService= require('./appservice/bpm')(app,request,config,express);//
+// var BPMService= require('./appservice/bpm')(app,request,config,express);//
 var UploadService= require('./appservice/uploadservice')(app,request,config,express);//
-var memberSignService = require('./appservice/memberSign')(app,request,basicService,config);
+// var memberSignService = require('./appservice/memberSign')(app,request,basicService,config);
 //转api
 app.all('/bpm/api/*', function(req, res){
     var x = request(config.bpmurl + req.url.replace('/bpm/api/', ''));

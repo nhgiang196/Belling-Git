@@ -10,7 +10,7 @@
         "bpmhost":"10.20.46.23",
         "bpmprot":"9999",
         "bpmurl":"http://10.20.46.23:9999/",
-        "hrrest":"http://localhost:9005/",
+        "hrrest":"http://10.20.46.23:9005/",
         "hrhost":"localhost",
 
 
