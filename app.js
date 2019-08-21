@@ -143,8 +143,8 @@ app.get('/authorize/isLogin',function(req,res){
 app.post('/authorize/login',express.bodyParser(),function(req,res){
     var username = req.body.username;
      var   password = req.body.password;
-    //var   url = config.bpmrest+'Auth/login' ;
-    var url = config.hrrest + 'api/EHS/MyNewController/FakeLogin?username=' + username + '&password=' + password;
+    var url = config.hrrest + 'api/HSSE/ValidateUser?username=' + username + '&password=' + password;
+    // var url = config.hrrest + 'api/EHS/MyNewController/FakeLogin?username=' + username + '&password=' + password;
     console.log(url);
     request(url,function(e,r,b){
         console.log(e );
