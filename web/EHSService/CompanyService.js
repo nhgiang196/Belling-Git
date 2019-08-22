@@ -5,103 +5,152 @@
 define([
     'app',
     'angular'
-], function(app, angular) {
-    app.service('CompanyService',['$resource','$q','Auth','$location','$translate', function($resource,$q,Auth,$location,$translate){
-        function CompanyService(){
-            var _WASTERAPI='/Waste/';
-            this.GetInfoBasic =$resource(_WASTERAPI+'CompanyController/:operation',{},{
-                getList: 
-                {
+], function (app, angular) {
+    app.service('CompanyService', ['$resource', '$q', 'Auth', '$location', '$translate', function ($resource, $q, Auth, $location, $translate) {
+        function CompanyService() {
+            var _WASTERAPI = '/Waste/';
+            this.GetInfoBasic = $resource(_WASTERAPI + 'CompanyController/:operation', {}, {
+                getList: {
                     method: 'GET',
-                        params: {
-                            operation: 'GetBasic'                 
-                        },
-                        isArray:true
+                    params: {
+                        operation: 'GetBasic'
+                    },
+                    isArray: true
                 },
-                getById:
-                {
-                    method:'POST',
-                    params :{operation :'FindById'}
-                  
+                getById: {
+                    method: 'POST',
+                    params: {
+                        operation: 'FindById'
+                    }
+
                 },
                 deleteById: {
                     method: 'POST',
-                    params: {operation: 'Remove'}
-                   
-                },  
+                    params: {
+                        operation: 'Remove'
+                    }
+
+                },
                 updateEntity: {
                     method: 'POST',
-                    params: {operation: 'Update'}
-                  
-                },     
+                    params: {
+                        operation: 'Update'
+                    }
+
+                },
                 createEntity: {
                     method: 'POST',
-                    params: {operation: 'Create'}
-                }, 
+                    params: {
+                        operation: 'Create'
+                    }
+                },
                 searchEntity: {
                     method: 'GET',
                     params: {
                         operation: 'Search'
                     },
-                    isArray :true
+                    isArray: true
                 }
-            })            
-        }
-       
-        CompanyService.prototype.GetCompany = function(query,callback){
-            this.GetInfoBasic.getList(query).$promise.then(function(data){
-                callback(data);              
-            }, function(ex){
-                console.log(ex);
-                callback(null, ex);         
+            })
+
+            this.GenUnit = $resource(_WASTERAPI + 'GenUnitController/:operation', {}, {
+                getList: {
+                    method: 'GET',
+                    params: {
+                        operation: 'GetBasic'
+                    },
+                    isArray: true
+                },
+                getById: {
+                    method: 'POST',
+                    params: {
+                        operation: 'FindById'
+                    }
+
+                },
+                deleteById: {
+                    method: 'DELETE',
+                    params: {
+                        operation: 'Remove'
+                    }
+
+                },
+                updateEntity: {
+                    method: 'POST',
+                    params: {
+                        operation: 'Update'
+                    }
+
+                },
+                createEntity: {
+                    method: 'POST',
+                    params: {
+                        operation: 'Create'
+                    }
+                },
+                searchEntity: {
+                    method: 'GET',
+                    params: {
+                        operation: 'Search'
+                    },
+                    isArray: true
+                }
             })
         }
-        CompanyService.prototype.Search= function(query,callback){
+        CompanyService.prototype.GetCompany = function (query, callback) {
+            this.GetInfoBasic.getList(query).$promise.then(function (data) {
+                callback(data);
+            }, function (ex) {
+                console.log(ex);
+                callback(null, ex);
+            })
+        }
+        CompanyService.prototype.Search = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.searchEntity(query).$promise.then(function(data){
+            this.GetInfoBasic.searchEntity(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
-        CompanyService.prototype.CreateCompany= function(query,callback){
-            this.GetInfoBasic.createEntity(query).$promise.then(function(data){
+        CompanyService.prototype.CreateCompany = function (query, callback) {
+            this.GetInfoBasic.createEntity(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
-        CompanyService.prototype.DeleteByCompanyID= function(query,callback){
+        CompanyService.prototype.DeleteByCompanyID = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.deleteById(query).$promise.then(function(data){
+            this.GetInfoBasic.deleteById(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
-        CompanyService.prototype.FindByID= function(query,callback){
+        CompanyService.prototype.FindByID = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.getById(query).$promise.then(function(data){
+            this.GetInfoBasic.getById(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
-        CompanyService.prototype.UpdateCompany= function(query,callback){
+        CompanyService.prototype.UpdateCompany = function (query, callback) {
             console.log(query);
-            this.GetInfoBasic.updateEntity(query).$promise.then(function(data){
+            this.GetInfoBasic.updateEntity(query).$promise.then(function (data) {
                 callback(data);
-            }, function(ex){
+            }, function (ex) {
                 console.log(ex);
-                callback(null,ex);            
+                callback(null, ex);
             })
         }
-     
+
         return new CompanyService();
     }]);
-    
+
 });

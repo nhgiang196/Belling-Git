@@ -22,29 +22,34 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                 sort: null
             };
             /**Define list of waste item state and status */
-            $scope.statelist = [{
-                    id: 'S',
-                    name: $translate.instant('Solid')
-                }, {
-                    id: 'L',
-                    name: $translate.instant('Liquid')
-                },
-                {
-                    id: 'M',
-                    name: $translate.instant('Sludge')
-                }
-            ];
-            $scope.statuslist = [{
-                    id: '1',
-                    name: $translate.instant('Available')
-                },
-                {
-                    id: '0',
-                    name: $translate.instant('Unavailable')
-                },
-            ];
-
-            $q.all([loadMethodName(), loadCompany()]);
+            $q.all([loadMethodName(), loadCompany(), loadSource(), loadArea(), loadWasteKind(), loadWasteValue()]).then(function () {
+                $scope.statelist = [{
+                        id: 'S',
+                        name: $translate.instant('Solid')
+                    }, {
+                        id: 'L',
+                        name: $translate.instant('Liquid')
+                    },
+                    {
+                        id: 'M',
+                        name: $translate.instant('Sludge')
+                    }
+                ];
+                $scope.statuslist = [{
+                        id: '1',
+                        name: $translate.instant('Available')
+                    },
+                    {
+                        id: '0',
+                        name: $translate.instant('Unavailable')
+                    },
+                ];
+            }, function (error) {
+                Notifications.addError({
+                    'status': 'Failed',
+                    'message': 'Loading failed: ' + error
+                });
+            });;
             /**
              * Load Method combobox
              */
@@ -68,7 +73,7 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                 var query = {
                     lang: lang
                 };
-                CompanyService.GetCompany(query,function (data) {
+                CompanyService.GetCompany(query, function (data) {
                     console.log(data);
                     $scope.companylist = data;
                 }, function (error) {
@@ -78,6 +83,48 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                     });
                 })
             }
+
+            function loadSource() {
+                CompanyService.GenUnit.getList({
+                    table: 'SourceKind',
+                    lang: lang || 'EN'
+                }, function (res) {
+                    $scope.lsSource = res;
+                    console.log(res);
+                })
+            }
+
+            function loadWasteKind() {
+                CompanyService.GenUnit.getList({
+                    table: 'WasteKind',
+                    lang: lang || 'EN'
+                }, function (res) {
+                    $scope.lsWasteKind = res;
+                    console.log('wastekind', res);
+                })
+            }
+
+            function loadWasteValue() {
+                CompanyService.GenUnit.getList({
+                    table: 'WasteValue',
+                    lang: lang || 'EN'
+                }, function (res) {
+                    $scope.lsWasteValue = res;
+                    console.log('wastekind', res);
+                })
+            }
+
+            function loadArea() {
+                CompanyService.GenUnit.getList({
+                    table: 'AreaKind',
+                    lang: lang || 'EN'
+                }, function (res) {
+                    $scope.lsArea = res;
+                    console.log(res);
+                })
+            }
+
+
             /**
              * load WasteItem details by WasteID
              * Hàm load chi tiết và đưa binding vào modal
@@ -87,23 +134,7 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                 WasteItemService.FindByID({
                     WasteID: WasteID
                 }, function (data) {
-                    $scope.recod.waste_id = data.WasteID;
-                    $scope.recod.waste_originid = data.WasteOriginID;
-                    $scope.recod.item_code = data.ItemCode;
-                    $scope.recod.state = data.State;
-                    $scope.recod.description_TW = data.Description_TW;
-                    $scope.recod.description_VN = data.Description_VN;
-                    $scope.recod.method_id = data.MethodID;
-                    $scope.recod.comp_originid = data.CompOriginID;
-                    $scope.recod.status = data.Status;
-                    /**New attributes 2019-08-01 */
-                    $scope.recod.wastetype = data.WasteType ;
-                    $scope.recod.wastevalue = data.WasteValue ;
-                    $scope.recod.source = data.Source;
-                    $scope.recod.unitprice = data.UnitPrice ;
-                    $scope.recod.area = data.Area ;
-
-
+                    $scope.recod = data;
                     deferred.resolve(data);
                 }, function (error) {
                     deferred.reject(error);
@@ -223,7 +254,8 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
                         'userid': Auth.username,
                         'tcode': $scope.flowkey
                     }, function (linkres) {
-                        if (linkres.IsSuccess) {
+                        // if (linkres.IsSuccess) {
+                        if (true) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
                         //gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
@@ -243,10 +275,8 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
              */
             $scope.reset = function () {
                 $scope.recod = {};
-
                 $('#myModal').modal('hide');
             }
-
             /**
              *search list function
              */
@@ -266,32 +296,13 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
             }
             /**Off/on the status of wasteitem */
             function deleteById(id) {
-                var data = {
-                    WasteID: id
-                };
-                WasteItemService.DeleteByWasteItemID(data, function (res) {
-                        if (res.Success) {
-                            Notifications.addMessage({
-                                'status': 'information',
-                                'message': $translate.instant('Delete_Success_MSG')
-                            });
-                            $timeout(function () {
-                                $scope.Search()
-                            }, 1000);
-                        } else {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': $translate.instant('saveError') + res.Message
-                            });
-                        }
 
-                    },
-                    function (error) {
-                        Notifications.addError({
-                            'status': 'error',
-                            'message': $translate.instant('saveError') + error
-                        });
-                    })
+                WasteItemService.GetInfoBasic.deleteById({
+                    WasteID: id
+                }, function (res) {
+                    $scope.MessageReturn(res, 'Delete');
+
+                })
             }
 
             /**
@@ -367,6 +378,16 @@ define(['myapp', 'controllers/EHS/Waste/Directive/WasteItemDirective', 'angular'
 
                 }
             ];
+
+
+
+
+
+
+
+
+
+
         }
     ])
 })
