@@ -143,8 +143,8 @@ app.get('/authorize/isLogin',function(req,res){
 app.post('/authorize/login',express.bodyParser(),function(req,res){
     var username = req.body.username;
      var   password = req.body.password;
-    var url = config.hrrest + 'api/HSSE/ValidateUser?username=' + username + '&password=' + password;
-    // var url = config.hrrest + 'api/EHS/MyNewController/FakeLogin?username=' + username + '&password=' + password;
+    // var url = config.hrrest + 'api/HSSE/ValidateUser?username=' + username + '&password=' + password;
+    var url = config.hrrest + 'api/EHS/MyNewController/FakeLogin?username=' + username + '&password=' + password;
     console.log(url);
     request(url,function(e,r,b){
         console.log(e );
@@ -237,9 +237,9 @@ app.use(express.bodyParser());
 //路由
 app.use(app.router);
 var GateService= require('./appservice/GateGuestService')(app,request,config,express);//
-// var BPMService= require('./appservice/bpm')(app,request,config,express);//
 var UploadService= require('./appservice/uploadservice')(app,request,config,express);//
-// var memberSignService = require('./appservice/memberSign')(app,request,basicService,config);
+var BPMService= require('./appservice/bpm')(app,request,config,express);//
+var memberSignService = require('./appservice/memberSign')(app,request,basicService,config);
 //转api
 app.all('/bpm/api/*', function(req, res){
     var x = request(config.bpmurl + req.url.replace('/bpm/api/', ''));
