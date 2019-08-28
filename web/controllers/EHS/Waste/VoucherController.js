@@ -284,7 +284,7 @@ define(['myapp', 'controllers/EHS/Waste/Directive/VoucherDirective', 'angular', 
                     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                         paginationOptions.pageNumber = newPage;
                         paginationOptions.pageSize = pageSize;
-                        // $scope.Search();
+                        $scope.Search();
                     });
                 }
             };

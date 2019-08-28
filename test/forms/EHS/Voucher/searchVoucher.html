@@ -69,7 +69,8 @@
                 <label class="col-sm-2 control-label">{{'VoucherNumber'|translate}}</label>
 
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name="VoucherNumber" ng-model="voucher_number">
+                    <input type="text" class="form-control" name="VoucherNumber" ng-model="voucher_number"
+                    ng-keydown="$event.keyCode === 13 && Search()">
                 </div>
 
                 <label class="col-sm-2 control-label">{{'DepartReq'|translate}}</label>
