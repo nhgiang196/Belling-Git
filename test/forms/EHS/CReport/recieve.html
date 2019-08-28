@@ -17,41 +17,7 @@
         ];
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
-
-        $scope.$watch('checkList', function (val) {
-            if (val !== undefined && val !== null) {
-                if (val.length == 3)
-                    $timeout(function () {
-                        if ($scope.ReportDetail.Rp_SubmitTypeCode == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
-                            $scope.checkList.splice(0, 1, 'FEPV000096');
-                            $scope.leaderlist.splice(0, 1, {
-                                $$hashKey: "",
-                                LevelNameVN: "Kiểm tra 審核人員",
-                                Person: "FEPV000096" // Thi Sinh
-                            });
-                        }
-                        if ($scope.ReportDetail.Rp_SubmitTypeCode == 'SF') { //same as above, had to change this (by mistake =.=!)
-                            $scope.checkList.splice(0, 1, 'FEPV000559');
-                            $scope.leaderlist.splice(0, 1, {
-                                $$hashKey: "",
-                                LevelNameVN: "Kiểm tra 審核人員",
-                                Person: "FEPV000559" // Xi long
-                            });
-                        }
-                        if ($scope.ReportDetail.Rp_SubmitTypeCode == 'FP') { //same as above, had to change this (by mistake =.=!)
-                            $scope.checkList.splice(0, 1, 'FEPV000944');
-                            $scope.leaderlist.splice(0, 1, {
-                                $$hashKey: "",
-                                LevelNameVN: "Kiểm tra 審核人員",
-                                Person: "FEPV000944" //other
-                            });
-                        }
-                    }, 500)
-
-            }
-        })
-
-
+        $scope.HSE_ReceiveCheck = true; //singal for 
         $scope.Save = function (isSubmit) {
             debugger;
             $scope.loading = true;
@@ -155,10 +121,9 @@
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div  ehs-leader-check 
-                submitdepartid=""
-                flow-key="CReportHSE" 
-                kinds="receive"></div>
+            <div  ng-if="ReportDetail.Rp_DepartmentID">
+                <ehs-leader-check submitdepartid="{{ReportDetail.Rp_DepartmentID}}" flow-key="CReportHSE" kinds="receive"></ehs-leader-check>
+            </div>
         </div>
 
         <!-- BUTTON OF SUBMITTING -->

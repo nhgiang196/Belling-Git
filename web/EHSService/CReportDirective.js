@@ -136,39 +136,61 @@ define(['app'], function (app) {
             return {
                 restrict: 'EAC',
                 link: function (scope, element, attrs) {
-                    console.log(attrs.userName);
-                    console.log(attrs.flowKey);
-                    scope.$watch('ReportDetail.Rp_DepartmentID', function (val) {
-                        if (val != null && val != undefined) geHSEChecker(val);
 
-                    });
-                    geHSEChecker();
+                },
+
+                controller: function ($scope, $element, $attrs) {
+                    console.log($attrs.userName);
+                    console.log($attrs.flowKey);
+                    geHSEChecker($attrs.submitdepartid);
 
                     function geHSEChecker(department) {
                         CReportService.HSEChecker().get({
-                            flowname: attrs.flowKey,
+                            flowname: $attrs.flowKey,
                             userid: Auth.username,
                             submitdepartid: department || '',
-                            kinds: attrs.kinds || '',
+                            kinds: $attrs.kinds || '',
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {
                                 var checkList = [];
                                 for (var i = 0; i < leaderlist.length; i++) {
                                     checkList[i] = leaderlist[i].Person;
                                 }
-                                scope.checkList = checkList;
-                                scope.leaderlist = leaderlist;
-                                console.log("Checklist", scope.checkList);
-                                console.log("leaderlist", scope.leaderlist);
+                                $scope.checkList = checkList;
+                                $scope.leaderlist = leaderlist;
+                                console.log("Checklist", $scope.checkList);
+                                console.log("leaderlist", $scope.leaderlist);
+                                if ($scope.HSE_ReceiveCheck) {
+                                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
+                                        $scope.checkList.splice(0, 1, 'FEPV000096');
+                                        $scope.leaderlist.splice(0, 1, {
+                                            $$hashKey: "",
+                                            LevelNameVN: "Kiểm tra 審核人員",
+                                            Person: "FEPV000096" // Thi Sinh
+                                        });
+                                    }
+                                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'SF') { //same as above, had to change this (by mistake =.=!)
+                                        $scope.checkList.splice(0, 1, 'FEPV000559');
+                                        $scope.leaderlist.splice(0, 1, {
+                                            $$hashKey: "",
+                                            LevelNameVN: "Kiểm tra 審核人員",
+                                            Person: "FEPV000559" // Xi long
+                                        });
+                                    }
+                                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'FP') { //same as above, had to change this (by mistake =.=!)
+                                        $scope.checkList.splice(0, 1, 'FEPV000944');
+                                        $scope.leaderlist.splice(0, 1, {
+                                            $$hashKey: "",
+                                            LevelNameVN: "Kiểm tra 審核人員",
+                                            Person: "FEPV000944" //other
+                                        });
+                                    }
+                                };
                             };
                         }, function (errormessage) {
                             console.log(errormessage);
                         })
                     }
-                },
-
-                controller: function ($scope, $element, $attrs) {
-
 
                 },
                 templateUrl: '../TemplateViews/ShowLeaderTemplate.html'
