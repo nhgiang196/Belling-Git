@@ -257,10 +257,10 @@ define(['app'], function (app) {
                                     $scope.SubmitAndChangeStatus($scope.ID_AC);
                                     $scope.btnSub = false;
                                     $('#myModal').modal('hide');
-                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
+                                    
                                 } else {
                                     $('#myModal').modal('hide');
-                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
+                                    
                                     $scope.save_msg();
                                     $scope.Search();
                                 }

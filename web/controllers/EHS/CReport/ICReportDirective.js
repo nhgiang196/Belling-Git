@@ -77,11 +77,10 @@ define(['app'], function (app) {
                                     $scope.SubmitAndChangeStatus($scope.ID_IC);
                                     $scope.btnSub = false;
                                     $('#my-modal').modal('hide');
-                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
+                                    // $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
                                 } else {
                                     $('#my-modal').modal('hide');
                                     $scope.save_msg();
-                                    $scope.rp_Submittype = $scope.SubmitTypelist.find(item => item.id === data.Rp_SubmitType);
                                     $scope.Search();
                                 }
                             } else {
