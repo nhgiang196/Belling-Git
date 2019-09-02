@@ -94,12 +94,17 @@ define(['app'], function (app) {
                                                         gt: stamptime
                                                     }
                                                 }).order("Stamp DESC").limit(2).last();
+                                                if (receiver[4].UserId == receiver[5].UserId)
+                                                    receiver[4] = null;
+
                                                 receiver[6] = taf({
                                                     TaskName: "Leader HSE check C-Report",
                                                     Stamp: {
                                                         gt: stamptime
                                                     }
                                                 }).order("Stamp DESC").limit(1).last();
+                                                if (receiver[5].UserId == receiver[6].UserId)
+                                                    receiver[5] = null;
                                                 /** This part could be changed later because there is a list for show specific role
                                                  * not from Creator -  Leader -  Header Factory - Supervisor -  Leader - Manager
                                                  */
@@ -136,7 +141,7 @@ define(['app'], function (app) {
             return {
                 restrict: 'EAC',
                 // link: function (scope, element, attrs) {
-               
+
                 // },
 
                 controller: function ($scope, $element, $attrs) {
@@ -150,13 +155,14 @@ define(['app'], function (app) {
                         if (val != null && val != undefined) geHSEChecker();
 
                     });
+
                     function geHSEChecker() {
                         CReportService.HSEChecker().get({
                             flowname: $attrs.flowKey,
                             userid: Auth.username,
-                            submitdepartid: $attrs.submitdepartid!=undefined?  $scope.ReportDetail.Rp_DepartmentID : '', //ReportDetail
-                            kinds: $attrs.kinds!=undefined ?  $scope.ReportDetail.Rp_SubmitTypeCode : '',  //ReportDetail
-                            formkey: $attrs.formkey || '', 
+                            submitdepartid: $attrs.submitdepartid != undefined ? $scope.ReportDetail.Rp_DepartmentID : '', //ReportDetail
+                            kinds: $attrs.kinds != undefined ? $scope.ReportDetail.Rp_SubmitTypeCode : '', //ReportDetail
+                            formkey: $attrs.formkey || '',
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {
                                 var checkList = [];
