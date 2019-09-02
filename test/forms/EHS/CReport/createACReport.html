@@ -86,7 +86,7 @@
 
 
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ">* {{'CReportDateTime'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'CReportDateTime'|translate}}: </label>
         <div class="col-sm-4">
             <div class='input-group date'>
                 <input type='text' id="time-prc-ac" class="form-control" date-picker time="Y-m-d H:i" max="0"
@@ -101,7 +101,7 @@
 
     <!-- end of form-group -->
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}}: </label>
         <div class="col-sm-4">
             <select style="width:100%" ui-select2 ng-model="recordAC.ac_location" name="ac_location" required>
                 <option ng-repeat='item in locationlist' value="{{item.id}}">{{item.name | translate}}
@@ -111,7 +111,7 @@
 
     </div>
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Aclocation'|translate}}: </label>
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="3" name="recordAC.ac_locationDetail"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_locationDetail" required>
@@ -150,13 +150,13 @@
         <label class="col-sm-2 control-label "> {{'Reason'|translate}} </label>
     </div>
     <div class=" form-group ">
-        <label class="col-sm-2 control-label ">* {{'CauseCondition'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'CauseCondition'|translate}}: </label>
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="3" name="recordAC.ac_causeCondition"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_causeCondition" required>
                                     </textarea>
         </div>
-        <label class="col-sm-2 control-label ">* {{'CauseActivity'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'CauseActivity'|translate}}: </label>
         <div class="col-sm-10">
             <textarea class="form-control" type="text" rows="3" name="recordAC.ac_causeActivity"
                 style="margin-bottom: 15px; margin-top: 10px;" ng-model="recordAC.ac_causeActivity" required>
@@ -190,20 +190,32 @@
     <div class="form-group">
 
 
-        <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}}: </label>
         <div class="col-sm-8">
             <textarea class="form-control" type="text" name="ac_improvesoft"
                 ng-model="recordAC.ac_improvesoft"></textarea>
+            <input type="file" ng-file-select="UploadFileHSE($files, 'RpAC_ImproveSoftware')" id="file_process_ic1"
+                style="display:none !important" multiple>
+            <button class="btn btn-info" style="display:inline-block;" type="button"
+                ng-click="btnfile('file_process_ic1')">
+                <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
+            </button>
+            <label><input type="checkbox" ng-model="showImproveSoftList" style="vertical-align: text-top;">
+                {{'ShowFile'|translate}}</label>
+            <table ng-show="showImproveSoftList"
+                class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
+                style="margin-top:10px;">
+                <tr ng-repeat="step in listfile" ng-show="step.col == 'RpAC_ImproveSoftware'">
+                    <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
+                    <td>
+                        <a ng-click="removeFile($index)">
+                            <span class="glyphicon glyphicon-remove" style="color: red; margin-top:66%;"></span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </div>
 
-<!-- 
-        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordAC.ac_resultsoft" name="ac_resultsoft" required>
-                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
-                </option>
-            </select>
-        </div> -->
 
 
 
@@ -217,16 +229,28 @@
         <div class="col-sm-8">
             <textarea class="form-control" type="text" name="ac_improvehard"
                 ng-model="recordAC.ac_improvehard "></textarea>
+            <input type="file" ng-file-select="UploadFileHSE($files, 'RpAC_ImproveHardware')" id="file_process_ic2"
+                style="display:none !important" multiple>
+            <button class="btn btn-info" style="display:inline-block;" type="button"
+                ng-click="btnfile('file_process_ic2')">
+                <i class="glyphicon glyphicon-plus-sign fas-ct"></i> File
+            </button>
+            <label><input type="checkbox" ng-model="showImproveHardList" style="vertical-align: text-top;">
+                {{'ShowFile'|translate}}</label>
+            <table ng-show="showImproveHardList"
+                class="table table-bordered table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar"
+                style="margin-top:10px;">
+                <tr ng-repeat="step in listfile" ng-show="step.col == 'RpAC_ImproveHardware'">
+                    <td><a href="\{{step.name}}" target="_blank">{{step.name}}</a></td>
+                    <td>
+                        <a ng-click="removeFile($index)">
+                            <span class="glyphicon glyphicon-remove" style="color: red; margin-top:66%;"></span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </div>
 
-<!-- 
-        <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
-        <div class="col-sm-4">
-            <select style="width:100%" ui-select2 ng-model="recordAC.ac_resulthard" name="ac_resulthard" required>
-                <option ng-repeat="item in evaluatelist" value="{{item.id}}"> {{item.name | translate}}
-                </option>
-            </select>
-        </div> -->
     </div>
     <!-- end of form-group -->
 
@@ -319,7 +343,7 @@
     </div>
     <!-- end of form-group -->
     <div class="form-group">
-        <label class="col-sm-2 control-label ">* {{'Injurydetail'|translate}} : </label>
+        <label class="col-sm-2 control-label ">* {{'Injurydetail'|translate}}: </label>
         <div class="col-sm-4">
             <textarea class="form-control" type="text" rows="3" name="ac_injury" ng-model="gd.Injury_Description"
                 required></textarea>
