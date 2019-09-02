@@ -135,21 +135,28 @@ define(['app'], function (app) {
         function ($resource, Auth, CReportService) {
             return {
                 restrict: 'EAC',
-                link: function (scope, element, attrs) {
-
-                },
+                // link: function (scope, element, attrs) {
+               
+                // },
 
                 controller: function ($scope, $element, $attrs) {
                     console.log($attrs.userName);
                     console.log($attrs.flowKey);
-                    geHSEChecker($attrs.submitdepartid);
+                    $scope.$watch('ReportDetail.Rp_DepartmentID', function (val) {
+                        if (val != null && val != undefined) geHSEChecker();
 
-                    function geHSEChecker(department) {
+                    });
+                    $scope.$watch('ReportDetail.Rp_SubmitTypeCode', function (val) {
+                        if (val != null && val != undefined) geHSEChecker();
+
+                    });
+                    function geHSEChecker() {
                         CReportService.HSEChecker().get({
                             flowname: $attrs.flowKey,
                             userid: Auth.username,
-                            submitdepartid: department || '',
-                            kinds: $attrs.kinds || '',
+                            submitdepartid: $attrs.submitdepartid!=undefined?  $scope.ReportDetail.Rp_DepartmentID : '', //ReportDetail
+                            kinds: $attrs.kinds!=undefined ?  $scope.ReportDetail.Rp_SubmitTypeCode : '',  //ReportDetail
+                            formkey: $attrs.formkey || '', 
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {
                                 var checkList = [];
@@ -160,32 +167,6 @@ define(['app'], function (app) {
                                 $scope.leaderlist = leaderlist;
                                 console.log("Checklist", $scope.checkList);
                                 console.log("leaderlist", $scope.leaderlist);
-                                if ($scope.HSE_ReceiveCheck) {
-                                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'EVR') { //user 'EVR', see line 36 in CreportDirective for more inforation
-                                        $scope.checkList.splice(0, 1, 'FEPV000096');
-                                        $scope.leaderlist.splice(0, 1, {
-                                            $$hashKey: "",
-                                            LevelNameVN: "Kiểm tra 審核人員",
-                                            Person: "FEPV000096" // Thi Sinh
-                                        });
-                                    }
-                                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'SF') { //same as above, had to change this (by mistake =.=!)
-                                        $scope.checkList.splice(0, 1, 'FEPV000559');
-                                        $scope.leaderlist.splice(0, 1, {
-                                            $$hashKey: "",
-                                            LevelNameVN: "Kiểm tra 審核人員",
-                                            Person: "FEPV000559" // Xi long
-                                        });
-                                    }
-                                    if ($scope.ReportDetail.Rp_SubmitTypeCode == 'FP') { //same as above, had to change this (by mistake =.=!)
-                                        $scope.checkList.splice(0, 1, 'FEPV000944');
-                                        $scope.leaderlist.splice(0, 1, {
-                                            $$hashKey: "",
-                                            LevelNameVN: "Kiểm tra 審核人員",
-                                            Person: "FEPV000944" //other
-                                        });
-                                    }
-                                };
                             };
                         }, function (errormessage) {
                             console.log(errormessage);

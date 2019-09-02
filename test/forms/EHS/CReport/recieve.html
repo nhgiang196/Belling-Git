@@ -18,7 +18,7 @@
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
         $scope.HSE_ReceiveCheck = true; //singal for 
-        
+
         $scope.Save = function (isSubmit) {
             debugger;
             $scope.loading = true;
@@ -55,6 +55,7 @@
                 name: 'Rp_ID',
                 value: $scope.variable.Rp_ID //chosen
             });
+            debugger;
 
             $q.all([$scope.submit()]).then(function () {
                 // var reminder_parrams = {
@@ -122,9 +123,13 @@
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div  ng-if="ReportDetail.Rp_DepartmentID">
-                <ehs-leader-check submitdepartid="{{ReportDetail.Rp_DepartmentID}}" flow-key="CReportHSE" kinds="receive"></ehs-leader-check>
-            </div>
+                <ehs-leader-check 
+                        submitdepartid="{{ReportDetail.Rp_DepartmentID}}" 
+                        flow-key="CReportHSE" 
+                        kinds="{{ReportDetail.Rp_SubmitTypeCode}}"
+                        formkey="receive"
+                        ></ehs-leader-check>
+            
         </div>
 
         <!-- BUTTON OF SUBMITTING -->

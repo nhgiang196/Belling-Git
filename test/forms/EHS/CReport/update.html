@@ -33,7 +33,8 @@
             CReportService.FindByID({
                 Rp_ID: $scope.variable.Rp_ID
             }, function (data) {
-
+                $scope.ReportDetail = {};
+                $scope.ReportDetail.Rp_DepartmentID = data.Rp_DepartmentID;
                 if (data.Rp_Type == "IC") {
                     $scope.IsIC = true;
                     $scope.recordIC.rp_id = data.Rp_ID;
@@ -206,7 +207,7 @@
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div ehs-leader-check flow-key="CReportHSE" kinds="initiator" user-name="{{username}}"></div>
+            <div ehs-leader-check flow-key="CReportHSE" submitdepartid=""></div>
         </div>
 
         <!-- BUTTON OF SUBMITTING -->

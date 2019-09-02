@@ -98,9 +98,9 @@
                     ng-options="c.value as c.name for c in passOrNot" required> </select>
             </div>
 
-            <div class="col-sm-6 "><button ng-show="checkList.length==2" ng-click="LoadImprovementInfo()"
-                    class="btn btn-warning btn-ct-ac" data-toggle="modal"
-                    data-target="#modal_Improvement">👨🏻‍🚒 {{'Evaluate'| translate}} ({{'Update_Improvement'|translate}})  </button>
+            <div class="col-sm-6 "><button ng-show="['FEPV000096','FEPV000944','FEPV000559'].indexOf(username)>=0" ng-click="LoadImprovementInfo()"
+                    class="btn btn-warning btn-ct-ac" data-toggle="modal" data-target="#modal_Improvement">👨🏻‍🚒
+                    {{'Evaluate'| translate}} ({{'Update_Improvement'|translate}}) </button>
 
                 <improvement-creport></improvement-creport>
 
@@ -134,7 +134,8 @@
             <div>
                 <h4>{{'NextStep'|translate}}</h4>
             </div>
-            <div ehs-leader-check flow-key="CReportHSE" user-name="{{username}}" kinds="receive"></div>
+            <div ng-if="ReportDetail.Rp_DepartmentID && ReportDetail.Rp_SubmitTypeCode"
+            ehs-leader-check flow-key="CReportHSE" user-name="{{username}}" formkey="hse-receive"></div>
         </div>
 
         

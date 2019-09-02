@@ -260,6 +260,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
             });
 
             function OnChangeSubDepartmentID(SubmitDepartmentID) {
+                $scope.engine_department = SubmitDepartmentID; //search parram change
                 if ($scope.show.checker)
                     $scope.getLeaderCheck(SubmitDepartmentID);
             };
@@ -553,7 +554,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     flowname: 'CReportHSE',
                     userid: Auth.username,
                     submitdepartid: SubmitDepartID || '',
-                    kinds: 'initiator' || '',
+                    kinds:  '',
+                    formkey: '', 
                 }).$promise.then(function (leaderlist) {
                     if (leaderlist.length > 0) {
                         var checkList = [];
