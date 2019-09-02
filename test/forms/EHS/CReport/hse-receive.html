@@ -8,8 +8,9 @@
         $scope.show = {
             isHSEUser: true
         }
-        
-        $scope.recod = {};
+
+        $scope.recordAC = {};
+        $scope.recordIC = {};
         $translate.refresh();
 
         $scope.passOrNot = [{
@@ -24,7 +25,6 @@
         ];
         // $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
-
         $scope.Save = function (isSubmit) {
             $scope.loading = true;
             if ($scope.ISPublish == 'NO') {
@@ -101,6 +101,7 @@
             <div class="col-sm-6 "><button ng-show="checkList.length==2" ng-click="LoadImprovementInfo()"
                     class="btn btn-warning btn-ct-ac" data-toggle="modal"
                     data-target="#modal_Improvement">👨🏻‍🚒 {{'Evaluate'| translate}} ({{'Update_Improvement'|translate}})  </button>
+
                 <improvement-creport></improvement-creport>
 
 

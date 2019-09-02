@@ -18,6 +18,7 @@
         $scope.disableSubmit = Auth.username.indexOf('FEPVNN') > -1 ? false : false;
         $scope.loading = false;
         $scope.HSE_ReceiveCheck = true; //singal for 
+        
         $scope.Save = function (isSubmit) {
             debugger;
             $scope.loading = true;
@@ -33,7 +34,7 @@
                     function (err) {
                         Notifications.addError({
                             'status': 'error',
-                            'message': 'UPdate status Error' + err
+                            'message': 'Update status error: ' + err
                         });
                     }
                 ); //end changestatusservice
