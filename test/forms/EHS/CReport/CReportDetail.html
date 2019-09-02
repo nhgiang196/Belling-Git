@@ -173,7 +173,8 @@
     <!--body Container-->
     <div class="body">
         <div class="col-lg-12 col-sm-12 col-mrg">
-            1.0 事故單位 Đơn vị xảy ra sự cố: {{ReportDetail.DepartmentName}} 廠 Xưởng, {{ReportDetail.SubDepartmentName}} 科 Bộ phận.
+            1.0 事故單位 Đơn vị xảy ra sự cố: {{ReportDetail.DepartmentName}} 廠 Xưởng, {{ReportDetail.SubDepartmentName}} 科
+            Bộ phận.
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             2.0 事故類型 Loại hình sự cố: {{ReportDetail.Rp_SubmitType }}
@@ -214,11 +215,20 @@
             8.0 事故後處理情形 Tình hình xử lý sau sự cố:
             <br>
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.RpIC_Process}}</p>
+            <div style=" text-align: justify; ">
+                <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                    ng-repeat="item in FileAttached | filter:{ColumnName: 'RpIC_Process'}">{{item.File_ID}}<br></a>
+            </div>
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             9.0 如何防止同樣事故發生 Làm thế nào để ngăn ngừa sự cố:
             <br>
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.Rp_PreventMeasure}} </p>
+            <div style=" text-align: justify; ">
+                <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
+                    ng-repeat="item in FileAttached | filter:{ColumnName: 'Rp_PreventMeasure'}">{{item.File_ID}}<br></a>
+            </div>
+
         </div>
         <div class="col-lg-12 col-sm-12 col-mrg">
             10.0 Đánh giá theo dõi sau khi thực hiện đối sách phòng ngừa 執行防止對策後之追蹤考核 :
@@ -338,10 +348,12 @@
         <div class="col-lg-12 col-sm-12">
             4.0 Tình hình chi tiết quá trình bị thương 受傷經過詳細情形 :
             <div ng-repeat="person in InjuryDetail">
-                <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify;">
-                    ({{person.Name}}) {{person.Injury_Description}}</p>
-                <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify;">
-                    ({{person.Contractor_Victim_Name}}) {{person.Injury_Description}}</p>
+                <p ng-if="InjuryDetail[0].Contractor_Name === null && person.Injury_Description!==null && person.Injury_Description!==''"
+                    style=" text-align: justify;">
+                    - {{person.Injury_Description}}</p>
+                <p ng-if="InjuryDetail[0].Contractor_Name !== null && person.Injury_Description!==null && person.Injury_Description!==''"
+                    style=" text-align: justify;">
+                    - {{person.Injury_Description}}</p>
             </div>
             <a href="/{{item.File_ID}}" target="_blank" class="fileattached"
                 ng-repeat="item in FileAttached | filter:{ColumnName: 'Injury_Description'}"
@@ -351,21 +363,21 @@
         <div class="col-lg-12 col-sm-12">
             5.0 Danh tính người chứng kiến hiện trường hoặc người có quan hệ với người bị thương 受傷關係人或現場見證人姓名： (nếu bên
             ngoài xưởng xin ghi rõ cách thức liên lạc 若係廠外請註明聯絡方法):
-            <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify;"
-                ng-repeat="person in InjuryDetail">({{person.Name}}) {{person.Witness_info}}
+            <p ng-if="InjuryDetail[0].Contractor_Name === null && person.Witness_info!==null && person.Witness_info!==''"
+                style=" text-align: justify;" ng-repeat="person in InjuryDetail">- {{person.Witness_info}}
             </p>
-            <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify;"
-                ng-repeat="person in InjuryDetail">({{person.Contractor_Victim_Name}}) {{person.Witness_info}}
+            <p ng-if="InjuryDetail[0].Contractor_Name !== null && person.Witness_info!==null && person.Witness_info!==''"
+                style=" text-align: justify;" ng-repeat="person in InjuryDetail">- {{person.Witness_info}}
             </p>
         </div>
         <div class="col-lg-12 col-sm-12">
             6.0 Tình hình xử lý sau khi bị thương 受傷後處理情形:
-            <p ng-if="InjuryDetail[0].Contractor_Name === null" style=" text-align: justify"
-                ng-repeat="person in InjuryDetail">
-                ({{person.Name}}) {{person.Treatment_Result}}</p>
-            <p ng-if="InjuryDetail[0].Contractor_Name !== null" style=" text-align: justify"
-                ng-repeat="person in InjuryDetail">
-                ({{person.Contractor_Victim_Name}}) {{person.Treatment_Result}}</p>
+            <p ng-if="InjuryDetail[0].Contractor_Name === null && person.Treatment_Result!==null && person.Treatment_Result!==''"
+                style=" text-align: justify" ng-repeat="person in InjuryDetail">
+                - {{person.Treatment_Result}}</p>
+            <p ng-if="InjuryDetail[0].Contractor_Name !== null && person.Treatment_Result!==null && person.Treatment_Result!==''"
+                style=" text-align: justify" ng-repeat="person in InjuryDetail">
+                - {{person.Treatment_Result}}</p>
         </div>
         <div class="col-lg-12 col-sm-12">
             7.0 Nguyên nhân tai nạn lao động 事故原因 <br>
@@ -377,6 +389,8 @@
         <div class="col-lg-12 col-sm-12">
             8.0 Làm thế nào để ngăn ngừa tai nạn tương tự 如何防止同樣事故發生 :
             <p style=" text-align: justify;white-space:pre-wrap;">{{ReportDetail.Rp_PreventMeasure}}</p>
+
+
         </div>
         <div class="col-lg-12 col-sm-12">
             9.0 Báo cáo cải thiện tai nạn 事故改善報告
