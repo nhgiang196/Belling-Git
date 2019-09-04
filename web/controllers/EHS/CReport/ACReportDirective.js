@@ -4,7 +4,6 @@ define(['app'], function (app) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
-                    // xóa file tình hình bị thương khỏi QCFiles 
                     $scope.ACTypelist = InfolistService.Infolist('ACType');
                     $scope.listfileAC = []; // chứa file tình hình bị thương khi upload  
                     $scope.btnFile_AC = false;
