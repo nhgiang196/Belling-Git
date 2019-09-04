@@ -11,7 +11,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 $scope.Rp_ID = id.slice(0, id.length - 5);
 
 
-                
+
                 console.log($scope.Rp_ID);
                 $(document).ready(function () {
                     setTimeout(function () {
@@ -22,7 +22,11 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 $scope.Rp_ID = id;
             }
             var lang = window.localStorage.lang; //language
-            
+            $(document).ready(function () {
+                setTimeout(function () {
+                    window.print();
+                }, 500);
+            })
 
 
         }
