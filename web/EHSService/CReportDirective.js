@@ -161,7 +161,7 @@ define(['app'], function (app) {
                             flowname: $attrs.flowKey,
                             userid: Auth.username,
                             submitdepartid: $attrs.submitdepartid != undefined ? $scope.ReportDetail.Rp_DepartmentID : '', //ReportDetail
-                            kinds: $attrs.kinds != undefined ? $scope.ReportDetail.Rp_SubmitTypeCode : '', //ReportDetail
+                            kinds: $attrs.kinds != undefined ? $scope.ReportDetail.Rp_SubmitTypeCode || '' : '', //ReportDetail
                             formkey: $attrs.formkey || '',
                         }).$promise.then(function (leaderlist) {
                             if (leaderlist.length > 0) {

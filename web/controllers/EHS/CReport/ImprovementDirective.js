@@ -12,11 +12,11 @@ define(['app'], function (app) {
                     //     'status': 'error',
                     //     'message': $translate.instant('Update_onlyowner_MSG')
                     // });
-                    $scope.ReportDetail_Ctr.Rp_ID = $scope.variable.Rp_ID;
-                    $scope.LoadImprovementInfo = function () {
+
+                    $scope.LoadImprovementInfo = function (rp_id) {
                         $scope.ImprovementRecord = {};
                         CReportService.FindByID({
-                            Rp_ID: $scope.variable.Rp_ID
+                            Rp_ID: $scope.variable ? $scope.variable.Rp_ID : rp_id
                         }, function (data) {
                             $scope.listfileAC = [];
                             $scope.listfile = [];
@@ -29,6 +29,7 @@ define(['app'], function (app) {
                                     x.col = element.ColumnName;
                                     $scope.listfile.push(x);
                                 })
+                                $('#modal_Improvement').modal('show');
                             } else {
                                 $timeout(function () {
                                     Notifications.addError({
@@ -36,6 +37,7 @@ define(['app'], function (app) {
                                         'message': $translate.instant('Date to complete Improvement are out: ' + data.RpAC_DateComplete || '.')
                                     });
                                 }, 400);
+                                return false;
                             }
                         }, function (error) {});
                         // } else {
