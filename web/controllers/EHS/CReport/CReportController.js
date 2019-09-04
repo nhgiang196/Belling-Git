@@ -235,7 +235,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         'tcode': roleKey
                     }, function (linkres) {
                         if (linkres.IsSuccess) {
-                        // if (true) {
+                            // if (true) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
                     });
@@ -275,9 +275,8 @@ define(['myapp', 'angular'], function (myapp, angular) {
                     rp_type: $scope.rp_type || '',
                     lang: lang,
                     searchmode: '',
-                    departmentid: $scope.engine_department== undefined? 'NonDepartment' : $scope.engine_department,
+                    departmentid: $scope.engine_department == undefined ? 'NonDepartment' : $scope.engine_department,
                     userid: $scope.onlyOwner == true ? Auth.username : ''
-
                 };
                 return query;
             };
@@ -550,27 +549,28 @@ define(['myapp', 'angular'], function (myapp, angular) {
             $scope.getLeaderCheck = function (SubmitDepartID) {
                 $scope.checkList = [];
                 $scope.leaderlist = [];
-                CReportService.HSEChecker().get({
-                    flowname: 'CReportHSE',
-                    userid: Auth.username,
-                    submitdepartid: SubmitDepartID || '',
-                    kinds:  '',
-                    formkey: '', 
-                }).$promise.then(function (leaderlist) {
-                    if (leaderlist.length > 0) {
-                        var checkList = [];
-                        for (var i = 0; i < leaderlist.length; i++) {
-                            checkList[i] = leaderlist[i].Person;
-                        }
-                        $scope.checkList = checkList;
-                        $scope.leaderlist = leaderlist;
-                        console.log("Checklist", $scope.checkList);
-                        console.log("leaderlist", $scope.leaderlist);
-                    };
+                if (SubmitDepartID)
+                    CReportService.HSEChecker().get({
+                        flowname: 'CReportHSE',
+                        userid: Auth.username,
+                        submitdepartid: SubmitDepartID || '',
+                        kinds: '',
+                        formkey: '',
+                    }).$promise.then(function (leaderlist) {
+                        if (leaderlist.length > 0) {
+                            var checkList = [];
+                            for (var i = 0; i < leaderlist.length; i++) {
+                                checkList[i] = leaderlist[i].Person;
+                            }
+                            $scope.checkList = checkList;
+                            $scope.leaderlist = leaderlist;
+                            console.log("Checklist", $scope.checkList);
+                            console.log("leaderlist", $scope.leaderlist);
+                        };
 
-                }, function (errormessage) {
-                    console.log(errormessage);
-                })
+                    }, function (errormessage) {
+                        console.log(errormessage);
+                    })
             };
             /**Save Submit */
             $scope.SaveSubmitCReport = function (Rp_ID) { // fnSavesubmit
@@ -600,23 +600,23 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 }, function (linkres) {
                     if (linkres.IsSuccess) {
 
-                /**Save and Submit Button */
-                if (confirm($translate.instant('Submit_Alert') + Rp_ID)) {
-                    if ($scope.status == 'N' && $scope.rp_type == 'IC') {
-                        $scope.btnSub = true;
-                        $scope.SaveICReport();
-                    } else if ($scope.status == 'N' && $scope.rp_type == 'A') {
-                        $scope.btnSub = true;
-                        $scope.SaveACReport();
-                    } else {
-                        $scope.formVariables.push({
-                            name: 'Rp_ID',
-                            value: Rp_ID //chosen
-                        });
-                        $scope.SubmitAndChangeStatus(Rp_ID);
-                    }
-                }
-                } else alert("You don't have permission!")
+                        /**Save and Submit Button */
+                        if (confirm($translate.instant('Submit_Alert') + Rp_ID)) {
+                            if ($scope.status == 'N' && $scope.rp_type == 'IC') {
+                                $scope.btnSub = true;
+                                $scope.SaveICReport();
+                            } else if ($scope.status == 'N' && $scope.rp_type == 'A') {
+                                $scope.btnSub = true;
+                                $scope.SaveACReport();
+                            } else {
+                                $scope.formVariables.push({
+                                    name: 'Rp_ID',
+                                    value: Rp_ID //chosen
+                                });
+                                $scope.SubmitAndChangeStatus(Rp_ID);
+                            }
+                        }
+                    } else alert("You don't have permission!")
                 });
             };
             $scope.SubmitAndChangeStatus = function (Rp_ID) { //fnchangeStatus 
@@ -661,7 +661,7 @@ define(['myapp', 'angular'], function (myapp, angular) {
                 })
                 /** Change Status to P */
             };
- 
+
 
 
         } //function
