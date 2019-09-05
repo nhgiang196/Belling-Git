@@ -50,9 +50,6 @@
                 <h3 class="text-center">{{'Update_Improvement'|translate}}</h3>
                 <H4 class="title">{{'ImprovementInformation'|translate}} / {{ReportDetail.Rp_ID}}</H4>
                 <form class="form-horizontal model-form" name="improvementForm">
-
-
-
                     <!-- date of complete -->
                     <div class="form-group">
                         <label class="col-sm-2 control-label ">* {{'DateOfImprovementComplete'|translate}} :
@@ -108,10 +105,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class=" form-group " ng-show="show.isHSEUser">
+                        <div class=" form-group ">
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
                             <div class="col-sm-4">
-                                <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpAC_ResultHardware"
+                                <select  ng-disabled="!show.isHSEUser" style="width:100%" ui-select2 ng-model="ImprovementRecord.RpAC_ResultHardware"
                                     name="ac_resulthard">
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}">
                                         {{item.name | translate}}
@@ -151,10 +148,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class=" form-group " ng-show="show.isHSEUser">
+                        <div class=" form-group " n>
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
                             <div class="col-sm-4">
-                                <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpAC_ResultSoftware"
+                                <select  ng-disabled="!show.isHSEUser" style="width:100%" ui-select2 ng-model="ImprovementRecord.RpAC_ResultSoftware"
                                     name="ac_resultsoft">
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}">
                                         {{item.name | translate}}
@@ -230,10 +227,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="show.isHSEUser">
+                        <div class="form-group" >
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}} : </label>
                             <div class="col-sm-4">
-                                <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpIC_Evaluate"
+                                <select  ng-disabled="!show.isHSEUser" style="width:100%" ui-select2 ng-model="ImprovementRecord.RpIC_Evaluate"
                                     name="RpIC_Evaluate">
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}">
                                         {{item.name | translate}} </option>
