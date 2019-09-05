@@ -13,7 +13,8 @@ define( ['myapp','angular'],function(myapp,angular){
         $scope.username = user!=null?user.username:"";
         // $scope.password = user!=null?user.password:"";
         $scope.isRemember = user!=null?true:false;
-		window.localStorage.lang = 'EN';//Default language
+        
+        window.localStorage.lang = window.localStorage.lang? window.localStorage.lang :'EN';//Default language
             console.log( window.localStorage.lang);
         $scope.switching = function(lang){
             $translate.use(lang);
