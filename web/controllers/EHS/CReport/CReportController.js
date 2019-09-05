@@ -278,6 +278,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                     departmentid: $scope.engine_department == undefined ? 'NonDepartment' : $scope.engine_department,
                     userid: $scope.onlyOwner == true ? Auth.username : ''
                 };
+                if (query.departmentid =='NonDepartment' && isHSEUser) query.departmentid='';
                 return query;
             };
             $scope.Search = function () { //search function()   
