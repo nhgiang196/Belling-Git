@@ -32,10 +32,6 @@
         margin-bottom: 15px;
     }
 
-    .form-group {
-        margin: 5px 0 0 0 !important;
-    }
-
     li {
         list-style-type: none;
     }
@@ -45,19 +41,6 @@
         border: 1px solid #000000;
         margin-left: -3px;
     }
-
-    .form-control {
-        height: 34px;
-    }
-
-    .grid_cell_ct {
-        width: 100%;
-        overflow: hidden;
-        display: inline-block;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        padding: 5px;
-    }
 </style>
 
 <div class="modal fade" id="modal_Improvement" role="dialog" aria-labelledby="myLargeModalLabel" data-keyboard="false">
@@ -66,10 +49,11 @@
             <div class="modal-body" style="padding-bottom:3px">
                 <h3 class="text-center">{{'Update_Improvement'|translate}}</h3>
                 <H4 class="title">{{'ImprovementInformation'|translate}} / {{ReportDetail.Rp_ID}}</H4>
-                <!-- <form></form>
-                <form class="form-horizontal model-form " name="improvementForm"> -->
-                    <div class="form-group">
-                    </div>
+                <form class="form-horizontal model-form" name="improvementForm">
+
+
+
+                    <!-- date of complete -->
                     <div class="form-group">
                         <label class="col-sm-2 control-label ">* {{'DateOfImprovementComplete'|translate}} :
                         </label>
@@ -80,19 +64,23 @@
                         <div class="col-sm-4" ng-if="show.isHSEUser">
                             <div class='input-group date'>
                                 <input class="form-control" id="time-cpl" type="text" name="ac_datecomp"
-                                    ng-model="ImprovementRecord.RpAC_DateComplete" date-picker  />
+                                    ng-model="ImprovementRecord.RpAC_DateComplete" date-picker />
                                 <span class="input-group-addon">
                                     <label class="glyphicon glyphicon-calendar" style="color: grey"
                                         for='time-cpl'></label>
                                 </span>
                             </div>
                         </div>
+                        <div class="col-sm-6"></div>
                     </div>
+
+                    <!-- Improvement IC  -->
                     <div id="ACType" ng-show="ImprovementRecord.Rp_Type!='IC'">
                         <div class="form-group">
                             <label class="col-sm-2 control-label ">* {{'Improvesoft'|translate}} : </label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" type="text" name="ac_improvesoft"
+                                <textarea ng-disabled="ImprovementRecord.Rp_Status=='S'" class="form-control"
+                                    type="text" name="ac_improvesoft"
                                     ng-model="ImprovementRecord.RpAC_ImproveSoftware"></textarea>
                                 <input type="file" ng-file-select="UploadFileHSE($files, 'RpAC_ImproveSoftware')"
                                     id="file_process_ic1" style="display:none !important" multiple>
@@ -120,11 +108,11 @@
                                 </table>
                             </div>
                         </div>
-                        <div class=" form-group ">
+                        <div class=" form-group " ng-show="show.isHSEUser">
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
                             <div class="col-sm-4">
                                 <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpAC_ResultHardware"
-                                    name="ac_resulthard" >
+                                    name="ac_resulthard">
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}">
                                         {{item.name | translate}}
                                     </option>
@@ -134,7 +122,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label ">* {{'Improvehard'|translate}} : </label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" type="text" name="ac_improvesoft"
+                                <textarea ng-disabled="ImprovementRecord.Rp_Status=='S'" class="form-control"
+                                    type="text" name="ac_improvesoft"
                                     ng-model="ImprovementRecord.RpAC_ImproveHardware"></textarea>
                                 <input type="file" ng-file-select="UploadFileHSE($files, 'RpAC_ImproveHardware')"
                                     id="file_process_ic2" style="display:none !important" multiple>
@@ -162,11 +151,11 @@
                                 </table>
                             </div>
                         </div>
-                        <div class=" form-group ">
+                        <div class=" form-group " ng-show="show.isHSEUser">
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}}</label>
                             <div class="col-sm-4">
                                 <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpAC_ResultSoftware"
-                                    name="ac_resultsoft" >
+                                    name="ac_resultsoft">
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}">
                                         {{item.name | translate}}
                                     </option>
@@ -175,11 +164,13 @@
                         </div>
                     </div>
                     <!-- ************************************************************************************************************************ -->
+                    <!--  IMprovment AC -->
                     <div id="ICType" ng-show="ImprovementRecord.Rp_Type=='IC'">
                         <div class="form-group">
                             <label class="col-sm-2 control-label ">* {{'IcProcess'|translate}} : </label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" type="text" name="RpIC_Process"
+                                <textarea ng-disabled="ImprovementRecord.Rp_Status=='S'" class="form-control"
+                                    type="text" name="RpIC_Process"
                                     ng-model="ImprovementRecord.RpIC_Process"></textarea>
                                 <input type="file" ng-file-select="UploadFileHSE($files, 'RpIC_Process')"
                                     id="file_process_ic3" style="display:none !important" multiple>
@@ -210,7 +201,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label ">* {{'Prevent'|translate}} : </label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" type="text" name="Rp_PreventMeasure"
+                                <textarea ng-disabled="ImprovementRecord.Rp_Status=='S'" class="form-control"
+                                    type="text" name="Rp_PreventMeasure"
                                     ng-model="ImprovementRecord.Rp_PreventMeasure"></textarea>
                                 <input type="file" ng-file-select="UploadFileHSE($files, 'Rp_PreventMeasure')"
                                     id="file_process_ic4" style="display:none !important" multiple>
@@ -238,27 +230,28 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="show.isHSEUser">
                             <label class="col-sm-2 control-label ">* {{'Evaluate'|translate}} : </label>
                             <div class="col-sm-4">
-                                <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpIC_Evaluate" name="RpIC_Evaluate"
-                                    >
+                                <select style="width:100%" ui-select2 ng-model="ImprovementRecord.RpIC_Evaluate"
+                                    name="RpIC_Evaluate">
                                     <option ng-repeat="item in evaluatelist" value="{{item.id}}">
                                         {{item.name | translate}} </option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                <div class="modal-footer">
-                    <button id="btnSaveImprovement" type="button" class="btn btn-warning btn-ct-ac"
-                        ng-click="btnImprovementSave(ImprovementRecord)">
-                        <i class="glyphicon glyphicon-floppy-disk"></i>
-                        {{'Save'|translate}} </button>
-                    <button type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal"><i
-                            class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i>
-                        {{'Close'|translate}}</button>
-                </div>
+                </form>
             </div> <!-- end of modal-body -->
+            <div class="modal-footer">
+                <button id="btnSaveImprovement" type="button" class="btn btn-warning btn-ct-ac"
+                    ng-click="btnImprovementSave(ImprovementRecord)">
+                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                    {{'Save'|translate}} </button>
+                <button type="button" class="btn btn-default btn-ct-ac" data-dismiss="modal"><i
+                        class="glyphicon glyphicon-remove" style="color: grey;vertical-align: text-bottom;"></i>
+                    {{'Close'|translate}}</button>
+            </div>
         </div> <!-- end of modal-content -->
     </div> <!-- end of modal-dialog -->
 </div> <!-- end of modal-->
