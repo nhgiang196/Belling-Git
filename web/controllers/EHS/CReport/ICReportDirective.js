@@ -34,8 +34,8 @@ define(['app'], function (app) {
                         note.Rp_Status = $scope.recordIC.status || '';
                         note.Rp_Type = 'IC';
                         note.RpIC_Group = $scope.recordIC.icGroup || '';
-                        note.Rp_DepartmentID = $scope.recordIC.ic_SubDeparmentid; //  Center Department ?? 
-                        note.Rp_SubDepartmentID = $scope.recordIC.ic_SubDeparmentid; //?? Should be SUbDepartmentID
+                        note.Rp_DepartmentID = $scope.recordIC.ic_SubDeparmentid; //  Center Department  
+                        note.Rp_SubDepartmentID = $scope.recordIC.ic_SubDeparmentid; //Should be SUbDepartmentID
                         note.Rp_DateTime = $scope.recordIC.icDatetime;
                         note.Rp_Location = $scope.recordIC.icLocation;
                         note.Rp_LocationDetail = $scope.recordIC.icLocationDetail;
@@ -162,6 +162,56 @@ define(['app'], function (app) {
                         $scope.listfile_process_ic = false;
                         $scope.IC_Department_Disable = false;
                     }
+                     // Lấy dữ liệu lên modalIC để chỉnh sửa
+                    $scope.loadICDetail = function (id) {
+                        CReportService.FindByID({
+                            Rp_ID: id
+                        }, function (data) {
+                            $scope.recordIC.rp_id = data.Rp_ID;
+                            $scope.recordIC.icGroup = data.RpIC_Group;
+                            $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
+                            $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
+                            $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
+
+
+                            $scope.recordIC.icDatetime = data.Rp_DateTime;
+                            $scope.recordIC.icLocation = data.Rp_Location;
+                            $scope.recordIC.icLocationDetail = data.Rp_LocationDetail;
+                            $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
+                            $scope.recordIC.icProcess = data.RpIC_Description;
+                            $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
+                            $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
+                            $scope.recordIC.icBasic = data.RpIC_BasicReason;
+                            $scope.recordIC.icResult = data.RpIC_Damage;
+                            $scope.recordIC.icDamaged_Human = data.RpIC_Damaged_Human;
+                            $scope.recordIC.icDamaged_Asset = data.RpIC_Damaged_Asset;
+                            $scope.recordIC.icDamaged_Envr = data.RpIC_Damaged_Envr;
+                            $scope.recordIC.icImprove = data.RpIC_Process;
+                            $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
+                            $scope.recordIC.submittype = data.Rp_SubmitType;
+                            if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
+                                $scope.icType_CheckOther = true;
+                            $scope.recordIC.icType = data.RpIC_IncidentType;
+                            $scope.recordIC.icAffect = data.RpIC_Affect;
+                            $scope.recordIC.icAffectRange = data.RpIC_AffectRange;
+                            $scope.recordIC.TimeNotif = data.RpIC_TimeNotif;
+                            $scope.recordIC.ICNotifPersion = data.RpIC_NotifPerson;
+                            $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson;
+                            $scope.listfile = [];
+                            data.FileAttached.forEach(element => {
+                                var x = {};
+                                x.Rp_ID = element.Rp_ID;
+                                x.name = element.File_ID;
+                                x.col = element.ColumnName;
+                                $scope.listfile.push(x);
+                            })
+                        }, function (error) {
+                            Notifications.addError({
+                                'status': 'error',
+                                'message': res.Message
+                            });
+                        })
+                    };
                     /**********************************************************************************************/
                     /* general-  THIS FOLLOWING PART IS USED BY ITSELF OR FROM OTHER DIRECTIVE                    */
                     /**********************************************************************************************/
@@ -270,13 +320,14 @@ define(['app'], function (app) {
                         /** Get user's departments (private) */
                         CReportService.GetDataDepartment({
                             emp_id: Auth.username
+                            
                         }, function (sub_department_list) {
 
                             if (sub_department_list.length > 0) {
                                 $scope.EngineDepartmentList = $scope.submitDept = sub_department_list;
                                 $scope.engine_department = $scope.recordIC.ic_departmentid = sub_department_list[0].DepartmentID;
                                 if (sub_department_list.length == 1)
-                                    if ($scope.getLeaderCheck) $scope.getLeaderCheck(data[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
+                                    if ($scope.getLeaderCheck) $scope.getLeaderCheck(sub_department_list[0].DepartmentID); // No need to choose submitdepartment when there is 1 value
                                 center_dpm.forEach(x => {
                                     if (x.CostCenter == sub_department_list[0].DepartmentID.slice(0, 3)) {
                                         $scope.showFactoryInIC = x.Specification;
@@ -315,56 +366,7 @@ define(['app'], function (app) {
                         //         console.log(error);
                         //     })
                     }
-                    // Lấy dữ liệu lên modalIC để chỉnh sửa
-                    $scope.loadICDetail = function (id) {
-                        CReportService.FindByID({
-                            Rp_ID: id
-                        }, function (data) {
-                            $scope.recordIC.rp_id = data.Rp_ID;
-                            $scope.recordIC.icGroup = data.RpIC_Group;
-                            $scope.recordIC.ic_departmentid = data.Rp_DepartmentID;
-                            $scope.recordIC.ic_SubDeparmentid = data.Rp_SubDepartmentID;
-                            $scope.recordIC.ic_deparid = data.Rp_DepartmentID;
-
-
-                            $scope.recordIC.icDatetime = data.Rp_DateTime;
-                            $scope.recordIC.icLocation = data.Rp_Location;
-                            $scope.recordIC.icLocationDetail = data.Rp_LocationDetail;
-                            $scope.recordIC.icPrevent = data.Rp_PreventMeasure;
-                            $scope.recordIC.icProcess = data.RpIC_Description;
-                            $scope.recordIC.icDr_reason = data.RpIC_DirectReason;
-                            $scope.recordIC.icIdr_reason = data.RpIC_IndirectReason;
-                            $scope.recordIC.icBasic = data.RpIC_BasicReason;
-                            $scope.recordIC.icResult = data.RpIC_Damage;
-                            $scope.recordIC.icDamaged_Human = data.RpIC_Damaged_Human;
-                            $scope.recordIC.icDamaged_Asset = data.RpIC_Damaged_Asset;
-                            $scope.recordIC.icDamaged_Envr = data.RpIC_Damaged_Envr;
-                            $scope.recordIC.icImprove = data.RpIC_Process;
-                            $scope.recordIC.icEvaluate = data.RpIC_Evaluate;
-                            $scope.recordIC.submittype = data.Rp_SubmitType;
-                            if (['WasteWater', 'Gas', 'SolidWaste', 'Chemical'].indexOf(data.RpIC_IncidentType) < 0)
-                                $scope.icType_CheckOther = true;
-                            $scope.recordIC.icType = data.RpIC_IncidentType;
-                            $scope.recordIC.icAffect = data.RpIC_Affect;
-                            $scope.recordIC.icAffectRange = data.RpIC_AffectRange;
-                            $scope.recordIC.TimeNotif = data.RpIC_TimeNotif;
-                            $scope.recordIC.ICNotifPersion = data.RpIC_NotifPerson;
-                            $scope.recordIC.ICReceivePerson = data.RpIC_ReceivePerson;
-                            $scope.listfile = [];
-                            data.FileAttached.forEach(element => {
-                                var x = {};
-                                x.Rp_ID = element.Rp_ID;
-                                x.name = element.File_ID;
-                                x.col = element.ColumnName;
-                                $scope.listfile.push(x);
-                            })
-                        }, function (error) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': res.Message
-                            });
-                        })
-                    };
+                   
                     //---------------NOTIFICATION FUNCTIONS (CAN BE USED FOR ACREPORT-DIRECTIVE)-------------------------------------------
                     $scope.save_msg = function () {
                         $timeout(function () {

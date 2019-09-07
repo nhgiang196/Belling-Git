@@ -8,10 +8,10 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
             const roleKey = 'FEPVHC_User'; //role key for access this module 
             $scope.recordAC = {}; //record for AC directive
             $scope.recordIC = {}; //record for IC directive
-            $scope.AC_Department_Disable = false; // bật tắt input Bộ phận trong AC khi sửa
+            $scope.AC_Department_Disable = false; 
             $scope.show = { //show  signal
                 submitbutton: true,
-                checker: true,
+                checker: true, // list of checker show
                 isHSEUser: null
             }
             /**List/combobox added */
@@ -51,17 +51,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                 }
             ];
 
-            $scope.ChangeSubmitType = function () {
-
-                if ($scope.rp_Submittype == 'EVR') {
-                    $scope.rp_typeList = rp_typelistEVR;
-                    $scope.rp_type = rp_typelistEVR[0].id;
-                } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
-                    $scope.rp_typeList = rp_typeList;
-                    $scope.rp_type = $scope.rp_typeList[0].id;
-                }
-                $scope.Search();
-            };
+            
 
             // $scope.SearchParam = {
             //     startdate: '',
@@ -76,7 +66,6 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
             // };
 
             $scope.rp_type = rp_typeList[0].id; //set default search param
-
             $scope.statuslist = InfolistService.Infolist('status'); //search param list
 
             /***************************SERVICE FIRST RUN************************************************** */
@@ -233,9 +222,8 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                     EngineApi.getTcodeLink().get({
                         'userid': Auth.username,
                         'tcode': roleKey
-                    }, function (linkres) {
+                    }, function (linkres) { 
                         if (linkres.IsSuccess) {
-                            // if (true) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
                     });
@@ -251,6 +239,17 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
             /**************************** FUNCTIONS ************************************************************** */
 
 
+            $scope.ChangeSubmitType = function () {
+
+                if ($scope.rp_Submittype == 'EVR') {
+                    $scope.rp_typeList = rp_typelistEVR;
+                    $scope.rp_type = rp_typelistEVR[0].id;
+                } else if ($scope.rp_Submittype == 'FP' || $scope.rp_Submittype == 'SF') {
+                    $scope.rp_typeList = rp_typeList;
+                    $scope.rp_type = $scope.rp_typeList[0].id;
+                }
+                $scope.Search();
+            };
             /** Event on change SubDepartment*/
             $scope.$watch('recordIC.ic_SubDeparmentid', function (val, olval) {
                 if (val != null & val != undefined) OnChangeSubDepartmentID(val);
@@ -264,6 +263,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                 if ($scope.show.checker)
                     $scope.getLeaderCheck(SubmitDepartmentID);
             };
+
 
             function SearchList() { //search information 
                 var query = {
@@ -394,7 +394,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                             //     } else {
                             //         // $scope.btnFile = true;
                             //         // $scope.btnFile_AC = true;
-                            if (resultRows[0].Rp_Type == "IC") { //UPDATE BÁO CÁO SỰ CỐ
+                            if (resultRows[0].Rp_TypeCode == "IC") { //UPDATE BÁO CÁO SỰ CỐ
                                 $scope.rp_type = 'IC';
                                 $scope.loadICDetail(resultRows[0].Rp_ID); //ICReportDirective load modal detail
                                 $('#my-modal').modal('show');
@@ -425,6 +425,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                                 });
                                 return;
                             }
+                            
                             $scope.LoadImprovementInfo(resultRows[0].Rp_ID);
 
                         } else {
