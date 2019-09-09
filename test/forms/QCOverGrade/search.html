@@ -14,279 +14,273 @@
 
     }
 </style>
-<div>
-    <form class="form-horizontal" role="form" novalidate name="form">
-        <legend>
-            <h3>{{'LIMS Qualified Control System works'|translate}}</h3>
-        </legend>
+<form class="form-horizontal" role="form" novalidate name="form">
+    <legend>
+        <h3>{{'LIMS Qualified Control System works'|translate}}</h3>
+    </legend>
 
-        <div class="col-sm-12 form-group">
-            <div class="form-group search-table">
+    <div class="col-sm-12 form-group">
+        <div class="form-group search-table">
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'dateFrom'|translate}}</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" name="dateFrom" ng-model="dateFrom" date-picker>
-                    </div>
-                    <label class="col-sm-2 control-label">{{'dateTo'|translate}}</label>
-                    <div class="col-sm-3">
-                        <input class="form-control" name="dateTo" ng-model="dateTo" date-picker>
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'dateFrom'|translate}}</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="dateFrom" ng-model="dateFrom" date-picker>
                 </div>
-
-
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" name="SampleName" ng-model="sampleName"
-                            ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList  ">
-                            <option value="">-- ALL --</option>
-                        </select>
-                    </div>
-                    <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" name="voucherid" ng-model="voucherid">
-                    </div>
-
+                <label class="col-sm-2 control-label">{{'dateTo'|translate}}</label>
+                <div class="col-sm-3">
+                    <input class="form-control" name="dateTo" ng-model="dateTo" date-picker>
                 </div>
+            </div>
 
-                <div class="form-group">
 
-                    <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" name="material" ng-model="material"
-                            ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
-                            <option value="">-- ALL --</option>
-                        </select>
-                    </div>
 
-                    <label class="col-sm-2 control-label">{{'ColorLabel'|translate}}</label>
-                    <div class="col-sm-3">
-                        <select required class="form-control" name="colorlabel" ng-model="colorlabel">
-                            <option value="">-- ALL --</option>
-                            <option class="yellow" value="Yellow">{{'Yellow' |translate}}</option>
-                            <option class="red" value="Red">{{'Red' |translate}}</option>
-                        </select>
-                    </div>
-
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="SampleName" ng-model="sampleName"
+                        ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList  ">
+                        <option value="">-- ALL --</option>
+                    </select>
                 </div>
-                <div class="form-group">
-
-                    <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" style="float: none;" name="line" ng-model="line"
-                            ng-options="c.Line as c.Linespc for c in LinesList">
-                            <option value="">-- ALL --</option>
-                        </select>
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Status'|translate}}</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" name="status" ng-model="status"
-                            ng-options="s.State as s.StateSpec for s in StatusList">
-                            <option value="">-- ALL --</option>
-                        </select>
-                    </div>
-
+                <label class="col-sm-2 control-label">{{'VoucherID'|translate}}</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="voucherid" ng-model="voucherid">
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-5"></div>
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <label><input name="onlyOwner" type="checkbox" ng-model="onlyOwner"> {{'onlyOwner'|translate}}
-                        </label>
-                        <button style="margin-left: 15px" type="button" class="btn btn-primary" ng-click="Search()">
-                            {{'Search'|translate}}
-                        </button>
-                    </div>
-                </div>
-                <div style="width: 100%; margin-top: 20px;margin-left: 25px">
-                    <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
-                        ui-grid-resize-columns ui-grid-core></div>
-                </div>
-                <div class="text-center">
-                    <!-- <label
-                        style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size: 10pt; color: #FF0000;text-align: center;">*New
-                        updated system from 2019-05-14 13:00. <br> If there were any errors and problems, please contact
-                        Jiang # 3614 to solve the problem.*</label> -->
-                </div>
-
-
 
             </div>
-        </div>
-    </form>
-    <!-- MODAL CREATE -->
-    <!-- data-backdrop="static"  -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-lg" style="width: 80%">
-            <div class="modal-content">
-                <div class="modal-body" style="padding-bottom:3px">
-                    <H4 style="background-color: #ececec; padding:5px">{{'Create Voucher'|translate}}</H4>
-                    <form></form>
-                    <form class="form-horizontal" role="form" name="formCreateUQ" novalidate>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">{{'Date'|translate}}</label>
 
-                            <div class="col-sm-3">
-                                <input type="text" ng-change="dateBegin_change(dateBegin)" class="form-control"
-                                    name="dateBegin" ng-model="dateBegin" date-picker required>
-                            </div>
+            <div class="form-group">
 
-                            <label class="col-sm-2 control-label">{{'dateTo'|translate}}</label>
-
-                            <div class="col-sm-3">
-                                <input ng-disabled="true" class="form-control" name="dateEnd" ng-model="dateEnd"
-                                    date-picker required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
-
-                            <div class="col-sm-3">
-                                <select class="form-control" name="SampleName" ng-model="sampleName"
-                                    ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList" required>
-                                </select>
-                            </div>
-
-                            <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
-
-                            <div class="col-sm-3">
-                                <select required class="form-control" name="material" ng-model="material"
-                                    ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
-                            <div class="col-sm-3">
-                                <select required class="form-control" name="line" ng-model="line"
-                                    ng-options="c.Line as c.Linespc for c in LinesList">
-                                </select>
-                            </div>
-
-                            <label class="col-sm-2 control-label">{{'ColorLabel'|translate}}</label>
-                            <div class="col-sm-3">
-                                <select required class="form-control" name="colorlabel" ng-model="colorlabel">
-                                    <option class="yellow" value="Yellow">{{'Yellow' |translate}}</option>
-                                    <option class="red" value="Red">{{'Red' |translate}}</option>
-                                </select>
-                            </div>
-
-                        </div>
-                    </form>
+                <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="material" ng-model="material"
+                        ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
+                        <option value="">-- ALL --</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" ng-click="Save()"
-                        ng-disabled="formCreateUQ.$invalid">{{'saveDraft'|translate}}</button>
-                    <!-- <button type="button" class="btn btn-primary" ng-click="SaveSubmit(true)" ng-disabled="formCreateUQ.$invalid">{{'saveSubmit'|translate}}</button> -->
-                    <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}}
+
+                <label class="col-sm-2 control-label">{{'ColorLabel'|translate}}</label>
+                <div class="col-sm-3">
+                    <select required class="form-control" name="colorlabel" ng-model="colorlabel">
+                        <option value="">-- ALL --</option>
+                        <option class="yellow" value="Yellow">{{'Yellow' |translate}}</option>
+                        <option class="red" value="Red">{{'Red' |translate}}</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+
+                <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" style="float: none;" name="line" ng-model="line"
+                        ng-options="c.Line as c.Linespc for c in LinesList">
+                        <option value="">-- ALL --</option>
+                    </select>
+                </div>
+                <label class="col-sm-2 control-label">{{'Status'|translate}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="status" ng-model="status"
+                        ng-options="s.State as s.StateSpec for s in StatusList">
+                        <option value="">-- ALL --</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-3"><label><input name="onlyOwner" type="checkbox" ng-model="onlyOwner"> {{'onlyOwner'|translate}}
+                </label></div>
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-default" ng-click="Reset()">
+                        {{'Clear'|translate}}
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="Search()">
+                        {{'Search'|translate}}
                     </button>
                 </div>
             </div>
+            <div style="width: 100%; margin-top: 20px;margin-left: 25px">
+                <div id="Grid" ui-grid="gridOptions" class="grid" ui-grid-selection ui-grid-pagination
+                    ui-grid-resize-columns ui-grid-core></div>
+            </div>
+            <div class="text-center">
+                <!-- <label
+                        style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size: 10pt; color: #FF0000;text-align: center;">*New
+                        updated system from 2019-05-14 13:00. <br> If there were any errors and problems, please contact
+                        Jiang # 3614 to solve the problem.*</label> -->
+            </div>
+
+
+
         </div>
     </div>
+</form>
+<!-- MODAL CREATE -->
+<!-- data-backdrop="static"  -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 80%">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom:3px">
+                <H4 style="background-color: #ececec; padding:5px">{{'Create Voucher'|translate}}</H4>
+                <form></form>
+                <form class="form-horizontal" role="form" name="formCreateUQ" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'Date'|translate}}</label>
 
-    <!-- MODAL DETAIL -->
-    <div class="modal fade" id="DetailModal" role="dialog">
-        <div class="modal-dialog modal-lg" style="width: 80%">
-            <div class="modal-content" style="font-size:13pt;">
-                <div class="modal-body" style="padding-bottom:3px">
-                    <H4 style="background-color: #ececec; padding:5px">{{'Unqualified Voucher Detail'|translate}} -
-                        <strong>{{recod.VoucherID}}</strong> </H4>
-                    <form></form>
-                    <form class="form-horizontal" role="form" name="formCreateUQ" novalidate>
-                        <table width=100%>
-                            <tbody>
-                                <tr>
-                                    <td>生產部門 Bộ phận SX: {{recod.SampleName}} </td>
-                                    <td style="width:50%;">產品編號 Material No: {{recod.LOT_NO}} </td>
-                                </tr>
-                                <tr>
-                                    <td>單據日期: {{recod.CreateDate}} </td>
-                                    <td>生產線別（套別）Line:{{recod.LINE}}</td>
-                                </tr>
-                                <tr>
-                                    <td>生產日期: {{recod.BeginDate}} </td>
-                                    <td style="text-align: left;" ng-class="isRed? 'red':'yellow'">{{color.TW}}單
-                                        Đơn màu {{color.VN}} </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                        <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">取樣試驗結果如下 Kết quả lấy
-                            mẫu thử nghiệm như bên dưới: </H4>
-
-                        <div>
-                            <table style="border:black;" class="table-bordered table-hover" width=100%>
-                                <thead>
-                                    <tr>
-                                        <th style="text-align:center;" ng-repeat="header in plansHeader">{{ header }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="row in UQList">
-                                        <td style="text-align: center;" ng-repeat="header in plansHeader">
-                                            <div ng-bind-html="row[header].replace('$','').replace('#','')"></div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div ng-if="!isShow">
-                            <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">Receiver Details </H4>
-                            <div>品管部門:<br>Bộ phận QLCL: {{receiver[0].UserName}}
-                                {{receiver[0].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}</div>
-                            <table width=100%>
-                                <tr>
-                                    <td>品管部門<br>Bộ phận SX: {{receiver[3].UserName}}
-                                        {{receiver[3].Stamp | date:"'('yyyy/MM/dd 'at' h:mma')'"}} </td>
-                                    <td>簽收人員<br>Người nhận: {{receiver[1].UserName}}
-                                        {{receiver[1].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}</td>
-                                </tr>
-                            </table>
-                            <div ng-show='!isRed'>
-                                <p>處理結果Kết quả xử lý: {{recod.Remark}} </p>
-                                <p>廠（處）室批示VP xưởng (b.phận) duyệt:{{receiver[2].UserName}}
-                                    {{receiver[2].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}
-                                </p>
-                            </div>
-                        </div>
-                        <div ng-show='isShow'>
-                            <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">{{'NextStep' |
-                                translate}} </H4>
-                            <div style="margin-top:10px" ng-repeat="leader in leaderlist">
-                                <span show-checker user-name={{leader.Person}}></span>
-                            </div>
+                        <div class="col-sm-3">
+                            <input type="text" ng-change="dateBegin_change(dateBegin)" class="form-control"
+                                name="dateBegin" ng-model="dateBegin" date-picker required>
                         </div>
 
+                        <label class="col-sm-2 control-label">{{'dateTo'|translate}}</label>
 
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" ng-disabled="UQList[0]['NO_RESULT']!=null" class="btn btn-primary"
-                        ng-click="SaveSubmit(false)" ng-show='isShow'>{{'submit'|translate}}</button>
-                    <a href="#/LIMS/QualifiedControl/print/{{recod.VoucherID}}" target="_blank"> <button type="button"
-                            class="btn btn-secondary">📓 {{'PrintQualifed'|translate}}
-                        </button></a>
-                    <a href="#/LIMS/QualifiedControl/printRedUQ/{{recod.VoucherID}}" target="_blank">
-                        <button type="button" class="btn btn-danger">📔 {{'PrintUQRedVoucher'|translate}}
-                        </button></a>
+                        <div class="col-sm-3">
+                            <input class="form-control" name="dateEnd" ng-model="dateEnd" date-picker required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'SampleName'|translate}}</label>
 
-                    <!-- <label class="col-sm-5" style="text-align: left;color: #FF0000;font-size: 90%;width: 50%">{{'Qualifed
-                        Submit Comfirm'|translate}}</label> -->
+                        <div class="col-sm-3">
+                            <select class="form-control" name="SampleName" ng-model="sampleName"
+                                ng-options="c.SampleName as c.Description_{{lang}} for c in sampleList" required>
+                            </select>
+                        </div>
 
-                    <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}} </button>
+                        <label class="col-sm-2 control-label">{{'Material'|translate}}</label>
 
-                </div>
+                        <div class="col-sm-3">
+                            <select required class="form-control" name="material" ng-model="material"
+                                ng-options="c.LOT_NO as (c.LOT_NO + '(' +c.Description_{{lang}}+ ')'  ) for c in materialList">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'Line'|translate}}</label>
+                        <div class="col-sm-3">
+                            <select required class="form-control" name="line" ng-model="line"
+                                ng-options="c.Line as c.Linespc for c in LinesList">
+                            </select>
+                        </div>
+
+                        <label class="col-sm-2 control-label">{{'ColorLabel'|translate}}</label>
+                        <div class="col-sm-3">
+                            <select required class="form-control" name="colorlabel" ng-model="colorlabel">
+                                <option class="yellow" value="Yellow">{{'Yellow' |translate}}</option>
+                                <option class="red" value="Red">{{'Red' |translate}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" ng-click="Save()"
+                    ng-disabled="formCreateUQ.$invalid">{{'saveDraft'|translate}}</button>
+                <!-- <button type="button" class="btn btn-primary" ng-click="SaveSubmit(true)" ng-disabled="formCreateUQ.$invalid">{{'saveSubmit'|translate}}</button> -->
+                <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}}
+                </button>
             </div>
         </div>
     </div>
-
-
-
 </div>
 
+<!-- MODAL DETAIL -->
+<div class="modal fade" id="DetailModal" role="dialog">
+    <div class="modal-dialog modal-lg" ng-style="{'width':modalWidth+'%'}">
+        <div class="modal-content" style="font-size:13pt;">
+            <div class="modal-body" style="padding-bottom:3px">
+                <H4 style="background-color: #ececec; padding:5px">{{'Unqualified Voucher Detail'|translate}} -
+                    <strong>{{recod.VoucherID}}</strong> </H4>
+                <form></form>
+                <form class="form-horizontal" role="form" name="formCreateUQ" novalidate>
+                    <table width=100%>
+                        <tbody>
+                            <tr>
+                                <td>生產部門 Bộ phận SX: {{recod.SampleName}} </td>
+                                <td style="width:50%;">產品編號 Material No: {{recod.LOT_NO}} </td>
+                            </tr>
+                            <tr>
+                                <td>單據日期: {{recod.CreateDate}} </td>
+                                <td>生產線別（套別）Line:{{recod.LINE}}</td>
+                            </tr>
+                            <tr>
+                                <td>生產日期: {{recod.BeginDate}} </td>
+                                <td style="text-align: left;" ng-class="isRed? 'red':'yellow'">{{color.TW}}單
+                                    Đơn màu {{color.VN}} </td>
+                            </tr>
 
+                        </tbody>
+                    </table>
+                    <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">取樣試驗結果如下 Kết quả lấy
+                        mẫu thử nghiệm như bên dưới: </H4>
+
+                    <div>
+                        <table style="border:black;" class="table-bordered table-hover" width=100%>
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;" ng-repeat="header in plansHeader">{{ header }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in UQList">
+                                    <td style="text-align: center;" ng-repeat="header in plansHeader">
+                                        <div ng-bind-html="row[header].replace('$','').replace('#','')"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-if="!isShow">
+                        <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">Receiver Details </H4>
+                        <div>品管部門:<br>Bộ phận QLCL: {{receiver[0].UserName}}
+                            {{receiver[0].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}</div>
+                        <table width=100%>
+                            <tr>
+                                <td>品管部門<br>Bộ phận SX: {{receiver[3].UserName}}
+                                    {{receiver[3].Stamp | date:"'('yyyy/MM/dd 'at' h:mma')'"}} </td>
+                                <td>簽收人員<br>Người nhận: {{receiver[1].UserName}}
+                                    {{receiver[1].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}</td>
+                            </tr>
+                        </table>
+                        <div ng-show='!isRed'>
+                            <p>處理結果Kết quả xử lý: {{recod.Remark}} </p>
+                            <p>廠（處）室批示VP xưởng (b.phận) duyệt:{{receiver[2].UserName}}
+                                {{receiver[2].Stamp|date:"'('yyyy/MM/dd 'at' h:mma')'"}}
+                            </p>
+                        </div>
+                    </div>
+                    <div ng-show='isShow'>
+                        <H4 style="background-color: #ececec; padding: 5px;margin-top:10px;">{{'NextStep' |
+                                translate}} </H4>
+                        <div style="margin-top:10px" ng-repeat="leader in leaderlist">
+                            <span show-checker user-name={{leader.Person}}></span>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="UQList[0]['NO_RESULT']!=null" class="btn btn-primary"
+                    ng-click="SaveSubmit(false)" ng-show='isShow'>{{'submit'|translate}}</button>
+                <a href="#/LIMS/QualifiedControl/print/{{recod.VoucherID}}" target="_blank"> <button type="button"
+                        class="btn btn-secondary">📓 {{'PrintQualifed'|translate}}
+                    </button></a>
+                <a href="#/LIMS/QualifiedControl/printRedUQ/{{recod.VoucherID}}" target="_blank">
+                    <button type="button" class="btn btn-danger">📔 {{'PrintUQRedVoucher'|translate}}
+                    </button></a>
+
+                <!-- <label class="col-sm-5" style="text-align: left;color: #FF0000;font-size: 90%;width: 50%">{{'Qualifed
+                        Submit Comfirm'|translate}}</label> -->
+
+                <button type="button" class="btn btn-default" ng-click="Close()">{{'Close'|translate}} </button>
+
+            </div>
+        </div>
+    </div>
 </div>

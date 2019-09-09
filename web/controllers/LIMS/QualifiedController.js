@@ -19,9 +19,13 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
             $scope.dateFrom = '2018-01-01';
             $scope.dateTo = $scope.dateEnd = endDate;
             $scope.onlyOwner = false;
+            $scope.modalWidth= 80;
 
             /**GET BASIC */
-            LIMSBasic.GetSamples({ userid: Auth.username, query: '5' }, function (data) {
+            LIMSBasic.GetSamples({
+                userid: Auth.username,
+                query: '5'
+            }, function (data) {
                 console.log(data);
                 if (data.length > 0) {
                     $scope.sampleList = data.filter((el) => {
@@ -47,80 +51,81 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
             });
             /**UI-GRID INIT */
             var col = [{
-                field: 'VoucherID',
-                displayName: $translate.instant('VoucherID'),
-                minWidth: 100,
-                cellTooltip: true,
-                cellTemplate: '<a ng-click="grid.appScope.toDetail(row.entity.VoucherID,row.entity.SampleName,row.entity.Status)" style="padding:5px;display:block; cursor:pointer" target="_blank">{{COL_FIELD}}</a>'
-            },
-            {
-                field: 'SampleName',
-                displayName: $translate.instant('SampleName'),
-                minWidth: 100,
-                cellTooltip: true
-                // cellTemplate: '<span >{{grid.appScope.getSampleName(row.entity.SampleName)}}</span>'
-            },
-            {
-                field: 'Line',
-                displayName: $translate.instant('Line'),
-                minWidth: 30,
-                cellTooltip: true
-            },
-            {
-                field: 'LOT_NO',
-                displayName: $translate.instant('Material'),
-                minWidth: 100,
-                cellTooltip: true
-            },
-            {
-                field: 'Status',
-                displayName: $translate.instant('Status'),
-                minWidth: 70,
-                cellTooltip: true,
-                cellTemplate: '<span >{{grid.appScope.getStatus(row.entity.Status)}}</span>'
-            },
-            {
-                field: 'ColorLabel',
-                displayName: $translate.instant('ColorLabel'),
-                minWidth: 100,
-                cellTooltip: true,
-                cellTemplate: '<span style="text-align:center; font-size:16pt;">■</span>',
-                cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                    if (grid.getCellValue(row, col) === 'Red') {
-                        return 'red';
-                    } else return 'yellow'
+                    field: 'VoucherID',
+                    displayName: $translate.instant('VoucherID'),
+                    minWidth: 100,
+                    cellTooltip: true,
+                    cellTemplate: '<a ng-click="grid.appScope.toDetail(row.entity.VoucherID,row.entity.SampleName,row.entity.Status)" style="padding:5px;display:block; cursor:pointer" target="_blank">{{COL_FIELD}}</a>'
                 },
-            },
-            {
-                field: 'CreateBy',
-                displayName: $translate.instant('CreateBy'),
-                minWidth: 100,
-                cellTooltip: true
-            },
-            {
-                field: 'CreateDate',
-                displayName: $translate.instant('CreateDate'),
-                minWidth: 130,
-                cellTooltip: true
-            },
-            {
-                field: 'BeginDate',
-                displayName: $translate.instant('BeginDate'),
-                minWidth: 90,
-                cellTooltip: true
-            },
-            {
-                field: 'EndDate',
-                displayName: $translate.instant('EndDate'),
-                minWidth: 90,
-                cellTooltip: true
-            },
-            {
-                field: 'Stamp',
-                displayName: $translate.instant('Last Modify Date'),
-                minWidth: 130,
-                cellTooltip: true
-            },];
+                {
+                    field: 'SampleName',
+                    displayName: $translate.instant('SampleName'),
+                    minWidth: 100,
+                    cellTooltip: true
+                    // cellTemplate: '<span >{{grid.appScope.getSampleName(row.entity.SampleName)}}</span>'
+                },
+                {
+                    field: 'Line',
+                    displayName: $translate.instant('Line'),
+                    minWidth: 30,
+                    cellTooltip: true
+                },
+                {
+                    field: 'LOT_NO',
+                    displayName: $translate.instant('Material'),
+                    minWidth: 100,
+                    cellTooltip: true
+                },
+                {
+                    field: 'Status',
+                    displayName: $translate.instant('Status'),
+                    minWidth: 70,
+                    cellTooltip: true,
+                    cellTemplate: '<span >{{grid.appScope.getStatus(row.entity.Status)}}</span>'
+                },
+                {
+                    field: 'ColorLabel',
+                    displayName: $translate.instant('ColorLabel'),
+                    minWidth: 100,
+                    cellTooltip: true,
+                    cellTemplate: '<span style="text-align:center; font-size:16pt;">■</span>',
+                    cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        if (grid.getCellValue(row, col) === 'Red') {
+                            return 'red';
+                        } else return 'yellow'
+                    },
+                },
+                {
+                    field: 'CreateBy',
+                    displayName: $translate.instant('CreateBy'),
+                    minWidth: 100,
+                    cellTooltip: true
+                },
+                {
+                    field: 'CreateDate',
+                    displayName: $translate.instant('CreateDate'),
+                    minWidth: 130,
+                    cellTooltip: true
+                },
+                {
+                    field: 'BeginDate',
+                    displayName: $translate.instant('BeginDate'),
+                    minWidth: 90,
+                    cellTooltip: true
+                },
+                {
+                    field: 'EndDate',
+                    displayName: $translate.instant('EndDate'),
+                    minWidth: 90,
+                    cellTooltip: true
+                },
+                {
+                    field: 'Stamp',
+                    displayName: $translate.instant('Last Modify Date'),
+                    minWidth: 130,
+                    cellTooltip: true
+                },
+            ];
             $scope.gridOptions = {
                 columnDefs: col,
                 data: [],
@@ -162,8 +167,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                     });
                 }
             };
-            var gridMenu_flow = [
-                {
+            var gridMenu_flow = [{
                     title: $translate.instant('Create'),
                     action: function () {
                         var resultRows = $scope.gridApi.selection.getSelectedRows();
@@ -231,8 +235,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
 
 
             ];
-            var gridMenu_commonuser = [
-                {
+            var gridMenu_commonuser = [{
                     title: $translate.instant('PrintQualifed'),
                     action: function () {
                         if (!checkSelectedRow()) return;
@@ -250,7 +253,9 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                         var resultRows = $scope.gridApi.selection.getSelectedRows();
                         if (resultRows.length == 1) {
                             var ID = resultRows[0].VoucherID
-                            LIMSService.QCOverGradePID().get({ OverID: ID }).$promise.then(function (res) {
+                            LIMSService.QCOverGradePID().get({
+                                OverID: ID
+                            }).$promise.then(function (res) {
                                 console.log(res);
                                 if (res) {
                                     window.open('#/processlog/' + res.ProcessInstanceId);
@@ -311,6 +316,18 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
             };
 
             /**SEARCH BUTTON*/
+            $scope.Reset = function () {
+                $scope.voucherid = '';
+                $scope.sampleName = '';
+                $scope.material = '';
+                $scope.colorlabel = '';
+                $scope.dateFrom = '';
+                $scope.dateTo = '';
+                $scope.onlyOwner = '';
+                $scope.status = '';
+                $scope.line = '';
+            }
+
             function SearchList() {
                 var params = {};
                 params.voucherid = $scope.voucherid || '';
@@ -367,6 +384,9 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                     return Status;
                 }
             };
+
+
+
             function checkSelectedRow() {
                 var resultRows = $scope.gridApi.selection.getSelectedRows();
                 if (resultRows.length == 1) {
@@ -426,22 +446,35 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                 /** 1- GET RECEIVERS */
                 $scope.receiver = [];
                 if (parram_status != 'N') {
-                    LIMSService.QCOverGradePID().get({ OverID: parram_VoucherID }).$promise.then(function (res) {
+                    LIMSService.QCOverGradePID().get({
+                        OverID: parram_VoucherID
+                    }).$promise.then(function (res) {
                         console.log(res);
                         if (res) {
-                            EngineApi.getProcessLogs.getList({ "id": res.ProcessInstanceId, "cId": "" }, function (data) {
+                            EngineApi.getProcessLogs.getList({
+                                "id": res.ProcessInstanceId,
+                                "cId": ""
+                            }, function (data) {
                                 console.log(data[0].Logs);
-                                data.forEach(function(value,index){
-                                    if (index>=1) 
-                                        data[0].Logs.push.apply(data[0].Logs,data[index].Logs)
+                                data.forEach(function (value, index) {
+                                    if (index >= 1)
+                                        data[0].Logs.push.apply(data[0].Logs, data[index].Logs)
                                 })
                                 var receiver = [];
                                 var taf = TAFFY(data[0].Logs);
-                                receiver[0] = taf({ TaskName: "起始表单" }).first(); //initiator
-                                receiver[1] = taf({ TaskName: "Receive and process" }).first(); //Product team
+                                receiver[0] = taf({
+                                    TaskName: "起始表单"
+                                }).first(); //initiator
+                                receiver[1] = taf({
+                                    TaskName: "Receive and process"
+                                }).first(); //Product team
                                 if ($scope.recod.Status.indexOf(['S', 'X'] >= 0)) { //(if published)
-                                    receiver[3] = taf({ TaskName: "publish", }).start(3).first();//QCleader
-                                    receiver[2] = taf({ TaskName: "publish", }).start(2).first();//QCmanager
+                                    receiver[3] = taf({
+                                        TaskName: "publish",
+                                    }).start(3).first(); //QCleader
+                                    receiver[2] = taf({
+                                        TaskName: "publish",
+                                    }).start(2).first(); //QCmanager
                                 }
                                 $scope.receiver = receiver;
                                 console.log(receiver);
@@ -449,8 +482,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                         }
                     })
 
-                }
-                else if (getGateCheck(parram_Samplename)) {
+                } else if (getGateCheck(parram_Samplename)) {
                     Notifications.addError({
                         'status': 'error',
                         'message': 'Error on getting data'
@@ -458,7 +490,9 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                 }
 
                 /** 2- GET DETAIL */
-                LIMSService.ISOQualify.GetDetailReport({ voucherID: parram_VoucherID }, function (data) {
+                LIMSService.ISOQualify.GetDetailReport({
+                    voucherID: parram_VoucherID
+                }, function (data) {
                     var plansHeader = [];
                     $scope.plansHeader = [];
                     if (data.length > 0) {
@@ -467,8 +501,9 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                         var plansHeader = [];
                         for (var key in data[0]) {
                             if (['VoucherID', 'ColorLabel', 'State', 'VoucherNO',
-                                'CreateDate', 'BeginDate', 'EndDate', 'Stamp', 'Status',
-                                'Reason', 'Solution', 'Prevention', 'Remark', 'CreateBy', 'SampleName', 'LINE', 'LOT_NO'].indexOf(key) < 0 && key.indexOf('$') < 0) {
+                                    'CreateDate', 'BeginDate', 'EndDate', 'Stamp', 'Status',
+                                    'Reason', 'Solution', 'Prevention', 'Remark', 'CreateBy', 'SampleName', 'LINE', 'LOT_NO'
+                                ].indexOf(key) < 0 && key.indexOf('$') < 0) {
                                 plansHeader.push(key);
                             }
                         }
@@ -490,13 +525,15 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                             };
                             $scope.isRed = false; // to define which Color
                         }
+                        
                         /// module USER IN DEPART
                         $scope.plansHeader = plansHeader;
+                        if (plansHeader.length>10) $scope.modalWidth=100;
+                        else $scope.modalWidth=80;
                         $scope.recod = data[0];
                         $scope.isShow = ($scope.recod.Status === 'N') ? true : false; //show submit button (printQualifed)
                         $('#DetailModal').modal('show'); //SHOW IF GET DATA SUCCESS
-                    }
-                    else $timeout(() => {
+                    } else $timeout(() => {
                         Notifications.addErorr({
                             'status': 'error',
                             'message': 'There is no data or error on getting data'
@@ -517,8 +554,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                         $timeout(() => {
                             $scope.Search();
                         }, 2000);
-                    }
-                    else {
+                    } else {
                         Notifications.addError({
                             'status': 'error',
                             'message': 'Can not create ' + note.LOT_NO + ' ' + note.ColorLabel + ' it not exist'
@@ -544,8 +580,14 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                     if (linkres.IsSuccess) {
 
 
-                        formVariables.push({ name: 'EnginerArray', value: $scope.checkList }); //initiator -> EnginerArray -> QCManagerList
-                        historyVariable.push({ name: 'workflowkey', value: $scope.flowkey });
+                        formVariables.push({
+                            name: 'EnginerArray',
+                            value: $scope.checkList
+                        }); //initiator -> EnginerArray -> QCManagerList
+                        historyVariable.push({
+                            name: 'workflowkey',
+                            value: $scope.flowkey
+                        });
                         //Voucher has not created yet, then create.
                         /**Save and Submit Button */
                         if (confirm('Would you like save and submit this Voucher?')) {
@@ -555,34 +597,38 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                                 LIMSService.ISOQualify.CreateVoucher(note).$promise.then(function (res) {
                                     if (res.Success.length > 0) {
                                         var newVoucherID = res.Success[0].VoucherID;
-                                        formVariables.push({ name: 'OverID', value: newVoucherID });
+                                        formVariables.push({
+                                            name: 'OverID',
+                                            value: newVoucherID
+                                        });
                                         /**Submit */
                                         SubmitAndChangeStatus(newVoucherID);
-                                    }
-                                    else {
+                                    } else {
                                         Notifications.addError({
                                             'status': 'error',
                                             'message': 'Voucher doesn\'t exist data. It wont be create and submit.'
                                         });
                                     }
                                 })
-                            }
-                            else {
+                            } else {
                                 /**Submit Button */
-                                formVariables.push({ name: 'OverID', value: $scope.recod.VoucherID });
-                                LIMSService.ISOQualify.GetNewRYVoucher({ voucherid: $scope.recod.VoucherID }, function (res) {
+                                formVariables.push({
+                                    name: 'OverID',
+                                    value: $scope.recod.VoucherID
+                                });
+                                LIMSService.ISOQualify.GetNewRYVoucher({
+                                    voucherid: $scope.recod.VoucherID
+                                }, function (res) {
                                     if (res.Success) {
                                         SubmitAndChangeStatus($scope.recod.VoucherID);
-                                    }
-                                    else
+                                    } else
                                         alert('This voucher has been submit befored!');
                                 })
                             }
                         }
 
 
-                    }
-                    else alert("You don't have permission!")
+                    } else alert("You don't have permission!")
                 });
 
                 function SubmitAndChangeStatus(voucherid) {
