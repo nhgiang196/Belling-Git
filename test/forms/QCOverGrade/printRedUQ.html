@@ -284,7 +284,7 @@
                         <p>異常說明:<br>Mô tả sự bất thường:</p>
                         <table style="table-layout:fixed;" class=" table-bordered">
                             <thead>
-                                <tr style="padding:0px;margin:0;">
+                                <tr style="padding:0px;margin:0;" ng-style="{'font-size':100-plansHeader.length+'%'}" >
                                     <th style="padding:0px;margin:0;text-align:center;" ng-repeat="header in plansHeader">
                                         <span ng-if="header!='PropertyName'">{{ header }}</span></th>
 
@@ -292,7 +292,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in UQList">
-                                    <td style="padding:0px;margin:0;text-align:center;" ng-repeat="header in plansHeader">
+                                    <td style="padding:0px;margin:0;text-align:center; font-size:90%" ng-repeat="header in plansHeader">
                                         <div ng-bind-html="row[header].replace('$','').replace('#','')"></div>
                                     </td>
                                 </tr>
