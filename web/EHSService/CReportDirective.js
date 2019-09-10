@@ -9,10 +9,6 @@ define(['app'], function (app) {
                     scope.UserName = Auth.username;
                     var _RpID = $routeParams.Rp_ID ? $routeParams.Rp_ID : attrs.rpId;
                     LoadDetail(_RpID);
-                    scope.$watch('ReportDetail_Ctr.Rp_ID', function (val) { //watch from ImprovmentDirective's Controller
-                        if (val) LoadDetail(val);
-                    })
-
                     function LoadDetail(_Rp_ID) {
                         if (!_Rp_ID)
                             console.log('No rp_ID to show');
@@ -22,9 +18,9 @@ define(['app'], function (app) {
                                 Rp_ID: _Rp_ID
                             }, function (data) {
                                 console.log("return data:", data);
-                                scope.ReportDetail = data.Header[0];
-                                scope.FileAttached = data.File;
-                                scope.InjuryDetail = data.Detail;
+                                scope.ReportDetail = data.Header[0]; // Report
+                                scope.FileAttached = data.File; // FileAttached
+                                scope.InjuryDetail = data.Detail; //Aciddent Detail
 
                                 scope.ShowReportType =
                                     data.Header[0].Rp_SubmitTypeCode == 'EVR' ? 1 :
@@ -135,7 +131,6 @@ define(['app'], function (app) {
         }
     ]);
 
-
     app.directive('ehsLeaderCheck', ['$resource', 'Auth', 'CReportService', '$compile',
         function ($resource, Auth, CReportService) {
             return {
@@ -146,7 +141,7 @@ define(['app'], function (app) {
 
                 controller: function ($scope, $element, $attrs) {
                     console.log($attrs.userName);
-                    console.log($attrs.flowKey);
+                    console.log($attrs.flowKey); //flow-key
                     $scope.$watch('ReportDetail.Rp_DepartmentID', function (val) {
                         if (val != null && val != undefined) geHSEChecker();
 

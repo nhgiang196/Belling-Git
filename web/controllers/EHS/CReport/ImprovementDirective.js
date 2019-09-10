@@ -4,9 +4,6 @@ define(['app'], function (app) {
             return {
                 restrict: 'E',
                 controller: function ($scope, $element, $attrs) {
-
-                    $scope.ReportDetail_Ctr = {};
-
                     $scope.listfile = [];
                     // Notifications.addError({
                     //     'status': 'error',
@@ -47,7 +44,6 @@ define(['app'], function (app) {
                         //     });
                         // }
                     }
-
 
                     $scope.btnImprovementSave = function (myrecord) { //Improvement Save button functions
                         var templsFile = [];
