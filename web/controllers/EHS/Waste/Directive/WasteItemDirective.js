@@ -2,88 +2,36 @@ define(['myapp', 'angular'], function (myapp, angular) {
     myapp.directive('createWasteItem', ['$filter', '$http',
         '$routeParams', '$resource', '$location', '$interval',
         'Notifications', 'Forms', 'Auth', 'uiGridConstants', 'EngineApi',
-        'GateGuest', '$translate', '$q', 'WasteItemService',
+        'GateGuest', '$translate', '$q', 'WasteItemService', '$timeout',
         function ($filter, $http, $routeParams,
             $resource, $location, $interval, Notifications, Forms, Auth, uiGridConstants,
-            EngineApi, GateGuest, $translate, $q, WasteItemService) {
+            EngineApi, GateGuest, $translate, $q, WasteItemService, $timeout) {
             return {
                 restrict: 'E',
                 controller: function ($scope) {
-                    $scope.flowkey = 'HW-EHS'; //HW01
                     $scope.username = Auth.username;
-                    formVariables = $scope.formVariables = [];
-                    historyVariable = $scope.historyVariable = [];
                     /**
                      * Init Data to save
                      */
                     function saveInitData() {
                         var note = {};
-                        note.WasteID = $scope.recod.waste_id || '';
-                        note.WasteOriginID = $scope.recod.waste_originid || '';
-                        note.MethodID = $scope.recod.method_id;
-                        note.CompOriginID = $scope.recod.comp_originid;
-                        note.State = $scope.recod.state || '';
-                        note.ItemCode = $scope.recod.item_code;
-                        note.Description_TW = $scope.recod.description_TW || '';
-                        note.Description_CN = $scope.recod.description_TW || '';
-                        note.Description_VN = $scope.recod.description_VN || '';
-                        note.Description_EN = $scope.recod.description_VN || '';
+                        note = $scope.recod;
                         note.Status = $scope.recod.status || '1';
-                        /**New attributes 2019-08-01 */
-                        note.WasteType = $scope.recod.wastetype || '';
-                        note.WasteValue = $scope.recod.wastevalue || '';
-                        note.Source = $scope.recod.source || '';
-                        note.UnitPrice = $scope.recod.unitprice || '';
-                        note.Area = $scope.recod.area || '';
-
                         return note;
                     }
 
                     function updateByID(data) {
-                        WasteItemService.UpdateWasteItem(data, function (res) {
-                                if (res.Success) {
-                                    $scope.Search();
-                                    $('#myModal').modal('hide');
-                                    $('#messageModal').modal('hide');
-                                    $('#nextModal').modal('hide');
-                                } else {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': $translate.instant('saveError') + res.Message
-                                    });
-                                }
-
-                            },
-                            function (error) {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + error
-                                });
-                            })
+                        WasteItemService.GetInfoBasic.updateEntity(data, function (res) {
+                            $scope.MessageReturn(res, 'Update');
+                        })
                     }
 
                     function SaveItem(data) {
-                        WasteItemService.CreateWasteItem(data, function (res) {
-                            console.log(res)
-                            if (res.Success) {
-                                $scope.Search();
-                                $('#myModal').modal('hide');
-                                $('#messageModal').modal('hide');
-                                $('#nextModal').modal('hide');
-                            } else {
-                                Notifications.addError({
-                                    'status': 'error',
-                                    'message': $translate.instant('saveError') + res.Message
-                                });
-                            }
-
-                        }, function (error) {
-                            Notifications.addError({
-                                'status': 'error',
-                                'message': $translate.instant('saveError') + error
-                            });
+                        WasteItemService.GetInfoBasic.createEntity(data, function (res) {
+                            $scope.MessageReturn(res, 'Save');
                         })
                     }
+
                     $scope.savesubmit = function () {
                         var note = saveInitData();
                         var status = $scope.status;
@@ -100,6 +48,24 @@ define(['myapp', 'angular'], function (myapp, angular) {
                         }
 
                     };
+
+                    $scope.MessageReturn = function (messg, messg_signal) {
+                        if (messg.Success) {
+                            $('#myModal').modal('hide');
+                            $('#messageModal').modal('hide');
+                            $('#nextModal').modal('hide');
+                            Notifications.addMessage({
+                                'status': 'information',
+                                'message': $translate.instant(messg_signal + '_Success_MSG') + ' ' + messg.Data
+                            });
+                            $timeout(function () {
+                                $scope.Search();
+                            }, 1500);
+                        } else Notifications.addError({
+                            'status': 'error',
+                            'message': messg_signal + ' Error' + messg.Message
+                        });
+                    }
 
                 },
                 templateUrl: './forms/EHS/WasteItem/createWasteItem.html'
