@@ -8,7 +8,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
             const roleKey = 'FEPVHC_User'; //role key for access this module 
             $scope.recordAC = {}; //record for AC directive
             $scope.recordIC = {}; //record for IC directive
-            $scope.AC_Department_Disable = false; 
+            $scope.AC_Department_Disable = false;
             $scope.show = { //show  signal
                 submitbutton: true,
                 checker: true, // list of checker show
@@ -51,7 +51,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                 }
             ];
 
-            
+
 
             // $scope.SearchParam = {
             //     startdate: '',
@@ -222,7 +222,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                     EngineApi.getTcodeLink().get({
                         'userid': Auth.username,
                         'tcode': roleKey
-                    }, function (linkres) { 
+                    }, function (linkres) {
                         if (linkres.IsSuccess) {
                             gridApi.core.addToGridMenu(gridApi.grid, gridMenu);
                         }
@@ -278,7 +278,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                     departmentid: $scope.engine_department == undefined ? 'NonDepartment' : $scope.engine_department,
                     userid: $scope.onlyOwner == true ? Auth.username : ''
                 };
-                if (query.departmentid =='NonDepartment' && isHSEUser) query.departmentid='';
+                if (query.departmentid == 'NonDepartment' && isHSEUser) query.departmentid = '';
                 return query;
             };
             $scope.Search = function () { //search function()   
@@ -425,7 +425,7 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                                 });
                                 return;
                             }
-                            
+
                             $scope.LoadImprovementInfo(resultRows[0].Rp_ID);
 
                         } else {
@@ -595,38 +595,36 @@ define(['myapp', 'angular', 'controllers/EHS/CReport/ImprovementDirective'], fun
                     if (message) {
                         alert($translate.instant('Submit_Alert_Error') + message);
                     } else {
-                        if ($scope.status == 'N') {
-                            CReportService.SubmitStatus({
-                                    Rp_ID: Rp_ID,
-                                    Rp_Status: 'P'
-                                },
-                                function (res) {
-                                    if (res.Success) {
-                                        $scope.Search();
-                                        $timeout(function () {
-                                            Notifications.addMessage({
-                                                'status': 'info',
-                                                'message': $translate.instant('Submit_Success_MSG')
-                                            });
-                                        }, 300);
-                                    }
-                                },
-                                function (err) {
-                                    Notifications.addError({
-                                        'status': 'error',
-                                        'message': 'Save Error' + err
-                                    });
+                        CReportService.SubmitStatus({
+                                Rp_ID: Rp_ID,
+                                Rp_Status: 'P'
+                            },
+                            function (res) {
+                                if (res.Success) {
+                                    $scope.Search();
+                                    $timeout(function () {
+                                        Notifications.addMessage({
+                                            'status': 'info',
+                                            'message': $translate.instant('Submit_Success_MSG')
+                                        });
+                                    }, 300);
                                 }
-                            );
-                        } else {
-                            if ($scope.rp_type == 'IC') {
-                                $scope.status = 'SM';
-                                $scope.SaveICReport();
-                            } else if ($scope.rp_type == 'A') {
-                                $scope.status = 'SM';
-                                $scope.SaveACReport();
+                            },
+                            function (err) {
+                                Notifications.addError({
+                                    'status': 'error',
+                                    'message': 'Save Error' + err
+                                });
                             }
+                        );
+                        if ($scope.rp_type == 'IC') {
+                            $scope.status = 'SM';
+                            $scope.SaveICReport();
+                        } else if ($scope.rp_type == 'A') {
+                            $scope.status = 'SM';
+                            $scope.SaveACReport();
                         }
+
                     }
                 })
                 /** Change Status to P */

@@ -44,6 +44,13 @@ define(['app', 'angular'], function (app, angular) {
                 });
 
                 this.GetInfoBasic = $resource('/Waste/CReportController/:operation', {}, {
+                    sendSubmitMessage: {
+                        method: 'GET',
+                        params: {
+                            operation: 'Submit_Message'
+                        },
+                        // isArray: true
+                    },
                     GetDetailReport: {
                         method: 'GET',
                         params: {
