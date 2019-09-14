@@ -1,0 +1,29 @@
+{
+    "development": {
+        "port": "843",
+        "bpmrest":"http://10.20.46.23:9999/default/bpm-rest-api/",
+
+
+        "form":"http://localhost:843/forms/",
+
+
+        "bpmhost":"10.20.46.23",
+        "bpmprot":"9999",
+        "bpmurl":"http://10.20.46.23:9999/",
+        "hrrest":"http://localhost:9005/",
+        "hrhost":"localhost",
+
+
+        "ehshost":"http://localhost:9005/",
+
+        
+        "hrport":"9003",
+        "datasource":"10.20.46.23",
+        "dbuser":"sa",
+        "dbpassword":"@Sql2016",
+        "database":"Beling"
+    },
+    "production": {
+        "port": "992"
+    }
+}
