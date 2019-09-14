@@ -93,11 +93,11 @@
     <div>
         <table style="border:black;" class="table-bordered table-hover">
             <thead>
-                <tr>
+                <tr ng-style="{'font-size':100-plansHeader.length+'%'}">
                     <th style="text-align:center;" ng-repeat="header in plansHeader">{{ header }}</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody ng-style="{'font-size':100-plansHeader.length+'%'}">
                 <tr ng-repeat="row in UQList">
                     <td style="text-align: center;" ng-repeat="header in plansHeader">
                         <div ng-bind-html="row[header].replace('$','').replace('#','')"></div>

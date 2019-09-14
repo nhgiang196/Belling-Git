@@ -19,7 +19,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
             $scope.dateFrom = '2018-01-01';
             $scope.dateTo = $scope.dateEnd = endDate;
             $scope.onlyOwner = false;
-            $scope.modalWidth= 80;
+            $scope.modalWidth = 80;
 
             /**GET BASIC */
             LIMSBasic.GetSamples({
@@ -307,14 +307,12 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                     order: 8
                 },
             ];
-
             /**CLOSE BUTTON */
             $scope.Close = function () {
                 $('#myModal').modal('hide');
                 $('#DetailModal').modal('hide');
 
             };
-
             /**SEARCH BUTTON*/
             $scope.Reset = function () {
                 $scope.voucherid = '';
@@ -385,8 +383,6 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                 }
             };
 
-
-
             function checkSelectedRow() {
                 var resultRows = $scope.gridApi.selection.getSelectedRows();
                 if (resultRows.length == 1) {
@@ -401,18 +397,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
 
             }
             /*********************************COMMON FUNCTION *************************************/
-            /**INIT NOTE */
-            function saveInitNote() {
-                var note = {};
-                note.SampleName = $scope.sampleName || '';
-                note.LOT_NO = $scope.material || '';
-                note.ColorLabel = $scope.colorlabel || '';
-                note.BeginDate = $scope.dateBegin || '';
-                note.EndDate = $scope.dateEnd || '';
-                note.CreateBy = Auth.username;
-                note.Status = 'N';
-                return note;
-            }
+
 
             /**get Information of next Candidate */
             function getGateCheck(samplename) {
@@ -525,11 +510,11 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                             };
                             $scope.isRed = false; // to define which Color
                         }
-                        
+
                         /// module USER IN DEPART
                         $scope.plansHeader = plansHeader;
-                        if (plansHeader.length>10) $scope.modalWidth=100;
-                        else $scope.modalWidth=80;
+                        if (plansHeader.length > 10) $scope.modalWidth = 100;
+                        else $scope.modalWidth = 80;
                         $scope.recod = data[0];
                         $scope.isShow = ($scope.recod.Status === 'N') ? true : false; //show submit button (printQualifed)
                         $('#DetailModal').modal('show'); //SHOW IF GET DATA SUCCESS
@@ -543,6 +528,18 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
             }
 
             /*****************************SAVE BUTTON **************************************/
+            function saveInitNote() {
+                var note = {};
+                note.SampleName = $scope.sampleName || '';
+                note.LOT_NO = $scope.material || '';
+                note.ColorLabel = $scope.colorlabel || '';
+                note.BeginDate = $scope.dateBegin || '';
+                note.EndDate = $scope.dateEnd || '';
+                note.CreateBy = Auth.username;
+                note.Line = $scope.line || '';
+                note.Status = 'N';
+                return note;
+            }
             $scope.Save = () => {
                 var note = saveInitNote();
                 LIMSService.ISOQualify.CreateVoucher(note).$promise.then(function (res) {
