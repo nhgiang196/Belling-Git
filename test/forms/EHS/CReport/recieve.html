@@ -20,7 +20,6 @@
         $scope.HSE_ReceiveCheck = true; //singal for 
 
         $scope.Save = function (isSubmit) {
-            debugger;
             $scope.loading = true;
             if ($scope.ISReceive == 'NO') {
                 CReportService.SubmitStatus({
@@ -55,33 +54,28 @@
                 name: 'Rp_ID',
                 value: $scope.variable.Rp_ID //chosen
             });
-            debugger;
+
 
             $q.all([$scope.submit()]).then(function () {
-                // var reminder_parrams = {
-                //     voucherID: $scope.VoucherID,
-                //     userid: Auth.username,
-                //     formkey: 'leadercheck'
-                // }
-                // LIMSService.SendReminder(reminder_parrams, function (res) {
-                //     if (res.Success) return;
-                // }, function (error) {
-                //     Notifications.addError({
-                //         'status': 'error',
-                //         'message': $translate.instant('saveError') + error
-                //     });
-                // })
+                if ($scope.ISReceive != 'NO') {
+
+                    var reminder_parrams = {
+                        Rp_ID: $scope.variable.Rp_ID,
+                        fromuser: Auth.username,
+                        kinds: $scope.ReportDetail.Rp_SubmitTypeCode,
+                        formkey: 'receive'
+                    }
+                    debugger;
+                    CReportService.GetInfoBasic.sendSubmitMessage(reminder_parrams, function (res) {
+                        if (res.Success) return
+                    }, function (error) {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': $translate.instant('saveError') + error
+                        });
+                    })
+                }
             });
-            // }
-
-            // else {
-            //     Notifications.addError({
-            //         'status': 'error',
-            //         'message': 'Don\'t get leader'
-            //     });
-            //     return;
-            // }
-
         }
 
 

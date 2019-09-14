@@ -2,17 +2,14 @@
     function HSE_receiveController(
         $scope, EngineApi, $http, Notifications, $compile, $filter, Auth, $resource,
         Auth, GateGuest, $translate, CReportService, $filter, $q) {
-
         var lang = window.localStorage.lang;
         $scope.username = Auth.username;
         $scope.show = {
             isHSEUser: true
         }
-
         $scope.recordAC = {};
         $scope.recordIC = {};
         $translate.refresh();
-
         $scope.passOrNot = [{
             "name": $translate.instant('agree'),
             "value": "YES"
@@ -46,36 +43,29 @@
                 ); //end changestatusservice
             } //end if
             else SaveBpmn();
-
         } //save
 
         function SaveBpmn() {
             // if ($scope.checkList && checkList.length >= 0) {
             $q.all([$scope.submit()]).then(function () {
-                // var reminder_parrams = {
-                //     voucherID: $scope.VoucherID,
-                //     userid: Auth.username,
-                //     formkey: 'leadercheck'
-                // }
-                // LIMSService.SendReminder(reminder_parrams, function (res) {
-                //     if (res.Success) return;
-                // }, function (error) {
-                //     Notifications.addError({
-                //         'status': 'error',
-                //         'message': $translate.instant('saveError') + error
-                //     });
-                // })
+                if ($scope.ISPublish != 'NO') {
+                    var reminder_parrams = {
+                        Rp_ID: $scope.variable.Rp_ID,
+                        fromuser: Auth.username,
+                        kinds: $scope.ReportDetail.Rp_SubmitTypeCode,
+                        formkey: 'receive'
+                    }
+                    debugger;
+                    CReportService.GetInfoBasic.sendSubmitMessage(reminder_parrams, function (res) {
+                        if (res.Success) return
+                    }, function (error) {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': $translate.instant('saveError') + error
+                        });
+                    })
+                }
             });
-            // }
-
-            // else {
-            //     Notifications.addError({
-            //         'status': 'error',
-            //         'message': 'Don\'t get leader'
-            //     });
-            //     return;
-            // }
-
         }
     }
 </script>
@@ -98,8 +88,9 @@
                     ng-options="c.value as c.name for c in passOrNot" required> </select>
             </div>
 
-            <div class="col-sm-6 "><button ng-show="['FEPV000096','FEPV000944','FEPV000559'].indexOf(username)>=0" ng-click="LoadImprovementInfo()"
-                    class="btn btn-warning btn-ct-ac" data-toggle="modal" data-target="#modal_Improvement">👨🏻‍🚒
+            <div class="col-sm-6 "><button ng-show="['FEPV000096','FEPV000944','FEPV000559'].indexOf(username)>=0"
+                    ng-click="LoadImprovementInfo()" class="btn btn-warning btn-ct-ac" data-toggle="modal"
+                    data-target="#modal_Improvement">👨🏻‍🚒
                     {{'Evaluate'| translate}} ({{'Update_Improvement'|translate}}) </button>
 
                 <improvement-creport></improvement-creport>

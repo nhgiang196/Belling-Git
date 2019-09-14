@@ -166,10 +166,28 @@
             //     });
             //     return;
             // }
-
-
-            $scope.submit();
             // var data = saveInitData();
+
+            $q.all([$scope.submit()]).then(function () {
+                if ($scope.UpdateCommand == 'UPDATE') {
+                    var reminder_parrams = {
+                        Rp_ID: $scope.variable.Rp_ID,
+                        fromuser: Auth.username,
+                        kinds: '',
+                        formkey: ''
+                    }
+                    CReportService.GetInfoBasic.sendSubmitMessage(reminder_parrams, function (res) {
+                        if (res.Success) return
+                    }, function (error) {
+                        Notifications.addError({
+                            'status': 'error',
+                            'message': $translate.instant('saveError') + error
+                        });
+                    })
+                }
+            });
+
+
         }
 
 
