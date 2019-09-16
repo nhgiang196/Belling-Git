@@ -216,8 +216,6 @@ define(['app', 'bpmn'], function (app) {
             }
         }
     ]);
-
-
     app.directive('rawAnalysis', ['LIMSService', 'Auth', '$q', '$filter', '$routeParams', 'Notifications', 'EngineApi',
         function (LIMSService, Auth, $q, $filter, $routeParams, Notifications, EngineApi) {
             return {
@@ -251,13 +249,4 @@ define(['app', 'bpmn'], function (app) {
         }
 
     ]);
-
-
-
-
-
-
-
-
-
 });

@@ -53,7 +53,7 @@
                         Rp_ID: $scope.variable.Rp_ID,
                         fromuser: Auth.username,
                         kinds: $scope.ReportDetail.Rp_SubmitTypeCode,
-                        formkey: 'receive'
+                        formkey: 'hse-receive'
                     }
                     debugger;
                     CReportService.GetInfoBasic.sendSubmitMessage(reminder_parrams, function (res) {
