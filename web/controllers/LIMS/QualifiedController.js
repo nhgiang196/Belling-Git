@@ -404,7 +404,7 @@ define(['myapp', 'angular', 'jszip', 'xlsx'], function (myapp, jszip) {
                 $scope.checkList = [];
                 $scope.leaderlist = [];
                 GateGuest.GetGateCheckers().getCheckers({
-                    owner: username,
+                    owner: 'Initiator',
                     flowkey: $scope.flowkey,
                     Kinds: samplename,
                     CheckDate: NaN
